@@ -1,0 +1,29 @@
+# Staging Environment Configuration
+
+# Project Configuration
+project_name = "laravel-app"
+environment  = "staging"
+owner        = "staging-team"
+
+# AWS Configuration
+aws_region = "us-west-2"
+
+# Network Configuration
+vpc_cidr = "10.1.0.0/16"
+az_count = 2
+
+# Domain Configuration (required for ACM certificate)
+domain_name = "staging.example.com"
+
+# Instance Configuration
+app_instance_type = "t3.medium"
+db_instance_type  = "t3.large"
+db_volume_size    = 100
+
+# Auto Scaling Configuration
+asg_min_size         = 2
+asg_max_size         = 6
+asg_desired_capacity = 2
+
+# Backup Configuration
+backup_retention_days = 7

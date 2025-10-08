@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(ls:*)",
+      "Bash(terraform:*)",
+      "Bash(aws:*)",
+      "Bash(cp:*)",
+      "Bash(make:*)",
+      "Bash(grep:*)",
+      "Bash(rg:*)",
+      "Bash(php artisan make:migration:*)",
+      "Bash(php artisan migrate:rollback:*)",
+      "Bash(rm:*)",
+      "Bash(sed:*)",
+      "Bash(find:*)",
+      "Bash(php artisan tinker:*)",
+      "Bash(composer:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(npm run types:*)",
+      "Bash(npm run dev:*)",
+      "Bash(php artisan:*)",
+      "Bash(php -r:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run format:check:*)",
+      "Bash(npm run format:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npx tsc:*)",
+      "Bash(php -l:*)",
+      "Bash(node:*)",
+      "Bash(python3:*)",
+      "Bash(npm run build:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}

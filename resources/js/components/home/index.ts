@@ -1,0 +1,10 @@
+export { EducationPattern } from './education-pattern';
+export { ExtracurricularSection } from './extracurricular-section';
+export { FloatingElements } from './floating-elements';
+export { GallerySection } from './gallery-section';
+export { GlassmorphismCard } from './glassmorphism-card';
+export { HeroCarousel } from './hero-carousel';
+export * from './home-utils';
+export { NewsSection } from './news-section';
+export { SchoolStats } from './school-stats';
+export { WelcomeSection } from './welcome-section';

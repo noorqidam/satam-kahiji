@@ -1,0 +1,41 @@
+import { FacilityFormFields } from '@/components/facility/FacilityFormFields';
+import { useFacilityForm } from '@/hooks/useFacilityForm';
+import AppLayout from '@/layouts/app-layout';
+import type { Facility } from '@/types/facility';
+import { generateFacilityBreadcrumbs } from '@/utils/facility';
+import { Head } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
+
+export default function EditFacility({ facility }: { facility: Facility }) {
+    const [mounted, setMounted] = useState(false);
+    const facilityForm = useFacilityForm(facility);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const breadcrumbs = generateFacilityBreadcrumbs('edit', facility);
+
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title={`Edit Facility - ${facility.name}`} />
+
+            <div
+                className={`w-full max-w-none space-y-6 px-4 pb-3 transition-all duration-500 sm:px-6 lg:px-8 ${
+                    mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+                }`}
+            >
+                <FacilityFormFields
+                    facility={facility}
+                    data={facilityForm.data}
+                    errors={facilityForm.errors}
+                    processing={facilityForm.processing}
+                    mounted={mounted}
+                    onDataChange={facilityForm.updateField}
+                    onImageSelect={facilityForm.handleImageSelect}
+                    onSubmit={facilityForm.submitForm}
+                />
+            </div>
+        </AppLayout>
+    );
+}

@@ -1,0 +1,29 @@
+# Production Environment Configuration
+
+# Project Configuration
+project_name = "laravel-app"
+environment  = "prod"
+owner        = "production-team"
+
+# AWS Configuration
+aws_region = "us-west-2"
+
+# Network Configuration
+vpc_cidr = "10.2.0.0/16"
+az_count = 3
+
+# Domain Configuration (required for ACM certificate)
+domain_name = "example.com"
+
+# Instance Configuration
+app_instance_type = "t3.large"
+db_instance_type  = "c5.xlarge"
+db_volume_size    = 500
+
+# Auto Scaling Configuration
+asg_min_size         = 3
+asg_max_size         = 20
+asg_desired_capacity = 3
+
+# Backup Configuration
+backup_retention_days = 30

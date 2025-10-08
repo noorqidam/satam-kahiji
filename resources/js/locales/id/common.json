@@ -1,0 +1,1347 @@
+{
+    "navigation": {
+        "home": "Beranda",
+        "about": "Tentang Kami",
+        "news": "Berita",
+        "gallery": "Galeri",
+        "extracurricular": "Ekstrakurikuler",
+        "contact": "Kontak",
+        "school_profile": "Profil Sekolah"
+    },
+    "pages": {
+        "about_us": "Tentang Kami",
+        "contact": "Kontak",
+        "contact_us": "Hubungi Kami",
+        "our_history": "Sejarah Kami",
+        "vision_mission": "Visi Misi",
+        "facilities": "Fasilitas",
+        "academic_programs": "Program Akademik",
+        "school_rules": "Tata Tertib Sekolah",
+        "achievements": "Prestasi",
+        "school_calendar": "Kalender Sekolah",
+        "admission": "Penerimaan Siswa Baru",
+        "alumni": "Alumni"
+    },
+    "profile_menu": {
+        "teachers": "Guru",
+        "principal": "Kepala Sekolah",
+        "staff_management": "Staff & Manajemen",
+        "extracurricular": "Ekstrakurikuler"
+    },
+    "teachers": {
+        "title": "Guru",
+        "subtitle": "Tenaga pengajar yang berpengalaman dan berdedikasi",
+        "view_profile": "Lihat Profil",
+        "back_to_list": "Kembali ke Daftar Guru",
+        "profile_info": "Profil Guru",
+        "subjects": "Mata Pelajaran",
+        "recent_files": "File Terbaru",
+        "no_bio": "Belum ada informasi profil",
+        "no_subjects": "Belum ada mata pelajaran yang ditugaskan",
+        "no_teachers": "Belum ada data guru",
+        "total_files": "Total File",
+        "subjects_count": "Mata Pelajaran"
+    },
+    "student_records": {
+        "tabs": {
+            "notes": "Catatan",
+            "activities": "Kegiatan",
+            "documents_achievements": "Dokumen & Prestasi"
+        },
+        "notes": {
+            "positive_notes": "Catatan Positif",
+            "disciplinary_records": "Catatan Disiplin",
+            "add_positive_note": "Tambah Catatan Positif",
+            "add_disciplinary_record": "Tambah Catatan Disiplin",
+            "note": "Catatan",
+            "category": "Kategori",
+            "date": "Tanggal",
+            "incident_type": "Jenis Insiden",
+            "incident_description": "Deskripsi Insiden",
+            "action_taken": "Tindakan yang Diambil",
+            "severity": "Tingkat Keparahan",
+            "incident_date": "Tanggal Insiden",
+            "minor": "Ringan",
+            "moderate": "Sedang",
+            "serious": "Serius",
+            "staff_name": "Nama Staff",
+            "no_positive_notes": "Belum ada catatan positif",
+            "no_disciplinary_records": "Belum ada catatan disiplin",
+            "category_placeholder": "contoh: Prestasi Akademik, Kepemimpinan",
+            "note_placeholder": "Masukkan catatan positif...",
+            "incident_type_placeholder": "contoh: Terlambat, Berkelahi, Mengganggu",
+            "incident_description_placeholder": "Jelaskan apa yang terjadi...",
+            "action_taken_placeholder": "Jelaskan tindakan yang diambil (jika ada)..."
+        },
+        "activities": {
+            "extracurricular_history": "Riwayat Ekstrakurikuler",
+            "add_extracurricular": "Tambah Ekstrakurikuler",
+            "extracurricular": "Ekstrakurikuler",
+            "academic_year": "Tahun Akademik",
+            "role": "Peran",
+            "start_date": "Tanggal Mulai",
+            "end_date": "Tanggal Selesai",
+            "performance_notes": "Catatan Kinerja",
+            "no_extracurricular_history": "Belum ada riwayat ekstrakurikuler",
+            "academic_year_placeholder": "contoh: 2024-2025",
+            "role_placeholder": "contoh: Anggota, Ketua, Presiden",
+            "performance_notes_placeholder": "Catatan tentang kinerja dan partisipasi siswa..."
+        },
+        "documents": {
+            "documents": "Dokumen",
+            "achievements": "Prestasi",
+            "add_document": "Tambah Dokumen",
+            "add_achievement": "Tambah Prestasi",
+            "title": "Judul",
+            "document_type": "Jenis Dokumen",
+            "file": "File",
+            "upload_file": "Upload File",
+            "template": "Template",
+            "achievement_description": "Deskripsi Prestasi",
+            "issue_date": "Tanggal Terbit",
+            "issued_by": "Diterbitkan Oleh",
+            "achievement_type": "Jenis Prestasi",
+            "achievement_name": "Nama Prestasi",
+            "description": "Deskripsi",
+            "date_achieved": "Tanggal Prestasi",
+            "level": "Tingkat",
+            "score_value": "Nilai Skor",
+            "issuing_organization": "Organisasi Penerbit",
+            "additional_notes": "Catatan Tambahan",
+            "criteria_met": "Kriteria yang Dipenuhi",
+            "no_documents": "Belum ada dokumen",
+            "no_achievements": "Belum ada prestasi",
+            "view": "Lihat",
+            "download": "Unduh",
+            "uploaded": "Diunggah",
+            "type": "Jenis",
+            "date": "Tanggal",
+            "score": "Skor",
+            "organization": "Organisasi",
+            "title_placeholder": "Masukkan judul dokumen",
+            "dropzone_placeholder": "Letakkan dokumen di sini atau klik untuk browse",
+            "description_placeholder": "Deskripsi singkat tentang dokumen...",
+            "achievement_description_placeholder": "Jelaskan prestasi atau alasan sertifikat...",
+            "additional_notes_placeholder": "Catatan atau komentar tambahan...",
+            "achievement_name_placeholder": "Masukkan nama prestasi",
+            "score_placeholder": "Skor opsional",
+            "issuing_organization_placeholder": "Organisasi yang mengeluarkan prestasi ini",
+            "criteria_met_placeholder": "Kriteria apa yang dipenuhi untuk prestasi ini",
+            "document_types": {
+                "sick_note": "Surat Sakit",
+                "excuse_letter": "Surat Izin",
+                "medical_certificate": "Sertifikat Medis",
+                "permission_slip": "Surat Persetujuan",
+                "report": "Laporan",
+                "transcript": "Transkrip",
+                "other": "Lainnya"
+            },
+            "achievement_types": {
+                "academic_excellence": "Prestasi Akademik",
+                "perfect_attendance": "Kehadiran Sempurna",
+                "sports_achievement": "Prestasi Olahraga",
+                "arts_achievement": "Prestasi Seni",
+                "leadership": "Kepemimpinan",
+                "community_service": "Pengabdian Masyarakat",
+                "character_award": "Penghargaan Karakter",
+                "improvement": "Peningkatan",
+                "participation": "Partisipasi",
+                "graduation": "Kelulusan"
+            },
+            "achievement_levels": {
+                "school": "Tingkat Sekolah",
+                "district": "Tingkat Kabupaten",
+                "regional": "Tingkat Regional",
+                "national": "Tingkat Nasional",
+                "international": "Tingkat Internasional"
+            }
+        },
+        "common": {
+            "loading": "Memuat...",
+            "save": "Simpan",
+            "cancel": "Batal",
+            "delete": "Hapus",
+            "edit": "Edit",
+            "add": "Tambah",
+            "select_option": "Pilih opsi...",
+            "upload_success": "Upload berhasil",
+            "save_success": "Data berhasil disimpan",
+            "delete_success": "Data berhasil dihapus",
+            "error": "Terjadi kesalahan",
+            "confirm_delete": "Apakah Anda yakin ingin menghapus ini?",
+            "no_data": "Tidak ada data"
+        }
+    },
+    "student_form": {
+        "breadcrumbs": {
+            "teacher_dashboard": "Dashboard Guru",
+            "my_students": "Siswa Saya",
+            "add_student": "Tambah Siswa",
+            "edit_student": "Edit Siswa"
+        },
+        "title": {
+            "create": "Tambah Siswa Baru",
+            "edit": "Edit Siswa"
+        },
+        "subtitle": {
+            "update_info": "Perbarui informasi {{name}}",
+            "create_new": "Tambahkan siswa baru ke sistem"
+        },
+        "sections": {
+            "student_photo": "Foto Siswa",
+            "basic_information": "Informasi Dasar",
+            "contact_information": "Informasi Kontak",
+            "transportation_information": "Informasi Transportasi",
+            "health_information": "Informasi Kesehatan",
+            "academic_information": "Informasi Akademik"
+        },
+        "fields": {
+            "nisn": "NISN",
+            "full_name": "Nama Lengkap",
+            "birth_date": "Tanggal Lahir",
+            "birth_place": "Tempat Lahir",
+            "gender": "Jenis Kelamin",
+            "religion": "Agama",
+            "parent_name": "Nama Orang Tua/Wali",
+            "parent_phone": "No. Telepon Orang Tua",
+            "parent_email": "Email Orang Tua",
+            "emergency_contact_name": "Nama Kontak Darurat",
+            "emergency_contact_phone": "No. Telepon Kontak Darurat",
+            "address": "Alamat Rumah",
+            "transportation_method": "Metode Transportasi",
+            "distance_from_home": "Jarak dari Rumah (km)",
+            "travel_time": "Waktu Perjalanan (menit)",
+            "pickup_location": "Lokasi Penjemputan",
+            "transportation_notes": "Catatan Transportasi",
+            "blood_type": "Golongan Darah",
+            "allergies": "Alergi",
+            "medical_conditions": "Kondisi Medis",
+            "dietary_restrictions": "Pantangan Makanan",
+            "emergency_medical_info": "Informasi Medis Darurat",
+            "class": "Kelas",
+            "status": "Status",
+            "entry_year": "Tahun Masuk",
+            "graduation_year": "Tahun Kelulusan yang Diharapkan",
+            "extracurricular_activities": "Kegiatan Ekstrakurikuler",
+            "notes": "Catatan"
+        },
+        "placeholders": {
+            "nisn": "Masukkan nomor identifikasi siswa",
+            "full_name": "Masukkan nama lengkap",
+            "birth_place": "Masukkan tempat lahir",
+            "religion": "Masukkan agama",
+            "parent_name": "Masukkan nama orang tua/wali",
+            "parent_phone": "Masukkan nomor telepon orang tua",
+            "parent_email": "Masukkan alamat email orang tua",
+            "emergency_contact_name": "Masukkan nama kontak darurat",
+            "emergency_contact_phone": "Masukkan telepon kontak darurat",
+            "address": "Masukkan alamat rumah lengkap",
+            "distance_from_home": "Masukkan jarak dalam kilometer",
+            "travel_time": "Masukkan waktu perjalanan dalam menit",
+            "pickup_location": "Masukkan lokasi penjemputan atau halte bus",
+            "transportation_notes": "Informasi transportasi tambahan",
+            "allergies": "Daftar alergi yang diketahui",
+            "medical_conditions": "Daftar kondisi medis",
+            "dietary_restrictions": "Daftar pantangan makanan",
+            "emergency_medical_info": "Informasi medis penting untuk keadaan darurat",
+            "extracurricular_activities": "Pilih kegiatan ekstrakurikuler...",
+            "notes": "Catatan tambahan tentang siswa (opsional)",
+            "select_gender": "Pilih jenis kelamin",
+            "select_transportation": "Pilih metode transportasi",
+            "select_blood_type": "Pilih golongan darah",
+            "select_status": "Pilih status",
+            "select_graduation_year": "Pilih tahun kelulusan"
+        },
+        "options": {
+            "gender": {
+                "male": "Laki-laki",
+                "female": "Perempuan"
+            },
+            "transportation": {
+                "walking": "Jalan Kaki",
+                "bicycle": "Sepeda",
+                "motorcycle": "Motor",
+                "car": "Mobil",
+                "school_bus": "Bus Sekolah",
+                "public_transport": "Transportasi Umum",
+                "other": "Lainnya"
+            },
+            "status": {
+                "active": "Aktif",
+                "graduated": "Lulus",
+                "transferred": "Pindah",
+                "dropped": "Keluar"
+            },
+            "not_set": "Belum Ditentukan"
+        },
+        "messages": {
+            "class_readonly": "Penugasan kelas hanya dapat diubah oleh peran kepala sekolah. Hubungi administrasi untuk perpindahan kelas.",
+            "extracurricular_note": "Siswa dapat berpartisipasi dalam beberapa kegiatan ekstrakurikuler.",
+            "photo_validation": "Jenis File Tidak Valid",
+            "photo_validation_desc": "Silakan pilih file gambar",
+            "update_success": "Berhasil",
+            "update_success_desc": "Informasi siswa berhasil diperbarui",
+            "create_success_desc": "Siswa baru berhasil ditambahkan",
+            "form_error": "Kesalahan",
+            "form_error_desc": "Silakan periksa form untuk kesalahan"
+        },
+        "actions": {
+            "cancel": "Batal",
+            "save": "Simpan",
+            "saving": "Menyimpan...",
+            "update_student": "Perbarui Siswa",
+            "create_student": "Tambah Siswa"
+        }
+    },
+    "student_table": {
+        "columns": {
+            "student": "Siswa",
+            "nisn": "NISN",
+            "class": "Kelas",
+            "gender": "Jenis Kelamin",
+            "status": "Status",
+            "entry_year": "Tahun Masuk",
+            "actions": "Aksi"
+        }
+    },
+    "subject_cards": {
+        "page_title": "Mata Pelajaran Saya",
+        "page_subtitle": "Kelola mata pelajaran yang Anda ampu, pantau kemajuan siswa, dan atur materi pengajaran",
+        "page_subtitle_short": "Kelola mata pelajaran yang Anda ampu",
+        "stats": {
+            "total_subjects": "Total Mata Pelajaran",
+            "total_students": "Total Siswa",
+            "avg_completion": "Rata-rata Penyelesaian",
+            "total_files": "Total File"
+        },
+        "card_labels": {
+            "work_items_progress": "Kemajuan Item Kerja",
+            "students": "Siswa",
+            "recent_files": "File Terbaru"
+        },
+        "actions": {
+            "view_details": "Lihat Detail",
+            "open_drive_folder": "Buka Folder Drive",
+            "open_folder": "Buka Folder",
+            "initialize_folders": "Inisialisasi Folder"
+        },
+        "messages": {
+            "success": "Berhasil",
+            "error": "Kesalahan",
+            "initialize_failed": "Gagal menginisialisasi folder."
+        }
+    },
+    "subject_table": {
+        "columns": {
+            "subject": "Mata Pelajaran",
+            "code": "Kode",
+            "completion": "Penyelesaian",
+            "students": "Siswa",
+            "files": "File",
+            "progress": "Kemajuan",
+            "actions": "Aksi"
+        }
+    },
+    "subject_details": {
+        "page_title": "Detail Mata Pelajaran",
+        "statistics": {
+            "students": "Siswa",
+            "work_items": "Item Kerja",
+            "total_files": "Total File",
+            "completion": "Penyelesaian"
+        },
+        "tabs": {
+            "work_items": "Item Kerja",
+            "work_items_short": "Item",
+            "recent_activity": "Aktivitas Terbaru",
+            "recent_activity_short": "Aktivitas"
+        },
+        "work_items": {
+            "title": "Kemajuan Item Kerja",
+            "overall_progress": "Kemajuan Keseluruhan",
+            "completed": "selesai",
+            "required": "Wajib",
+            "optional": "Opsional",
+            "files": "file",
+            "updated": "Diperbarui",
+            "open_folder": "Buka Folder",
+            "open": "Buka"
+        },
+        "activity": {
+            "title": "Aktivitas Terbaru",
+            "no_activity": "Tidak Ada Aktivitas Terbaru",
+            "no_files_message": "Belum ada file yang diunggah untuk mata pelajaran ini."
+        }
+    },
+    "work_item_files": {
+        "uploaded_files": "File yang Diunggah",
+        "file_count": "file",
+        "file_count_plural": "file",
+        "status": {
+            "pending_review": "Menunggu Tinjauan",
+            "approved": "Disetujui",
+            "needs_revision": "Perlu Revisi"
+        },
+        "metadata": {
+            "uploaded": "Diunggah",
+            "size": "Ukuran",
+            "last_accessed": "Terakhir Diakses"
+        },
+        "actions": {
+            "preview": "Pratinjau",
+            "open": "Buka",
+            "delete": "Hapus",
+            "deleting": "Menghapus..."
+        },
+        "feedback_from": "Umpan balik dari"
+    },
+    "teacher_work_items": {
+        "breadcrumbs": {
+            "teacher_dashboard": "Dashboard Guru",
+            "my_work_items": "Item Kerja Saya"
+        },
+        "page_title": "Item Kerja Saya",
+        "page_description": {
+            "full": "Kelola dokumen pengajaran Anda termasuk Prota, Prosem, Modul, Daftar Hadir, dan Agenda",
+            "short": "Kelola dokumen pengajaran Anda"
+        },
+        "overall_progress": {
+            "title": "Kemajuan Keseluruhan",
+            "completion_rate": "Tingkat Penyelesaian",
+            "work_items_completed": "item kerja selesai",
+            "across_all_subjects": "di semua mata pelajaran"
+        },
+        "work_item": {
+            "required": "Wajib",
+            "optional": "Opsional",
+            "files": "file",
+            "needs_revision": "perlu revisi",
+            "need_revision": "perlu revisi",
+            "all_approved": "Semua disetujui",
+            "pending_review": "menunggu tinjauan",
+            "delete_title": "Hapus Item Kerja",
+            "delete_description": "Apakah Anda yakin ingin menghapus item kerja ini? Semua file terkait dan folder di Google Drive akan dihapus secara permanen.",
+            "delete_work_item": "Hapus item kerja"
+        },
+        "folder_management": {
+            "open_folder": "Buka Folder",
+            "open": "Buka",
+            "initialize_folders": "Inisialisasi Folder",
+            "initialize": "Inisialisasi"
+        },
+        "feedback_status": {
+            "approved": "Disetujui",
+            "needs_revision": "Perlu Revisi",
+            "pending": "Menunggu"
+        },
+        "success_messages": {
+            "success": "Berhasil",
+            "work_item_deleted": "Item kerja berhasil dihapus"
+        },
+        "error_messages": {
+            "error": "Kesalahan",
+            "delete_failed": "Gagal menghapus item kerja."
+        },
+        "add_dialog": {
+            "trigger_button": "Tambah Item Kerja",
+            "title": "Tambah Item Kerja Baru",
+            "description": "Buat item kerja opsional baru untuk materi pengajaran Anda. Item kerja yang dibuat oleh guru selalu bersifat opsional.",
+            "form": {
+                "name_label": "Nama Item Kerja",
+                "name_placeholder": "contoh: Materi Kuis Mingguan, Laporan Lab",
+                "note_title": "📝 Catatan",
+                "note_items": {
+                    "optional": "• Item kerja yang dibuat oleh guru secara otomatis bersifat opsional",
+                    "upload": "• Anda dapat mengunggah file dan mengatur materi untuk item kerja ini",
+                    "access": "• Hanya Anda yang memiliki akses untuk memodifikasi item kerja ini"
+                }
+            },
+            "buttons": {
+                "cancel": "Batal",
+                "create": "Buat Item Kerja",
+                "creating": "Membuat..."
+            },
+            "messages": {
+                "success": "Berhasil",
+                "error": "Kesalahan",
+                "create_failed": "Gagal membuat item kerja."
+            }
+        }
+    },
+    "teacher_navigation": {
+        "groups": {
+            "dashboard": "Dashboard",
+            "my_teaching": "Pengajaran Saya",
+            "students": "Siswa"
+        },
+        "items": {
+            "overview": "Ikhtisar",
+            "my_subjects": "Mata Pelajaran Saya",
+            "work_items": "Item Kerja",
+            "my_students": "Siswa Saya"
+        }
+    },
+    "headmaster_navigation": {
+        "groups": {
+            "dashboard": "Dashboard",
+            "school_management": "Manajemen Sekolah"
+        },
+        "items": {
+            "overview": "Ikhtisar",
+            "staff_overview": "Ikhtisar Staff",
+            "students": "Siswa",
+            "homeroom_management": "Manajemen Wali Kelas",
+            "work_items": "Item Kerja"
+        }
+    },
+    "headmaster_students": {
+        "page_title": "Ikhtisar Siswa",
+        "breadcrumbs": {
+            "headmaster_dashboard": "Dashboard",
+            "students_overview": "Ikhtisar Siswa"
+        },
+        "header": {
+            "title": "Ikhtisar Siswa",
+            "description": "Lihat informasi siswa dan detail akademik. Sebagai kepala sekolah, Anda memiliki akses hanya baca ke data siswa."
+        },
+        "filters": {
+            "title": "Cari & Filter Siswa",
+            "description": "Hasil diperbarui secara otomatis saat Anda mengetik dan memfilter",
+            "search_placeholder": "Cari berdasarkan nama, NISN, atau kelas...",
+            "gender_placeholder": "Filter berdasarkan jenis kelamin",
+            "status_placeholder": "Filter berdasarkan status",
+            "all_genders": "Semua Jenis Kelamin",
+            "all_status": "Semua Status",
+            "clear_filters": "Hapus Filter"
+        },
+        "table": {
+            "title": "Siswa ({{total}})",
+            "columns": {
+                "student": "Siswa",
+                "class_year": "Kelas & Tahun",
+                "gender": "Jenis Kelamin",
+                "birth_date": "Tanggal Lahir",
+                "homeroom_teacher": "Wali Kelas",
+                "status": "Status",
+                "actions": "Aksi"
+            },
+            "entry": "Masuk",
+            "grad": "Lulus",
+            "not_assigned": "Tidak ditugaskan",
+            "view_details": "Lihat Detail",
+            "no_students_found": "Tidak ada siswa yang ditemukan sesuai kriteria Anda."
+        },
+        "gender": {
+            "male": "Laki-laki",
+            "female": "Perempuan"
+        },
+        "status": {
+            "active": "Aktif",
+            "graduated": "Lulus"
+        },
+        "dialog": {
+            "title": "Detail Siswa",
+            "academic_information": "Informasi Akademik",
+            "personal_information": "Informasi Pribadi",
+            "additional_notes": "Catatan Tambahan",
+            "class": "Kelas",
+            "entry_year": "Tahun Masuk",
+            "graduation_year": "Tahun Kelulusan",
+            "homeroom_teacher": "Wali Kelas",
+            "birth_date": "Tanggal Lahir",
+            "gender": "Jenis Kelamin",
+            "status": "Status",
+            "active_student": "Siswa Aktif"
+        }
+    },
+    "headmaster_student_show": {
+        "page_title": "Detail Siswa",
+        "class": "Kelas",
+        "read_only_access": "Akses Baca-Saja",
+        "sections": {
+            "student_profile": "Profil Siswa",
+            "contact_information": "Informasi Kontak",
+            "transportation_information": "Informasi Transportasi",
+            "health_information": "Informasi Kesehatan",
+            "extracurricular_activities": "Kegiatan Ekstrakurikuler"
+        },
+        "fields": {
+            "nisn": "NISN",
+            "gender": "Jenis Kelamin",
+            "date_of_birth": "Tanggal Lahir",
+            "birth_place": "Tempat Lahir",
+            "religion": "Agama",
+            "class": "Kelas",
+            "entry_year": "Tahun Masuk",
+            "graduation": "Tahun Kelulusan",
+            "homeroom_teacher": "Wali Kelas",
+            "notes": "Catatan",
+            "parent_guardian": "Orang Tua/Wali",
+            "parent_phone": "Telepon Orang Tua",
+            "parent_email": "Email Orang Tua",
+            "emergency_contact": "Kontak Darurat",
+            "emergency_phone": "Telepon Darurat",
+            "address": "Alamat",
+            "method": "Metode",
+            "distance": "Jarak",
+            "travel_time": "Waktu Tempuh",
+            "pickup_location": "Lokasi Penjemputan",
+            "transportation_notes": "Catatan Transportasi",
+            "blood_type": "Golongan Darah",
+            "allergies": "Alergi",
+            "medical_conditions": "Kondisi Medis",
+            "dietary_restrictions": "Pembatasan Diet",
+            "emergency_info": "Info Medis Darurat",
+            "extracurriculars": "Ekstrakurikuler",
+            "action_taken": "Tindakan yang Diambil",
+            "score": "Skor",
+            "issued_by": "Diterbitkan oleh",
+            "period": "Periode",
+            "performance_notes": "Catatan Kinerja",
+            "active": "Aktif",
+            "joined": "Bergabung"
+        },
+        "transportation": {
+            "walking": "Jalan Kaki",
+            "bicycle": "Sepeda",
+            "motorcycle": "Motor",
+            "car": "Mobil",
+            "school_bus": "Bus Sekolah",
+            "public_transport": "Transportasi Umum",
+            "other": "Lainnya"
+        },
+        "messages": {
+            "km": "km",
+            "minutes": "menit",
+            "no_extracurriculars": "Belum mengikuti kegiatan ekstrakurikuler"
+        },
+        "records": {
+            "positive_notes": "Catatan Positif",
+            "disciplinary_records": "Catatan Disiplin",
+            "achievements": "Prestasi",
+            "total_notes": "Total Catatan",
+            "total_records": "Total Catatan",
+            "total_achievements": "Total Prestasi",
+            "no_positive_notes": "Belum ada catatan positif",
+            "no_disciplinary_records": "Belum ada catatan disiplin",
+            "no_achievements": "Belum ada prestasi",
+            "no_extracurricular_history": "Belum ada riwayat ekstrakurikuler",
+            "no_current_extracurriculars": "Belum mengikuti kegiatan ekstrakurikuler"
+        },
+        "severity": {
+            "minor": "Ringan",
+            "moderate": "Sedang",
+            "serious": "Serius"
+        },
+        "achievement_types": {
+            "district": "Kecamatan",
+            "regional": "Regional",
+            "national": "Nasional",
+            "international": "Internasional",
+            "sport": "Olahraga",
+            "sports": "Olahraga",
+            "sports_achievement": "Prestasi Olahraga",
+            "academic": "Akademik",
+            "academic_achievement": "Prestasi Akademik",
+            "competition": "Kompetisi",
+            "certificate": "Sertifikat",
+            "award": "Penghargaan",
+            "scholarship": "Beasiswa",
+            "leadership": "Kepemimpinan"
+        },
+        "achievement_levels": {
+            "district": "Kecamatan",
+            "kecamatan": "Kecamatan",
+            "regional": "Regional",
+            "national": "Nasional",
+            "international": "Internasional",
+            "provincial": "Provinsi",
+            "school": "Sekolah",
+            "local": "Lokal"
+        }
+    },
+    "homeroom_management": {
+        "page_title": "Manajemen Wali Kelas",
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard",
+            "homeroom_management": "Manajemen Wali Kelas"
+        },
+        "header": {
+            "title": "Manajemen Wali Kelas",
+            "description": "Tugaskan guru sebagai wali kelas dan kelola penugasan kelas. Setiap guru hanya dapat ditugaskan ke satu kelas sebagai wali kelas, dan setiap kelas hanya dapat memiliki satu wali kelas."
+        },
+        "actions": {
+            "assign_homeroom": "Tugaskan Wali Kelas",
+            "cancel": "Batal",
+            "assign": "Tugaskan",
+            "assigning": "Menugaskan...",
+            "no_teachers_available": "Tidak Ada Guru Tersedia",
+            "no_classes_available": "Tidak Ada Kelas Tersedia"
+        },
+        "dialog": {
+            "assign_title": "Tugaskan Kelas Wali Kelas",
+            "assign_description": "Pilih guru dan kelas untuk membuat penugasan wali kelas. Setiap guru hanya dapat ditugaskan ke satu kelas sebagai wali kelas, dan setiap kelas hanya dapat memiliki satu wali kelas. Ini akan secara otomatis menugaskan semua siswa di kelas tersebut kepada guru yang dipilih.",
+            "select_teacher": "Pilih Guru",
+            "select_class": "Pilih Kelas",
+            "choose_teacher": "Pilih seorang guru",
+            "choose_class": "Pilih sebuah kelas",
+            "no_available_teachers": "Tidak ada guru tersedia - semua guru sudah ditugaskan sebagai wali kelas",
+            "no_unassigned_classes": "Tidak ada kelas yang belum ditugaskan tersedia"
+        },
+        "statistics": {
+            "total_classes": "Total Kelas",
+            "assigned_classes": "Kelas Ditugaskan",
+            "unassigned": "Belum Ditugaskan",
+            "total_teachers": "Total Guru"
+        },
+        "sections": {
+            "class_assignments": "Penugasan Kelas",
+            "assigned_teachers": "Guru yang Ditugaskan",
+            "available_teachers": "Guru Tersedia"
+        },
+        "teacher_info": {
+            "class": "Kelas",
+            "students": "siswa",
+            "available": "Tersedia"
+        },
+        "empty_states": {
+            "no_assigned_teachers": "Tidak ada guru yang ditugaskan sebagai wali kelas",
+            "all_teachers_assigned": "Semua guru telah ditugaskan sebagai wali kelas"
+        },
+        "confirmation": {
+            "remove_title": "Hapus Penugasan Wali Kelas",
+            "remove_description": "Apakah Anda yakin ingin menghapus {{itemName}}? Tindakan ini akan membatalkan penugasan guru dari kelas wali kelas dan tidak dapat dibatalkan.",
+            "assignment": "penugasan",
+            "assignment_description": "{{teacherName}} dari wali kelas {{className}}"
+        },
+        "messages": {
+            "error": "Kesalahan",
+            "success": "Berhasil",
+            "select_both": "Silakan pilih guru dan kelas",
+            "assignment_success": "Penugasan wali kelas berhasil diselesaikan",
+            "assignment_error": "Gagal menugaskan kelas wali kelas",
+            "removal_success": "Penugasan wali kelas berhasil dihapus",
+            "removal_error": "Gagal menghapus penugasan wali kelas"
+        },
+        "table": {
+            "title": "Penugasan Kelas ({{count}} kelas)",
+            "columns": {
+                "class": "Kelas",
+                "status": "Status",
+                "students": "Siswa",
+                "homeroom_teacher": "Wali Kelas",
+                "actions": "Aksi"
+            },
+            "status": {
+                "assigned": "Ditugaskan",
+                "unassigned": "Belum Ditugaskan"
+            },
+            "student_count": {
+                "singular": "siswa",
+                "plural": "siswa"
+            },
+            "no_teacher_assigned": "Belum ada guru yang ditugaskan",
+            "teacher_label": "Guru",
+            "remove_assignment": "Hapus Penugasan",
+            "remove": "Hapus"
+        }
+    },
+    "headmaster_staff_overview": {
+        "page_title": "Ikhtisar Staff",
+        "breadcrumbs": {
+            "headmaster_dashboard": "Dashboard",
+            "staff_overview": "Ikhtisar Staff"
+        },
+        "header": {
+            "title": "Ikhtisar Staff",
+            "description": "Pantau pengajuan item kerja guru dan berikan umpan balik"
+        },
+        "stats": {
+            "total_teachers": "Total Guru",
+            "upload_progress": "Kemajuan Upload",
+            "feedback_progress": "Kemajuan Umpan Balik",
+            "approval_rate": "Tingkat Persetujuan",
+            "files_uploaded": "file diunggah",
+            "files_reviewed": "file ditinjau",
+            "approved_files": "file disetujui"
+        },
+        "filters": {
+            "filter_by_work_item": "Filter berdasarkan Item Kerja",
+            "filter_by_feedback_status": "Filter berdasarkan Status Umpan Balik",
+            "all_work_items": "Semua Item Kerja",
+            "all_statuses": "Semua Status",
+            "required": "Wajib",
+            "optional": "Opsional"
+        },
+        "status": {
+            "approved": "Disetujui",
+            "needs_revision": "Perlu Revisi",
+            "pending_review": "Menunggu Tinjauan",
+            "complete": "Selesai",
+            "in_progress": "Sedang Berlangsung",
+            "behind": "Tertinggal"
+        },
+        "table": {
+            "teachers_overview": "Ikhtisar Guru",
+            "teachers": "Guru",
+            "search_placeholder": "Cari guru...",
+            "columns": {
+                "teacher": "Guru",
+                "subjects": "Mata Pelajaran",
+                "progress": "Kemajuan",
+                "files_status": "Status File",
+                "overall_status": "Status Keseluruhan",
+                "work_items_status": "Status Item Kerja",
+                "actions": "Aksi"
+            },
+            "file_status": {
+                "total": "Total",
+                "approved": "Disetujui",
+                "pending": "Menunggu",
+                "revision": "Revisi"
+            },
+            "actions": {
+                "view_details": "Lihat Detail",
+                "provide_feedback": "Berikan Umpan Balik",
+                "feedback": "Umpan Balik"
+            },
+            "work_items": {
+                "file_uploaded": "file diunggah",
+                "files_uploaded": "file diunggah",
+                "not_submitted": "Belum diserahkan",
+                "no_work_items_assigned": "Tidak ada item kerja yang ditugaskan"
+            },
+            "mobile": {
+                "subjects": "Mata Pelajaran",
+                "progress": "Kemajuan",
+                "tasks": "tugas"
+            },
+            "empty_state": {
+                "no_teachers_found": "Tidak ada guru ditemukan",
+                "no_teachers_available": "Tidak ada guru tersedia",
+                "adjust_search": "Coba sesuaikan istilah pencarian atau filter Anda.",
+                "teachers_will_appear": "Guru akan muncul di sini ketika mereka ditambahkan ke sistem."
+            }
+        }
+    },
+    "teacher_notifications": {
+        "bell_button": {
+            "notifications": "Notifikasi",
+            "new_notification": "notifikasi baru",
+            "new_notifications": "notifikasi baru",
+            "needs_revision": "perlu revisi",
+            "need_revision": "perlu revisi"
+        },
+        "popup": {
+            "title": "Notifikasi Kerja",
+            "unread": "belum dibaca",
+            "all_up_to_date": "Semua sudah terbaru",
+            "mark_all_read": "Tandai semua sudah dibaca"
+        },
+        "status": {
+            "approved": "Disetujui",
+            "pending": "Menunggu",
+            "revision": "Revisi",
+            "pending_review": "Menunggu Tinjauan",
+            "needs_revision": "Perlu Revisi"
+        },
+        "sections": {
+            "recent_notifications": "Notifikasi Terbaru",
+            "view_all_work_items": "Lihat Semua Item Kerja"
+        },
+        "empty_state": {
+            "no_notifications": "Belum ada notifikasi",
+            "no_notifications_desc": "Notifikasi akan muncul di sini ketika tersedia"
+        },
+        "feedback": {
+            "read": "Dibaca"
+        },
+        "time": {
+            "yesterday": "Kemarin"
+        }
+    },
+    "settings": {
+        "page": {
+            "title": "Pengaturan",
+            "description": "Kelola profil dan pengaturan akun Anda"
+        },
+        "user_menu": {
+            "settings": "Pengaturan",
+            "logout": "Keluar"
+        },
+        "navigation": {
+            "profile": "Profil",
+            "password": "Kata Sandi",
+            "appearance": "Tampilan",
+            "language": "Bahasa"
+        },
+        "theme": {
+            "light": "Terang",
+            "dark": "Gelap",
+            "system": "Sistem"
+        },
+        "profile": {
+            "breadcrumb": "Pengaturan Profil",
+            "page_title": "Pengaturan Profil",
+            "section_title": "Informasi Profil",
+            "section_description": "Perbarui nama dan alamat email Anda",
+            "form": {
+                "name_label": "Nama",
+                "name_placeholder": "Nama lengkap",
+                "email_label": "Alamat Email",
+                "email_placeholder": "Alamat email",
+                "save_button": "Simpan",
+                "saved_message": "Tersimpan"
+            },
+            "email_verification": {
+                "unverified_message": "Alamat email Anda belum diverifikasi.",
+                "resend_link": "Klik di sini untuk mengirim ulang email verifikasi.",
+                "verification_sent": "Tautan verifikasi baru telah dikirim ke alamat email Anda."
+            },
+            "delete_account": {
+                "section_title": "Hapus Akun",
+                "section_description": "Hapus akun Anda dan semua sumber dayanya",
+                "warning_title": "Peringatan",
+                "warning_message": "Harap berhati-hati, ini tidak dapat dibatalkan.",
+                "delete_button": "Hapus Akun",
+                "confirmation_title": "Apakah Anda yakin ingin menghapus akun Anda?",
+                "confirmation_description": "Setelah akun Anda dihapus, semua sumber daya dan datanya juga akan dihapus secara permanen. Silakan masukkan kata sandi Anda untuk mengkonfirmasi bahwa Anda ingin menghapus akun Anda secara permanen.",
+                "password_label": "Kata Sandi",
+                "password_placeholder": "Kata Sandi",
+                "cancel_button": "Batal",
+                "confirm_delete_button": "Hapus Akun"
+            }
+        },
+        "appearance": {
+            "breadcrumb": "Pengaturan Tampilan",
+            "page_title": "Pengaturan Tampilan",
+            "section_title": "Pengaturan Tampilan",
+            "section_description": "Perbarui pengaturan tampilan akun Anda"
+        },
+        "password": {
+            "breadcrumb": "Pengaturan Kata Sandi",
+            "page_title": "Pengaturan Kata Sandi",
+            "section_title": "Perbarui Kata Sandi",
+            "section_description": "Pastikan akun Anda menggunakan kata sandi yang panjang dan acak untuk tetap aman",
+            "form": {
+                "current_password_label": "Kata Sandi Saat Ini",
+                "current_password_placeholder": "Kata sandi saat ini",
+                "new_password_label": "Kata Sandi Baru",
+                "new_password_placeholder": "Kata sandi baru",
+                "confirm_password_label": "Konfirmasi Kata Sandi",
+                "confirm_password_placeholder": "Konfirmasi kata sandi",
+                "save_button": "Simpan Kata Sandi",
+                "saved_message": "Tersimpan"
+            }
+        },
+        "language": {
+            "breadcrumb": "Pengaturan Bahasa",
+            "page_title": "Pengaturan Bahasa",
+            "section_title": "Preferensi Bahasa",
+            "section_description": "Pilih bahasa yang ingin Anda gunakan untuk antarmuka",
+            "form": {
+                "language_label": "Bahasa Antarmuka",
+                "language_description": "Pilih bahasa yang ingin Anda gunakan untuk antarmuka pengguna",
+                "save_button": "Simpan Bahasa",
+                "saved_message": "Preferensi bahasa tersimpan"
+            },
+            "languages": {
+                "en": "English",
+                "id": "Bahasa Indonesia"
+            }
+        }
+    },
+    "student_show": {
+        "breadcrumbs": {
+            "teacher_dashboard": "Dashboard Guru",
+            "my_students": "Siswa Saya"
+        },
+        "title": "Detail Siswa",
+        "sections": {
+            "student_profile": "Profil Siswa",
+            "contact_information": "Informasi Kontak",
+            "transportation_information": "Informasi Transportasi",
+            "health_information": "Informasi Kesehatan",
+            "extracurricular_activities": "Kegiatan Ekstrakurikuler"
+        },
+        "fields": {
+            "nisn": "NISN",
+            "gender": "Jenis Kelamin",
+            "date_of_birth": "Tanggal Lahir",
+            "birth_place": "Tempat Lahir",
+            "religion": "Agama",
+            "class": "Kelas",
+            "entry_year": "Tahun Masuk",
+            "graduation": "Kelulusan",
+            "notes": "Catatan",
+            "parent_guardian": "Orang Tua/Wali",
+            "parent_phone": "Telepon Orang Tua",
+            "parent_email": "Email Orang Tua",
+            "emergency_contact": "Kontak Darurat",
+            "emergency_phone": "Telepon Darurat",
+            "address": "Alamat",
+            "method": "Metode",
+            "distance": "Jarak",
+            "travel_time": "Waktu Perjalanan",
+            "pickup_location": "Lokasi Penjemputan",
+            "transportation_notes": "Catatan",
+            "blood_type": "Golongan Darah",
+            "allergies": "Alergi",
+            "medical_conditions": "Kondisi Medis",
+            "dietary_restrictions": "Pantangan Makanan",
+            "emergency_info": "Info Darurat",
+            "extracurriculars": "Ekstrakurikuler"
+        },
+        "gender": {
+            "male": "Laki-laki",
+            "female": "Perempuan"
+        },
+        "status": {
+            "active": "Aktif",
+            "graduated": "Lulus",
+            "transferred": "Pindah",
+            "dropped": "Keluar"
+        },
+        "transportation": {
+            "walking": "Jalan Kaki",
+            "bicycle": "Sepeda",
+            "motorcycle": "Motor",
+            "car": "Mobil",
+            "school_bus": "Bus Sekolah",
+            "public_transport": "Transportasi Umum",
+            "other": "Lainnya"
+        },
+        "actions": {
+            "edit_student_records": "Edit Siswa & Rekam Data"
+        },
+        "messages": {
+            "no_extracurriculars": "Siswa ini tidak terdaftar dalam kegiatan ekstrakurikuler apapun.",
+            "minutes": "menit",
+            "km": "km"
+        }
+    },
+    "teacher_students": {
+        "breadcrumbs": {
+            "teacher_dashboard": "Dashboard Guru",
+            "my_students": "Siswa Saya"
+        },
+        "title": "Siswa Saya",
+        "subtitle": {
+            "full": "Kelola siswa wali kelas Anda, lacak kemajuan akademik mereka, dan pelihara catatan siswa",
+            "short": "Kelola siswa wali kelas Anda"
+        },
+        "actions": {
+            "add_student": "Tambah Siswa",
+            "add_first_student": "Tambah Siswa Pertama",
+            "view": "Lihat",
+            "edit": "Edit",
+            "remove": "Hapus"
+        },
+        "stats": {
+            "total_students": "Total Siswa",
+            "active": "Aktif",
+            "male": "Laki-laki",
+            "female": "Perempuan"
+        },
+        "filters": {
+            "search_placeholder": "Cari siswa...",
+            "all_genders": "Semua Jenis Kelamin",
+            "all_status": "Semua Status",
+            "showing_results": "Menampilkan {{filtered}} dari {{total}} siswa"
+        },
+        "status": {
+            "active": "Aktif",
+            "graduated": "Lulus",
+            "transferred": "Pindah",
+            "dropped": "Keluar"
+        },
+        "gender": {
+            "male": "Laki-laki",
+            "female": "Perempuan"
+        },
+        "card_fields": {
+            "class": "Kelas",
+            "gender": "Jenis Kelamin",
+            "entry_year": "Tahun Masuk"
+        },
+        "empty_state": {
+            "no_students_title": "Tidak Ada Siswa di Wali Kelas Anda",
+            "no_results_title": "Siswa Tidak Ditemukan",
+            "no_students_desc": "Anda belum ditugaskan siswa wali kelas apa pun, atau Anda dapat menambahkan siswa baru ke kelas Anda.",
+            "no_results_desc": "Coba sesuaikan kriteria pencarian Anda untuk menemukan siswa tertentu."
+        },
+        "confirmation": {
+            "remove_title": "Hapus Siswa dari Kelas",
+            "remove_message": "Apakah Anda yakin ingin menghapus <strong>{{name}}</strong> dari kelas wali Anda? Ini tidak akan menghapus catatan siswa, tetapi mereka tidak akan lagi ditugaskan ke kelas Anda.",
+            "remove_confirm": "Hapus Siswa"
+        },
+        "messages": {
+            "remove_success": "Berhasil",
+            "remove_success_desc": "Siswa berhasil dihapus dari kelas wali Anda",
+            "remove_error": "Kesalahan",
+            "remove_error_desc": "Gagal menghapus siswa dari kelas"
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Masuk ke akun Anda",
+            "description": "Masukkan email dan kata sandi Anda di bawah ini untuk masuk",
+            "page_title": "Masuk",
+            "email_label": "Alamat Email",
+            "email_placeholder": "email@contoh.com",
+            "password_label": "Kata Sandi",
+            "password_placeholder": "Kata Sandi",
+            "forgot_password": "Lupa kata sandi?",
+            "remember_me": "Ingat saya",
+            "login_button": "Masuk",
+            "need_account": "Perlu akun? Hubungi administrator sistem Anda."
+        }
+    },
+    "work_items_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard",
+            "work_items_management": "Manajemen Item Kerja"
+        },
+        "page_title": "Manajemen Item Kerja",
+        "page_description": "Kelola pengajuan kerja guru termasuk Prota, Prosem, Modul, Daftar Hadir, dan Agenda",
+        "header": {
+            "title": "Manajemen Item Kerja",
+            "description": "Kelola pengajuan kerja guru termasuk Prota, Prosem, Modul, Daftar Hadir, dan Agenda"
+        },
+        "actions": {
+            "manage_work_items": "Kelola Item Kerja"
+        },
+        "overview": {
+            "title": "Ikhtisar Item Kerja",
+            "created_by": "Dibuat oleh",
+            "completion": "Penyelesaian",
+            "teachers": "guru",
+            "of": "dari"
+        },
+        "teacher_progress": {
+            "title": "Ikhtisar Kemajuan Guru"
+        },
+        "work_item_status": {
+            "required": "Wajib",
+            "optional": "Opsional"
+        },
+        "stats": {
+            "total_teachers": "Total Guru",
+            "work_items": "Item Kerja",
+            "completed": "Selesai",
+            "completion_rate": "Tingkat Penyelesaian",
+            "active_teaching_staff": "Staff pengajar aktif",
+            "required_documents": "Dokumen wajib",
+            "expected": "diharapkan",
+            "overall_progress": "Kemajuan keseluruhan"
+        },
+        "table": {
+            "search_placeholder": "Cari guru...",
+            "columns": {
+                "teacher": "Guru",
+                "position": "Posisi",
+                "subjects": "Mata Pelajaran",
+                "progress": "Kemajuan",
+                "status": "Status",
+                "actions": "Aksi"
+            },
+            "more": "lagi",
+            "status_labels": {
+                "complete": "Selesai",
+                "in_progress": "Sedang Berlangsung",
+                "behind": "Tertinggal",
+                "approved": "disetujui",
+                "pending": "menunggu",
+                "revision": "revisi"
+            },
+            "action_titles": {
+                "view_details": "Lihat Detail",
+                "provide_feedback": "Berikan Umpan Balik"
+            },
+            "empty_states": {
+                "no_teachers_search": "Tidak ada guru yang ditemukan sesuai pencarian Anda.",
+                "no_teachers": "Tidak ada guru ditemukan."
+            }
+        },
+        "roles": {
+            "super_admin": "super admin",
+            "headmaster": "kepala sekolah",
+            "teacher": "guru"
+        },
+        "manage_dialog": {
+            "title": "Kelola Item Kerja",
+            "description_headmaster": "Buat, edit, atau hapus item kerja. Sebagai kepala sekolah, Anda hanya dapat membuat item kerja wajib.",
+            "description_admin": "Buat, edit, atau hapus item kerja. Anda dapat membuat item kerja wajib dan opsional.",
+            "form": {
+                "edit_title": "Edit Item Kerja",
+                "create_title": "Buat Item Kerja",
+                "cancel": "Batal",
+                "name_label": "Nama",
+                "name_placeholder": "contoh: Prota (Program Tahunan)",
+                "required_label": "Wajib untuk semua guru",
+                "required_note": "Kepala sekolah hanya dapat membuat item kerja wajib",
+                "saving": "Menyimpan...",
+                "update": "Perbarui",
+                "create": "Buat"
+            },
+            "add_button": "Tambah Item Kerja Baru",
+            "existing_title": "Item Kerja yang Ada",
+            "empty_state": "Tidak ada item kerja ditemukan. Buat item kerja pertama Anda di atas.",
+            "created_by": "Dibuat oleh",
+            "delete_dialog": {
+                "title": "Hapus Item Kerja",
+                "description": "Apakah Anda yakin ingin menghapus item kerja ini? Semua pengajuan guru terkait dan file Google Drive akan dihapus secara permanen.",
+                "item_type": "item kerja"
+            },
+            "messages": {
+                "success": "Berhasil",
+                "error": "Kesalahan",
+                "update_success": "Item kerja berhasil diperbarui.",
+                "create_success": "Item kerja berhasil dibuat.",
+                "delete_success": "Item kerja dan semua file terkait berhasil dihapus.",
+                "update_error": "Gagal memperbarui item kerja.",
+                "create_error": "Gagal membuat item kerja.",
+                "delete_error": "Gagal menghapus item kerja. Mungkin sedang digunakan atau berisi file."
+            }
+        },
+        "teacher_detail": {
+            "breadcrumbs": {
+                "headmaster_dashboard": "Dashboard",
+                "staff_overview": "Ikhtisar Staff"
+            },
+            "page_title": "Item Kerja",
+            "statistics": {
+                "work_items": "Item Kerja",
+                "total_files": "Total File",
+                "approved": "Disetujui",
+                "pending_review": "Menunggu Tinjauan"
+            },
+            "status": {
+                "approved": "Disetujui",
+                "needs_revision": "Perlu Revisi",
+                "pending_review": "Menunggu Tinjauan"
+            },
+            "work_item_status": {
+                "required": "Wajib",
+                "optional": "Opsional"
+            },
+            "file_section": {
+                "no_files_uploaded": "Tidak ada file yang diunggah",
+                "no_files_description": "Item kerja ini belum memiliki file",
+                "uploaded": "Diunggah",
+                "size_unknown": "Ukuran tidak diketahui",
+                "latest_feedback": "Umpan Balik Terbaru",
+                "reviewed_by": "Ditinjau oleh",
+                "on": "pada"
+            },
+            "actions": {
+                "preview": "Pratinjau",
+                "open": "Buka",
+                "open_in_drive": "Buka di Google Drive",
+                "feedback": "Umpan Balik",
+                "update": "Perbarui"
+            }
+        }
+    },
+    "teacher_detail": {
+        "breadcrumbs": {
+            "headmaster_dashboard": "Dashboard",
+            "staff_overview": "Ikhtisar Staff"
+        },
+        "page_title": "Item Kerja",
+        "statistics": {
+            "work_items": "Item Kerja",
+            "total_files": "Total File",
+            "approved": "Disetujui",
+            "pending_review": "Menunggu Tinjauan"
+        },
+        "status": {
+            "approved": "Disetujui",
+            "needs_revision": "Perlu Revisi",
+            "pending_review": "Menunggu Tinjauan"
+        },
+        "work_item_status": {
+            "required": "Wajib",
+            "optional": "Opsional"
+        },
+        "file_section": {
+            "no_files_uploaded": "Tidak ada file yang diunggah",
+            "no_files_description": "Item kerja ini belum memiliki file",
+            "uploaded": "Diunggah",
+            "size_unknown": "Ukuran tidak diketahui",
+            "latest_feedback": "Umpan Balik Terbaru",
+            "reviewed_by": "Ditinjau oleh",
+            "on": "pada"
+        },
+        "actions": {
+            "preview": "Pratinjau",
+            "open": "Buka",
+            "open_in_drive": "Buka di Google Drive",
+            "feedback": "Umpan Balik",
+            "update": "Perbarui"
+        }
+    },
+    "feedback_dialog": {
+        "title": "Berikan Umpan Balik",
+        "description": "Tinjau dan berikan umpan balik untuk file yang diunggah",
+        "file_details": {
+            "title": "Detail File",
+            "file_name": "Nama File",
+            "uploaded": "Diunggah",
+            "view_file": "Lihat File"
+        },
+        "previous_feedback": {
+            "title": "Umpan Balik Sebelumnya",
+            "by": "Oleh",
+            "on": "pada"
+        },
+        "form": {
+            "feedback_label": "Umpan Balik",
+            "update_feedback_label": "Perbarui Umpan Balik",
+            "feedback_placeholder": "Masukkan umpan balik Anda di sini...",
+            "status_label": "Status",
+            "status_placeholder": "Pilih status"
+        },
+        "status": {
+            "pending": "Menunggu Tinjauan",
+            "approved": "Disetujui",
+            "needs_revision": "Perlu Revisi"
+        },
+        "actions": {
+            "cancel": "Batal",
+            "submit": "Kirim Umpan Balik",
+            "update": "Perbarui Umpan Balik",
+            "submitting": "Mengirim..."
+        },
+        "messages": {
+            "error_title": "Kesalahan",
+            "success_title": "Berhasil",
+            "feedback_required": "Silakan berikan teks umpan balik",
+            "feedback_success": "Umpan balik berhasil diberikan",
+            "feedback_error": "Gagal memberikan umpan balik"
+        }
+    },
+    "common": {
+        "read_more": "Baca Selengkapnya",
+        "learn_more": "Pelajari Lebih Lanjut",
+        "download": "Unduh",
+        "view_all": "Lihat Semua",
+        "back": "Kembali",
+        "next": "Selanjutnya",
+        "previous": "Sebelumnya",
+        "search": "Cari",
+        "submit": "Kirim",
+        "cancel": "Batal",
+        "save": "Simpan",
+        "edit": "Edit",
+        "delete": "Hapus",
+        "deleting": "Menghapus...",
+        "create": "Buat",
+        "update": "Perbarui",
+        "published": "Dipublikasikan",
+        "draft": "Konsep",
+        "active": "Aktif",
+        "inactive": "Tidak Aktif",
+        "of": "dari"
+    }
+}
