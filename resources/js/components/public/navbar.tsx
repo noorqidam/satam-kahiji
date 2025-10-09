@@ -35,12 +35,14 @@ export default function Navbar({ currentPath = '', className = '' }: NavbarProps
                   { name: t('navigation.news'), href: '/news' },
                   { name: t('navigation.gallery'), href: '/gallery' },
                   { name: t('navigation.extracurricular'), href: '/extracurricular' },
+                  { name: t('navigation.facilities'), href: '/facilities' },
               ]
             : [
                   { name: t('navigation.home'), href: '/' },
                   { name: t('navigation.news'), href: '/news' },
                   { name: t('navigation.gallery'), href: '/gallery' },
                   { name: t('navigation.extracurricular'), href: '/extracurricular' },
+                  { name: t('navigation.facilities'), href: '/facilities' },
               ];
 
     // Dynamic navigation items from admin pages
@@ -94,7 +96,8 @@ export default function Navbar({ currentPath = '', className = '' }: NavbarProps
                                             : currentPath === item.href ||
                                               (item.name === 'Berita' && currentPath.startsWith('/news')) ||
                                               (item.name === 'Galeri' && currentPath.startsWith('/gallery')) ||
-                                              (item.name === 'Ekstrakurikuler' && currentPath.startsWith('/extracurricular'));
+                                              (item.name === 'Ekstrakurikuler' && currentPath.startsWith('/extracurricular')) ||
+                                              (item.href === '/facilities' && currentPath.startsWith('/facilities'));
                                     const Component = item.href.startsWith('#') ? 'a' : Link;
                                     return (
                                         <Component
@@ -190,7 +193,8 @@ export default function Navbar({ currentPath = '', className = '' }: NavbarProps
                                         : currentPath === item.href ||
                                           (item.name === 'Berita' && currentPath.startsWith('/news')) ||
                                           (item.name === 'Galeri' && currentPath.startsWith('/gallery')) ||
-                                          (item.name === 'Ekstrakurikuler' && currentPath.startsWith('/extracurricular'));
+                                          (item.name === 'Ekstrakurikuler' && currentPath.startsWith('/extracurricular')) ||
+                                          (item.href === '/facilities' && currentPath.startsWith('/facilities'));
                                 const Component = item.href.startsWith('#') ? 'a' : Link;
                                 return (
                                     <div key={item.name} className="relative">

@@ -32,6 +32,9 @@ Route::get('/gallery/{slug}', [\App\Http\Controllers\GalleryController::class, '
 // Extracurricular
 Route::get('/extracurricular', [\App\Http\Controllers\ExtracurricularController::class, 'index'])->name('extracurricular.index');
 
+// Facilities
+Route::get('/facilities', [\App\Http\Controllers\FacilityController::class, 'index'])->name('facilities.index');
+
 // Teachers
 Route::get('/teachers', [\App\Http\Controllers\TeachersController::class, 'index'])->name('teachers.index');
 Route::get('/teachers/{slug}', [\App\Http\Controllers\TeachersController::class, 'show'])->name('teachers.show');
