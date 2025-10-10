@@ -1,6 +1,5 @@
 import { Link } from '@inertiajs/react';
 import { Edit, Eye, Trash2 } from 'lucide-react';
-import { route } from 'ziggy-js';
 
 import { Button } from '@/components/ui/button';
 import type { Student } from '@/types/student';
