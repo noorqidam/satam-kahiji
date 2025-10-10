@@ -136,7 +136,6 @@ export default function ShowGallery() {
         );
     };
 
-
     const handleMediaPlay = (item: GalleryItem) => {
         if (item.type === 'video' || item.type === 'audio') {
             setCurrentVideoItem(item);

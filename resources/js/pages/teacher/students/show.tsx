@@ -17,7 +17,6 @@ interface Teacher {
     position: string;
 }
 
-
 interface Extracurricular {
     id: number;
     name: string;

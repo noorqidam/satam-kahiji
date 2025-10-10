@@ -131,12 +131,15 @@ export default function TeacherStudentsIndex({ students, classStats }: TeacherSt
         setFailedImages((prev) => new Set(prev).add(photoUrl));
     }, []);
 
-    const shouldShowDefaultAvatar = useCallback((photo: string | null) => {
-        if (!photo || photo.trim() === '') {
-            return true;
-        }
-        return failedImages.has(photo);
-    }, [failedImages]);
+    const shouldShowDefaultAvatar = useCallback(
+        (photo: string | null) => {
+            if (!photo || photo.trim() === '') {
+                return true;
+            }
+            return failedImages.has(photo);
+        },
+        [failedImages],
+    );
 
     const renderTableView = useCallback(
         () => (

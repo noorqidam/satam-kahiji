@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { usePage } from '@inertiajs/react';
-import { useTranslation } from 'react-i18next';
 import { type SharedData } from '@/types';
+import { usePage } from '@inertiajs/react';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Hook to ensure i18n stays synchronized with server locale
@@ -17,7 +17,7 @@ export function useLocaleSync() {
             serverLocale: locale,
             i18nLanguage: i18n.language,
             localStorage: typeof window !== 'undefined' ? localStorage.getItem('i18nextLng') : 'N/A',
-            needsSync: locale && i18n.language !== locale
+            needsSync: locale && i18n.language !== locale,
         });
     });
 

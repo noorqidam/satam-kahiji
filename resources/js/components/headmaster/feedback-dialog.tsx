@@ -187,7 +187,8 @@ export function FeedbackDialog({ open, onOpenChange, file, onSuccess }: Feedback
                             <div className="space-y-2">
                                 <p className="text-sm text-gray-700 dark:text-gray-300">{latestFeedback.feedback}</p>
                                 <p className="text-xs text-gray-500">
-                                    {t('feedback_dialog.previous_feedback.by')} {latestFeedback.reviewer.name} {t('feedback_dialog.previous_feedback.on')} {formatDate(latestFeedback.reviewed_at)}
+                                    {t('feedback_dialog.previous_feedback.by')} {latestFeedback.reviewer.name}{' '}
+                                    {t('feedback_dialog.previous_feedback.on')} {formatDate(latestFeedback.reviewed_at)}
                                 </p>
                             </div>
                         </div>
@@ -196,7 +197,9 @@ export function FeedbackDialog({ open, onOpenChange, file, onSuccess }: Feedback
                     {/* Feedback Form */}
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="feedback">{latestFeedback ? t('feedback_dialog.form.update_feedback_label') : t('feedback_dialog.form.feedback_label')}</Label>
+                            <Label htmlFor="feedback">
+                                {latestFeedback ? t('feedback_dialog.form.update_feedback_label') : t('feedback_dialog.form.feedback_label')}
+                            </Label>
                             <Textarea
                                 id="feedback"
                                 placeholder={t('feedback_dialog.form.feedback_placeholder')}
@@ -241,7 +244,11 @@ export function FeedbackDialog({ open, onOpenChange, file, onSuccess }: Feedback
                                 {t('feedback_dialog.actions.cancel')}
                             </Button>
                             <Button type="submit" disabled={isSubmitting || !feedbackText.trim()}>
-                                {isSubmitting ? t('feedback_dialog.actions.submitting') : latestFeedback ? t('feedback_dialog.actions.update') : t('feedback_dialog.actions.submit')}
+                                {isSubmitting
+                                    ? t('feedback_dialog.actions.submitting')
+                                    : latestFeedback
+                                      ? t('feedback_dialog.actions.update')
+                                      : t('feedback_dialog.actions.submit')}
                             </Button>
                         </div>
                     </form>

@@ -85,7 +85,11 @@ export function validateField(schema: v.BaseSchema<unknown, unknown, v.BaseIssue
 }
 
 // Utility function to validate the entire form
-export function validateForm(data: unknown, isEdit: boolean = false, currentStudentCount: number = 0): { success: boolean; errors?: ValidationErrors } {
+export function validateForm(
+    data: unknown,
+    isEdit: boolean = false,
+    currentStudentCount: number = 0,
+): { success: boolean; errors?: ValidationErrors } {
     try {
         const schema = isEdit ? ClassEditSchema(currentStudentCount) : ClassFormSchema;
         v.parse(schema, data);

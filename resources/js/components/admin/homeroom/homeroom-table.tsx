@@ -28,7 +28,7 @@ interface HomeroomTableProps {
 
 export function HomeroomTable({ classStats, onRemoveAssignment }: HomeroomTableProps) {
     const { t } = useTranslation();
-    
+
     return (
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
             {/* Table Header */}
@@ -68,13 +68,19 @@ export function HomeroomTable({ classStats, onRemoveAssignment }: HomeroomTableP
                                 </td>
                                 <td className="px-4 py-4">
                                     <Badge variant={classStat.has_teacher ? 'default' : 'destructive'}>
-                                        {classStat.has_teacher ? t('homeroom_management.table.status.assigned') : t('homeroom_management.table.status.unassigned')}
+                                        {classStat.has_teacher
+                                            ? t('homeroom_management.table.status.assigned')
+                                            : t('homeroom_management.table.status.unassigned')}
                                     </Badge>
                                 </td>
                                 <td className="px-4 py-4">
                                     <div className="text-sm">
                                         <div className="font-medium text-gray-900 dark:text-gray-100">{classStat.student_count}</div>
-                                        <div className="text-gray-500">{classStat.student_count === 1 ? t('homeroom_management.table.student_count.singular') : t('homeroom_management.table.student_count.plural')}</div>
+                                        <div className="text-gray-500">
+                                            {classStat.student_count === 1
+                                                ? t('homeroom_management.table.student_count.singular')
+                                                : t('homeroom_management.table.student_count.plural')}
+                                        </div>
                                     </div>
                                 </td>
                                 <td className="px-4 py-4">
@@ -123,15 +129,20 @@ export function HomeroomTable({ classStats, onRemoveAssignment }: HomeroomTableP
                                     <div className="mb-2 flex items-center justify-between gap-2">
                                         <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{classStat.class}</h4>
                                         <Badge variant={classStat.has_teacher ? 'default' : 'destructive'}>
-                                            {classStat.has_teacher ? t('homeroom_management.table.status.assigned') : t('homeroom_management.table.status.unassigned')}
+                                            {classStat.has_teacher
+                                                ? t('homeroom_management.table.status.assigned')
+                                                : t('homeroom_management.table.status.unassigned')}
                                         </Badge>
                                     </div>
 
                                     <div className="mb-3 space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                                        <div>{t('homeroom_management.table.columns.students')}: {classStat.student_count}</div>
+                                        <div>
+                                            {t('homeroom_management.table.columns.students')}: {classStat.student_count}
+                                        </div>
                                         {classStat.assigned_teacher ? (
                                             <div>
-                                                {t('homeroom_management.table.teacher_label')}: {classStat.assigned_teacher.name} ({classStat.assigned_teacher.position})
+                                                {t('homeroom_management.table.teacher_label')}: {classStat.assigned_teacher.name} (
+                                                {classStat.assigned_teacher.position})
                                             </div>
                                         ) : (
                                             <div className="text-red-600">{t('homeroom_management.table.no_teacher_assigned')}</div>

@@ -128,7 +128,6 @@ export default function GalleriesIndex() {
         });
     };
 
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Gallery Management" />

@@ -20,85 +20,85 @@ export const SchoolStats = () => {
     ];
 
     return (
-    <section className="relative bg-gradient-to-br from-blue-50/30 via-slate-50 to-emerald-50/30 py-2">
-        <div className="absolute inset-0">
-            <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
-                <defs>
-                    <pattern id="stats-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-                        <circle cx="20" cy="20" r="1" fill="rgba(59, 130, 246, 0.08)" />
-                        <circle cx="10" cy="30" r="0.5" fill="rgba(16, 185, 129, 0.06)" />
-                        <circle cx="30" cy="10" r="0.8" fill="rgba(147, 51, 234, 0.06)" />
-                    </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#stats-pattern)" />
-            </svg>
-        </div>
+        <section className="relative bg-gradient-to-br from-blue-50/30 via-slate-50 to-emerald-50/30 py-2">
+            <div className="absolute inset-0">
+                <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                        <pattern id="stats-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <circle cx="20" cy="20" r="1" fill="rgba(59, 130, 246, 0.08)" />
+                            <circle cx="10" cy="30" r="0.5" fill="rgba(16, 185, 129, 0.06)" />
+                            <circle cx="30" cy="10" r="0.8" fill="rgba(147, 51, 234, 0.06)" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#stats-pattern)" />
+                </svg>
+            </div>
 
-        <div className="absolute inset-0 overflow-hidden opacity-60">
-            <motion.div
-                className="absolute top-20 left-20 h-64 w-64 rounded-full bg-gradient-to-br from-blue-200/40 to-indigo-300/40 blur-3xl"
-                animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.3, 0.6, 0.3],
-                }}
-                transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                }}
-            />
-            <motion.div
-                className="absolute right-20 bottom-20 h-80 w-80 rounded-full bg-gradient-to-bl from-emerald-200/40 to-teal-300/40 blur-3xl"
-                animate={{
-                    scale: [1.2, 1, 1.2],
-                    opacity: [0.4, 0.7, 0.4],
-                }}
-                transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: 2,
-                }}
-            />
-        </div>
-
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-                className="mb-8 text-center"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-            >
-                <motion.h2
-                    className="mb-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 bg-clip-text pb-1 text-4xl font-bold text-transparent md:text-5xl"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    viewport={{ once: true }}
-                >
-                    Kebanggaan Kami
-                </motion.h2>
-                <motion.p
-                    className="mx-auto mb-8 max-w-2xl text-lg text-gray-600"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    viewport={{ once: true }}
-                >
-                    Pencapaian dan prestasi yang membanggakan dari SMP Negeri 1 Tambun Selatan
-                </motion.p>
+            <div className="absolute inset-0 overflow-hidden opacity-60">
                 <motion.div
-                    className="mx-auto h-1 w-16 rounded-full bg-gradient-to-r from-blue-600 to-emerald-600"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: 64 }}
-                    transition={{ duration: 1, delay: 0.4 }}
-                    viewport={{ once: true }}
+                    className="absolute top-20 left-20 h-64 w-64 rounded-full bg-gradient-to-br from-blue-200/40 to-indigo-300/40 blur-3xl"
+                    animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.3, 0.6, 0.3],
+                    }}
+                    transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                    }}
                 />
-            </motion.div>
+                <motion.div
+                    className="absolute right-20 bottom-20 h-80 w-80 rounded-full bg-gradient-to-bl from-emerald-200/40 to-teal-300/40 blur-3xl"
+                    animate={{
+                        scale: [1.2, 1, 1.2],
+                        opacity: [0.4, 0.7, 0.4],
+                    }}
+                    transition={{
+                        duration: 10,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                        delay: 2,
+                    }}
+                />
+            </div>
 
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                {stats.map((stat, index) => (
+            <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+                <motion.div
+                    className="mb-8 text-center"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                >
+                    <motion.h2
+                        className="mb-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 bg-clip-text pb-1 text-4xl font-bold text-transparent md:text-5xl"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        viewport={{ once: true }}
+                    >
+                        Kebanggaan Kami
+                    </motion.h2>
+                    <motion.p
+                        className="mx-auto mb-8 max-w-2xl text-lg text-gray-600"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        viewport={{ once: true }}
+                    >
+                        Pencapaian dan prestasi yang membanggakan dari SMP Negeri 1 Tambun Selatan
+                    </motion.p>
+                    <motion.div
+                        className="mx-auto h-1 w-16 rounded-full bg-gradient-to-r from-blue-600 to-emerald-600"
+                        initial={{ width: 0 }}
+                        whileInView={{ width: 64 }}
+                        transition={{ duration: 1, delay: 0.4 }}
+                        viewport={{ once: true }}
+                    />
+                </motion.div>
+
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                    {stats.map((stat, index) => (
                         <motion.div
                             key={`stat-${index}`}
                             ref={statRefs[index]}
@@ -151,8 +151,8 @@ export const SchoolStats = () => {
                             </GlassmorphismCard>
                         </motion.div>
                     ))}
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
     );
 };

@@ -56,39 +56,31 @@ export default function Language({ currentLanguage }: { currentLanguage?: string
 
             <SettingsLayout>
                 <div className="space-y-6">
-                    <HeadingSmall 
-                        title={t('settings.language.section_title')} 
-                        description={t('settings.language.section_description')} 
-                    />
+                    <HeadingSmall title={t('settings.language.section_title')} description={t('settings.language.section_description')} />
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="space-y-4">
                             <Label htmlFor="language" className="text-sm font-medium">
                                 {t('settings.language.form.language_label')}
                             </Label>
-                            
-                            <p className="text-sm text-muted-foreground">
-                                {t('settings.language.form.language_description')}
-                            </p>
 
-                            <Select
-                                value={data.language}
-                                onValueChange={handleLanguageChange}
-                            >
+                            <p className="text-sm text-muted-foreground">{t('settings.language.form.language_description')}</p>
+
+                            <Select value={data.language} onValueChange={handleLanguageChange}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder={t('settings.language.form.language_label')} />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="en">
-                                        <div className="flex items-center justify-between w-full">
+                                        <div className="flex w-full items-center justify-between">
                                             <span>{t('settings.language.languages.en')}</span>
-                                            <span className="text-sm text-muted-foreground ml-2">EN</span>
+                                            <span className="ml-2 text-sm text-muted-foreground">EN</span>
                                         </div>
                                     </SelectItem>
                                     <SelectItem value="id">
-                                        <div className="flex items-center justify-between w-full">
+                                        <div className="flex w-full items-center justify-between">
                                             <span>{t('settings.language.languages.id')}</span>
-                                            <span className="text-sm text-muted-foreground ml-2">ID</span>
+                                            <span className="ml-2 text-sm text-muted-foreground">ID</span>
                                         </div>
                                     </SelectItem>
                                 </SelectContent>
@@ -107,9 +99,7 @@ export default function Language({ currentLanguage }: { currentLanguage?: string
                                 leave="transition ease-in-out"
                                 leaveTo="opacity-0"
                             >
-                                <p className="text-sm text-muted-foreground">
-                                    {t('settings.language.form.saved_message')}
-                                </p>
+                                <p className="text-sm text-muted-foreground">{t('settings.language.form.saved_message')}</p>
                             </Transition>
                         </div>
                     </form>

@@ -101,7 +101,9 @@ export function StaffOverviewTable({ teachers, selectedWorkItem, feedbackFilter,
                                 <th className="p-4 text-left text-sm font-medium">{t('headmaster_staff_overview.table.columns.progress')}</th>
                                 <th className="p-4 text-left text-sm font-medium">{t('headmaster_staff_overview.table.columns.files_status')}</th>
                                 <th className="p-4 text-left text-sm font-medium">{t('headmaster_staff_overview.table.columns.overall_status')}</th>
-                                <th className="p-4 text-left text-sm font-medium">{t('headmaster_staff_overview.table.columns.work_items_status')}</th>
+                                <th className="p-4 text-left text-sm font-medium">
+                                    {t('headmaster_staff_overview.table.columns.work_items_status')}
+                                </th>
                                 <th className="p-4 text-left text-sm font-medium">{t('headmaster_staff_overview.table.columns.actions')}</th>
                             </tr>
                         </thead>
@@ -206,7 +208,10 @@ export function StaffOverviewTable({ teachers, selectedWorkItem, feedbackFilter,
                                                                         getStatusBadge(work.files[0].latest_feedback.status)
                                                                     ) : (
                                                                         <span className="rounded bg-blue-50 px-1 text-xs text-blue-600">
-                                                                            {work.files.length} {work.files.length > 1 ? t('headmaster_staff_overview.table.work_items.files_uploaded') : t('headmaster_staff_overview.table.work_items.file_uploaded')}
+                                                                            {work.files.length}{' '}
+                                                                            {work.files.length > 1
+                                                                                ? t('headmaster_staff_overview.table.work_items.files_uploaded')
+                                                                                : t('headmaster_staff_overview.table.work_items.file_uploaded')}
                                                                         </span>
                                                                     )
                                                                 ) : (
@@ -218,7 +223,9 @@ export function StaffOverviewTable({ teachers, selectedWorkItem, feedbackFilter,
                                                         </div>
                                                     ))
                                                 ) : (
-                                                    <p className="text-xs text-gray-500">{t('headmaster_staff_overview.table.work_items.no_work_items_assigned')}</p>
+                                                    <p className="text-xs text-gray-500">
+                                                        {t('headmaster_staff_overview.table.work_items.no_work_items_assigned')}
+                                                    </p>
                                                 )}
                                             </div>
                                         </td>
@@ -226,13 +233,23 @@ export function StaffOverviewTable({ teachers, selectedWorkItem, feedbackFilter,
                                         {/* Actions */}
                                         <td className="p-4">
                                             <div className="flex gap-1">
-                                                <Button variant="ghost" size="sm" title={t('headmaster_staff_overview.table.actions.view_details')} asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    title={t('headmaster_staff_overview.table.actions.view_details')}
+                                                    asChild
+                                                >
                                                     <Link href={route('headmaster.staff-overview.show', teacher.id)}>
                                                         <Eye className="h-4 w-4" />
                                                     </Link>
                                                 </Button>
                                                 {teacher.progress.totalFiles > 0 && (
-                                                    <Button variant="ghost" size="sm" title={t('headmaster_staff_overview.table.actions.provide_feedback')} asChild>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        title={t('headmaster_staff_overview.table.actions.provide_feedback')}
+                                                        asChild
+                                                    >
                                                         <Link href={route('headmaster.staff-overview.show', teacher.id)}>
                                                             <MessageSquare className="h-4 w-4" />
                                                         </Link>
@@ -298,8 +315,12 @@ export function StaffOverviewTable({ teachers, selectedWorkItem, feedbackFilter,
                                                 </div>
                                                 <Progress value={teacher.progress.progressPercentage} className="h-2" />
                                                 <div className="flex justify-between text-xs text-gray-500">
-                                                    <span>{teacher.progress.approvedFiles} {t('headmaster_staff_overview.table.file_status.approved')}</span>
-                                                    <span>{teacher.progress.pendingFiles} {t('headmaster_staff_overview.table.file_status.pending')}</span>
+                                                    <span>
+                                                        {teacher.progress.approvedFiles} {t('headmaster_staff_overview.table.file_status.approved')}
+                                                    </span>
+                                                    <span>
+                                                        {teacher.progress.pendingFiles} {t('headmaster_staff_overview.table.file_status.pending')}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </td>
@@ -318,13 +339,23 @@ export function StaffOverviewTable({ teachers, selectedWorkItem, feedbackFilter,
                                         {/* Actions */}
                                         <td className="p-3">
                                             <div className="flex gap-1">
-                                                <Button variant="ghost" size="sm" title={t('headmaster_staff_overview.table.actions.view_details')} asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    title={t('headmaster_staff_overview.table.actions.view_details')}
+                                                    asChild
+                                                >
                                                     <Link href={route('headmaster.staff-overview.show', teacher.id)}>
                                                         <Eye className="h-4 w-4" />
                                                     </Link>
                                                 </Button>
                                                 {teacher.progress.totalFiles > 0 && (
-                                                    <Button variant="ghost" size="sm" title={t('headmaster_staff_overview.table.actions.provide_feedback')} asChild>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        title={t('headmaster_staff_overview.table.actions.provide_feedback')}
+                                                        asChild
+                                                    >
                                                         <Link href={route('headmaster.staff-overview.show', teacher.id)}>
                                                             <MessageSquare className="h-4 w-4" />
                                                         </Link>
@@ -386,9 +417,12 @@ export function StaffOverviewTable({ teachers, selectedWorkItem, feedbackFilter,
                                     {/* Progress */}
                                     <div className="mb-3">
                                         <div className="mb-1 flex items-center justify-between">
-                                            <p className="text-xs font-medium text-gray-700 dark:text-gray-300">{t('headmaster_staff_overview.table.mobile.progress')}</p>
+                                            <p className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                                                {t('headmaster_staff_overview.table.mobile.progress')}
+                                            </p>
                                             <span className="text-xs text-gray-500">
-                                                {teacher.progress.completedWorkItems}/{teacher.progress.totalWorkItems} {t('headmaster_staff_overview.table.mobile.tasks')}
+                                                {teacher.progress.completedWorkItems}/{teacher.progress.totalWorkItems}{' '}
+                                                {t('headmaster_staff_overview.table.mobile.tasks')}
                                             </span>
                                         </div>
                                         <Progress value={teacher.progress.progressPercentage} className="mb-2 h-2" />
@@ -410,7 +444,9 @@ export function StaffOverviewTable({ teachers, selectedWorkItem, feedbackFilter,
 
                                     {/* All Work Items */}
                                     <div className="mb-3">
-                                        <p className="mb-1 text-xs font-medium text-gray-700 dark:text-gray-300">{t('headmaster_staff_overview.table.columns.work_items_status')}</p>
+                                        <p className="mb-1 text-xs font-medium text-gray-700 dark:text-gray-300">
+                                            {t('headmaster_staff_overview.table.columns.work_items_status')}
+                                        </p>
                                         {allWorks.length > 0 ? (
                                             <div className="space-y-1">
                                                 {allWorks.map((work) => (
@@ -426,18 +462,25 @@ export function StaffOverviewTable({ teachers, selectedWorkItem, feedbackFilter,
                                                                     getStatusBadge(work.files[0].latest_feedback.status)
                                                                 ) : (
                                                                     <span className="rounded bg-blue-100 px-1 text-xs text-blue-600">
-                                                                        {work.files.length} {work.files.length > 1 ? t('headmaster_staff_overview.table.work_items.files_uploaded') : t('headmaster_staff_overview.table.work_items.file_uploaded')}
+                                                                        {work.files.length}{' '}
+                                                                        {work.files.length > 1
+                                                                            ? t('headmaster_staff_overview.table.work_items.files_uploaded')
+                                                                            : t('headmaster_staff_overview.table.work_items.file_uploaded')}
                                                                     </span>
                                                                 )
                                                             ) : (
-                                                                <span className="rounded bg-gray-100 px-1 text-xs text-gray-500">{t('headmaster_staff_overview.table.work_items.not_submitted')}</span>
+                                                                <span className="rounded bg-gray-100 px-1 text-xs text-gray-500">
+                                                                    {t('headmaster_staff_overview.table.work_items.not_submitted')}
+                                                                </span>
                                                             )}
                                                         </div>
                                                     </div>
                                                 ))}
                                             </div>
                                         ) : (
-                                            <p className="text-xs text-gray-500">{t('headmaster_staff_overview.table.work_items.no_work_items_assigned')}</p>
+                                            <p className="text-xs text-gray-500">
+                                                {t('headmaster_staff_overview.table.work_items.no_work_items_assigned')}
+                                            </p>
                                         )}
                                     </div>
 
@@ -467,7 +510,11 @@ export function StaffOverviewTable({ teachers, selectedWorkItem, feedbackFilter,
                 {filteredTeachers.length === 0 && (
                     <div className="py-12 text-center text-gray-500 dark:text-gray-400">
                         <User className="mx-auto mb-4 h-12 w-12 opacity-50" />
-                        <h3 className="mb-2 text-lg font-medium">{searchTerm ? t('headmaster_staff_overview.table.empty_state.no_teachers_found') : t('headmaster_staff_overview.table.empty_state.no_teachers_available')}</h3>
+                        <h3 className="mb-2 text-lg font-medium">
+                            {searchTerm
+                                ? t('headmaster_staff_overview.table.empty_state.no_teachers_found')
+                                : t('headmaster_staff_overview.table.empty_state.no_teachers_available')}
+                        </h3>
                         <p className="text-sm">
                             {searchTerm
                                 ? t('headmaster_staff_overview.table.empty_state.adjust_search')

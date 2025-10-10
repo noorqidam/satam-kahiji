@@ -174,11 +174,17 @@ export default function Facilities({ facilities, filters }: FacilitiesProps) {
                             Fasilitas Sekolah
                         </motion.h1>
 
-                        <motion.p className="mx-auto max-w-2xl text-sm leading-relaxed text-gray-600 sm:text-base md:text-lg lg:text-xl" variants={itemVariants}>
+                        <motion.p
+                            className="mx-auto max-w-2xl text-sm leading-relaxed text-gray-600 sm:text-base md:text-lg lg:text-xl"
+                            variants={itemVariants}
+                        >
                             Mengenal lebih dekat fasilitas-fasilitas unggulan yang mendukung proses pembelajaran dan kegiatan siswa
                         </motion.p>
 
-                        <motion.div className="mt-4 flex items-center justify-center space-x-2 sm:mt-6 sm:space-x-3 md:mt-8 md:space-x-4" variants={containerVariants}>
+                        <motion.div
+                            className="mt-4 flex items-center justify-center space-x-2 sm:mt-6 sm:space-x-3 md:mt-8 md:space-x-4"
+                            variants={containerVariants}
+                        >
                             <motion.div className="h-1 w-12 rounded-full bg-gradient-to-r from-transparent to-blue-400" variants={itemVariants} />
                             <motion.div className="h-2 w-6 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600" variants={itemVariants} />
                             <motion.div className="h-1 w-12 rounded-full bg-gradient-to-l from-transparent to-indigo-400" variants={itemVariants} />

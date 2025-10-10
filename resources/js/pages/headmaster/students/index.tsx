@@ -39,9 +39,7 @@ export default function HeadmasterStudentsIndex({ students, filters }: StudentIn
                         {t('headmaster_students.header.title')}
                         {isLoading && <Loader2 className="h-5 w-5 animate-spin text-gray-400" />}
                     </h3>
-                    <p className="mt-2 max-w-4xl text-sm text-gray-500 dark:text-gray-400">
-                        {t('headmaster_students.header.description')}
-                    </p>
+                    <p className="mt-2 max-w-4xl text-sm text-gray-500 dark:text-gray-400">{t('headmaster_students.header.description')}</p>
                 </div>
 
                 {/* Filters */}
@@ -165,12 +163,15 @@ export default function HeadmasterStudentsIndex({ students, filters }: StudentIn
                                                 <div className="text-sm text-gray-900 dark:text-gray-100">{student.class}</div>
                                                 <div className="text-sm text-gray-500 dark:text-gray-400">
                                                     {t('headmaster_students.table.entry')}: {student.entry_year}
-                                                    {student.graduation_year && ` | ${t('headmaster_students.table.grad')}: ${student.graduation_year}`}
+                                                    {student.graduation_year &&
+                                                        ` | ${t('headmaster_students.table.grad')}: ${student.graduation_year}`}
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <Badge variant={student.gender === 'male' ? 'default' : 'secondary'}>
-                                                    {student.gender === 'male' ? t('headmaster_students.gender.male') : t('headmaster_students.gender.female')}
+                                                    {student.gender === 'male'
+                                                        ? t('headmaster_students.gender.male')
+                                                        : t('headmaster_students.gender.female')}
                                                 </Badge>
                                             </td>
                                             <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500 dark:text-gray-400">
@@ -181,7 +182,9 @@ export default function HeadmasterStudentsIndex({ students, filters }: StudentIn
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <Badge variant={student.status === 'active' ? 'default' : 'secondary'}>
-                                                    {student.status === 'active' ? t('headmaster_students.status.active') : t('headmaster_students.status.graduated')}
+                                                    {student.status === 'active'
+                                                        ? t('headmaster_students.status.active')
+                                                        : t('headmaster_students.status.graduated')}
                                                 </Badge>
                                             </td>
                                             <td className="px-6 py-4 text-right text-sm font-medium whitespace-nowrap">
@@ -198,7 +201,9 @@ export default function HeadmasterStudentsIndex({ students, filters }: StudentIn
                         </div>
 
                         {students.data.length === 0 && (
-                            <div className="py-8 text-center text-gray-500 dark:text-gray-400">{t('headmaster_students.table.no_students_found')}</div>
+                            <div className="py-8 text-center text-gray-500 dark:text-gray-400">
+                                {t('headmaster_students.table.no_students_found')}
+                            </div>
                         )}
                     </CardContent>
                 </Card>

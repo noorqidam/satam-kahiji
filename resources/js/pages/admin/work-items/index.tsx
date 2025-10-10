@@ -34,9 +34,7 @@ export default function WorkItemsIndex({ workItems, teachers = [], stats, userRo
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('work_items_management.header.title')}</h1>
-                        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                            {t('work_items_management.header.description')}
-                        </p>
+                        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{t('work_items_management.header.description')}</p>
                     </div>
 
                     {canManageWorkItems && (
@@ -69,7 +67,9 @@ export default function WorkItemsIndex({ workItems, teachers = [], stats, userRo
                                             <h3 className="font-medium text-gray-900 dark:text-gray-100">{workItem.name}</h3>
                                         </div>
                                         <Badge variant={workItem.is_required ? 'destructive' : 'secondary'}>
-                                            {workItem.is_required ? t('work_items_management.work_item_status.required') : t('work_items_management.work_item_status.optional')}
+                                            {workItem.is_required
+                                                ? t('work_items_management.work_item_status.required')
+                                                : t('work_items_management.work_item_status.optional')}
                                         </Badge>
                                     </div>
 
@@ -85,7 +85,8 @@ export default function WorkItemsIndex({ workItems, teachers = [], stats, userRo
                                                         </div>
                                                         <Progress value={workItemStat.completion_rate} />
                                                         <p className="text-xs text-gray-500">
-                                                            {workItemStat.completion_count} {t('work_items_management.overview.of')} {workItemStat.total_teachers} {t('work_items_management.overview.teachers')}
+                                                            {workItemStat.completion_count} {t('work_items_management.overview.of')}{' '}
+                                                            {workItemStat.total_teachers} {t('work_items_management.overview.teachers')}
                                                         </p>
                                                     </div>
                                                 ) : null;

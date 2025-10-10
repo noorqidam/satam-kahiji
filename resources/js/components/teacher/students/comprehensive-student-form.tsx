@@ -331,31 +331,34 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
     );
 
     // Show delete confirmation dialog
-    const handleDeleteRecord = useCallback((type: string, id: number, itemName: string = '') => {
-        let itemType = '';
-        switch (type) {
-            case 'positive-note':
-                itemType = t('student_records.notes.positive_note');
-                break;
-            case 'disciplinary':
-                itemType = t('student_records.notes.disciplinary_record');
-                break;
-            case 'extracurricular':
-                itemType = t('student_records.activities.extracurricular_history');
-                break;
-            case 'document':
-                itemType = t('student_records.documents.document');
-                break;
-        }
+    const handleDeleteRecord = useCallback(
+        (type: string, id: number, itemName: string = '') => {
+            let itemType = '';
+            switch (type) {
+                case 'positive-note':
+                    itemType = t('student_records.notes.positive_note');
+                    break;
+                case 'disciplinary':
+                    itemType = t('student_records.notes.disciplinary_record');
+                    break;
+                case 'extracurricular':
+                    itemType = t('student_records.activities.extracurricular_history');
+                    break;
+                case 'document':
+                    itemType = t('student_records.documents.document');
+                    break;
+            }
 
-        setDeleteDialog({
-            isOpen: true,
-            type,
-            id,
-            itemName,
-            itemType,
-        });
-    }, [t]);
+            setDeleteDialog({
+                isOpen: true,
+                type,
+                id,
+                itemName,
+                itemType,
+            });
+        },
+        [t],
+    );
 
     // Perform actual deletion
     const confirmDeleteRecord = useCallback(() => {
@@ -548,7 +551,10 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
                                                         <Select
                                                             value={newDisciplinaryRecord.severity}
                                                             onValueChange={(value: string) =>
-                                                                setNewDisciplinaryRecord((prev) => ({ ...prev, severity: value as 'minor' | 'moderate' | 'serious' }))
+                                                                setNewDisciplinaryRecord((prev) => ({
+                                                                    ...prev,
+                                                                    severity: value as 'minor' | 'moderate' | 'serious',
+                                                                }))
                                                             }
                                                         >
                                                             <SelectTrigger>

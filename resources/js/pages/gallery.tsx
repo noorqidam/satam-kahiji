@@ -112,7 +112,6 @@ export default function GalleryPage({ galleries, filters }: GalleryPageProps) {
         });
     };
 
-
     const getMediaTypeLabel = (items: GalleryItem[]) => {
         const hasVideo = items.some((item) => item.mime_type?.startsWith('video/'));
         const hasAudio = items.some((item) => item.mime_type?.startsWith('audio/'));

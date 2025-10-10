@@ -46,78 +46,86 @@ export const SubjectsTable = ({ subjects, initializingSubjectId, onInitializeFol
         [t],
     );
 
-    const renderTableCell = useCallback((subject: Subject, columnKey: string) => {
-        switch (columnKey) {
-            case 'subject':
-                return (
-                    <div className="flex items-center space-x-3">
-                        <div className="min-w-0 flex-1">
-                            <div className="truncate font-medium text-gray-900 dark:text-gray-100">{subject.name}</div>
+    const renderTableCell = useCallback(
+        (subject: Subject, columnKey: string) => {
+            switch (columnKey) {
+                case 'subject':
+                    return (
+                        <div className="flex items-center space-x-3">
+                            <div className="min-w-0 flex-1">
+                                <div className="truncate font-medium text-gray-900 dark:text-gray-100">{subject.name}</div>
+                            </div>
                         </div>
-                    </div>
-                );
+                    );
 
-            case 'code':
-                return (
-                    <Badge variant="outline" className="font-mono text-xs">
-                        {subject.code}
-                    </Badge>
-                );
+                case 'code':
+                    return (
+                        <Badge variant="outline" className="font-mono text-xs">
+                            {subject.code}
+                        </Badge>
+                    );
 
-            case 'completion':
-                return <Badge variant={getCompletionBadgeVariant(subject.completion_percentage)}>{subject.completion_percentage}%</Badge>;
+                case 'completion':
+                    return <Badge variant={getCompletionBadgeVariant(subject.completion_percentage)}>{subject.completion_percentage}%</Badge>;
 
-            case 'students':
-                return <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{subject.total_students}</span>;
+                case 'students':
+                    return <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{subject.total_students}</span>;
 
-            case 'files':
-                return <span className="text-sm text-gray-600 dark:text-gray-400">{subject.recent_files.length}</span>;
+                case 'files':
+                    return <span className="text-sm text-gray-600 dark:text-gray-400">{subject.recent_files.length}</span>;
 
-            case 'progress':
-                return (
-                    <div className="min-w-[120px] space-y-1">
-                        <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
-                            <span>
-                                {subject.completed_work_items}/{subject.total_work_items}
-                            </span>
+                case 'progress':
+                    return (
+                        <div className="min-w-[120px] space-y-1">
+                            <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
+                                <span>
+                                    {subject.completed_work_items}/{subject.total_work_items}
+                                </span>
+                            </div>
+                            <Progress value={subject.completion_percentage} className="h-1.5" />
                         </div>
-                        <Progress value={subject.completion_percentage} className="h-1.5" />
-                    </div>
-                );
+                    );
 
-            case 'actions':
-                return (
-                    <div className="flex items-center space-x-2">
-                        <Link href={`/teacher/subjects/${subject.id}`}>
-                            <Button variant="outline" size="sm" className="text-xs">
-                                <ChevronRight className="h-3 w-3" />
-                            </Button>
-                        </Link>
-
-                        {subject.has_folders ? (
-                            subject.folder_url && (
-                                <Button variant="outline" size="sm" className="text-xs" onClick={() => window.open(subject.folder_url!, '_blank')}>
-                                    <ExternalLink className="h-3 w-3" />
+                case 'actions':
+                    return (
+                        <div className="flex items-center space-x-2">
+                            <Link href={`/teacher/subjects/${subject.id}`}>
+                                <Button variant="outline" size="sm" className="text-xs">
+                                    <ChevronRight className="h-3 w-3" />
                                 </Button>
-                            )
-                        ) : (
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="text-xs"
-                                onClick={() => onInitializeFolders(subject.id)}
-                                disabled={initializingSubjectId === subject.id}
-                            >
-                                <FolderOpen className="h-3 w-3" />
-                            </Button>
-                        )}
-                    </div>
-                );
+                            </Link>
 
-            default:
-                return null;
-        }
-    }, [getCompletionBadgeVariant, onInitializeFolders, initializingSubjectId]);
+                            {subject.has_folders ? (
+                                subject.folder_url && (
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="text-xs"
+                                        onClick={() => window.open(subject.folder_url!, '_blank')}
+                                    >
+                                        <ExternalLink className="h-3 w-3" />
+                                    </Button>
+                                )
+                            ) : (
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="text-xs"
+                                    onClick={() => onInitializeFolders(subject.id)}
+                                    disabled={initializingSubjectId === subject.id}
+                                >
+                                    <FolderOpen className="h-3 w-3" />
+                                </Button>
+                            )}
+                        </div>
+                    );
+
+                default:
+                    return null;
+            }
+        },
+        [getCompletionBadgeVariant, onInitializeFolders, initializingSubjectId],
+    );
 
     const TableBodyRows = useCallback(
         () => (

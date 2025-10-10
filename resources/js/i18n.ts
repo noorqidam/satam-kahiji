@@ -22,9 +22,7 @@ i18n
         resources,
 
         // Set initial language from localStorage or fallback
-        lng: typeof window !== 'undefined' 
-            ? localStorage.getItem('i18nextLng') || 'id' 
-            : 'id',
+        lng: typeof window !== 'undefined' ? localStorage.getItem('i18nextLng') || 'id' : 'id',
 
         // Default language
         fallbackLng: 'id', // Default to Indonesian

@@ -16,7 +16,7 @@ import { applyAllFilters, enrichTeachersWithProgress } from '@/utils/staff-overv
 
 export default function StaffOverview({ teachers, workItems, stats }: StaffOverviewProps) {
     const { t } = useTranslation('common');
-    
+
     const breadcrumbs: BreadcrumbItem[] = [
         { title: t('headmaster_staff_overview.breadcrumbs.headmaster_dashboard'), href: '/headmaster/dashboard' },
         { title: t('headmaster_staff_overview.breadcrumbs.staff_overview'), href: '/headmaster/staff-overview' },
@@ -88,7 +88,9 @@ export default function StaffOverview({ teachers, workItems, stats }: StaffOverv
                         <CardContent>
                             <div className="text-2xl font-bold">{stats.upload_completion_rate}%</div>
                             <Progress value={stats.upload_completion_rate} className="mt-2" />
-                            <p className="mt-1 text-xs text-muted-foreground">{stats.total_files} {t('headmaster_staff_overview.stats.files_uploaded')}</p>
+                            <p className="mt-1 text-xs text-muted-foreground">
+                                {stats.total_files} {t('headmaster_staff_overview.stats.files_uploaded')}
+                            </p>
                         </CardContent>
                     </Card>
 
@@ -100,7 +102,9 @@ export default function StaffOverview({ teachers, workItems, stats }: StaffOverv
                         <CardContent>
                             <div className="text-2xl font-bold">{stats.feedback_completion_rate}%</div>
                             <Progress value={stats.feedback_completion_rate} className="mt-2" />
-                            <p className="mt-1 text-xs text-muted-foreground">{stats.total_approved_files} {t('headmaster_staff_overview.stats.files_reviewed')}</p>
+                            <p className="mt-1 text-xs text-muted-foreground">
+                                {stats.total_approved_files} {t('headmaster_staff_overview.stats.files_reviewed')}
+                            </p>
                         </CardContent>
                     </Card>
 
@@ -111,7 +115,9 @@ export default function StaffOverview({ teachers, workItems, stats }: StaffOverv
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold text-green-600">{stats.approval_rate}%</div>
-                            <p className="mt-1 text-xs text-muted-foreground">{stats.total_approved_files} {t('headmaster_staff_overview.stats.approved_files')}</p>
+                            <p className="mt-1 text-xs text-muted-foreground">
+                                {stats.total_approved_files} {t('headmaster_staff_overview.stats.approved_files')}
+                            </p>
                         </CardContent>
                     </Card>
                 </div>
@@ -137,7 +143,10 @@ export default function StaffOverview({ teachers, workItems, stats }: StaffOverv
                                     <SelectItem value="all">{t('headmaster_staff_overview.filters.all_work_items')}</SelectItem>
                                     {workItems.map((item) => (
                                         <SelectItem key={item.id} value={item.id.toString()}>
-                                            {item.name} {item.is_required ? `(${t('headmaster_staff_overview.filters.required')})` : `(${t('headmaster_staff_overview.filters.optional')})`}
+                                            {item.name}{' '}
+                                            {item.is_required
+                                                ? `(${t('headmaster_staff_overview.filters.required')})`
+                                                : `(${t('headmaster_staff_overview.filters.optional')})`}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>

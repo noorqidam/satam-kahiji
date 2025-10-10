@@ -30,7 +30,7 @@ interface HomeroomDisplayProps {
 
 export function HomeroomDisplay({ classStats, view, onRemoveAssignment }: HomeroomDisplayProps) {
     const { t } = useTranslation();
-    
+
     if (view === 'table') {
         return <HomeroomTable classStats={classStats} onRemoveAssignment={onRemoveAssignment} />;
     }
@@ -45,14 +45,20 @@ export function HomeroomDisplay({ classStats, view, onRemoveAssignment }: Homero
                             <div className="flex items-center justify-between">
                                 <h3 className="text-lg font-medium">{classStat.class}</h3>
                                 <Badge variant={classStat.has_teacher ? 'default' : 'destructive'}>
-                                    {classStat.has_teacher ? t('homeroom_management.table.status.assigned') : t('homeroom_management.table.status.unassigned')}
+                                    {classStat.has_teacher
+                                        ? t('homeroom_management.table.status.assigned')
+                                        : t('homeroom_management.table.status.unassigned')}
                                 </Badge>
                             </div>
 
                             <div className="text-sm text-gray-600 dark:text-gray-400">
-                                <p>{t('homeroom_management.table.columns.students')}: {classStat.student_count}</p>
+                                <p>
+                                    {t('homeroom_management.table.columns.students')}: {classStat.student_count}
+                                </p>
                                 {classStat.assigned_teacher ? (
-                                    <p>{t('homeroom_management.table.teacher_label')}: {classStat.assigned_teacher.name}</p>
+                                    <p>
+                                        {t('homeroom_management.table.teacher_label')}: {classStat.assigned_teacher.name}
+                                    </p>
                                 ) : (
                                     <p className="text-red-600">{t('homeroom_management.table.no_teacher_assigned')}</p>
                                 )}

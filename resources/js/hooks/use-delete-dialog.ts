@@ -41,7 +41,13 @@ export const useDeleteDialog = (options: UseDeleteDialogOptions = {}) => {
         setDialogState((prev) => ({ ...prev, open: false }));
     };
 
-    const confirmDelete = (singleRoute: string, bulkRoute?: string, bulkData?: Record<string, unknown>, successMessage?: string, errorMessage?: string) => {
+    const confirmDelete = (
+        singleRoute: string,
+        bulkRoute?: string,
+        bulkData?: Record<string, unknown>,
+        successMessage?: string,
+        errorMessage?: string,
+    ) => {
         setIsDeleting(true);
 
         const route = dialogState.type === 'single' ? singleRoute : bulkRoute;

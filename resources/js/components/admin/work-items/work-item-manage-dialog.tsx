@@ -159,7 +159,11 @@ export function WorkItemManageDialog({ open, onOpenChange, workItems, userRole }
                     {showForm ? (
                         <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border p-4">
                             <div className="flex items-center justify-between">
-                                <h3 className="text-lg font-medium">{editingItem ? t('work_items_management.manage_dialog.form.edit_title') : t('work_items_management.manage_dialog.form.create_title')}</h3>
+                                <h3 className="text-lg font-medium">
+                                    {editingItem
+                                        ? t('work_items_management.manage_dialog.form.edit_title')
+                                        : t('work_items_management.manage_dialog.form.create_title')}
+                                </h3>
                                 <Button type="button" variant="ghost" size="sm" onClick={resetForm}>
                                     {t('work_items_management.manage_dialog.form.cancel')}
                                 </Button>
@@ -187,13 +191,19 @@ export function WorkItemManageDialog({ open, onOpenChange, workItems, userRole }
                                     />
                                     <Label htmlFor="is_required" className={isHeadmaster ? 'text-muted-foreground' : ''}>
                                         {t('work_items_management.manage_dialog.form.required_label')}
-                                        {isHeadmaster && <span className="block text-xs">{t('work_items_management.manage_dialog.form.required_note')}</span>}
+                                        {isHeadmaster && (
+                                            <span className="block text-xs">{t('work_items_management.manage_dialog.form.required_note')}</span>
+                                        )}
                                     </Label>
                                 </div>
                             )}
 
                             <Button type="submit" disabled={processing}>
-                                {processing ? t('work_items_management.manage_dialog.form.saving') : editingItem ? t('work_items_management.manage_dialog.form.update') : t('work_items_management.manage_dialog.form.create')}
+                                {processing
+                                    ? t('work_items_management.manage_dialog.form.saving')
+                                    : editingItem
+                                      ? t('work_items_management.manage_dialog.form.update')
+                                      : t('work_items_management.manage_dialog.form.create')}
                             </Button>
                         </form>
                     ) : (
@@ -216,10 +226,16 @@ export function WorkItemManageDialog({ open, onOpenChange, workItems, userRole }
                                         <div className="flex items-center gap-3">
                                             <div>
                                                 <p className="font-medium">{workItem.name}</p>
-                                                <p className="text-sm text-gray-500">{t('work_items_management.manage_dialog.created_by')} {t(`work_items_management.roles.${workItem.created_by_role}`) || workItem.created_by_role.replace('_', ' ')}</p>
+                                                <p className="text-sm text-gray-500">
+                                                    {t('work_items_management.manage_dialog.created_by')}{' '}
+                                                    {t(`work_items_management.roles.${workItem.created_by_role}`) ||
+                                                        workItem.created_by_role.replace('_', ' ')}
+                                                </p>
                                             </div>
                                             <Badge variant={workItem.is_required ? 'destructive' : 'secondary'}>
-                                                {workItem.is_required ? t('work_items_management.work_item_status.required') : t('work_items_management.work_item_status.optional')}
+                                                {workItem.is_required
+                                                    ? t('work_items_management.work_item_status.required')
+                                                    : t('work_items_management.work_item_status.optional')}
                                             </Badge>
                                         </div>
 

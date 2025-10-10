@@ -92,16 +92,13 @@ export default function ExtracurricularForm({ extracurricular, isEditing = false
         onSuccess?.();
     }, [isEditing, reset, toast, onSuccess]);
 
-    const handleError = useCallback(
-        () => {
-            toast({
-                title: 'Error',
-                description: `Failed to ${isEditing ? 'update' : 'create'} extracurricular activity.`,
-                variant: 'destructive',
-            });
-        },
-        [isEditing, toast],
-    );
+    const handleError = useCallback(() => {
+        toast({
+            title: 'Error',
+            description: `Failed to ${isEditing ? 'update' : 'create'} extracurricular activity.`,
+            variant: 'destructive',
+        });
+    }, [isEditing, toast]);
 
     const handleSubmit = useCallback(
         (e: React.FormEvent) => {

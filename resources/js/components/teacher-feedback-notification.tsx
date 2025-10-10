@@ -2,9 +2,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTeacherFeedback } from '@/hooks/use-teacher-feedback';
+import { useToast } from '@/hooks/use-toast';
 import { type SharedData } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
 import { AlertCircle, Bell, CheckCircle, Clock, ExternalLink, MessageSquare } from 'lucide-react';
@@ -57,25 +57,29 @@ export function TeacherFeedbackNotification() {
 
     // Mark all feedback as read
     const handleMarkAllAsRead = () => {
-        router.post(route('work-items.feedback.mark-all-read'), {}, {
-            onSuccess: () => {
-                toast({
-                    title: 'Success',
-                    description: 'All feedback marked as read',
-                    variant: 'success',
-                });
-                router.reload({ only: ['feedbackSummary'] });
-                setIsOpen(false);
+        router.post(
+            route('work-items.feedback.mark-all-read'),
+            {},
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'All feedback marked as read',
+                        variant: 'success',
+                    });
+                    router.reload({ only: ['feedbackSummary'] });
+                    setIsOpen(false);
+                },
+                onError: (errors) => {
+                    console.error('Failed to mark all feedback as read:', errors);
+                    toast({
+                        title: 'Error',
+                        description: 'Failed to mark all feedback as read. Please try again.',
+                        variant: 'destructive',
+                    });
+                },
             },
-            onError: (errors) => {
-                console.error('Failed to mark all feedback as read:', errors);
-                toast({
-                    title: 'Error',
-                    description: 'Failed to mark all feedback as read. Please try again.',
-                    variant: 'destructive',
-                });
-            }
-        });
+        );
     };
 
     // Get status icon and color for feedback

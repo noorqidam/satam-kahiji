@@ -62,7 +62,12 @@ export function TeacherProgressTable({ teachers, workItems }: TeacherProgressTab
         <div className="space-y-4">
             {/* Search */}
             <div className="border-b p-4">
-                <Input placeholder={t('work_items_management.table.search_placeholder')} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="max-w-sm" />
+                <Input
+                    placeholder={t('work_items_management.table.search_placeholder')}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="max-w-sm"
+                />
             </div>
 
             {/* Table */}
@@ -136,26 +141,46 @@ export function TeacherProgressTable({ teachers, workItems }: TeacherProgressTab
                                                     progress.percentage >= 100 ? 'default' : progress.percentage >= 50 ? 'secondary' : 'destructive'
                                                 }
                                             >
-                                                {progress.percentage >= 100 ? t('work_items_management.table.status_labels.complete') : progress.percentage >= 50 ? t('work_items_management.table.status_labels.in_progress') : t('work_items_management.table.status_labels.behind')}
+                                                {progress.percentage >= 100
+                                                    ? t('work_items_management.table.status_labels.complete')
+                                                    : progress.percentage >= 50
+                                                      ? t('work_items_management.table.status_labels.in_progress')
+                                                      : t('work_items_management.table.status_labels.behind')}
                                             </Badge>
                                             {progress.totalFiles > 0 && (
                                                 <div className="flex gap-1 text-xs">
-                                                    <span className="text-green-600">{progress.approvedFiles} {t('work_items_management.table.status_labels.approved')}</span>
-                                                    <span className="text-orange-600">{progress.pendingFiles} {t('work_items_management.table.status_labels.pending')}</span>
-                                                    <span className="text-red-600">{progress.needsRevisionFiles} {t('work_items_management.table.status_labels.revision')}</span>
+                                                    <span className="text-green-600">
+                                                        {progress.approvedFiles} {t('work_items_management.table.status_labels.approved')}
+                                                    </span>
+                                                    <span className="text-orange-600">
+                                                        {progress.pendingFiles} {t('work_items_management.table.status_labels.pending')}
+                                                    </span>
+                                                    <span className="text-red-600">
+                                                        {progress.needsRevisionFiles} {t('work_items_management.table.status_labels.revision')}
+                                                    </span>
                                                 </div>
                                             )}
                                         </div>
                                     </td>
                                     <td className="p-4">
                                         <div className="flex gap-1">
-                                            <Button variant="ghost" size="sm" title={t('work_items_management.table.action_titles.view_details')} asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                title={t('work_items_management.table.action_titles.view_details')}
+                                                asChild
+                                            >
                                                 <Link href={route('headmaster.staff-overview.show', teacher.id)}>
                                                     <Eye className="h-4 w-4" />
                                                 </Link>
                                             </Button>
                                             {progress.totalFiles > 0 && (
-                                                <Button variant="ghost" size="sm" title={t('work_items_management.table.action_titles.provide_feedback')} asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    title={t('work_items_management.table.action_titles.provide_feedback')}
+                                                    asChild
+                                                >
                                                     <Link href={route('headmaster.staff-overview.show', teacher.id)}>
                                                         <MessageSquare className="h-4 w-4" />
                                                     </Link>
@@ -171,7 +196,11 @@ export function TeacherProgressTable({ teachers, workItems }: TeacherProgressTab
             </div>
 
             {filteredTeachers.length === 0 && (
-                <div className="py-8 text-center text-gray-500">{searchTerm ? t('work_items_management.table.empty_states.no_teachers_search') : t('work_items_management.table.empty_states.no_teachers')}</div>
+                <div className="py-8 text-center text-gray-500">
+                    {searchTerm
+                        ? t('work_items_management.table.empty_states.no_teachers_search')
+                        : t('work_items_management.table.empty_states.no_teachers')}
+                </div>
             )}
         </div>
     );

@@ -9,7 +9,7 @@ interface WorkItemStatsCardsProps {
 
 export function WorkItemStatsCards({ stats }: WorkItemStatsCardsProps) {
     const { t } = useTranslation('common');
-    
+
     return (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
@@ -41,7 +41,9 @@ export function WorkItemStatsCards({ stats }: WorkItemStatsCardsProps) {
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">{stats.completed_submissions}</div>
-                    <p className="text-xs text-muted-foreground">{t('work_items_management.overview.of')} {stats.total_expected_submissions} {t('work_items_management.stats.expected')}</p>
+                    <p className="text-xs text-muted-foreground">
+                        {t('work_items_management.overview.of')} {stats.total_expected_submissions} {t('work_items_management.stats.expected')}
+                    </p>
                 </CardContent>
             </Card>
 

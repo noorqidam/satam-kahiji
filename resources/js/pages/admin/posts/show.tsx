@@ -45,7 +45,6 @@ export default function ShowPost() {
     ];
 
     const handleTogglePublish = async () => {
-
         try {
             const response = await fetch(route('admin.posts.toggle-publish', post.id), {
                 method: 'POST',
