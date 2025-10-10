@@ -1,6 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
 
-// Single Responsibility: Handle CSRF token operations
 interface CsrfTokenManager {
     getFreshToken(): Promise<string | null>;
     updateMetaTag(token: string): void;
@@ -50,10 +49,10 @@ interface HttpClientConfig {
 
 // Open/Closed Principle: Extensible HTTP client interface
 interface HttpClient {
-    get<T = any>(url: string): Promise<T>;
-    post<T = any>(url: string, data?: any): Promise<T>;
-    put<T = any>(url: string, data?: any): Promise<T>;
-    delete<T = any>(url: string): Promise<T>;
+    get<T = unknown>(url: string): Promise<T>;
+    post<T = unknown>(url: string, data?: unknown): Promise<T>;
+    put<T = unknown>(url: string, data?: unknown): Promise<T>;
+    delete<T = unknown>(url: string): Promise<T>;
 }
 
 // Single Responsibility: Create and configure Axios instance
@@ -115,22 +114,22 @@ class AxiosHttpClient implements HttpClient {
         }
     }
 
-    async get<T = any>(url: string): Promise<T> {
+    async get<T = unknown>(url: string): Promise<T> {
         const response = await this.instance.get(url);
         return response.data;
     }
 
-    async post<T = any>(url: string, data?: any): Promise<T> {
+    async post<T = unknown>(url: string, data?: unknown): Promise<T> {
         const response = await this.instance.post(url, data);
         return response.data;
     }
 
-    async put<T = any>(url: string, data?: any): Promise<T> {
+    async put<T = unknown>(url: string, data?: unknown): Promise<T> {
         const response = await this.instance.put(url, data);
         return response.data;
     }
 
-    async delete<T = any>(url: string): Promise<T> {
+    async delete<T = unknown>(url: string): Promise<T> {
         const response = await this.instance.delete(url);
         return response.data;
     }

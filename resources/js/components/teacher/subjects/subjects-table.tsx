@@ -46,7 +46,7 @@ export const SubjectsTable = ({ subjects, initializingSubjectId, onInitializeFol
         [t],
     );
 
-    const renderTableCell = (subject: Subject, columnKey: string) => {
+    const renderTableCell = useCallback((subject: Subject, columnKey: string) => {
         switch (columnKey) {
             case 'subject':
                 return (
@@ -117,7 +117,7 @@ export const SubjectsTable = ({ subjects, initializingSubjectId, onInitializeFol
             default:
                 return null;
         }
-    };
+    }, [getCompletionBadgeVariant, onInitializeFolders, initializingSubjectId]);
 
     const TableBodyRows = useCallback(
         () => (
@@ -133,7 +133,7 @@ export const SubjectsTable = ({ subjects, initializingSubjectId, onInitializeFol
                 ))}
             </>
         ),
-        [subjects, initializingSubjectId, getCompletionBadgeVariant, onInitializeFolders],
+        [subjects, renderTableCell],
     );
 
     return (

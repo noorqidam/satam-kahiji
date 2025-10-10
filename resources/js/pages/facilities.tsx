@@ -12,7 +12,7 @@ interface Facility {
     name: string;
     description: string;
     photo: string | null;
-    metadata: any;
+    metadata: Record<string, unknown>;
 }
 
 interface FacilitiesProps {

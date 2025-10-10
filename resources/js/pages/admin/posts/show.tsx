@@ -37,7 +37,6 @@ export default function ShowPost() {
     const { toast } = useToast();
     const { post } = usePage<ShowPostProps>().props;
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-    const [toggleLoading, setToggleLoading] = useState(false);
 
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Admin Dashboard', href: route('admin.dashboard') },
@@ -46,7 +45,6 @@ export default function ShowPost() {
     ];
 
     const handleTogglePublish = async () => {
-        setToggleLoading(true);
 
         try {
             const response = await fetch(route('admin.posts.toggle-publish', post.id), {
@@ -81,7 +79,7 @@ export default function ShowPost() {
                 variant: 'destructive',
             });
         } finally {
-            setToggleLoading(false);
+            // Toggle completed
         }
     };
 

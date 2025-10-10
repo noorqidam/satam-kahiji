@@ -79,14 +79,7 @@ export default function EditPost() {
         return `${year}-${month}-${day}T${hours}:${minutes}`;
     };
 
-    const {
-        data,
-        setData,
-        post: submit,
-        processing,
-        errors,
-        clearErrors,
-    } = useForm<PostFormData>({
+    const { data, setData, processing, errors, clearErrors } = useForm<PostFormData>({
         title: post.title,
         excerpt: post.excerpt || '',
         content: post.content,
@@ -118,7 +111,7 @@ export default function EditPost() {
                 const newErrors: Record<string, string> = {};
                 for (const issue of error.issues) {
                     if (issue.path) {
-                        const path = issue.path.map((p: any) => p.key).join('.');
+                        const path = issue.path.map((p: { key: string }) => p.key).join('.');
                         newErrors[path] = issue.message;
                     }
                 }
@@ -178,7 +171,7 @@ export default function EditPost() {
             onError: (errors) => {
                 toast({
                     title: 'Error',
-                    description: 'Failed to update post. Please check the form for errors.',
+                    description: `${errors} Failed to update post. Please check the form for errors.`,
                     variant: 'destructive',
                 });
             },

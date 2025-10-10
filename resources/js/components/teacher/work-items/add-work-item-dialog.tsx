@@ -9,6 +9,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 
+interface FlashMessages {
+    success?: string;
+    error?: string;
+}
+
+interface InertiaPageProps {
+    flash?: FlashMessages;
+    [key: string]: unknown;
+}
+
 interface AddWorkItemDialogProps {
     onSuccess?: () => void;
 }
@@ -28,13 +38,13 @@ export function AddWorkItemDialog({ onSuccess }: AddWorkItemDialogProps) {
         e.preventDefault();
 
         post(route('teacher.work-items.store'), {
-            onSuccess: (page) => {
+            onSuccess: (page: { props: InertiaPageProps }) => {
                 // Check for flash message from Laravel
-                const flash = page.props.flash as any;
+                const flash = page.props.flash;
                 if (flash?.success) {
                     toast({
                         title: t('teacher_work_items.add_dialog.messages.success'),
-                        description: flash.success as string,
+                        description: flash.success,
                         variant: 'success',
                     });
                 }

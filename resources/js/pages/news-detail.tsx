@@ -38,7 +38,7 @@ interface NewsDetailPageProps {
     contact?: Contact;
 }
 
-export default function NewsDetailPage({ post, relatedPosts, contact }: NewsDetailPageProps) {
+export default function NewsDetailPage({ post }: NewsDetailPageProps) {
     const formatDateTime = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('id-ID', {
             year: 'numeric',

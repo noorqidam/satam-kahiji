@@ -12,7 +12,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Calendar, Edit, Eye, FileText, Image as ImageIcon, Plus, Search, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface User {
     id: number;
@@ -58,7 +58,7 @@ export default function PostsIndex() {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [postToDelete, setPostToDelete] = useState<Post | null>(null);
 
-    const updateFilters = () => {
+    const updateFilters = useCallback(() => {
         const params: Record<string, string> = {};
 
         if (searchTerm.trim()) {
@@ -75,7 +75,7 @@ export default function PostsIndex() {
             preserveState: true,
             preserveScroll: true,
         });
-    };
+    }, [searchTerm, selectedCategory, selectedStatus]);
 
     // Real-time search with debounce
     useEffect(() => {
@@ -84,7 +84,7 @@ export default function PostsIndex() {
         }, 300); // 300ms debounce
 
         return () => clearTimeout(timeoutId);
-    }, [searchTerm, selectedCategory, selectedStatus]);
+    }, [searchTerm, selectedCategory, selectedStatus, updateFilters]);
 
     const handleTogglePublish = async (post: Post) => {
         setToggleLoading(post.id);
@@ -143,21 +143,6 @@ export default function PostsIndex() {
 
     const getCategoryBadgeVariant = (category: string) => {
         return category === 'news' ? 'default' : 'secondary';
-    };
-
-    const getStatusBadge = (publishedAt: string | null) => {
-        if (publishedAt) {
-            return (
-                <Badge variant="outline" className="text-green-600">
-                    Published
-                </Badge>
-            );
-        }
-        return (
-            <Badge variant="outline" className="text-gray-500">
-                Draft
-            </Badge>
-        );
     };
 
     return (

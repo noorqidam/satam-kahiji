@@ -13,7 +13,7 @@ export interface Subject {
 export interface SubjectForm {
     name: string;
     code: string;
-    [key: string]: any;
+    [key: string]: string | number | boolean | File | null | undefined;
 }
 
 export interface SubjectIndexProps {

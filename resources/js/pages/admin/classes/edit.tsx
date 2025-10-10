@@ -19,7 +19,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function EditClass({ class: schoolClass }: EditClassProps) {
-    const { formData, errors, previewClassName, isSubmitting, isFormValid, handleInputChange, handleFieldBlur, handleSubmit, getFieldState } =
+    const { formData, previewClassName, isSubmitting, isFormValid, handleInputChange, handleFieldBlur, handleSubmit, getFieldState } =
         useClassFormWithValidation({
             initialData: {
                 grade_level: schoolClass.grade_level,

@@ -38,15 +38,8 @@ export default function FileDropzone({
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    console.log('🎯 FileDropzone onDrop - acceptedFiles:', acceptedFiles.map(f => f.name));
-    console.log('🎯 FileDropzone onDrop - current selectedFiles:', selectedFiles.map(f => f.name));
-    console.log('🎯 FileDropzone onDrop - multiple:', multiple, 'maxFiles:', maxFiles);
-    
     if (acceptedFiles.length > 0) {
-      // For gallery usage, we don't want to accumulate files in the dropzone
-      // Just pass the new files directly to the parent
       const newFiles = acceptedFiles.slice(0, maxFiles);
-      console.log('🎯 FileDropzone onDrop - newFiles to pass:', newFiles.map(f => f.name));
       setSelectedFiles([]); // Clear internal state since parent handles all files
       onFileSelect(newFiles);
     }
@@ -61,16 +54,16 @@ export default function FileDropzone({
     maxFiles: multiple ? maxFiles : 1
   });
 
-  const removeFile = (indexToRemove: number) => {
+  const removeFile = useCallback((indexToRemove: number) => {
     const newFiles = selectedFiles.filter((_, index) => index !== indexToRemove);
     setSelectedFiles(newFiles);
     onFileSelect(newFiles.length > 0 ? newFiles : null);
-  };
+  }, [selectedFiles, onFileSelect]);
 
-  const removeAllFiles = () => {
+  const removeAllFiles = useCallback(() => {
     setSelectedFiles([]);
     onFileSelect(null);
-  };
+  }, [onFileSelect]);
 
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return '0 Bytes';

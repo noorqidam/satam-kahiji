@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useDropzone, FileRejection, FileError } from 'react-dropzone';
 import { Upload, X, CheckCircle, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { FileIcon } from '@/components/ui/file-icon';
@@ -31,14 +31,14 @@ export function DocumentDropzone({
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [error, setError] = useState<string>('');
 
-    const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: any[]) => {
+    const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
         setError('');
 
         if (rejectedFiles.length > 0) {
             const rejection = rejectedFiles[0];
-            if (rejection.errors.some((e: any) => e.code === 'file-too-large')) {
+            if (rejection.errors.some((e: FileError) => e.code === 'file-too-large')) {
                 setError(`File size must be less than ${(maxSize / 1024 / 1024).toFixed(1)}MB`);
-            } else if (rejection.errors.some((e: any) => e.code === 'file-invalid-type')) {
+            } else if (rejection.errors.some((e: FileError) => e.code === 'file-invalid-type')) {
                 setError('Invalid file type. Please select a PDF, DOC, DOCX, JPG, or PNG file.');
             } else {
                 setError('File rejected. Please try again.');

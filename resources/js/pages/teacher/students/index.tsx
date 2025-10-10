@@ -36,9 +36,7 @@ interface TeacherStudentsIndexProps {
     userRole: string;
 }
 
-// Note: breadcrumbs will be defined inside component to access translations
-
-export default function TeacherStudentsIndex({ students, teacher, classStats, userRole }: TeacherStudentsIndexProps) {
+export default function TeacherStudentsIndex({ students, classStats }: TeacherStudentsIndexProps) {
     const { t } = useTranslation('common');
     const { toast } = useToast();
 
@@ -82,9 +80,9 @@ export default function TeacherStudentsIndex({ students, teacher, classStats, us
         return matchesSearch && matchesGender && matchesStatus;
     });
 
-    const handleRemoveFromClass = (studentId: number, studentName: string) => {
+    const handleRemoveFromClass = useCallback((studentId: number, studentName: string) => {
         setStudentToRemove({ id: studentId, name: studentName });
-    };
+    }, []);
 
     const confirmRemoveStudent = () => {
         if (!studentToRemove) return;
@@ -112,7 +110,7 @@ export default function TeacherStudentsIndex({ students, teacher, classStats, us
         });
     };
 
-    const getStatusBadgeVariant = (status: string) => {
+    const getStatusBadgeVariant = useCallback((status: string) => {
         switch (status) {
             case 'active':
                 return 'default';
@@ -125,7 +123,7 @@ export default function TeacherStudentsIndex({ students, teacher, classStats, us
             default:
                 return 'outline';
         }
-    };
+    }, []);
 
     const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
@@ -133,12 +131,12 @@ export default function TeacherStudentsIndex({ students, teacher, classStats, us
         setFailedImages((prev) => new Set(prev).add(photoUrl));
     }, []);
 
-    const shouldShowDefaultAvatar = (photo: string | null) => {
+    const shouldShowDefaultAvatar = useCallback((photo: string | null) => {
         if (!photo || photo.trim() === '') {
             return true;
         }
         return failedImages.has(photo);
-    };
+    }, [failedImages]);
 
     const renderTableView = useCallback(
         () => (

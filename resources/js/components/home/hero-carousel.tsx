@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Post } from '@/types/home';
 import { Link } from '@inertiajs/react';
-import { motion } from 'framer-motion';
+import { motion, PanInfo } from 'framer-motion';
 import { BookOpen, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { truncateText } from './home-utils';
@@ -30,7 +30,7 @@ export const HeroCarousel = ({ featuredNews }: HeroCarouselProps) => {
         setCurrentSlide((prev) => (prev - 1 + featuredNews.length) % featuredNews.length);
     };
 
-    const handleDragEnd = (info: any) => {
+    const handleDragEnd = (info: PanInfo) => {
         if (window.innerWidth >= 640) return;
 
         try {
@@ -64,7 +64,7 @@ export const HeroCarousel = ({ featuredNews }: HeroCarouselProps) => {
         }
     };
 
-    const handleDrag = (info: any) => {
+    const handleDrag = (info: PanInfo) => {
         if (window.innerWidth >= 640) return;
 
         try {

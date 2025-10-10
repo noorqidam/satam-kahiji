@@ -3,8 +3,6 @@ import type { Staff, StaffForm, UpdateStaffFormData } from '@/types/staff';
 import { router, useForm } from '@inertiajs/react';
 import { useCallback, useEffect, useState } from 'react';
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
-
 interface UseStaffEditProps {
     staff: Staff;
     filters?: {
@@ -72,7 +70,7 @@ export function useStaffEdit({ staff, filters = {} }: UseStaffEditProps) {
 
             formData.phone = form.data.phone;
 
-            router.post(route('admin.staff.update', staff.id), formData as Record<string, any>, {
+            router.post(route('admin.staff.update', staff.id), JSON.parse(JSON.stringify(formData)), {
                 forceFormData: true,
                 onSuccess: () => {
                     toast({

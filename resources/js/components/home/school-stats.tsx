@@ -3,7 +3,23 @@ import { GraduationCap, Star, Trophy, Users } from 'lucide-react';
 import { useRef } from 'react';
 import { GlassmorphismCard } from './glassmorphism-card';
 
-export const SchoolStats = () => (
+export const SchoolStats = () => {
+    const stats = [
+        { icon: Users, number: '850+', label: 'Siswa Aktif', color: 'from-blue-500 to-blue-600' },
+        { icon: GraduationCap, number: '52+', label: 'Guru & Staff', color: 'from-emerald-500 to-emerald-600' },
+        { icon: Trophy, number: '25+', label: 'Prestasi Tahun Ini', color: 'from-purple-500 to-purple-600' },
+        { icon: Star, number: '100%', label: 'Tingkat Kelulusan', color: 'from-orange-500 to-orange-600' },
+    ];
+
+    const statRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
+    const isInViewArray = [
+        useInView(statRefs[0], { once: true }),
+        useInView(statRefs[1], { once: true }),
+        useInView(statRefs[2], { once: true }),
+        useInView(statRefs[3], { once: true }),
+    ];
+
+    return (
     <section className="relative bg-gradient-to-br from-blue-50/30 via-slate-50 to-emerald-50/30 py-2">
         <div className="absolute inset-0">
             <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
@@ -82,22 +98,13 @@ export const SchoolStats = () => (
             </motion.div>
 
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                {[
-                    { icon: Users, number: '850+', label: 'Siswa Aktif', color: 'from-blue-500 to-blue-600' },
-                    { icon: GraduationCap, number: '52+', label: 'Guru & Staff', color: 'from-emerald-500 to-emerald-600' },
-                    { icon: Trophy, number: '25+', label: 'Prestasi Tahun Ini', color: 'from-purple-500 to-purple-600' },
-                    { icon: Star, number: '100%', label: 'Tingkat Kelulusan', color: 'from-orange-500 to-orange-600' },
-                ].map((stat, index) => {
-                    const StatRef = useRef(null);
-                    const isInView = useInView(StatRef, { once: true });
-
-                    return (
+                {stats.map((stat, index) => (
                         <motion.div
                             key={`stat-${index}`}
-                            ref={StatRef}
+                            ref={statRefs[index]}
                             className="group"
                             initial={{ opacity: 0, y: 50, scale: 0.8 }}
-                            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                            animate={isInViewArray[index] ? { opacity: 1, y: 0, scale: 1 } : {}}
                             transition={{
                                 duration: 0.6,
                                 delay: index * 0.15,
@@ -128,7 +135,7 @@ export const SchoolStats = () => (
                                 <motion.div
                                     className={`stat-number mb-3 bg-gradient-to-r text-5xl font-extrabold md:text-6xl ${stat.color} bg-clip-text text-transparent`}
                                     initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                                    animate={isInViewArray[index] ? { opacity: 1, scale: 1 } : {}}
                                     transition={{ duration: 0.8, delay: index * 0.15 + 0.3, type: 'spring', bounce: 0.4 }}
                                 >
                                     {stat.number}
@@ -136,16 +143,16 @@ export const SchoolStats = () => (
                                 <motion.div
                                     className="text-lg font-semibold text-gray-700"
                                     initial={{ opacity: 0 }}
-                                    animate={isInView ? { opacity: 1 } : {}}
+                                    animate={isInViewArray[index] ? { opacity: 1 } : {}}
                                     transition={{ duration: 0.8, delay: index * 0.15 + 0.5 }}
                                 >
                                     {stat.label}
                                 </motion.div>
                             </GlassmorphismCard>
                         </motion.div>
-                    );
-                })}
+                    ))}
             </div>
         </div>
     </section>
-);
+    );
+};

@@ -23,7 +23,7 @@ export interface ContactFormData {
     message: string;
     phone: string;
     address: string;
-    [key: string]: string | number | boolean | File | null | undefined | any;
+    [key: string]: string | number | boolean | File | null | undefined;
 }
 
 /**
@@ -54,5 +54,5 @@ export interface ContactValidationHook {
     validateForm: (data: ContactFormData) => boolean;
     validationErrors: Record<string, string>;
     clearValidationErrors: () => void;
-    getValidationSchema: () => any;
+    getValidationSchema: () => unknown;
 }

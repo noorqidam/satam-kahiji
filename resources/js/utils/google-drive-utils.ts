@@ -1,13 +1,3 @@
-// Google Drive utility functions for fetching file metadata
-// Since we don't have direct Google Drive API access from frontend,
-// we'll use alternative methods to get file information
-
-interface GoogleDriveFileInfo {
-    size?: number;
-    name?: string;
-    mimeType?: string;
-}
-
 /**
  * Extract file ID from Google Drive URL
  */
@@ -56,7 +46,7 @@ export const getFileSizeFromDrive = async (fileUrl: string): Promise<number | nu
             }
         } catch (error) {
             // CORS will likely block this, so we'll fall back to other methods
-            console.log('CORS blocked file size fetch, trying alternative method');
+            console.error(`${error} CORS blocked file size fetch, trying alternative method`);
         }
 
         // Method 2: Try to get file info from the sharing page (requires server-side proxy)
@@ -94,7 +84,7 @@ export const getFileExtension = (filename: string): string => {
  * Estimate file size based on file type and other indicators
  * This is a fallback when we can't get exact size
  */
-export const estimateFileSize = (filename: string, mimeType?: string): string => {
+export const estimateFileSize = (filename: string): string => {
     const extension = getFileExtension(filename);
 
     // Common file type size estimates

@@ -22,7 +22,7 @@ interface NavbarProps {
 export default function Navbar({ currentPath = '', className = '' }: NavbarProps) {
     const { t } = useTranslation();
     const { props } = usePage();
-    const { dynamicPages = [] } = props as any;
+    const { dynamicPages = [] } = props as { dynamicPages?: Page[] };
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
     const [mobileProfileMenuOpen, setMobileProfileMenuOpen] = useState(false);

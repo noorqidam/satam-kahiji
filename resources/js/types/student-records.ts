@@ -68,13 +68,13 @@ export interface StudentRecordsProps {
 
 // Form interfaces for creating/editing records
 export interface PositiveNoteForm {
-    [key: string]: any;
+    [key: string]: unknown;
     note: string;
     category?: string;
 }
 
 export interface DisciplinaryRecordForm {
-    [key: string]: any;
+    [key: string]: unknown;
     incident_description: string;
     action_taken: string;
     severity: 'low' | 'medium' | 'high' | 'critical';
@@ -82,7 +82,7 @@ export interface DisciplinaryRecordForm {
 }
 
 export interface ExtracurricularHistoryForm {
-    [key: string]: any;
+    [key: string]: unknown;
     extracurricular_id: number;
     academic_year: string;
     role?: string;
@@ -92,7 +92,7 @@ export interface ExtracurricularHistoryForm {
 }
 
 export interface DocumentForm {
-    [key: string]: any;
+    [key: string]: unknown;
     title: string;
     document_category_id?: number;
     file: File | null;

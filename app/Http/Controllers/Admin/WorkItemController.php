@@ -753,20 +753,20 @@ class WorkItemController extends Controller
     {
         $user = Auth::user();
         if ($user->role !== 'teacher') {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return back()->withErrors(['error' => 'Unauthorized']);
         }
 
         $staff = Staff::where('user_id', $user->id)->first();
         if (!$staff) {
-            return response()->json(['error' => 'Staff record not found'], 404);
+            return back()->withErrors(['error' => 'Staff record not found']);
         }
 
         $success = $this->workItemService->markAllFeedbackAsRead($staff);
         
         if ($success) {
-            return response()->json(['success' => true]);
+            return back()->with('success', 'All feedback marked as read');
         }
         
-        return response()->json(['error' => 'Failed to mark all feedback as read'], 500);
+        return back()->withErrors(['error' => 'Failed to mark all feedback as read']);
     }
 }

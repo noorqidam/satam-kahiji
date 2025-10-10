@@ -10,7 +10,6 @@ interface StaffTableProps {
     selectedStaff: number[];
     deletableStaff: Staff[];
     isAllSelected: boolean;
-    isPartiallySelected: boolean;
     divisionLabels: Record<StaffDivision, string>;
     divisionColors: Record<StaffDivision, string>;
     onSelectAll: (checked: boolean) => void;
@@ -25,7 +24,6 @@ export function StaffTable({
     selectedStaff,
     deletableStaff,
     isAllSelected,
-    isPartiallySelected,
     divisionLabels,
     divisionColors,
     onSelectAll,

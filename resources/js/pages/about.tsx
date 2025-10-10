@@ -193,7 +193,7 @@ const slideInRight = {
     },
 };
 
-export default function About({ page, contact }: AboutProps) {
+export default function About({ page }: AboutProps) {
     const heroRef = useRef(null);
     const profileRef = useRef(null);
     const visionRef = useRef(null);

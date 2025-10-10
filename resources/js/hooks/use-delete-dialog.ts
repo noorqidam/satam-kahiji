@@ -3,9 +3,14 @@ import { useState } from 'react';
 
 import { useToast } from '@/hooks/use-toast';
 
+interface DeleteErrors {
+    error?: string;
+    [key: string]: unknown;
+}
+
 interface UseDeleteDialogOptions {
     onSuccess?: () => void;
-    onError?: (errors: any) => void;
+    onError?: (errors: DeleteErrors) => void;
 }
 
 interface DeleteDialogState {
@@ -36,7 +41,7 @@ export const useDeleteDialog = (options: UseDeleteDialogOptions = {}) => {
         setDialogState((prev) => ({ ...prev, open: false }));
     };
 
-    const confirmDelete = (singleRoute: string, bulkRoute?: string, bulkData?: any, successMessage?: string, errorMessage?: string) => {
+    const confirmDelete = (singleRoute: string, bulkRoute?: string, bulkData?: Record<string, unknown>, successMessage?: string, errorMessage?: string) => {
         setIsDeleting(true);
 
         const route = dialogState.type === 'single' ? singleRoute : bulkRoute;
@@ -48,7 +53,7 @@ export const useDeleteDialog = (options: UseDeleteDialogOptions = {}) => {
         }
 
         router.delete(route, {
-            data,
+            data: data ? JSON.parse(JSON.stringify(data)) : undefined,
             onSuccess: () => {
                 const defaultSuccessMessage =
                     dialogState.type === 'single' ? `${dialogState.itemName} deleted successfully` : 'Selected items deleted successfully';

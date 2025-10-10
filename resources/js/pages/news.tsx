@@ -60,7 +60,7 @@ interface NewsPageProps {
     contact?: Contact;
 }
 
-export default function NewsPage({ posts, filters, contact }: NewsPageProps) {
+export default function NewsPage({ posts, filters }: NewsPageProps) {
     const [search, setSearch] = useState(filters.search || '');
     const [selectedCategory, setSelectedCategory] = useState(filters.category || '');
     const [isLoading, setIsLoading] = useState(false);

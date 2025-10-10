@@ -170,7 +170,7 @@ const getBreadcrumbs = (t: (key: string) => string): BreadcrumbItem[] => [
     { title: t('student_form.breadcrumbs.edit_student'), href: '#' },
 ];
 
-export default function TeacherStudentEdit({ student, teacher, userRole, extracurriculars, recordOptions }: TeacherStudentEditProps) {
+export default function TeacherStudentEdit({ student, extracurriculars, recordOptions }: TeacherStudentEditProps) {
     const { t } = useTranslation('common');
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);

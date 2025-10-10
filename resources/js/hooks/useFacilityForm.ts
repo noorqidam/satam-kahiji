@@ -17,7 +17,7 @@ export function useFacilityForm(facility?: Facility) {
     const validation = useFacilityValidation();
 
     const updateField = useCallback(
-        (field: keyof FacilityFormData, value: any) => {
+        (field: keyof FacilityFormData, value: FacilityFormData[keyof FacilityFormData]) => {
             setData((prev) => ({ ...prev, [field]: value }));
             validation.clearErrors();
         },

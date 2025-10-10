@@ -10,7 +10,6 @@ interface UserTableProps {
     users: UserType[];
     selectedUsers: number[];
     isAllSelected: boolean;
-    isPartiallySelected: boolean;
     roleLabels: Record<UserRole, string>;
     roleColors: Record<UserRole, string>;
     onSelectAll: (checked: boolean) => void;
@@ -25,7 +24,6 @@ export function UserTable({
     users,
     selectedUsers,
     isAllSelected,
-    isPartiallySelected,
     roleLabels,
     roleColors,
     onSelectAll,

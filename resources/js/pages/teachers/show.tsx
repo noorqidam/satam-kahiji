@@ -21,7 +21,6 @@ import {
     Users,
 } from 'lucide-react';
 import { useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 interface Subject {
     id: number;
@@ -76,8 +75,6 @@ interface TeacherShowProps {
 }
 
 export default function TeacherShow({ teacher, filesByType, statistics }: TeacherShowProps) {
-    const { t } = useTranslation();
-    const headerRef = useRef(null);
     const contentRef = useRef(null);
     const [previewFile, setPreviewFile] = useState<{
         id: number;
@@ -87,7 +84,6 @@ export default function TeacherShow({ teacher, filesByType, statistics }: Teache
         created_at: string;
     } | null>(null);
 
-    const headerInView = useInView(headerRef, { once: true, amount: 0.3 });
     const contentInView = useInView(contentRef, { once: true, amount: 0.1 });
 
     const containerVariants = {

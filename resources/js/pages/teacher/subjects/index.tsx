@@ -83,7 +83,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'My Subjects', href: '/teacher/subjects' },
 ];
 
-export default function TeacherSubjectsIndex({ subjects, teacher, overallStats, userRole }: TeacherSubjectsIndexProps) {
+export default function TeacherSubjectsIndex({ subjects, overallStats }: TeacherSubjectsIndexProps) {
     const { t } = useTranslation('common');
     const { toast } = useToast();
     const [view, setView] = useViewPreference('teacher-subjects-view', 'card');
@@ -97,7 +97,7 @@ export default function TeacherSubjectsIndex({ subjects, teacher, overallStats, 
             {},
             {
                 onSuccess: (page) => {
-                    const flash = page.props.flash as any;
+                    const flash = page.props.flash as { success?: string; error?: string } | undefined;
                     if (flash?.success) {
                         toast({
                             title: t('subject_cards.messages.success'),

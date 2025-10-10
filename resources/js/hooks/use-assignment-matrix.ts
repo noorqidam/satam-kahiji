@@ -7,7 +7,7 @@ export function useAssignmentMatrix(data: SubjectAssignmentData) {
     // Create initial assignments based on data
     const initialAssignments = useMemo(() => {
         return createInitialAssignments(data);
-    }, [data.staff.data, data.subjects.data]);
+    }, [data]);
 
     const [assignments, setAssignments] = useState<AssignmentMatrix>(initialAssignments);
 

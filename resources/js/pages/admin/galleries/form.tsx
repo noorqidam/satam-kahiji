@@ -101,7 +101,6 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
     const [loadingStep, setLoadingStep] = useState<string>('');
     const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number }>({ current: 0, total: 0 });
     const [selectedFeaturedImageFile, setSelectedFeaturedImageFile] = useState<File | null>(null);
-    const [pendingFiles, setPendingFiles] = useState<(File | undefined)[]>([]);
     const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(
         // Initialize with existing gallery items when editing
         gallery?.items
@@ -113,7 +112,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                   file_path: item.file_path,
                   is_featured: item.is_featured || false,
                   sort_order: item.sort_order || 0,
-                  metadata: (item as any).metadata || undefined, // Include existing metadata
+                  metadata: (item as { metadata?: unknown }).metadata || undefined, // Include existing metadata
               }))
             : [],
     );
@@ -149,7 +148,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                 }
             });
         };
-    }, []);
+    }, [galleryItems]);
 
     const validateForm = () => {
         try {
@@ -164,7 +163,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                 const newErrors: Record<string, string> = {};
                 for (const issue of error.issues) {
                     if (issue.path) {
-                        const path = issue.path.map((p: any) => p.key).join('.');
+                        const path = issue.path.map((p: { key: string }) => p.key).join('.');
                         newErrors[path] = issue.message;
                     }
                 }
@@ -197,18 +196,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
 
     // Handle bulk file upload - create dynamic dropzones for each file
     const handleBulkFileUpload = (files: File[] | null) => {
-        console.log(
-            '🔍 handleBulkFileUpload called with files:',
-            files?.map((f) => f.name),
-        );
-        console.log('📊 Current galleryItems count:', galleryItems.length);
-        console.log(
-            '📋 Current galleryItems:',
-            galleryItems.map((item) => ({ id: item.id, title: item.title })),
-        );
-
         if (!files || files.length === 0) {
-            setPendingFiles([]);
             // Don't clear galleryItems when clearing files - preserve existing items
             return;
         }
@@ -231,19 +219,11 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                 }),
         ]);
 
-        console.log('🔐 Existing file signatures:', Array.from(existingFileSignatures));
-
         const uniqueFiles = files.filter((file) => {
             const fileSignature = `${file.name.replace(/\.[^/.]+$/, '')}_${file.size}`;
             const isUnique = !existingFileSignatures.has(fileSignature);
-            console.log(`📁 File ${file.name} signature: ${fileSignature}, unique: ${isUnique}`);
             return isUnique;
         });
-
-        console.log(
-            '✅ Unique files after filtering:',
-            uniqueFiles.map((f) => f.name),
-        );
 
         if (uniqueFiles.length === 0) {
             toast({
@@ -283,30 +263,12 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
             };
         });
 
-        console.log(
-            '🆕 New items created:',
-            newItems.map((item) => ({ id: item.id, title: item.title })),
-        );
-
-        // We no longer need pendingFiles since files are stored in gallery item metadata
-        // setPendingFiles((prev) => [...prev, ...uniqueFiles]);
+        // Files are now stored directly in gallery item metadata
         setGalleryItems((prev) => {
-            console.log(
-                '🔄 About to update state - prev items:',
-                prev.map((item) => ({ id: item.id, title: item.title })),
-            );
             // Double-check for duplicates at state update time to prevent race conditions
             const existingIds = new Set(prev.map((item) => item.id));
             const uniqueNewItems = newItems.filter((item) => !existingIds.has(item.id));
-            console.log(
-                '🎯 Final items to add:',
-                uniqueNewItems.map((item) => ({ id: item.id, title: item.title })),
-            );
             const result = [...prev, ...uniqueNewItems];
-            console.log(
-                '📦 New state will have items:',
-                result.map((item) => ({ id: item.id, title: item.title })),
-            );
             return result;
         });
 
@@ -318,7 +280,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
     };
 
     // Update gallery item
-    const updateGalleryItem = (id: string, field: keyof GalleryItem, value: any) => {
+    const updateGalleryItem = (id: string, field: keyof GalleryItem, value: unknown) => {
         setGalleryItems((prev) => prev.map((item) => (item.id === id ? { ...item, [field]: value } : item)));
     };
 
@@ -335,56 +297,11 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
             return filtered;
         });
 
-        // If this is a new item (has blob URL), remove from pending files
-        if (itemToRemove.file_path?.startsWith('blob:')) {
-            // Find which pending file corresponds to this item
-            const blobItems = galleryItems.filter((item) => item.file_path?.startsWith('blob:'));
-            const blobItemIndex = blobItems.findIndex((item) => item.id === id);
-
-            if (blobItemIndex !== -1) {
-                setPendingFiles((prev) => {
-                    const filtered = prev.filter((_, index) => index !== blobItemIndex);
-                    return filtered;
-                });
-            }
-        }
+        // Note: Files are stored directly in gallery item metadata, cleanup handled automatically
 
         toast({
             title: 'Item Removed',
             description: 'Gallery item has been removed',
-            variant: 'default',
-        });
-    };
-
-    // Handle clearing the image from a gallery item (keeping the item itself)
-    const handleItemImageClear = (itemId: string) => {
-        // Find the item to get its current file_path
-        const item = galleryItems.find((item) => item.id === itemId);
-
-        // For items with blob URLs (newly added), handle locally
-        if (item?.file_path?.startsWith('blob:')) {
-            // Revoke the blob URL to free memory
-            URL.revokeObjectURL(item.file_path);
-
-            // Remove the corresponding file from pendingFiles if it exists
-            const itemIndex = galleryItems.findIndex((item) => item.id === itemId);
-            if (itemIndex !== -1 && itemIndex < pendingFiles.length) {
-                setPendingFiles((prev) => {
-                    const newFiles = [...prev];
-                    // Set the file at this index to undefined
-                    newFiles[itemIndex] = undefined;
-                    return newFiles;
-                });
-            }
-        }
-
-        // Clear the file-related properties but keep the gallery item
-        updateGalleryItem(itemId, 'file_path', null);
-        updateGalleryItem(itemId, 'mime_type', null);
-
-        toast({
-            title: 'Image Cleared',
-            description: 'The image has been removed from this gallery item',
             variant: 'default',
         });
     };
@@ -512,7 +429,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
             uploadData: {
                 file_url: string;
                 mime_type: string;
-                metadata?: any;
+                metadata?: unknown;
                 message?: string;
             };
         }> = [];
@@ -531,23 +448,6 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                     title: 'Uploading Files',
                     description: `Uploading ${itemsToUpload.length} files to Google Drive...`,
                     variant: 'default',
-                });
-
-                console.log('Items to upload:', {
-                    totalItemsToUpload: itemsToUpload.length,
-                    allBlobItems: galleryItems
-                        .filter((item) => item.file_path && item.file_path.startsWith('blob:'))
-                        .map((item) => ({
-                            id: item.id,
-                            title: item.title,
-                            hasPendingFile: !!item.metadata?._pendingFile,
-                            filePath: item.file_path,
-                        })),
-                    items: itemsToUpload.map((item) => ({
-                        itemId: item.id,
-                        itemTitle: item.title,
-                        fileName: (item.metadata?._pendingFile as File)?.name,
-                    })),
                 });
 
                 // Upload each item's file
@@ -587,14 +487,6 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                     const uploadData = uploadResponse.data;
 
                     if (uploadData) {
-                        console.log('✅ File upload successful:', {
-                            fileName: file.name,
-                            galleryItemId: galleryItem.id,
-                            galleryItemTitle: galleryItem.title,
-                            uploadedUrl: uploadData.file_url || uploadData.message,
-                            uploadResponse: uploadData,
-                        });
-
                         // Store upload data to be used later when updating gallery items
                         uploadedItems.push({
                             originalGalleryItem: galleryItem, // Reference to original item
@@ -626,35 +518,20 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
             }
         }
 
-        // Update galleryItems state by replacing blob URLs with Google Drive URLs
-        console.log('Starting blob URL replacement process:', {
-            totalGalleryItems: galleryItems.length,
-            blobUrlItems: galleryItems.filter((item) => item.file_path && item.file_path.startsWith('blob:')).length,
-            totalUploadedItems: uploadedItems.length,
-            uploadedItemIds: uploadedItems.map((u) => u.originalGalleryItem.id),
-        });
-
         const updatedGalleryItems = galleryItems.map((item) => {
             // If this item has a blob URL (newly added), find its corresponding upload data
             if (item.file_path && item.file_path.startsWith('blob:')) {
                 const correspondingUpload = uploadedItems.find((upload) => upload.originalGalleryItem.id === item.id);
 
                 if (correspondingUpload) {
-                    console.log('✅ Successfully replacing blob URL:', {
-                        itemId: item.id,
-                        itemTitle: item.title,
-                        oldPath: item.file_path,
-                        newPath: correspondingUpload.uploadData.file_url,
-                    });
-
                     // Revoke the blob URL to free memory and prevent caching issues
                     URL.revokeObjectURL(item.file_path);
 
                     // Replace blob URL with Google Drive URL and add metadata
                     const cleanMetadata = correspondingUpload.uploadData.metadata || {};
                     // Remove the temporary _pendingFile from metadata
-                    if ('_pendingFile' in cleanMetadata) {
-                        delete cleanMetadata._pendingFile;
+                    if (cleanMetadata && typeof cleanMetadata === 'object' && '_pendingFile' in cleanMetadata) {
+                        delete (cleanMetadata as { _pendingFile?: File })._pendingFile;
                     }
 
                     return {
@@ -694,7 +571,12 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                     id: item.id,
                     title: item.title,
                     file_path: item.file_path,
-                    has_pending_file: !!item.metadata?._pendingFile,
+                    has_pending_file: !!(
+                        item.metadata &&
+                        typeof item.metadata === 'object' &&
+                        '_pendingFile' in item.metadata &&
+                        (item.metadata as { _pendingFile?: File })._pendingFile
+                    ),
                     metadata: item.metadata,
                 })),
                 allUploadedItems: uploadedItems.map((u) => ({
@@ -750,10 +632,9 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                             },
                         },
                     );
-                    // Continue with other deletions even if one fails
                 }
             } catch (error) {
-                // Continue with form submission even if Google Drive deletion fails
+                console.error(error);
             }
         }
 
@@ -780,10 +661,9 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                 } catch (error) {
                     toast({
                         title: 'Warning',
-                        description: 'Failed to upload featured image, but gallery will still be updated',
+                        description: `${error} Failed to upload featured image, but gallery will still be updated`,
                         variant: 'destructive',
                     });
-                    // Continue with form submission even if upload fails
                 }
             }
 
@@ -794,7 +674,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
 
             setLoadingStep('Saving gallery updates...');
 
-            router.put(route('admin.galleries.update', gallery!.id), updateData, {
+            router.put(route('admin.galleries.update', gallery!.id), JSON.parse(JSON.stringify(updateData)), {
                 onSuccess: () => {
                     // Clear the items marked for deletion and replacement since submission was successful
                     setItemsToDeleteFromDrive(new Set());
@@ -808,7 +688,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                         variant: 'success',
                     });
                 },
-                onError: (errors) => {
+                onError: () => {
                     setIsSubmitting(false);
                     setLoadingStep('');
                     toast({
@@ -843,7 +723,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
 
                         const uploadData = uploadResponse.data;
                         finalFeaturedImageUrl = uploadData.featured_image_url;
-                    } catch (uploadError) {
+                    } catch {
                         toast({
                             title: 'Warning',
                             description: 'Gallery created but featured image upload failed',
@@ -860,7 +740,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
 
                 setLoadingStep('Finalizing gallery...');
 
-                router.put(route('admin.galleries.update', targetGalleryId), updateData, {
+                router.put(route('admin.galleries.update', targetGalleryId), JSON.parse(JSON.stringify(updateData)), {
                     onSuccess: () => {
                         setIsSubmitting(false);
                         setLoadingStep('');
@@ -876,13 +756,13 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                             window.location.href = route('admin.galleries.edit', targetGalleryId);
                         }, 1000);
                     },
-                    onError: (errors) => {
+                    onError: () => {
                         setIsSubmitting(false);
                         setLoadingStep('');
 
                         toast({
                             title: 'Warning',
-                            description: 'Gallery created but failed to save final data. You may need to edit the gallery.',
+                            description: `${errors} Gallery created but failed to save final data. You may need to edit the gallery.`,
                             variant: 'destructive',
                         });
                     },

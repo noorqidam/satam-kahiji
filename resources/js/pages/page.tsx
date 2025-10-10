@@ -1,11 +1,6 @@
 import PublicLayout from '@/layouts/public-layout';
 import { Head } from '@inertiajs/react';
 
-interface User {
-    id: number;
-    name: string;
-}
-
 interface Page {
     id: number;
     slug: string;
@@ -31,7 +26,7 @@ interface PageProps {
     contact?: Contact;
 }
 
-export default function Page({ page, contact }: PageProps) {
+export default function Page({ page }: PageProps) {
     return (
         <>
             <Head title={`${page.title} - SMP Negeri 1 Tambun Selatan`} />

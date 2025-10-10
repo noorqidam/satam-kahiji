@@ -5,7 +5,7 @@ import PublicLayout from '@/layouts/public-layout';
 import { Head, Link } from '@inertiajs/react';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import { Calendar, ChevronLeft, ChevronRight, Grid3x3, Home, Images, Layers, Maximize, Play, Volume2, X } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 interface GalleryItem {
     id: number;
@@ -14,7 +14,7 @@ interface GalleryItem {
     caption: string | null;
     mime_type: string | null;
     file_path: string | null;
-    metadata: any;
+    metadata: unknown;
     sort_order: number;
     is_featured: boolean;
     created_at: string;
@@ -50,16 +50,33 @@ interface GalleryDetailPageProps {
     contact?: Contact;
 }
 
-export default function GalleryDetailPage({ gallery, otherGalleries, contact }: GalleryDetailPageProps) {
+export default function GalleryDetailPage({ gallery }: GalleryDetailPageProps) {
     const [selectedImage, setSelectedImage] = useState<number | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [currentUrlIndex, setCurrentUrlIndex] = useState(0);
     const [videoError, setVideoError] = useState<string | null>(null);
     const headerRef = useRef(null);
     const itemsRef = useRef(null);
 
     const headerInView = useInView(headerRef, { once: true, amount: 0.3 });
     const itemsInView = useInView(itemsRef, { once: true, amount: 0.1 });
+
+    const nextImage = useCallback(() => {
+        if (currentImageIndex < gallery.items.length - 1) {
+            setCurrentImageIndex(currentImageIndex + 1);
+        } else {
+            setCurrentImageIndex(0);
+        }
+        setVideoError(null); // Reset video error when changing media
+    }, [currentImageIndex, gallery.items.length]);
+
+    const prevImage = useCallback(() => {
+        if (currentImageIndex > 0) {
+            setCurrentImageIndex(currentImageIndex - 1);
+        } else {
+            setCurrentImageIndex(gallery.items.length - 1);
+        }
+        setVideoError(null); // Reset video error when changing media
+    }, [currentImageIndex, gallery.items.length]);
 
     // Keyboard navigation for lightbox
     useEffect(() => {
@@ -81,7 +98,7 @@ export default function GalleryDetailPage({ gallery, otherGalleries, contact }: 
 
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [selectedImage, currentImageIndex]);
+    }, [selectedImage, currentImageIndex, nextImage, prevImage]);
 
     // Force video reload when navigating in lightbox
     useEffect(() => {
@@ -91,7 +108,7 @@ export default function GalleryDetailPage({ gallery, otherGalleries, contact }: 
                 video.load(); // Force reload the video
             }
         }
-    }, [currentImageIndex, selectedImage]);
+    }, [currentImageIndex, selectedImage, gallery.items]);
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('id-ID', {
@@ -137,7 +154,7 @@ export default function GalleryDetailPage({ gallery, otherGalleries, contact }: 
     const openLightbox = (index: number) => {
         setCurrentImageIndex(index);
         setSelectedImage(index);
-        setCurrentUrlIndex(0); // Reset URL index when opening lightbox
+        // Reset when opening lightbox
         setVideoError(null); // Reset video error when opening lightbox
         document.body.style.overflow = 'hidden';
     };
@@ -151,26 +168,6 @@ export default function GalleryDetailPage({ gallery, otherGalleries, contact }: 
 
         setSelectedImage(null);
         document.body.style.overflow = 'unset';
-    };
-
-    const nextImage = () => {
-        if (currentImageIndex < gallery.items.length - 1) {
-            setCurrentImageIndex(currentImageIndex + 1);
-        } else {
-            setCurrentImageIndex(0);
-        }
-        setCurrentUrlIndex(0); // Reset URL index when changing media
-        setVideoError(null); // Reset video error when changing media
-    };
-
-    const prevImage = () => {
-        if (currentImageIndex > 0) {
-            setCurrentImageIndex(currentImageIndex - 1);
-        } else {
-            setCurrentImageIndex(gallery.items.length - 1);
-        }
-        setCurrentUrlIndex(0); // Reset URL index when changing media
-        setVideoError(null); // Reset video error when changing media
     };
 
     // Animation variants
@@ -497,7 +494,6 @@ export default function GalleryDetailPage({ gallery, otherGalleries, contact }: 
                                                                 <button
                                                                     onClick={() => {
                                                                         setVideoError(null);
-                                                                        setCurrentUrlIndex(0);
                                                                     }}
                                                                     className="rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700"
                                                                 >

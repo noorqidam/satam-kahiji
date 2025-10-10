@@ -144,7 +144,7 @@ export const useClassFormWithValidation = ({
 
             const method = isEdit ? 'put' : 'post';
 
-            router[method](submitRoute, formData as Record<string, any>, {
+            router[method](submitRoute, JSON.parse(JSON.stringify(formData)), {
                 onSuccess: () => {
                     const action = isEdit ? 'updated' : 'created';
                     toast({

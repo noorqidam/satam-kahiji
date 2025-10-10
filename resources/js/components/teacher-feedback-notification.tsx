@@ -2,6 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTeacherFeedback } from '@/hooks/use-teacher-feedback';
 import { type SharedData } from '@/types';
@@ -16,13 +17,14 @@ export function TeacherFeedbackNotification() {
     const [isOpen, setIsOpen] = useState(false);
     const isMobile = useIsMobile();
     const { t } = useTranslation();
+    const { toast } = useToast();
 
     // Only show for teachers
     if (auth.user?.role !== 'teacher') {
         return null;
     }
 
-    const { totalFiles, pendingFeedback, approvedFiles, needsRevisionFiles, unreadFeedback, hasNewFeedback, recentFeedbacks } = feedbackCounts;
+    const { totalFiles, pendingFeedback, approvedFiles, needsRevisionFiles, unreadFeedback, recentFeedbacks } = feedbackCounts;
 
     // Don't show if no files uploaded yet
     if (totalFiles === 0) {
@@ -54,21 +56,26 @@ export function TeacherFeedbackNotification() {
     };
 
     // Mark all feedback as read
-    const handleMarkAllAsRead = async () => {
-        try {
-            await fetch(route('work-items.feedback.mark-all-read'), {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-                },
-            });
-            // Reload to update counts
-            router.reload({ only: ['feedbackSummary'] });
-            setIsOpen(false);
-        } catch (error) {
-            console.error('Failed to mark all feedback as read:', error);
-        }
+    const handleMarkAllAsRead = () => {
+        router.post(route('work-items.feedback.mark-all-read'), {}, {
+            onSuccess: () => {
+                toast({
+                    title: 'Success',
+                    description: 'All feedback marked as read',
+                    variant: 'success',
+                });
+                router.reload({ only: ['feedbackSummary'] });
+                setIsOpen(false);
+            },
+            onError: (errors) => {
+                console.error('Failed to mark all feedback as read:', errors);
+                toast({
+                    title: 'Error',
+                    description: 'Failed to mark all feedback as read. Please try again.',
+                    variant: 'destructive',
+                });
+            }
+        });
     };
 
     // Get status icon and color for feedback

@@ -1,11 +1,4 @@
-// Common type definitions to eliminate duplication across the application
-// Following DRY principle and Single Responsibility Principle
-
-/**
- * Generic pagination interface
- * Used across all paginated data responses
- */
-export interface PaginationData<T = any> {
+export interface PaginationData<T = unknown> {
     data: T[];
     current_page: number;
     last_page: number;
@@ -22,26 +15,14 @@ export interface PaginationLink {
     active: boolean;
 }
 
-/**
- * Generic form data value type
- * Replaces scattered FormDataValue definitions
- */
 export type FormDataValue = string | number | boolean | File | null | undefined | number[] | string[];
 
-/**
- * Generic API response wrapper
- * Standardizes all API responses
- */
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
     data: T;
     message?: string;
     status: 'success' | 'error';
 }
 
-/**
- * Generic filter state interface
- * Abstracts common filtering patterns
- */
 export interface BaseFilterState {
     search: string;
     per_page: number;
@@ -49,10 +30,6 @@ export interface BaseFilterState {
     sort_direction?: 'asc' | 'desc';
 }
 
-/**
- * Generic bulk operation interface
- * Standardizes bulk action handling
- */
 export interface BulkOperationState {
     selectedItems: number[];
     isAllSelected: boolean;
@@ -60,18 +37,10 @@ export interface BulkOperationState {
     isProcessing: boolean;
 }
 
-/**
- * Common form error interface
- * Replaces duplicate error handling types
- */
 export interface FormErrors {
     [key: string]: string[];
 }
 
-/**
- * Generic confirmation dialog props
- * Unifies all confirmation dialog implementations
- */
 export interface ConfirmationDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -84,27 +53,19 @@ export interface ConfirmationDialogProps {
     isLoading?: boolean;
 }
 
-/**
- * Generic table action button props
- * Standardizes action button implementations
- */
-export interface TableActionProps {
-    item: any;
-    onView?: (item: any) => void;
-    onEdit?: (item: any) => void;
-    onDelete?: (item: any) => void;
+export interface TableActionProps<T = unknown> {
+    item: T;
+    onView?: (item: T) => void;
+    onEdit?: (item: T) => void;
+    onDelete?: (item: T) => void;
     customActions?: Array<{
         label: string;
-        icon: React.ComponentType<any>;
-        onClick: (item: any) => void;
+        icon: React.ComponentType<Record<string, unknown>>;
+        onClick: (item: T) => void;
         variant?: 'default' | 'destructive' | 'outline';
     }>;
 }
 
-/**
- * Generic filter hook return type
- * Abstracts filter hook implementations
- */
 export interface FilterHookReturn<T extends BaseFilterState> {
     filters: T;
     updateFilter: <K extends keyof T>(key: K, value: T[K]) => void;
@@ -114,12 +75,8 @@ export interface FilterHookReturn<T extends BaseFilterState> {
     debouncedSearch: string;
 }
 
-/**
- * Generic service interface
- * Defines common CRUD operations
- */
 export interface BaseService<T, CreateData = Partial<T>, UpdateData = Partial<T>> {
-    getAll: (filters?: Record<string, any>) => Promise<PaginationData<T>>;
+    getAll: (filters?: Record<string, unknown>) => Promise<PaginationData<T>>;
     getById: (id: number) => Promise<T>;
     create: (data: CreateData) => Promise<T>;
     update: (id: number, data: UpdateData) => Promise<T>;
@@ -127,10 +84,6 @@ export interface BaseService<T, CreateData = Partial<T>, UpdateData = Partial<T>
     bulkDelete?: (ids: number[]) => Promise<void>;
 }
 
-/**
- * Generic search and filter props
- * Standardizes search/filter component interfaces
- */
 export interface SearchFilterProps<T extends BaseFilterState> {
     filters: T;
     onFilterChange: <K extends keyof T>(key: K, value: T[K]) => void;
@@ -139,20 +92,12 @@ export interface SearchFilterProps<T extends BaseFilterState> {
     additionalFilters?: React.ReactNode;
 }
 
-/**
- * Generic status badge props
- * Unifies status display components
- */
 export interface StatusBadgeProps {
     status: string;
     variant?: 'default' | 'secondary' | 'destructive' | 'outline';
     colorMap?: Record<string, string>;
 }
 
-/**
- * Generic modal props
- * Standardizes modal implementations
- */
 export interface BaseModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -162,23 +107,15 @@ export interface BaseModalProps {
     showCloseButton?: boolean;
 }
 
-/**
- * Generic form field props
- * Abstracts common form field patterns
- */
 export interface FormFieldProps {
     label: string;
     name: string;
     required?: boolean;
     error?: string;
     description?: string;
-    icon?: React.ComponentType<any>;
+    icon?: React.ComponentType<Record<string, unknown>>;
 }
 
-/**
- * File upload types
- * Standardizes file handling
- */
 export interface FileUploadProps {
     accept?: string;
     maxSize?: number;

@@ -15,12 +15,12 @@ interface FacilityFormFieldsProps {
     errors: Record<string, string | undefined>;
     processing: boolean;
     mounted: boolean;
-    onDataChange: (field: keyof FacilityFormData, value: any) => void;
+    onDataChange: (field: keyof FacilityFormData, value: string | File | null | boolean) => void;
     onImageSelect: (file: File | null) => void;
     onSubmit: (e: React.FormEvent) => void;
 }
 
-export function FacilityFormFields({ facility, data, errors, processing, mounted, onDataChange, onImageSelect, onSubmit }: FacilityFormFieldsProps) {
+export function FacilityFormFields({ facility, data, errors, processing, onDataChange, onImageSelect, onSubmit }: FacilityFormFieldsProps) {
     const isEditing = !!facility;
 
     return (

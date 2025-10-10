@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
 import type { TeacherWorkFile } from '@/types/workItem';
@@ -65,9 +64,8 @@ interface TeacherSubjectShowProps {
     userRole: string;
 }
 
-export default function TeacherSubjectShow({ subject, workItemsProgress, recentActivity, statistics, teacher, userRole }: TeacherSubjectShowProps) {
+export default function TeacherSubjectShow({ subject, workItemsProgress, recentActivity, statistics }: TeacherSubjectShowProps) {
     const { t } = useTranslation('common');
-    const { toast } = useToast();
 
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Teacher Dashboard', href: '/teacher/dashboard' },

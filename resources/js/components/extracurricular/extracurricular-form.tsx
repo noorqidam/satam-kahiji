@@ -93,7 +93,7 @@ export default function ExtracurricularForm({ extracurricular, isEditing = false
     }, [isEditing, reset, toast, onSuccess]);
 
     const handleError = useCallback(
-        (_submitErrors?: Record<string, string>) => {
+        () => {
             toast({
                 title: 'Error',
                 description: `Failed to ${isEditing ? 'update' : 'create'} extracurricular activity.`,

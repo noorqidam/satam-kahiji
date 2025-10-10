@@ -67,7 +67,7 @@ export type PageFormOutput = v.InferOutput<typeof PageFormSchema>;
 export type ValidationErrors = Record<string, string>;
 
 // Utility function to validate a single field
-export function validateField(schema: any, value: any): { success: boolean; error?: string } {
+export function validateField(schema: v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>, value: unknown): { success: boolean; error?: string } {
     try {
         v.parse(schema, value);
         return { success: true };
@@ -80,7 +80,7 @@ export function validateField(schema: any, value: any): { success: boolean; erro
 }
 
 // Utility function to validate the entire form
-export function validateForm(data: any, isEdit: boolean = false): { success: boolean; errors?: ValidationErrors } {
+export function validateForm(data: unknown, isEdit: boolean = false): { success: boolean; errors?: ValidationErrors } {
     try {
         const schema = isEdit ? PageEditSchema : PageFormSchema;
         v.parse(schema, data);
@@ -89,7 +89,7 @@ export function validateForm(data: any, isEdit: boolean = false): { success: boo
         if (error instanceof v.ValiError) {
             const errors: ValidationErrors = {};
             error.issues.forEach((issue) => {
-                const path = issue.path?.map((p: any) => p.key).join('.') || 'unknown';
+                const path = issue.path?.map((p: { key: string }) => p.key).join('.') || 'unknown';
                 errors[path] = issue.message;
             });
             return { success: false, errors };

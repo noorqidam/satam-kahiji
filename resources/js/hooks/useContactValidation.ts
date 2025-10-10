@@ -29,7 +29,7 @@ export function useContactValidation(): ContactValidationHook {
                 const newErrors: Record<string, string> = {};
                 for (const issue of error.issues) {
                     if (issue.path) {
-                        const path = issue.path.map((p: any) => p.key).join('.');
+                        const path = issue.path.map((p: { key?: string }) => p.key).join('.');
                         newErrors[path] = issue.message;
                     }
                 }

@@ -1,7 +1,7 @@
-import { type BreadcrumbItem, type SharedData } from '@/types';
+import { type BreadcrumbItem } from '@/types';
 import { Transition } from '@headlessui/react';
-import { Head, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler, useEffect } from 'react';
+import { Head, useForm } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import HeadingSmall from '@/components/heading-small';
@@ -25,7 +25,7 @@ export default function Language({ currentLanguage }: { currentLanguage?: string
         },
     ];
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<LanguageForm>({
+    const { data, setData, patch, processing, recentlySuccessful } = useForm<LanguageForm>({
         language: currentLanguage || i18n.language,
     });
 

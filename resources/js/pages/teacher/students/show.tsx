@@ -17,11 +17,6 @@ interface Teacher {
     position: string;
 }
 
-interface Subject {
-    id: number;
-    name: string;
-    code: string;
-}
 
 interface Extracurricular {
     id: number;
@@ -145,7 +140,7 @@ interface TeacherStudentShowProps {
     };
 }
 
-export default function TeacherStudentShow({ student, academicData, extracurriculars, recordOptions }: TeacherStudentShowProps) {
+export default function TeacherStudentShow({ student, academicData, recordOptions }: TeacherStudentShowProps) {
     const { t } = useTranslation('common');
     const [imageError, setImageError] = useState(false);
 

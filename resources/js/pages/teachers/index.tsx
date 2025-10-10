@@ -4,7 +4,6 @@ import { Head, Link } from '@inertiajs/react';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import { ChevronDown, Mail, Search, User, Users } from 'lucide-react';
 import { useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 interface Subject {
     id: number;
@@ -29,8 +28,6 @@ interface TeachersIndexProps {
 }
 
 export default function TeachersIndex({ teachers }: TeachersIndexProps) {
-    const { t } = useTranslation();
-    const heroRef = useRef(null);
     const teachersRef = useRef(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedSubject, setSelectedSubject] = useState('');
@@ -148,7 +145,7 @@ export default function TeachersIndex({ teachers }: TeachersIndexProps) {
                                     animate="visible"
                                     exit="hidden"
                                 >
-                                    {filteredTeachers.map((teacher, index) => (
+                                    {filteredTeachers.map((teacher) => (
                                         <div key={teacher.id} className="group">
                                             <Link href={`/teachers/${teacher.slug}`}>
                                                 <Card className="h-80 cursor-pointer overflow-hidden border border-gray-200 bg-white py-0 shadow-lg transition-all duration-300 hover:border-blue-300 hover:shadow-xl sm:h-96 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-500">

@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 export interface PaginationData {
-    current_page: number;
     last_page: number;
     per_page: number;
     total: number;
@@ -23,7 +22,7 @@ interface PaginationProps {
 }
 
 export function Pagination({ data, className }: PaginationProps) {
-    const { current_page, last_page, from, to, total, links } = data;
+    const {last_page, from, to, total, links } = data;
 
     if (last_page <= 1) return null;
 

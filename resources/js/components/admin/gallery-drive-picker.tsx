@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle, Check, FileImage, ImageIcon, Loader2, Play, Search, Upload, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface DriveFile {
     id: string;
@@ -33,7 +33,6 @@ interface GalleryDrivePickerProps {
 }
 
 export default function GalleryDrivePicker({
-    galleryId,
     gallerySlug,
     onFileSelect,
     selectedFiles = [],
@@ -49,14 +48,7 @@ export default function GalleryDrivePicker({
     const [error, setError] = useState<string | null>(null);
     const [selectedFileIds, setSelectedFileIds] = useState<Set<string>>(new Set(selectedFiles.map((f) => f.id)));
 
-    // Load gallery files when dialog opens
-    useEffect(() => {
-        if (isOpen) {
-            loadFiles();
-        }
-    }, [isOpen]);
-
-    const loadFiles = async () => {
+    const loadFiles = useCallback(async () => {
         setLoading(true);
         setError(null);
 
@@ -69,12 +61,19 @@ export default function GalleryDrivePicker({
             } else {
                 setError(data.error || 'Failed to load files');
             }
-        } catch (err) {
+        } catch {
             setError('Failed to connect to Google Drive');
         } finally {
             setLoading(false);
         }
-    };
+    }, [gallerySlug]);
+
+    // Load gallery files when dialog opens
+    useEffect(() => {
+        if (isOpen) {
+            loadFiles();
+        }
+    }, [isOpen, loadFiles]);
 
     const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -122,7 +121,7 @@ export default function GalleryDrivePicker({
             } else {
                 setError(data.error || 'Upload failed');
             }
-        } catch (err) {
+        } catch {
             setError('Upload failed');
         } finally {
             setUploading(false);

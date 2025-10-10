@@ -2,11 +2,24 @@ import { useToast } from '@/hooks/use-toast';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
+
+interface FlashMessages {
+    success?: string;
+    info?: string;
+    warning?: string;
+    error?: string;
+}
+
+interface InertiaPageProps {
+    flash?: FlashMessages;
+    [key: string]: unknown;
+}
+
 export function useAssignmentSave() {
     const [isSaving, setIsSaving] = useState(false);
     const { toast } = useToast();
 
-    const saveAssignments = (assignmentsData: any[], hasChanges: boolean) => {
+    const saveAssignments = (assignmentsData: Array<{ staff_id: number; subject_ids: number[] }>, hasChanges: boolean) => {
         if (!hasChanges) {
             toast({
                 title: 'No Changes',
@@ -20,12 +33,10 @@ export function useAssignmentSave() {
 
         router.post(
             route('admin.subject-assignments.bulk-update'),
+            JSON.parse(JSON.stringify({ assignments: assignmentsData })),
             {
-                assignments: assignmentsData,
-            },
-            {
-                onSuccess: (page) => {
-                    const props = page.props as any;
+                onSuccess: (page: { props: InertiaPageProps }) => {
+                    const props = page.props;
 
                     if (props.flash?.success) {
                         toast({

@@ -53,7 +53,7 @@ export default function CreatePost() {
         return `${year}-${month}-${day}T${hours}:${minutes}`;
     };
 
-    const { data, setData, post, processing, errors, clearErrors } = useForm<PostFormData>({
+    const { data, setData, processing, errors, clearErrors } = useForm<PostFormData>({
         title: '',
         excerpt: '',
         content: '',
@@ -83,7 +83,7 @@ export default function CreatePost() {
                 const newErrors: Record<string, string> = {};
                 for (const issue of error.issues) {
                     if (issue.path) {
-                        const path = issue.path.map((p: any) => p.key).join('.');
+                        const path = issue.path.map((p: { key: string }) => p.key).join('.');
                         newErrors[path] = issue.message;
                     }
                 }
@@ -135,7 +135,7 @@ export default function CreatePost() {
             onError: (errors) => {
                 toast({
                     title: 'Error',
-                    description: 'Failed to create post. Please check the form for errors.',
+                    description: `${errors} Failed to create post. Please check the form for errors.`,
                     variant: 'destructive',
                 });
             },

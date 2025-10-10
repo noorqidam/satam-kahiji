@@ -1,19 +1,13 @@
-// Base service class following SOLID principles
-// Single Responsibility: Handle common CRUD operations
-// Open/Closed: Extensible for specific entity needs
-// Liskov Substitution: Subclasses can replace base without breaking
-// Dependency Inversion: Depends on router abstraction
-
 import type { BaseService, PaginationData } from '@/types/common';
 import { router } from '@inertiajs/react';
 
-// Router interface for dependency inversion
+// Router interface for dependency inversion - simplified to avoid Inertia type imports
 interface RouterInterface {
-    get: (url: string, data?: any, options?: any) => Promise<any>;
-    post: (url: string, data?: any, options?: any) => Promise<any>;
-    put: (url: string, data?: any, options?: any) => Promise<any>;
-    patch: (url: string, data?: any, options?: any) => Promise<any>;
-    delete: (url: string, data?: any, options?: any) => Promise<any>;
+    get: (url: string, data?: Record<string, unknown>, options?: Record<string, unknown>) => void;
+    post: (url: string, data?: unknown, options?: Record<string, unknown>) => void;
+    put: (url: string, data?: unknown, options?: Record<string, unknown>) => void;
+    patch: (url: string, data?: unknown, options?: Record<string, unknown>) => void;
+    delete: (url: string, data?: unknown, options?: Record<string, unknown>) => void;
 }
 
 // Abstract base service class
@@ -21,7 +15,7 @@ export abstract class AbstractBaseService<T, CreateData = Partial<T>, UpdateData
     protected abstract readonly routePrefix: string;
     protected readonly router: RouterInterface;
 
-    constructor(routerInstance: RouterInterface = router) {
+    constructor(routerInstance: RouterInterface = router as unknown as RouterInterface) {
         this.router = routerInstance;
     }
 
@@ -31,22 +25,23 @@ export abstract class AbstractBaseService<T, CreateData = Partial<T>, UpdateData
     }
 
     // Generic error handler
-    protected handleError(error: any): never {
+    protected handleError(error: unknown): never {
         console.error(`${this.routePrefix} service error:`, error);
-        throw new Error(error.message || 'An unexpected error occurred');
+        const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+        throw new Error(errorMessage);
     }
 
     // Get all items with optional filters
-    async getAll(filters: Record<string, any> = {}): Promise<PaginationData<T>> {
+    async getAll(filters: Record<string, unknown> = {}): Promise<PaginationData<T>> {
         try {
             return new Promise((resolve, reject) => {
                 this.router.get(route(this.getRouteName('index')), filters, {
                     preserveState: true,
                     preserveScroll: true,
-                    onSuccess: (page: any) => {
-                        resolve(page.props.data || page.props);
+                    onSuccess: (page: { props: { data?: PaginationData<T>; [key: string]: unknown } }) => {
+                        resolve(page.props.data || (page.props as unknown as PaginationData<T>));
                     },
-                    onError: (errors: any) => {
+                    onError: () => {
                         reject(new Error('Failed to fetch data'));
                     },
                 });
@@ -64,10 +59,10 @@ export abstract class AbstractBaseService<T, CreateData = Partial<T>, UpdateData
                     route(this.getRouteName('show'), id),
                     {},
                     {
-                        onSuccess: (page: any) => {
-                            resolve(page.props.item || page.props.data);
+                        onSuccess: (page: { props: { item?: T; data?: T; [key: string]: unknown } }) => {
+                            resolve(page.props.item || page.props.data!);
                         },
-                        onError: (errors: any) => {
+                        onError: () => {
                             reject(new Error('Failed to fetch item'));
                         },
                     },
@@ -82,11 +77,11 @@ export abstract class AbstractBaseService<T, CreateData = Partial<T>, UpdateData
     async create(data: CreateData): Promise<T> {
         try {
             return new Promise((resolve, reject) => {
-                this.router.post(route(this.getRouteName('store')), data, {
-                    onSuccess: (page: any) => {
-                        resolve(page.props.item || page.props.data);
+                this.router.post(route(this.getRouteName('store')), JSON.parse(JSON.stringify(data)), {
+                    onSuccess: (page: { props: { item?: T; data?: T; [key: string]: unknown } }) => {
+                        resolve(page.props.item || page.props.data!);
                     },
-                    onError: (errors: any) => {
+                    onError: () => {
                         reject(new Error('Failed to create item'));
                     },
                 });
@@ -100,11 +95,11 @@ export abstract class AbstractBaseService<T, CreateData = Partial<T>, UpdateData
     async update(id: number, data: UpdateData): Promise<T> {
         try {
             return new Promise((resolve, reject) => {
-                this.router.patch(route(this.getRouteName('update'), id), data, {
-                    onSuccess: (page: any) => {
-                        resolve(page.props.item || page.props.data);
+                this.router.patch(route(this.getRouteName('update'), id), JSON.parse(JSON.stringify(data)), {
+                    onSuccess: (page: { props: { item?: T; data?: T; [key: string]: unknown } }) => {
+                        resolve(page.props.item || page.props.data!);
                     },
-                    onError: (errors: any) => {
+                    onError: () => {
                         reject(new Error('Failed to update item'));
                     },
                 });
@@ -125,7 +120,7 @@ export abstract class AbstractBaseService<T, CreateData = Partial<T>, UpdateData
                         onSuccess: () => {
                             resolve();
                         },
-                        onError: (errors: any) => {
+                        onError: () => {
                             reject(new Error('Failed to delete item'));
                         },
                     },
@@ -147,7 +142,7 @@ export abstract class AbstractBaseService<T, CreateData = Partial<T>, UpdateData
                         onSuccess: () => {
                             resolve();
                         },
-                        onError: (errors: any) => {
+                        onError: () => {
                             reject(new Error('Failed to delete items'));
                         },
                     },
@@ -160,34 +155,34 @@ export abstract class AbstractBaseService<T, CreateData = Partial<T>, UpdateData
 }
 
 // Concrete service implementations for specific entities
-export class UserService extends AbstractBaseService<any, any, any> {
+export class UserService extends AbstractBaseService<unknown, unknown, unknown> {
     protected readonly routePrefix = 'admin.users';
 }
 
-export class StaffService extends AbstractBaseService<any, any, any> {
+export class StaffService extends AbstractBaseService<unknown, unknown, unknown> {
     protected readonly routePrefix = 'admin.staff';
 }
 
-export class StudentService extends AbstractBaseService<any, any, any> {
+export class StudentService extends AbstractBaseService<unknown, unknown, unknown> {
     protected readonly routePrefix = 'admin.students';
 }
 
-export class ContactService extends AbstractBaseService<any, any, any> {
+export class ContactService extends AbstractBaseService<unknown, unknown, unknown> {
     protected readonly routePrefix = 'admin.contacts';
 }
 
 // Service factory for dependency injection
 export class ServiceFactory {
-    private static instances: Map<string, any> = new Map();
+    private static instances: Map<string, AbstractBaseService<unknown>> = new Map();
 
-    static getInstance<T extends AbstractBaseService<any>>(ServiceClass: new () => T): T {
+    static getInstance<T extends AbstractBaseService<unknown>>(ServiceClass: new () => T): T {
         const className = ServiceClass.name;
 
         if (!this.instances.has(className)) {
             this.instances.set(className, new ServiceClass());
         }
 
-        return this.instances.get(className);
+        return this.instances.get(className) as T;
     }
 
     // Convenience methods

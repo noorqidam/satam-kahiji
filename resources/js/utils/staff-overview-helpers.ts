@@ -119,12 +119,13 @@ export const sortTeachers = (
             case 'files':
                 comparison = a.progress.totalFiles - b.progress.totalFiles;
                 break;
-            case 'status':
+            case 'status': {
                 // Sort by overall completion (approved files vs total files)
                 const aCompletion = a.progress.totalFiles > 0 ? a.progress.approvedFiles / a.progress.totalFiles : 0;
                 const bCompletion = b.progress.totalFiles > 0 ? b.progress.approvedFiles / b.progress.totalFiles : 0;
                 comparison = aCompletion - bCompletion;
                 break;
+            }
         }
 
         return sortOrder === 'asc' ? comparison : -comparison;

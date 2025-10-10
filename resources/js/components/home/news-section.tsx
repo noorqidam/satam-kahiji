@@ -14,7 +14,6 @@ interface NewsSectionProps {
 
 export const NewsSection = ({ latestNews }: NewsSectionProps) => {
     const [newsScrollPosition, setNewsScrollPosition] = useState(0);
-    const [isMobileNewsDragging, setIsMobileNewsDragging] = useState(false);
 
     const scrollNews = (direction: 'left' | 'right') => {
         const scrollAmount = 320;
@@ -208,12 +207,10 @@ export const NewsSection = ({ latestNews }: NewsSectionProps) => {
                             animate={{ x: -newsScrollPosition }}
                             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                             onDragStart={() => {
-                                setIsMobileNewsDragging(true);
+                                // Drag started
                             }}
                             onDragEnd={(_, info) => {
-                                setTimeout(() => {
-                                    setIsMobileNewsDragging(false);
-                                }, 100);
+                                // Drag ended
                                 const cardWidth = 288;
                                 const threshold = cardWidth * 0.2;
                                 let newPosition = newsScrollPosition;

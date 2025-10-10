@@ -53,7 +53,7 @@ export default function FacilitiesIndex({ facilities, filters }: Props) {
         if (filters.search !== data.search) {
             setData('search', filters.search || '');
         }
-    }, [filters.search]);
+    }, [filters.search, data.search, setData]);
 
     // Real-time search with debouncing
     const handleSearchChange = (value: string) => {
@@ -384,7 +384,7 @@ export default function FacilitiesIndex({ facilities, filters }: Props) {
                                         </span>
                                     </div>
                                     <div className="flex items-center gap-1 overflow-x-auto pb-2 sm:gap-2 sm:overflow-visible sm:pb-0">
-                                        {facilities.links?.map((link: any, index: number) => (
+                                        {facilities.links?.map((link: { url: string | null; active: boolean; label: string }, index: number) => (
                                             <div key={index} className="flex-shrink-0">
                                                 {link.url ? (
                                                     <Link

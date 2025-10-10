@@ -16,7 +16,7 @@ import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
-import type { TeacherWorkDashboardProps } from '@/types/workItem';
+import type { TeacherWorkDashboardProps, TeacherWorkFile, WorkItem, WorkItemData } from '@/types/workItem';
 
 export default function TeacherWorkDashboard({ progress, teacher, userRole }: TeacherWorkDashboardProps) {
     const { toast } = useToast();
@@ -29,7 +29,7 @@ export default function TeacherWorkDashboard({ progress, teacher, userRole }: Te
     const [selectedSubject, setSelectedSubject] = useState<number | null>(null);
     const [showInitializeDialog, setShowInitializeDialog] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [workItemToDelete, setWorkItemToDelete] = useState<any>(null);
+    const [workItemToDelete, setWorkItemToDelete] = useState<WorkItem | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
 
     // Calculate overall progress
@@ -54,22 +54,22 @@ export default function TeacherWorkDashboard({ progress, teacher, userRole }: Te
     );
 
     // Check if user can delete a work item (teachers can only delete optional items they created)
-    const canDeleteWorkItem = (workItem: any) => {
+    const canDeleteWorkItem = (workItem: WorkItem) => {
         return userRole === 'teacher' && !workItem.is_required && workItem.created_by_role === 'teacher';
     };
 
     // Get feedback summary for a work item
-    const getWorkItemFeedbackSummary = (workItemData: any) => {
+    const getWorkItemFeedbackSummary = (workItemData: WorkItemData) => {
         const files = workItemData.files || [];
-        const approved = files.filter((file: any) => file.latest_feedback?.status === 'approved').length;
-        const needsRevision = files.filter((file: any) => file.latest_feedback?.status === 'needs_revision').length;
-        const pending = files.filter((file: any) => !file.latest_feedback || file.latest_feedback.status === 'pending').length;
+        const approved = files.filter((file: TeacherWorkFile) => file.latest_feedback?.status === 'approved').length;
+        const needsRevision = files.filter((file: TeacherWorkFile) => file.latest_feedback?.status === 'needs_revision').length;
+        const pending = files.filter((file: TeacherWorkFile) => !file.latest_feedback || file.latest_feedback.status === 'pending').length;
 
         return { approved, needsRevision, pending, total: files.length };
     };
 
     // Get feedback status badge for work item
-    const getWorkItemFeedbackBadge = (workItemData: any) => {
+    const getWorkItemFeedbackBadge = (workItemData: WorkItemData) => {
         const summary = getWorkItemFeedbackSummary(workItemData);
 
         if (summary.total === 0) {
@@ -113,7 +113,7 @@ export default function TeacherWorkDashboard({ progress, teacher, userRole }: Te
         return null;
     };
 
-    const handleDeleteClick = (workItem: any) => {
+    const handleDeleteClick = (workItem: WorkItem) => {
         setWorkItemToDelete(workItem);
         setDeleteDialogOpen(true);
     };
@@ -124,7 +124,7 @@ export default function TeacherWorkDashboard({ progress, teacher, userRole }: Te
         setIsDeleting(true);
         router.delete(route('teacher.work-items.destroy', workItemToDelete.id), {
             onSuccess: (page) => {
-                const flash = page.props.flash as any;
+                const flash = page.props.flash as { success?: string; error?: string } | undefined;
                 if (flash?.success) {
                     toast({
                         title: t('teacher_work_items.success_messages.success'),

@@ -1,5 +1,4 @@
 import { Grid3X3, Table } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 interface SubjectViewToggleProps {
     view: 'card' | 'table';
@@ -7,8 +6,6 @@ interface SubjectViewToggleProps {
 }
 
 export function SubjectViewToggle({ view, onViewChange }: SubjectViewToggleProps) {
-    const { t } = useTranslation('common');
-
     return (
         <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 p-1 dark:border-gray-600 dark:bg-gray-800">
             <button

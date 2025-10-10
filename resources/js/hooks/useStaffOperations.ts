@@ -29,7 +29,7 @@ export function useStaffOperations() {
         } catch (error) {
             toast({
                 title: 'Error',
-                description: 'Failed to delete staff member and related records. Please try again.',
+                description: `${error} Failed to delete staff member and related records. Please try again.`,
                 variant: 'destructive',
             });
         } finally {
@@ -53,7 +53,7 @@ export function useStaffOperations() {
             } catch (error) {
                 toast({
                     title: 'Error',
-                    description: 'Failed to delete staff members and related records. Please try again.',
+                    description: `${error} Failed to delete staff members and related records. Please try again.`,
                     variant: 'destructive',
                 });
             } finally {

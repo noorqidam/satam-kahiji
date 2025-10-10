@@ -12,16 +12,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
-import type {
-    AchievementCertificateForm,
-    DisciplinaryRecordForm,
-    DocumentForm,
-    ExtracurricularHistoryForm,
-    PositiveNoteForm,
-    StudentRecordsProps,
-} from '@/types/student-records';
+import type { DisciplinaryRecordForm, PositiveNoteForm, StudentRecordsProps } from '@/types/student-records';
 
-export default function StudentRecords({ student, records, options, teacher, userRole }: StudentRecordsProps) {
+export default function StudentRecords({ student, records }: StudentRecordsProps) {
     const { toast } = useToast();
     const [activeTab, setActiveTab] = useState<'notes' | 'disciplinary' | 'extracurricular' | 'documents' | 'certificates'>('notes');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,26 +26,6 @@ export default function StudentRecords({ student, records, options, teacher, use
         action_taken: '',
         severity: 'low',
         incident_date: new Date().toISOString().split('T')[0],
-    });
-    const [extracurricularForm, setExtracurricularForm] = useState<ExtracurricularHistoryForm>({
-        extracurricular_id: 0,
-        academic_year: '',
-        role: '',
-        start_date: '',
-        end_date: '',
-        performance_notes: '',
-    });
-    const [documentForm, setDocumentForm] = useState<DocumentForm>({
-        title: '',
-        document_category_id: 0,
-        file: null,
-        description: '',
-    });
-    const [certificateForm, setCertificateForm] = useState<AchievementCertificateForm>({
-        achievement_description: '',
-        certificate_template_id: 0,
-        issue_date: new Date().toISOString().split('T')[0],
-        notes: '',
     });
 
     const breadcrumbs: BreadcrumbItem[] = [
@@ -67,7 +40,7 @@ export default function StudentRecords({ student, records, options, teacher, use
             e.preventDefault();
             setIsSubmitting(true);
 
-            router.post(route('teacher.students.positive-notes.store', student.id), positiveNoteForm, {
+            router.post(route('teacher.students.positive-notes.store', student.id), JSON.parse(JSON.stringify(positiveNoteForm)), {
                 onSuccess: () => {
                     toast({ title: 'Success', description: 'Positive note added successfully', variant: 'success' });
                     setPositiveNoteForm({ note: '', category: '' });
@@ -86,7 +59,7 @@ export default function StudentRecords({ student, records, options, teacher, use
             e.preventDefault();
             setIsSubmitting(true);
 
-            router.post(route('teacher.students.disciplinary-records.store', student.id), disciplinaryForm, {
+            router.post(route('teacher.students.disciplinary-records.store', student.id), JSON.parse(JSON.stringify(disciplinaryForm)), {
                 onSuccess: () => {
                     toast({ title: 'Success', description: 'Disciplinary record added successfully', variant: 'success' });
                     setDisciplinaryForm({
@@ -103,88 +76,6 @@ export default function StudentRecords({ student, records, options, teacher, use
             });
         },
         [disciplinaryForm, student.id, toast],
-    );
-
-    const handleSubmitExtracurricular = useCallback(
-        (e: FormEvent) => {
-            e.preventDefault();
-            setIsSubmitting(true);
-
-            router.post(route('teacher.students.extracurricular-history.store', student.id), extracurricularForm, {
-                onSuccess: () => {
-                    toast({ title: 'Success', description: 'Extracurricular history added successfully', variant: 'success' });
-                    setExtracurricularForm({
-                        extracurricular_id: 0,
-                        academic_year: '',
-                        role: '',
-                        start_date: '',
-                        end_date: '',
-                        performance_notes: '',
-                    });
-                },
-                onError: () => {
-                    toast({ title: 'Error', description: 'Failed to add extracurricular history', variant: 'destructive' });
-                },
-                onFinish: () => setIsSubmitting(false),
-            });
-        },
-        [extracurricularForm, student.id, toast],
-    );
-
-    const handleSubmitDocument = useCallback(
-        (e: FormEvent) => {
-            e.preventDefault();
-            setIsSubmitting(true);
-
-            const formData = new FormData();
-            formData.append('title', documentForm.title);
-            if (documentForm.document_category_id) {
-                formData.append('document_category_id', documentForm.document_category_id.toString());
-            }
-            if (documentForm.file) {
-                formData.append('file', documentForm.file);
-            }
-            if (documentForm.description) {
-                formData.append('description', documentForm.description);
-            }
-
-            router.post(route('teacher.students.documents.store', student.id), formData, {
-                forceFormData: true,
-                onSuccess: () => {
-                    toast({ title: 'Success', description: 'Document uploaded successfully', variant: 'success' });
-                    setDocumentForm({ title: '', document_category_id: 0, file: null, description: '' });
-                },
-                onError: () => {
-                    toast({ title: 'Error', description: 'Failed to upload document', variant: 'destructive' });
-                },
-                onFinish: () => setIsSubmitting(false),
-            });
-        },
-        [documentForm, student.id, toast],
-    );
-
-    const handleSubmitCertificate = useCallback(
-        (e: FormEvent) => {
-            e.preventDefault();
-            setIsSubmitting(true);
-
-            router.post(route('teacher.students.achievement-certificates.store', student.id), certificateForm, {
-                onSuccess: () => {
-                    toast({ title: 'Success', description: 'Achievement certificate created successfully', variant: 'success' });
-                    setCertificateForm({
-                        achievement_description: '',
-                        certificate_template_id: 0,
-                        issue_date: new Date().toISOString().split('T')[0],
-                        notes: '',
-                    });
-                },
-                onError: () => {
-                    toast({ title: 'Error', description: 'Failed to create certificate', variant: 'destructive' });
-                },
-                onFinish: () => setIsSubmitting(false),
-            });
-        },
-        [certificateForm, student.id, toast],
     );
 
     const handleDeleteRecord = useCallback(
@@ -273,11 +164,11 @@ export default function StudentRecords({ student, records, options, teacher, use
                                 count: records.extracurricular_history.length,
                             },
                             { key: 'documents', label: 'Documents', icon: FileText, count: records.documents.length },
-                            { key: 'certificates', label: 'Certificates', icon: Award, count: records.achievement_certificates.length },
+                            { key: 'certificates', label: 'Certificates', icon: Award, count: 0 },
                         ].map((tab) => (
                             <button
                                 key={tab.key}
-                                onClick={() => setActiveTab(tab.key as any)}
+                                onClick={() => setActiveTab(tab.key as 'notes' | 'disciplinary' | 'extracurricular' | 'documents' | 'certificates')}
                                 className={`flex items-center space-x-2 border-b-2 px-1 py-2 text-sm font-medium whitespace-nowrap ${
                                     activeTab === tab.key
                                         ? 'border-primary text-primary dark:border-primary dark:text-primary'
@@ -394,7 +285,9 @@ export default function StudentRecords({ student, records, options, teacher, use
                                                 <Label htmlFor="severity">Severity</Label>
                                                 <Select
                                                     value={disciplinaryForm.severity}
-                                                    onValueChange={(value: any) => setDisciplinaryForm((prev) => ({ ...prev, severity: value }))}
+                                                    onValueChange={(value: 'low' | 'medium' | 'high' | 'critical') =>
+                                                        setDisciplinaryForm((prev) => ({ ...prev, severity: value }))
+                                                    }
                                                 >
                                                     <SelectTrigger>
                                                         <SelectValue />

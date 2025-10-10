@@ -82,7 +82,7 @@ const getBreadcrumbs = (t: (key: string) => string): BreadcrumbItem[] => [
     { title: t('student_form.breadcrumbs.add_student'), href: '/teacher/students/create' },
 ];
 
-export default function TeacherStudentCreate({ teacher, userRole, assignedClass, extracurriculars, recordOptions }: TeacherStudentCreateProps) {
+export default function TeacherStudentCreate({ assignedClass, extracurriculars, recordOptions }: TeacherStudentCreateProps) {
     const { t } = useTranslation(['common', 'student_form']);
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);

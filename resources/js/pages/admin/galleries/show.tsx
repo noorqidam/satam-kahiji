@@ -78,7 +78,6 @@ export default function ShowGallery() {
     const [videoPlayerOpen, setVideoPlayerOpen] = useState(false);
     const [currentVideoItem, setCurrentVideoItem] = useState<GalleryItem | null>(null);
     const [mediaError, setMediaError] = useState<string | null>(null);
-    const [currentUrlIndex, setCurrentUrlIndex] = useState(0);
 
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Admin Dashboard', href: route('admin.dashboard') },
@@ -137,43 +136,11 @@ export default function ShowGallery() {
         );
     };
 
-    const generateVideoUrls = (url: string): string[] => {
-        console.log('Generating URLs for:', url);
-
-        // Extract file ID from various Google Drive URL formats
-        let fileId = null;
-
-        if (url.includes('lh3.googleusercontent.com/d/')) {
-            fileId = url.match(/\/d\/([a-zA-Z0-9_-]+)/)?.[1];
-        } else if (url.includes('drive.google.com')) {
-            fileId = url.match(/\/d\/([a-zA-Z0-9_-]+)/)?.[1] || url.match(/id=([a-zA-Z0-9_-]+)/)?.[1];
-        }
-
-        if (!fileId) {
-            console.log('No file ID found, using original URL');
-            return [url];
-        }
-
-        console.log('Extracted file ID:', fileId);
-
-        // Generate multiple URL formats to try
-        const urls = [
-            `https://drive.google.com/uc?export=download&id=${fileId}&alt=media`, // Direct streaming
-            `https://drive.google.com/uc?id=${fileId}`, // Simple direct access
-            `https://drive.google.com/file/d/${fileId}/preview`, // Preview embed
-            `https://lh3.googleusercontent.com/d/${fileId}`, // Original lh3 format
-            url, // Original URL as final fallback
-        ];
-
-        console.log('Generated URL options:', urls);
-        return urls;
-    };
 
     const handleMediaPlay = (item: GalleryItem) => {
         if (item.type === 'video' || item.type === 'audio') {
             setCurrentVideoItem(item);
             setMediaError(null); // Reset error state
-            setCurrentUrlIndex(0); // Reset to first URL
             setVideoPlayerOpen(true);
         }
     };

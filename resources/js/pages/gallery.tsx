@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import PublicLayout from '@/layouts/public-layout';
 import { Head, Link, router } from '@inertiajs/react';
 import { motion, useInView } from 'framer-motion';
-import { Calendar, Eye, Grid3x3, Images, Layers, Play, Search, Sparkles, Volume2 } from 'lucide-react';
+import { Calendar, Eye, Grid3x3, Images, Layers, Search, Sparkles } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 interface GalleryItem {
@@ -15,7 +15,7 @@ interface GalleryItem {
     caption: string | null;
     mime_type: string | null;
     file_path: string | null;
-    metadata: any;
+    metadata: unknown;
     sort_order: number;
     is_featured: boolean;
     created_at: string;
@@ -68,7 +68,7 @@ interface GalleryPageProps {
     contact?: Contact;
 }
 
-export default function GalleryPage({ galleries, filters, contact }: GalleryPageProps) {
+export default function GalleryPage({ galleries, filters }: GalleryPageProps) {
     const [search, setSearch] = useState(filters.search || '');
     const [isLoading, setIsLoading] = useState(false);
     const isFirstRender = useRef(true);
@@ -112,12 +112,6 @@ export default function GalleryPage({ galleries, filters, contact }: GalleryPage
         });
     };
 
-    const getMediaIcon = (mimeType: string | null) => {
-        if (!mimeType) return Images;
-        if (mimeType.startsWith('video/')) return Play;
-        if (mimeType.startsWith('audio/')) return Volume2;
-        return Images;
-    };
 
     const getMediaTypeLabel = (items: GalleryItem[]) => {
         const hasVideo = items.some((item) => item.mime_type?.startsWith('video/'));

@@ -49,7 +49,7 @@ interface ExtracurricularPageProps {
     contact?: Contact;
 }
 
-export default function ExtracurricularPage({ extracurriculars, filters, contact }: ExtracurricularPageProps) {
+export default function ExtracurricularPage({ extracurriculars, filters }: ExtracurricularPageProps) {
     const [search, setSearch] = useState(filters.search || '');
     const [isLoading, setIsLoading] = useState(false);
     const isFirstRender = useRef(true);

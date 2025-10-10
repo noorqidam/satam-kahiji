@@ -12,7 +12,9 @@ import { FilePreviewDialog } from '@/components/ui/file-preview-dialog';
 import { useFileSize } from '@/hooks/use-file-metadata';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
+import type { Subject } from '@/types/subject';
 import type { TeacherWithUserDetail } from '@/types/teacher';
+import type { TeacherSubjectWork, TeacherWorkFile } from '@/types/workItem';
 
 interface TeacherDetailProps {
     teacher: TeacherWithUserDetail;
@@ -21,9 +23,9 @@ interface TeacherDetailProps {
 export default function TeacherDetail({ teacher }: TeacherDetailProps) {
     const { t } = useTranslation();
     const [feedbackDialogOpen, setFeedbackDialogOpen] = useState(false);
-    const [selectedFile, setSelectedFile] = useState<any>(null);
+    const [selectedFile, setSelectedFile] = useState<TeacherWorkFile | null>(null);
     const [previewDialogOpen, setPreviewDialogOpen] = useState(false);
-    const [fileToPreview, setFileToPreview] = useState<any>(null);
+    const [fileToPreview, setFileToPreview] = useState<TeacherWorkFile | null>(null);
 
     // File size formatting utility
     const { formatFileSize } = useFileSize();
@@ -34,12 +36,12 @@ export default function TeacherDetail({ teacher }: TeacherDetailProps) {
         { title: teacher.user.name, href: `/headmaster/staff-overview/${teacher.id}` },
     ];
 
-    const handleProvideFeedback = (file: any) => {
+    const handleProvideFeedback = (file: TeacherWorkFile) => {
         setSelectedFile(file);
         setFeedbackDialogOpen(true);
     };
 
-    const handlePreviewFile = (file: any) => {
+    const handlePreviewFile = (file: TeacherWorkFile) => {
         // No need to fetch metadata - file_size is already in the database
         setFileToPreview(file);
         setPreviewDialogOpen(true);
@@ -84,7 +86,7 @@ export default function TeacherDetail({ teacher }: TeacherDetailProps) {
             acc[subjectKey].workItems.push(work);
             return acc;
         },
-        {} as Record<number, { subject: any; workItems: any[] }>,
+        {} as Record<number, { subject: Subject; workItems: TeacherSubjectWork[] }>,
     );
 
     return (
@@ -245,7 +247,7 @@ export default function TeacherDetail({ teacher }: TeacherDetailProps) {
                                                     </div>
                                                 ) : (
                                                     <div className="space-y-3 sm:space-y-4">
-                                                        {workItem.files.map((file: any) => {
+                                                        {workItem.files?.map((file: TeacherWorkFile) => {
                                                             const latestFeedback = file.feedback?.[0];
 
                                                             return (

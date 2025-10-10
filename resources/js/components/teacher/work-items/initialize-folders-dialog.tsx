@@ -5,6 +5,16 @@ import { router } from '@inertiajs/react';
 import { FolderPlus, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 
+interface FlashMessages {
+    success?: string;
+    error?: string;
+}
+
+interface InertiaPageProps {
+    flash?: FlashMessages;
+    [key: string]: unknown;
+}
+
 interface InitializeFoldersDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -29,15 +39,15 @@ export function InitializeFoldersDialog({ open, onOpenChange, teacherId, subject
                 subject_id: subjectId,
             },
             {
-                onSuccess: (page) => {
+                onSuccess: (page: { props: InertiaPageProps }) => {
                     setInitializing(false);
-                    const flash = page.props.flash as any;
+                    const flash = page.props.flash;
 
                     // Show success message if available
                     if (flash?.success) {
                         toast({
                             title: 'Success',
-                            description: flash.success as string,
+                            description: flash.success,
                             variant: 'success',
                         });
                     } else {

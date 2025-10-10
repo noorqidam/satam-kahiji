@@ -10,7 +10,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Calendar, Edit, Eye, ImageIcon, Plus, Search, ToggleLeft, ToggleRight, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // Utility function to handle Google Drive URLs for image display
 const convertGoogleDriveUrlForDisplay = (url: string | null): string | null => {
@@ -74,7 +74,7 @@ export default function GalleriesIndex() {
     const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; gallery: Gallery | null }>({ open: false, gallery: null });
     const [isDeleting, setIsDeleting] = useState(false);
 
-    const updateFilters = () => {
+    const updateFilters = useCallback(() => {
         const params: Record<string, string> = {};
 
         if (searchTerm.trim()) {
@@ -88,7 +88,7 @@ export default function GalleriesIndex() {
             preserveState: true,
             preserveScroll: true,
         });
-    };
+    }, [searchTerm, selectedStatus]);
 
     // Real-time search with debounce
     useEffect(() => {
@@ -97,7 +97,7 @@ export default function GalleriesIndex() {
         }, 300); // 300ms debounce
 
         return () => clearTimeout(timeoutId);
-    }, [searchTerm, selectedStatus]);
+    }, [searchTerm, selectedStatus, updateFilters]);
 
     const handleTogglePublish = (gallery: Gallery) => {
         router.post(
@@ -128,20 +128,6 @@ export default function GalleriesIndex() {
         });
     };
 
-    const getStatusBadge = (isPublished: boolean) => {
-        if (isPublished) {
-            return (
-                <Badge variant="outline" className="text-green-600">
-                    Published
-                </Badge>
-            );
-        }
-        return (
-            <Badge variant="outline" className="text-gray-500">
-                Draft
-            </Badge>
-        );
-    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

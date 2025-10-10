@@ -14,7 +14,9 @@ export interface UploadServiceConfig {
 
 class UploadService {
     async getTeacherSubjectWorkId(teacherId: number, subjectId: number, workItemId: number): Promise<number> {
-        const response = await (httpClient as any).instance.get('/admin/work-items/lookup-teacher-subject-work-id', {
+        const response = await (
+            httpClient as unknown as { instance: { get: (url: string, config?: unknown) => Promise<{ data: { teacher_subject_work_id: number } }> } }
+        ).instance.get('/admin/work-items/lookup-teacher-subject-work-id', {
             params: {
                 teacher_id: teacherId,
                 subject_id: subjectId,
@@ -24,16 +26,18 @@ class UploadService {
         return response.data.teacher_subject_work_id;
     }
 
-    async uploadFile(file: File, teacherSubjectWorkId: number, config: UploadServiceConfig): Promise<any> {
+    async uploadFile(file: File, teacherSubjectWorkId: number, config: UploadServiceConfig): Promise<unknown> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('teacher_subject_work_id', teacherSubjectWorkId.toString());
 
-        const response = await (httpClient as any).instance.post('/admin/work-items/upload-file', formData, {
+        const response = await (
+            httpClient as unknown as { instance: { post: (url: string, data: FormData, config?: unknown) => Promise<{ data: unknown }> } }
+        ).instance.post('/admin/work-items/upload-file', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
-            onUploadProgress: (progressEvent: any) => {
+            onUploadProgress: (progressEvent: { loaded: number; total: number }) => {
                 if (progressEvent.total && config.onProgress) {
                     const progress: UploadProgress = {
                         loaded: progressEvent.loaded,

@@ -1,17 +1,10 @@
-// Single Responsibility: Display contact information in card format
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { ContactCardProps } from '@/types/contact';
 import { Link } from '@inertiajs/react';
 import { Contact as ContactIcon, Edit, Mail, MapPin, MessageCircle, Phone, Trash2, User } from 'lucide-react';
 
-/**
- * Reusable ContactCard component following SOLID principles
- * - SRP: Only responsible for displaying contact information
- * - OCP: Can be extended through props without modifying the component
- * - ISP: Focused interface with only needed props
- */
-export function ContactCard({ contact, onDelete, onEdit, showActions = true }: ContactCardProps) {
+export function ContactCard({ contact, onDelete, showActions = true }: ContactCardProps) {
     return (
         <Card className="group hover:shadow-3xl relative gap-0 overflow-hidden border-0 py-0 shadow-xl transition-all duration-500 dark:bg-gray-800/90">
             {/* Animated background */}

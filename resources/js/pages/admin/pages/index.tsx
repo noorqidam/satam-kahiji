@@ -50,7 +50,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Page Management', href: '/admin/pages' },
 ];
 
-export default function PagesIndex({ pages, filters, stats }: Props) {
+export default function PagesIndex({ pages }: Props) {
     const { dialogState, openDialog, closeDialog, confirmDelete } = useDeleteDialog();
 
     // Handle both paginated and simple array data

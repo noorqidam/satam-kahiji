@@ -50,7 +50,7 @@ export function useUserOperations() {
 
                 createForm.reset();
                 setShowCreateDialog(false);
-            } catch (error) {
+            } catch {
                 toast({
                     title: 'Error',
                     description: 'Failed to create user. Please try again.',
@@ -93,7 +93,7 @@ export function useUserOperations() {
                 });
 
                 setEditUserDialog(null);
-            } catch (error) {
+            } catch {
                 toast({
                     title: 'Error',
                     description: 'Failed to update user. Please try again.',
@@ -120,7 +120,7 @@ export function useUserOperations() {
             });
 
             setUserToDelete(null);
-        } catch (error) {
+        } catch {
             toast({
                 title: 'Error',
                 description: 'Failed to delete user and related records. Please try again.',
@@ -144,7 +144,7 @@ export function useUserOperations() {
                 });
 
                 setShowBulkDeleteConfirm(false);
-            } catch (error) {
+            } catch {
                 toast({
                     title: 'Error',
                     description: 'Failed to delete users and related records. Please try again.',

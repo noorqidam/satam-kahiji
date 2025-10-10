@@ -105,7 +105,7 @@ export function StudentFormCard({
                 setData('homeroom_teacher_id', assignedTeacherId.toString());
             }
         }
-    }, [data.class, classToTeacherMap, setData]);
+    }, [data.class, data.homeroom_teacher_id, classToTeacherMap, setData]);
 
     // Handle automatic class assignment when teacher changes
     useEffect(() => {
@@ -118,7 +118,7 @@ export function StudentFormCard({
                 }
             }
         }
-    }, [data.homeroom_teacher_id, teacherToClassMap, setData]);
+    }, [data.homeroom_teacher_id, data.class, teacherToClassMap, setData]);
 
     const handlePhotoSelect = (file: File | null) => {
         // Mark that user has interacted with the photo field

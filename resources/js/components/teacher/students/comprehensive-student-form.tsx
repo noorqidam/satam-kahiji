@@ -17,6 +17,38 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 
+interface Document {
+    id: number;
+    title?: string;
+    file_name?: string;
+    file_path: string;
+    file_size?: number;
+    uploaded_at?: string;
+    created_at?: string;
+}
+
+interface SubmitData {
+    [key: string]: string | number | File | boolean | null | undefined;
+}
+
+interface InertiaPage {
+    props: {
+        flash?: {
+            success?: string;
+            error?: string;
+        };
+        student?: unknown;
+        [key: string]: unknown;
+    };
+}
+
+interface RouterOptions {
+    onSuccess?: (page: InertiaPage) => void;
+    onError?: (errors: Record<string, string>) => void;
+    onFinish?: () => void;
+    forceFormData?: boolean;
+}
+
 interface StudentRecord {
     positive_notes?: Array<{
         id: number;
@@ -98,11 +130,17 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
         category: '',
         date: new Date().toISOString().split('T')[0],
     });
-    const [newDisciplinaryRecord, setNewDisciplinaryRecord] = useState({
+    const [newDisciplinaryRecord, setNewDisciplinaryRecord] = useState<{
+        incident_type: string;
+        incident_description: string;
+        action_taken: string;
+        severity: 'minor' | 'moderate' | 'serious';
+        incident_date: string;
+    }>({
         incident_type: '',
         incident_description: '',
         action_taken: '',
-        severity: 'minor' as const,
+        severity: 'minor',
         incident_date: new Date().toISOString().split('T')[0],
     });
     const [newDocument, setNewDocument] = useState({
@@ -153,19 +191,19 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
     };
 
     // Handle file preview
-    const handlePreviewFile = (document: any) => {
+    const handlePreviewFile = (document: Document) => {
         setPreviewFile({
             id: document.id,
             file_name: document.file_name || document.title || 'Unknown file',
             file_url: document.file_path, // Use the direct file path/URL
             file_size: document.file_size,
-            created_at: document.uploaded_at || document.created_at,
+            created_at: document.uploaded_at || document.created_at || '',
         });
         setIsPreviewOpen(true);
     };
 
     const handleSubmitRecord = useCallback(
-        async (type: string, data: any) => {
+        async (type: string, data: SubmitData) => {
             if (!isEdit) {
                 toast({
                     title: t('common.info'),
@@ -178,7 +216,7 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
             setIsSubmitting(true);
 
             let routeName = '';
-            let submitData: any = data;
+            let submitData: SubmitData | FormData = data;
 
             switch (type) {
                 case 'positive-note':
@@ -187,7 +225,7 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
                 case 'disciplinary':
                     routeName = 'teacher.students.disciplinary-records.store';
                     break;
-                case 'document':
+                case 'document': {
                     routeName = 'teacher.students.documents.store';
                     const formData = new FormData();
                     Object.entries(data).forEach(([key, value]) => {
@@ -199,13 +237,14 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
                     });
                     submitData = formData;
                     break;
+                }
                 case 'achievement':
                     routeName = 'teacher.students.achievements.store';
                     break;
             }
 
-            const options: any = {
-                onSuccess: (page: any) => {
+            const options: RouterOptions = {
+                onSuccess: (page: InertiaPage) => {
                     // Debug: Log the page response to see what we get
                     console.log('Success response:', page);
                     console.log('Flash messages:', page.props?.flash);
@@ -271,7 +310,7 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
                         }, 100);
                     }
                 },
-                onError: (errors: any) => {
+                onError: (errors: Record<string, string>) => {
                     // Debug: Log the error response
                     console.log('Error response:', errors);
 
@@ -288,7 +327,7 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
 
             router.post(route(routeName, student.id), submitData, options);
         },
-        [isEdit, student.id, toast],
+        [isEdit, student.id, toast, t],
     );
 
     // Show delete confirmation dialog
@@ -316,7 +355,7 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
             itemName,
             itemType,
         });
-    }, []);
+    }, [t]);
 
     // Perform actual deletion
     const confirmDeleteRecord = useCallback(() => {
@@ -346,7 +385,7 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
                 toast({ title: t('common.error'), description: t('student_records.messages.failed_to_delete_record'), variant: 'destructive' });
             },
         });
-    }, [deleteDialog, student.id, toast]);
+    }, [deleteDialog, student.id, toast, t]);
 
     const getSeverityColor = (severity: string) => {
         switch (severity) {
@@ -508,8 +547,8 @@ export function StudentRecordsTabs({ student, recordOptions, isEdit = false }: S
                                                         <Label htmlFor="severity">{t('student_records.notes.severity')}</Label>
                                                         <Select
                                                             value={newDisciplinaryRecord.severity}
-                                                            onValueChange={(value: any) =>
-                                                                setNewDisciplinaryRecord((prev) => ({ ...prev, severity: value }))
+                                                            onValueChange={(value: string) =>
+                                                                setNewDisciplinaryRecord((prev) => ({ ...prev, severity: value as 'minor' | 'moderate' | 'serious' }))
                                                             }
                                                         >
                                                             <SelectTrigger>

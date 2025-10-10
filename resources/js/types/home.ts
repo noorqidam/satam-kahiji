@@ -35,7 +35,7 @@ export interface GalleryItem {
     caption: string | null;
     mime_type: string | null;
     file_path: string | null;
-    metadata: any;
+    metadata: unknown;
     sort_order: number;
     is_featured: boolean;
     created_at: string;
