@@ -166,74 +166,16 @@
     }
 }
 
-/* Custom animations for landing page */
-@keyframes float {
-    0%,
-    100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-@keyframes float-delayed {
-    0%,
-    100% {
-        transform: translateY(0px) translateX(0px);
-    }
-    50% {
-        transform: translateY(-15px) translateX(10px);
-    }
-}
-
-@keyframes float-slow {
-    0%,
-    100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-    50% {
-        transform: translateY(-10px) rotate(180deg);
-    }
-}
-
-@keyframes gradient-shift {
-    0%,
-    100% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-}
-
-.animate-float {
-    animation: float 6s ease-in-out infinite;
-}
-
-.animate-float-delayed {
-    animation: float-delayed 8s ease-in-out infinite;
-    animation-delay: 2s;
-}
-
-.animate-float-slow {
-    animation: float-slow 10s ease-in-out infinite;
-    animation-delay: 4s;
-}
-
-.animate-gradient {
-    background-size: 400% 400%;
-    animation: gradient-shift 15s ease infinite;
-}
-
-/* Enhanced news card hover effects */
+/* Simplified animations for better performance */
 .news-card {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .news-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 /* Smooth scroll behavior */

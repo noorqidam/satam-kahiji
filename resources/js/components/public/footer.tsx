@@ -86,7 +86,7 @@ export default function Footer({ className = '', contact }: FooterProps) {
                 <div className="border-t border-gray-800 pt-8 text-center">
                     <div className="flex items-center justify-center space-x-4">
                         <img src="/logo-sks.png" alt="Setneg Goes to School Logo" className="h-30 w-auto object-contain opacity-90" />
-                        <p className="text-base">Copyright &copy; Setneg Goes to School 2024 Kementerian Sekretariat Negara Republik Indonesia</p>
+                        <p className="text-base">Copyright &copy; Setneg Goes to School {new Date().getFullYear()} Kementerian Sekretariat Negara Republik Indonesia</p>
                     </div>
                 </div>
             </div>

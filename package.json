@@ -8,7 +8,9 @@
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix",
-        "types": "tsc --noEmit"
+        "types": "tsc --noEmit",
+        "test:setup": "npm run build",
+        "test": "npm run test:setup && php artisan test"
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",

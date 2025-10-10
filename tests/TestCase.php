@@ -15,6 +15,9 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         
+        // Ensure Vite manifest exists for testing
+        $this->ensureViteManifestExists();
+        
         // For SQLite testing, create only essential tables manually
         if (DB::getDriverName() === 'sqlite') {
             $this->setupSQLiteTestDatabase();
@@ -27,6 +30,54 @@ abstract class TestCase extends BaseTestCase
         $this->app['auth']->forgetGuards();
         
         parent::tearDown();
+    }
+
+    /**
+     * Ensure Vite manifest exists for testing
+     */
+    private function ensureViteManifestExists(): void
+    {
+        $manifestPath = public_path('build/manifest.json');
+        
+        if (!file_exists($manifestPath)) {
+            // Create build directory if it doesn't exist
+            $buildDir = dirname($manifestPath);
+            if (!is_dir($buildDir)) {
+                mkdir($buildDir, 0755, true);
+            }
+            
+            // Create a minimal manifest for testing
+            $minimalManifest = [
+                'resources/css/app.css' => [
+                    'file' => 'assets/app-test.css',
+                    'isEntry' => true,
+                    'src' => 'resources/css/app.css'
+                ],
+                'resources/js/app.tsx' => [
+                    'file' => 'assets/app-test.js',
+                    'isEntry' => true,
+                    'src' => 'resources/js/app.tsx'
+                ]
+            ];
+            
+            file_put_contents($manifestPath, json_encode($minimalManifest, JSON_PRETTY_PRINT));
+            
+            // Create minimal CSS and JS files
+            $cssPath = public_path('build/assets/app-test.css');
+            $jsPath = public_path('build/assets/app-test.js');
+            
+            if (!file_exists(dirname($cssPath))) {
+                mkdir(dirname($cssPath), 0755, true);
+            }
+            
+            if (!file_exists($cssPath)) {
+                file_put_contents($cssPath, '/* Test CSS */');
+            }
+            
+            if (!file_exists($jsPath)) {
+                file_put_contents($jsPath, '/* Test JS */');
+            }
+        }
     }
 
     private function setupSQLiteTestDatabase(): void
