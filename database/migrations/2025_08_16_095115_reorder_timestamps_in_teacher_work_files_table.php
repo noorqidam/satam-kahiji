@@ -55,21 +55,24 @@ return new class extends Migration
             FROM teacher_work_files
         ');
 
-        // Drop foreign key constraints first
-        Schema::table('work_item_feedback', function (Blueprint $table) {
-            $table->dropForeign('work_item_feedback_teacher_work_file_id_foreign');
-        });
+        // Handle foreign key constraints differently for SQLite vs PostgreSQL
+        if (DB::getDriverName() === 'sqlite') {
+            // For SQLite, just drop and rename - foreign keys will be recreated automatically
+            Schema::dropIfExists('teacher_work_files');
+            Schema::rename('teacher_work_files_temp', 'teacher_work_files');
+        } else {
+            // For PostgreSQL, handle foreign key constraints properly
+            Schema::table('work_item_feedback', function (Blueprint $table) {
+                $table->dropForeign('work_item_feedback_teacher_work_file_id_foreign');
+            });
 
-        // Drop the original table
-        Schema::dropIfExists('teacher_work_files');
+            Schema::dropIfExists('teacher_work_files');
+            Schema::rename('teacher_work_files_temp', 'teacher_work_files');
 
-        // Rename the temporary table to the original name
-        Schema::rename('teacher_work_files_temp', 'teacher_work_files');
-
-        // Recreate the foreign key constraint
-        Schema::table('work_item_feedback', function (Blueprint $table) {
-            $table->foreign('teacher_work_file_id')->references('id')->on('teacher_work_files')->cascadeOnDelete();
-        });
+            Schema::table('work_item_feedback', function (Blueprint $table) {
+                $table->foreign('teacher_work_file_id')->references('id')->on('teacher_work_files')->cascadeOnDelete();
+            });
+        }
     }
 
     /**

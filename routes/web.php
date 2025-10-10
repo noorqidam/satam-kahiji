@@ -45,6 +45,9 @@ Route::get('/principal', [\App\Http\Controllers\PrincipalController::class, 'ind
 // Staff Management
 Route::get('/staff-management', [\App\Http\Controllers\StaffManagementController::class, 'index'])->name('staff-management.index');
 
+// Include auth routes before catch-all route
+require __DIR__.'/auth.php';
+
 Route::get('/{slug}', [\App\Http\Controllers\PageController::class, 'show'])->name('page.show');
 
 // Public API endpoints
@@ -485,4 +488,3 @@ Route::post('/reset-password', function (\Illuminate\Http\Request $request) {
 // =============================================================================
 
 require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';

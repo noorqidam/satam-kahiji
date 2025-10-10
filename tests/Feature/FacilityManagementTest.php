@@ -50,8 +50,9 @@ class FacilityManagementTest extends TestCase
 
         $response = $this->actingAs($this->admin)->post(route('admin.facilities.store'), $facilityData);
         
-        $response->assertStatus(200);
-        $response->assertJsonFragment(['success' => true]);
+        $response->assertStatus(302); // Web controller redirects on success
+        $response->assertRedirect(route('admin.facilities.index'));
+        $response->assertSessionHas('success', 'Facility created successfully.');
         
         $this->assertDatabaseHas('facilities', [
             'name' => 'Test Library',
@@ -96,8 +97,9 @@ class FacilityManagementTest extends TestCase
 
         $response = $this->actingAs($this->admin)->put(route('admin.facilities.update', $facility), $updateData);
         
-        $response->assertStatus(200);
-        $response->assertJsonFragment(['success' => true]);
+        $response->assertStatus(302); // Web controller redirects on success
+        $response->assertRedirect(route('admin.facilities.index'));
+        $response->assertSessionHas('success', 'Facility updated successfully.');
         
         $this->assertDatabaseHas('facilities', [
             'id' => $facility->id,
@@ -112,8 +114,9 @@ class FacilityManagementTest extends TestCase
 
         $response = $this->actingAs($this->admin)->delete(route('admin.facilities.destroy', $facility));
         
-        $response->assertStatus(200);
-        $response->assertJsonFragment(['success' => true]);
+        $response->assertStatus(302); // Web controller redirects on success
+        $response->assertRedirect(route('admin.facilities.index'));
+        $response->assertSessionHas('success', 'Facility deleted successfully.');
         
         $this->assertDatabaseMissing('facilities', [
             'id' => $facility->id,
@@ -124,8 +127,8 @@ class FacilityManagementTest extends TestCase
     {
         $response = $this->actingAs($this->admin)->post(route('admin.facilities.store'), []);
         
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['name', 'description']);
+        $response->assertStatus(302); // Web controller redirects on validation error
+        $response->assertSessionHasErrors(['name', 'description']);
     }
 
     public function test_non_admin_cannot_access_facilities()

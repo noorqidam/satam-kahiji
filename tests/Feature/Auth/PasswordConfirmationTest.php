@@ -7,6 +7,13 @@ test('confirm password screen can be rendered', function () {
 
     $response = $this->actingAs($user)->get('/confirm-password');
 
+    if ($response->status() !== 200) {
+        echo "Response status: " . $response->status() . "\n";
+        if (str_contains($response->getContent(), 'Not Found')) {
+            echo "404 Not Found error\n";
+        }
+    }
+
     $response->assertStatus(200);
 });
 

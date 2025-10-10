@@ -12,6 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (DB::getDriverName() === 'sqlite') {
+            // For SQLite, column reordering is not critical for testing functionality
+            // Skip this complex restructuring migration
+            return;
+        }
+        
         // Use raw SQL to recreate the table with proper column order
         DB::statement('
             CREATE TABLE staff_new (

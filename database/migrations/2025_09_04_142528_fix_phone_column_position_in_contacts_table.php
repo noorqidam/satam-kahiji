@@ -12,6 +12,17 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (DB::getDriverName() === 'sqlite') {
+            // For SQLite, column reordering is not critical for testing
+            // Just ensure phone column exists
+            if (!Schema::hasColumn('contacts', 'phone')) {
+                Schema::table('contacts', function (Blueprint $table) {
+                    $table->string('phone')->nullable()->after('message');
+                });
+            }
+            return;
+        }
+        
         // For PostgreSQL, we need to recreate the table to change column order
         DB::statement('CREATE TABLE contacts_new (
             id SERIAL PRIMARY KEY,

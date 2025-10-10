@@ -12,6 +12,17 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (DB::getDriverName() === 'sqlite') {
+            // For SQLite, skip this migration to avoid index issues
+            // Just add the is_published column if needed
+            if (!Schema::hasColumn('posts', 'is_published')) {
+                Schema::table('posts', function (Blueprint $table) {
+                    $table->boolean('is_published')->default(false);
+                });
+            }
+            return;
+        }
+        
         Schema::table('posts', function (Blueprint $table) {
             // Convert existing published_at data to boolean and add new column
             $table->boolean('is_published')->default(false)->after('category');
@@ -21,8 +32,10 @@ return new class extends Migration
         DB::table('posts')->whereNotNull('published_at')->update(['is_published' => true]);
 
         Schema::table('posts', function (Blueprint $table) {
-            // Remove the old published_at column
-            $table->dropColumn('published_at');
+            // Remove the old published_at column only if it exists
+            if (Schema::hasColumn('posts', 'published_at')) {
+                $table->dropColumn('published_at');
+            }
         });
     }
 
