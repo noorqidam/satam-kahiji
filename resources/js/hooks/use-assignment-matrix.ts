@@ -4,26 +4,27 @@ import { type SubjectAssignmentData } from './use-subject-assignment-data';
 type AssignmentMatrix = Record<number, Record<number, boolean>>;
 
 export function useAssignmentMatrix(data: SubjectAssignmentData) {
-    // Create initial assignments based on data
-    const initialAssignments = useMemo(() => {
-        return createInitialAssignments(data);
-    }, [data]);
-
-    const [assignments, setAssignments] = useState<AssignmentMatrix>(initialAssignments);
-
-    // Update assignments when data changes - using a key that changes when actual assignment data changes
+    // Create initial assignments based on data - only recreate when actual data structure changes
     const dataKey = useMemo(() => {
-        return JSON.stringify(
-            data.staff.data.map((s) => ({
+        return JSON.stringify({
+            staff: data.staff.data.map((s) => ({
                 id: s.id,
                 subjects: s.subjects.map((sub) => sub.id).sort(),
             })),
-        );
-    }, [data.staff.data]);
+            subjects: data.subjects.data.map((s) => s.id).sort(),
+        });
+    }, [data.staff.data, data.subjects.data]);
 
+    const initialAssignments = useMemo(() => {
+        return createInitialAssignments(data);
+    }, [data, dataKey]);
+
+    const [assignments, setAssignments] = useState<AssignmentMatrix>(initialAssignments);
+
+    // Update assignments when data actually changes (not on every render)
     useEffect(() => {
         setAssignments(initialAssignments);
-    }, [dataKey, initialAssignments]);
+    }, [initialAssignments]);
 
     const toggleAssignment = useCallback((staffId: number, subjectId: number) => {
         setAssignments((prev) => ({

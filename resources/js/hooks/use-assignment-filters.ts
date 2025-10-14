@@ -30,13 +30,14 @@ export function useAssignmentFilters(initialFilters: AssignmentFilters = {}) {
 
     const debouncedUpdateFilters = useCallback(
         (staffSearchTerm: string, subjectSearchTerm: string) => {
-            if (debounceTimer) {
-                clearTimeout(debounceTimer);
-            }
-            const timer = setTimeout(() => updateFilters(staffSearchTerm, subjectSearchTerm), 300);
-            setDebounceTimer(timer);
+            setDebounceTimer((prevTimer) => {
+                if (prevTimer) {
+                    clearTimeout(prevTimer);
+                }
+                return setTimeout(() => updateFilters(staffSearchTerm, subjectSearchTerm), 300);
+            });
         },
-        [debounceTimer, updateFilters],
+        [updateFilters],
     );
 
     const handleStaffSearchChange = useCallback(
