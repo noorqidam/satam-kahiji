@@ -7,10 +7,20 @@ import type { Contact } from '@/types/contact';
  * Follows SRP by handling only breadcrumb generation for contact pages
  * Follows OCP by accepting page type parameter for extensibility
  */
-export function generateContactBreadcrumbs(page: 'index' | 'show' | 'create' | 'edit', contact?: Contact): BreadcrumbItem[] {
+export function generateContactBreadcrumbs(
+    page: 'index' | 'show' | 'create' | 'edit', 
+    contact?: Contact,
+    t?: (key: string) => string
+): BreadcrumbItem[] {
     const baseBreadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: route('admin.dashboard') },
-        { title: 'School Contact Information', href: route('admin.contacts.index') },
+        { 
+            title: t ? t('contact_management.breadcrumbs.admin_dashboard') : 'Admin Dashboard', 
+            href: route('admin.dashboard') 
+        },
+        { 
+            title: t ? t('contact_management.breadcrumbs.contact_information') : 'School Contact Information', 
+            href: route('admin.contacts.index') 
+        },
     ];
 
     switch (page) {
@@ -18,7 +28,13 @@ export function generateContactBreadcrumbs(page: 'index' | 'show' | 'create' | '
             return baseBreadcrumbs;
 
         case 'create':
-            return [...baseBreadcrumbs, { title: 'Create Contact', href: route('admin.contacts.create') }];
+            return [
+                ...baseBreadcrumbs, 
+                { 
+                    title: t ? t('contact_management.breadcrumbs.create_contact') : 'Create Contact', 
+                    href: route('admin.contacts.create') 
+                }
+            ];
 
         case 'show':
             if (!contact) {
@@ -33,7 +49,10 @@ export function generateContactBreadcrumbs(page: 'index' | 'show' | 'create' | '
             return [
                 ...baseBreadcrumbs,
                 { title: contact.name, href: route('admin.contacts.show', contact.id) },
-                { title: 'Edit', href: route('admin.contacts.edit', contact.id) },
+                { 
+                    title: t ? t('contact_management.breadcrumbs.edit') : 'Edit', 
+                    href: route('admin.contacts.edit', contact.id) 
+                },
             ];
 
         default:
@@ -45,8 +64,8 @@ export function generateContactBreadcrumbs(page: 'index' | 'show' | 'create' | '
  * Format contact display name with fallback
  * Follows SRP by handling only name formatting logic
  */
-export function formatContactName(contact: Contact): string {
-    return contact.name || 'Unnamed Contact';
+export function formatContactName(contact: Contact, t?: (key: string) => string): string {
+    return contact.name || (t ? t('contact_management.form.fields.unnamed_contact') : 'Unnamed Contact');
 }
 
 /**

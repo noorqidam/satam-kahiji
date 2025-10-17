@@ -22,7 +22,7 @@ import {
     UserCheck,
     Users,
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const getNavigationGroups = (userRole: string, t: (key: string) => string): NavGroup[] => {
@@ -30,55 +30,55 @@ const getNavigationGroups = (userRole: string, t: (key: string) => string): NavG
         case 'super_admin':
             return [
                 {
-                    title: 'Dashboard',
-                    items: [{ title: 'Overview', href: '/admin/dashboard', icon: LayoutGrid }],
+                    title: t('super_admin_navigation.groups.dashboard'),
+                    items: [{ title: t('super_admin_navigation.items.overview'), href: '/admin/dashboard', icon: LayoutGrid }],
                 },
                 {
-                    title: 'User Management',
-                    items: [{ title: 'Users', href: '/admin/users', icon: Shield }],
+                    title: t('super_admin_navigation.groups.user_management'),
+                    items: [{ title: t('super_admin_navigation.items.users'), href: '/admin/users', icon: Shield }],
                 },
                 {
-                    title: 'Staff Management',
-                    items: [{ title: 'Staff Management', href: '/admin/staff', icon: Users }],
+                    title: t('super_admin_navigation.groups.staff_management'),
+                    items: [{ title: t('super_admin_navigation.items.staff_management'), href: '/admin/staff', icon: Users }],
                 },
                 {
-                    title: 'Academic Structure',
+                    title: t('super_admin_navigation.groups.academic_structure'),
                     items: [
-                        { title: 'Classes', href: '/admin/classes', icon: Building },
-                        { title: 'Subjects', href: '/admin/subjects', icon: BookOpen },
+                        { title: t('super_admin_navigation.items.classes'), href: '/admin/classes', icon: Building },
+                        { title: t('super_admin_navigation.items.subjects'), href: '/admin/subjects', icon: BookOpen },
                     ],
                 },
                 {
-                    title: 'Assignments & Students',
+                    title: t('super_admin_navigation.groups.assignments_students'),
                     items: [
-                        { title: 'Subject Assignments', href: '/admin/subject-assignments', icon: ClipboardList },
-                        { title: 'Homeroom Management', href: '/admin/homeroom', icon: UserCheck },
-                        { title: 'Students', href: '/admin/students', icon: GraduationCap },
+                        { title: t('super_admin_navigation.items.subject_assignments'), href: '/admin/subject-assignments', icon: ClipboardList },
+                        { title: t('super_admin_navigation.items.homeroom_management'), href: '/admin/homeroom', icon: UserCheck },
+                        { title: t('super_admin_navigation.items.students'), href: '/admin/students', icon: GraduationCap },
                     ],
                 },
                 {
-                    title: 'Academic',
+                    title: t('super_admin_navigation.groups.academic'),
                     items: [
-                        { title: 'Extracurriculars', href: '/admin/extracurriculars', icon: Trophy },
-                        { title: 'Work Items', href: '/admin/work-items', icon: ClipboardList },
+                        { title: t('super_admin_navigation.items.extracurriculars'), href: '/admin/extracurriculars', icon: Trophy },
+                        { title: t('super_admin_navigation.items.work_items'), href: '/admin/work-items', icon: ClipboardList },
                     ],
                 },
                 {
-                    title: 'Content Management',
+                    title: t('super_admin_navigation.groups.content_management'),
                     items: [
-                        { title: 'Posts & News', href: '/admin/posts', icon: Newspaper },
-                        { title: 'Pages', href: '/admin/pages', icon: FileText },
-                        { title: 'Gallery', href: '/admin/galleries', icon: Image },
-                        { title: 'Facilities', href: '/admin/facilities', icon: Building },
+                        { title: t('super_admin_navigation.items.posts_news'), href: '/admin/posts', icon: Newspaper },
+                        { title: t('super_admin_navigation.items.pages'), href: '/admin/pages', icon: FileText },
+                        { title: t('super_admin_navigation.items.gallery'), href: '/admin/galleries', icon: Image },
+                        { title: t('super_admin_navigation.items.facilities'), href: '/admin/facilities', icon: Building },
                     ],
                 },
                 {
-                    title: 'Communication',
-                    items: [{ title: 'Contact Management', href: '/admin/contacts', icon: Phone }],
+                    title: t('super_admin_navigation.groups.communication'),
+                    items: [{ title: t('super_admin_navigation.items.contact_management'), href: '/admin/contacts', icon: Phone }],
                 },
                 {
-                    title: 'System',
-                    items: [{ title: 'Google Drive Monitor', href: '/admin/google-drive/dashboard', icon: Cloud }],
+                    title: t('super_admin_navigation.groups.system'),
+                    items: [{ title: t('super_admin_navigation.items.google_drive_monitor'), href: '/admin/google-drive/dashboard', icon: Cloud }],
                 },
             ];
 
@@ -121,31 +121,31 @@ const getNavigationGroups = (userRole: string, t: (key: string) => string): NavG
         case 'deputy_headmaster':
             return [
                 {
-                    title: 'Dashboard',
-                    items: [{ title: 'Overview', href: '/staff/dashboard', icon: LayoutGrid }],
+                    title: t('deputy_headmaster_navigation.groups.dashboard'),
+                    items: [{ title: t('deputy_headmaster_navigation.items.overview'), href: '/staff/dashboard', icon: LayoutGrid }],
                 },
                 {
-                    title: 'Academic Support',
+                    title: t('deputy_headmaster_navigation.groups.academic_support'),
                     items: [
-                        { title: 'Staff Management', href: '/staff/staff', icon: Users },
-                        { title: 'Students', href: '/staff/students', icon: GraduationCap },
-                        { title: 'Subjects', href: '/staff/subjects', icon: BookOpen },
-                        { title: 'Student Grades', href: '/staff/grades', icon: Award },
+                        { title: t('deputy_headmaster_navigation.items.staff_management'), href: '/staff/staff', icon: Users },
+                        { title: t('deputy_headmaster_navigation.items.students'), href: '/staff/students', icon: GraduationCap },
+                        { title: t('deputy_headmaster_navigation.items.subjects'), href: '/staff/subjects', icon: BookOpen },
+                        { title: t('deputy_headmaster_navigation.items.student_grades'), href: '/staff/grades', icon: Award },
                     ],
                 },
                 {
-                    title: 'Content Management',
+                    title: t('deputy_headmaster_navigation.groups.content_management'),
                     items: [
-                        { title: 'Posts & News', href: '/staff/posts', icon: Newspaper },
-                        { title: 'Pages', href: '/staff/pages', icon: FileText },
-                        { title: 'Gallery', href: '/staff/galleries', icon: Image },
+                        { title: t('deputy_headmaster_navigation.items.posts_news'), href: '/staff/posts', icon: Newspaper },
+                        { title: t('deputy_headmaster_navigation.items.pages'), href: '/staff/pages', icon: FileText },
+                        { title: t('deputy_headmaster_navigation.items.gallery'), href: '/staff/galleries', icon: Image },
                     ],
                 },
                 {
-                    title: 'Administration',
+                    title: t('deputy_headmaster_navigation.groups.administration'),
                     items: [
-                        { title: 'Reports', href: '/staff/reports', icon: BarChart3 },
-                        { title: 'Facilities', href: '/staff/facilities', icon: Building },
+                        { title: t('deputy_headmaster_navigation.items.reports'), href: '/staff/reports', icon: BarChart3 },
+                        { title: t('deputy_headmaster_navigation.items.facilities'), href: '/staff/facilities', icon: Building },
                     ],
                 },
             ];
@@ -160,17 +160,53 @@ const getNavigationGroups = (userRole: string, t: (key: string) => string): NavG
     }
 };
 
-export function NavRoleBased({ searchQuery = '' }: { searchQuery?: string }) {
+export const NavRoleBased = memo(function NavRoleBased({ searchQuery = '' }: { searchQuery?: string }) {
     const { auth } = usePage<SharedData>().props;
     const page = usePage();
     const userRole = auth.user?.role ?? 'super_admin';
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
-    // State to track which groups are open (default: Dashboard open, others closed)
-    const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+    // Get navigation groups - memoize properly to avoid infinite loops
+    const navigationGroups = useMemo(() => getNavigationGroups(userRole, t), [userRole, t]);
+
+    // State to track which groups are open (simple initialization)
+    const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+        const initialState: Record<string, boolean> = {};
+        if (userRole === 'super_admin') {
+            initialState[t('super_admin_navigation.groups.dashboard')] = true;
+            initialState[t('super_admin_navigation.groups.user_management')] = true;
+        } else if (userRole === 'headmaster') {
+            initialState[t('headmaster_navigation.groups.dashboard')] = true;
+        } else if (userRole === 'teacher') {
+            initialState[t('teacher_navigation.groups.dashboard')] = true;
+        } else if (userRole === 'deputy_headmaster') {
+            initialState[t('deputy_headmaster_navigation.groups.dashboard')] = true;
+        } else {
+            initialState['Dashboard'] = true; // fallback for others
+        }
+        return initialState;
+    });
+
+    // Update open groups when language changes
+    useEffect(() => {
+        const newState: Record<string, boolean> = {};
+        if (userRole === 'super_admin') {
+            newState[t('super_admin_navigation.groups.dashboard')] = true;
+            newState[t('super_admin_navigation.groups.user_management')] = true;
+        } else if (userRole === 'headmaster') {
+            newState[t('headmaster_navigation.groups.dashboard')] = true;
+        } else if (userRole === 'teacher') {
+            newState[t('teacher_navigation.groups.dashboard')] = true;
+        } else if (userRole === 'deputy_headmaster') {
+            newState[t('deputy_headmaster_navigation.groups.dashboard')] = true;
+        } else {
+            newState['Dashboard'] = true; // fallback for others
+        }
+        setOpenGroups(newState);
+    }, [userRole, t, i18n]);
 
     // Custom handler for staff management navigation to ensure fresh data
-    const handleStaffManagementClick = (e: React.MouseEvent) => {
+    const handleStaffManagementClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
         router.get(
             '/admin/staff',
@@ -180,19 +216,7 @@ export function NavRoleBased({ searchQuery = '' }: { searchQuery?: string }) {
                 preserveScroll: false,
             },
         );
-    };
-
-    const navigationGroups = getNavigationGroups(userRole, t);
-
-    // Initialize the open state for all groups
-    useEffect(() => {
-        const currentNavigationGroups = getNavigationGroups(userRole, t);
-        const initialState: Record<string, boolean> = {};
-        currentNavigationGroups.forEach((group) => {
-            initialState[group.title] = group.title === 'Dashboard' || group.title === 'User Management';
-        });
-        setOpenGroups(initialState);
-    }, [userRole, t]); // Re-run when user role changes
+    }, []);
 
     const toggleGroup = (groupTitle: string) => {
         setOpenGroups((prev) => ({ ...prev, [groupTitle]: !prev[groupTitle] }));
@@ -248,7 +272,7 @@ export function NavRoleBased({ searchQuery = '' }: { searchQuery?: string }) {
                                                                 <item.icon className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:scale-110 data-[active=true]:text-blue-600 dark:data-[active=true]:text-blue-400" />
                                                             )}
                                                             <span
-                                                                className="text-sm font-medium group-data-[collapsible=icon]:sr-only"
+                                                                className="min-w-0 truncate text-sm font-medium group-data-[collapsible=icon]:sr-only"
                                                                 dangerouslySetInnerHTML={{
                                                                     __html:
                                                                         isSearching && searchQuery.trim()
@@ -273,7 +297,7 @@ export function NavRoleBased({ searchQuery = '' }: { searchQuery?: string }) {
                                                                 <item.icon className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:scale-110 data-[active=true]:text-blue-600 dark:data-[active=true]:text-blue-400" />
                                                             )}
                                                             <span
-                                                                className="text-sm font-medium group-data-[collapsible=icon]:sr-only"
+                                                                className="min-w-0 truncate text-sm font-medium group-data-[collapsible=icon]:sr-only"
                                                                 dangerouslySetInnerHTML={{
                                                                     __html:
                                                                         isSearching && searchQuery.trim()
@@ -331,7 +355,7 @@ export function NavRoleBased({ searchQuery = '' }: { searchQuery?: string }) {
                                                                     <item.icon className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:scale-110 data-[active=true]:text-blue-600 dark:data-[active=true]:text-blue-400" />
                                                                 )}
                                                                 <span
-                                                                    className="text-sm font-medium group-data-[collapsible=icon]:sr-only"
+                                                                    className="truncate text-sm font-medium group-data-[collapsible=icon]:sr-only"
                                                                     dangerouslySetInnerHTML={{
                                                                         __html:
                                                                             isSearching && searchQuery.trim()
@@ -356,7 +380,7 @@ export function NavRoleBased({ searchQuery = '' }: { searchQuery?: string }) {
                                                                     <item.icon className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:scale-110 data-[active=true]:text-blue-600 dark:data-[active=true]:text-blue-400" />
                                                                 )}
                                                                 <span
-                                                                    className="text-sm font-medium group-data-[collapsible=icon]:sr-only"
+                                                                    className="truncate text-sm font-medium group-data-[collapsible=icon]:sr-only"
                                                                     dangerouslySetInnerHTML={{
                                                                         __html:
                                                                             isSearching && searchQuery.trim()
@@ -385,4 +409,4 @@ export function NavRoleBased({ searchQuery = '' }: { searchQuery?: string }) {
             })}
         </>
     );
-}
+});

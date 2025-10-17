@@ -245,6 +245,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('stats');
         });
 
+        // Staff Overview (View-only for Super Admin)
+        Route::prefix('staff-overview')->name('staff-overview.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\StaffOverviewController::class, 'index'])
+                ->name('index');
+            Route::get('{staff}', [\App\Http\Controllers\Admin\StaffOverviewController::class, 'show'])
+                ->name('show');
+        });
+
         // Content Management
         Route::prefix('posts')->name('posts.')->group(function () {
             Route::post('{post}/toggle-publish', [\App\Http\Controllers\Admin\PostController::class, 'togglePublish'])

@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import type { Facility } from '@/types/facility';
 import { Link } from '@inertiajs/react';
 import { Calendar, Camera, Edit, Eye, ImageIcon, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface FacilityCardProps {
     facility: Facility;
@@ -14,6 +15,7 @@ interface FacilityCardProps {
 }
 
 export function FacilityCard({ facility, onDelete, showActions = true, viewMode = 'grid' }: FacilityCardProps) {
+    const { t } = useTranslation();
     if (viewMode === 'list') {
         // List View - Image on left, content on right
         return (
@@ -43,11 +45,11 @@ export function FacilityCard({ facility, onDelete, showActions = true, viewMode 
                                 <div className="mt-2 flex items-center gap-4">
                                     <div className="flex items-center gap-1 text-xs text-gray-500">
                                         <Calendar className="h-3 w-3" />
-                                        <span>Created {new Date(facility.created_at).toLocaleDateString()}</span>
+                                        <span>{t('facility_management.card.created')} {new Date(facility.created_at).toLocaleDateString()}</span>
                                     </div>
                                     <Badge variant={facility.photo ? 'default' : 'secondary'} className="text-xs">
                                         <Camera className="mr-1 h-3 w-3" />
-                                        {facility.photo ? 'Has Image' : 'No Image'}
+                                        {facility.photo ? t('facility_management.card.has_image') : t('facility_management.card.no_image')}
                                     </Badge>
                                 </div>
                             </div>
@@ -99,7 +101,7 @@ export function FacilityCard({ facility, onDelete, showActions = true, viewMode 
                     <div className="flex h-full w-full items-center justify-center">
                         <div className="text-center">
                             <ImageIcon className="mx-auto mb-2 h-12 w-12 text-gray-400" />
-                            <span className="text-sm text-gray-500">No Image</span>
+                            <span className="text-sm text-gray-500">{t('facility_management.card.no_image')}</span>
                         </div>
                     </div>
                 )}
@@ -132,7 +134,7 @@ export function FacilityCard({ facility, onDelete, showActions = true, viewMode 
                         <div className="mt-1 flex items-center gap-2">
                             <Badge variant={facility.photo ? 'default' : 'secondary'} className="px-2 py-0.5 text-xs">
                                 <Camera className="mr-1 h-2.5 w-2.5" />
-                                {facility.photo ? 'Has Image' : 'No Image'}
+                                {facility.photo ? t('facility_management.card.has_image') : t('facility_management.card.no_image')}
                             </Badge>
                         </div>
                     </div>
@@ -144,7 +146,7 @@ export function FacilityCard({ facility, onDelete, showActions = true, viewMode 
                     <div className="flex items-center justify-between pt-1 text-xs text-gray-500">
                         <div className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
-                            <span>Created {new Date(facility.created_at).toLocaleDateString()}</span>
+                            <span>{t('facility_management.card.created')} {new Date(facility.created_at).toLocaleDateString()}</span>
                         </div>
                     </div>
 
@@ -154,13 +156,13 @@ export function FacilityCard({ facility, onDelete, showActions = true, viewMode 
                             <Link href={route('admin.facilities.show', facility.id)} className="flex-1">
                                 <Button variant="outline" size="sm" className="h-7 w-full text-xs">
                                     <Eye className="mr-1 h-3 w-3" />
-                                    View
+                                    {t('facility_management.card.view')}
                                 </Button>
                             </Link>
                             <Link href={route('admin.facilities.edit', facility.id)} className="flex-1">
                                 <Button variant="outline" size="sm" className="h-7 w-full text-xs">
                                     <Edit className="mr-1 h-3 w-3" />
-                                    Edit
+                                    {t('facility_management.card.edit')}
                                 </Button>
                             </Link>
                             {onDelete && (

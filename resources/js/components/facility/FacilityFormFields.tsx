@@ -7,7 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import type { Facility, FacilityFormData } from '@/types/facility';
 import { Link } from '@inertiajs/react';
-import { AlertCircle, ArrowLeft, Building2, CheckCircle, Eye, Save } from 'lucide-react';
+import { AlertCircle, Building2, CheckCircle, Eye, Save } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface FacilityFormFieldsProps {
     facility?: Facility;
@@ -21,6 +22,7 @@ interface FacilityFormFieldsProps {
 }
 
 export function FacilityFormFields({ facility, data, errors, processing, onDataChange, onImageSelect, onSubmit }: FacilityFormFieldsProps) {
+    const { t } = useTranslation();
     const isEditing = !!facility;
 
     return (
@@ -33,9 +35,9 @@ export function FacilityFormFields({ facility, data, errors, processing, onDataC
                                 <Building2 className="h-7 w-7" />
                             </div>
                             <div>
-                                <CardTitle className="text-2xl font-bold">{isEditing ? 'Edit Facility' : 'Create New Facility'}</CardTitle>
+                                <CardTitle className="text-2xl font-bold">{isEditing ? t('facility_management.form.header.edit_title') : t('facility_management.form.header.create_title')}</CardTitle>
                                 <CardDescription className="text-blue-100">
-                                    {isEditing ? 'Update facility information and manage its photo' : 'Add a new facility with secure cloud storage'}
+                                    {isEditing ? t('facility_management.form.header.edit_description') : t('facility_management.form.header.create_description')}
                                 </CardDescription>
                             </div>
                         </div>
@@ -48,7 +50,7 @@ export function FacilityFormFields({ facility, data, errors, processing, onDataC
                                     className="border-white/20 bg-white/10 text-white backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white/20"
                                 >
                                     <Eye className="mr-2 h-4 w-4" />
-                                    View
+                                    {t('facility_management.form.buttons.view')}
                                 </Button>
                             </Link>
                         )}
@@ -59,7 +61,7 @@ export function FacilityFormFields({ facility, data, errors, processing, onDataC
                     {/* Name Field */}
                     <div className="space-y-2">
                         <Label htmlFor="name" className="text-base font-semibold">
-                            Facility Name *
+                            {t('facility_management.form.fields.name.label')} {t('facility_management.form.fields.name.required')}
                         </Label>
                         <Input
                             id="name"
@@ -71,7 +73,7 @@ export function FacilityFormFields({ facility, data, errors, processing, onDataC
                                     ? 'border-red-300 bg-red-50 focus:border-red-500 focus:ring-red-500 dark:border-red-600 dark:bg-red-900/20 dark:focus:border-red-500'
                                     : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
                             }`}
-                            placeholder="Enter facility name"
+                            placeholder={t('facility_management.form.fields.name.placeholder')}
                             disabled={processing}
                             maxLength={255}
                         />
@@ -86,7 +88,7 @@ export function FacilityFormFields({ facility, data, errors, processing, onDataC
                     {/* Description Field */}
                     <div className="space-y-2">
                         <Label htmlFor="description" className="text-base font-semibold">
-                            Description *
+                            {t('facility_management.form.fields.description.label')} {t('facility_management.form.fields.description.required')}
                         </Label>
                         <Textarea
                             id="description"
@@ -97,7 +99,7 @@ export function FacilityFormFields({ facility, data, errors, processing, onDataC
                                     ? 'border-red-300 bg-red-50 focus:border-red-500 focus:ring-red-500 dark:border-red-600 dark:bg-red-900/20 dark:focus:border-red-500'
                                     : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
                             }`}
-                            placeholder="Provide a detailed description of the facility..."
+                            placeholder={t('facility_management.form.fields.description.placeholder')}
                             disabled={processing}
                             maxLength={5000}
                         />
@@ -108,13 +110,13 @@ export function FacilityFormFields({ facility, data, errors, processing, onDataC
                                     <span className="text-sm">{errors.description}</span>
                                 </div>
                             )}
-                            <span className="ml-auto text-sm text-gray-500 dark:text-gray-400">{data.description.length}/5000</span>
+                            <span className="ml-auto text-sm text-gray-500 dark:text-gray-400">{data.description.length}/5000 {t('facility_management.form.fields.description.char_count')}</span>
                         </div>
                     </div>
 
                     {/* Image Upload Field */}
                     <div className="space-y-2">
-                        <Label className="text-base font-semibold">Featured Image</Label>
+                        <Label className="text-base font-semibold">{t('facility_management.form.fields.featured_image.label')}</Label>
                         <div className="rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600">
                             <Dropzone
                                 onFileSelect={onImageSelect}
@@ -132,24 +134,12 @@ export function FacilityFormFields({ facility, data, errors, processing, onDataC
                             </div>
                         )}
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Upload an image file (JPEG, PNG, GIF, WebP) up to 5MB. Images are securely stored in Google Drive.
+                            {t('facility_management.form.fields.featured_image.help')}
                         </p>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex flex-col-reverse gap-4 border-t pt-6 sm:flex-row sm:justify-between">
-                        <Link href={route('admin.facilities.index')}>
-                            <Button
-                                variant="outline"
-                                type="button"
-                                className="w-full transition-all duration-200 hover:bg-gray-50 sm:w-auto dark:hover:bg-gray-800"
-                                disabled={processing}
-                            >
-                                <ArrowLeft className="mr-2 h-4 w-4" />
-                                Back to Facilities
-                            </Button>
-                        </Link>
-
+                    <div className="flex justify-end border-t pt-6">
                         <Button
                             type="submit"
                             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 sm:w-auto"
@@ -158,12 +148,12 @@ export function FacilityFormFields({ facility, data, errors, processing, onDataC
                             {processing ? (
                                 <div className="flex items-center gap-2">
                                     <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                                    <span>{isEditing ? 'Updating...' : 'Creating...'}</span>
+                                    <span>{isEditing ? t('facility_management.form.buttons.updating') : t('facility_management.form.buttons.creating')}</span>
                                 </div>
                             ) : (
                                 <div className="flex items-center gap-2">
                                     {isEditing ? <CheckCircle className="h-4 w-4" /> : <Save className="h-4 w-4" />}
-                                    <span>{isEditing ? 'Update Facility' : 'Create Facility'}</span>
+                                    <span>{isEditing ? t('facility_management.form.buttons.update_facility') : t('facility_management.form.buttons.create_facility')}</span>
                                 </div>
                             )}
                         </Button>

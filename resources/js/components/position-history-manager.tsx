@@ -1,6 +1,7 @@
 import { router } from '@inertiajs/react';
 import { Edit, Plus, Save, Trash2, X } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -36,6 +37,7 @@ type PositionHistoryForm = {
 };
 
 export default function PositionHistoryManager({ staff }: PositionHistoryManagerProps) {
+    const { t } = useTranslation();
     const { toast } = useToast();
     const [isAdding, setIsAdding] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
@@ -68,13 +70,13 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
         // Basic validation
         const newErrors: Record<string, string> = {};
         if (!newPositionForm.title.trim()) {
-            newErrors.title = 'Position title is required';
+            newErrors.title = t('staff_management.position_history.validation.title_required');
         }
         if (!newPositionForm.start_year.trim()) {
-            newErrors.start_year = 'Start year is required';
+            newErrors.start_year = t('staff_management.position_history.validation.start_year_required');
         }
         if (newPositionForm.end_year && parseInt(newPositionForm.end_year) < parseInt(newPositionForm.start_year)) {
-            newErrors.end_year = 'End year must be greater than or equal to start year';
+            newErrors.end_year = t('staff_management.position_history.validation.end_year_greater');
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -96,8 +98,8 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                 preserveScroll: true,
                 onSuccess: () => {
                     toast({
-                        title: 'Success',
-                        description: 'Position history added successfully.',
+                        title: t('common.success'),
+                        description: t('staff_management.position_history.messages.add_success'),
                         variant: 'success',
                     });
                     setIsAdding(false);
@@ -108,8 +110,8 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                 onError: (errors) => {
                     setErrors(errors);
                     toast({
-                        title: 'Error',
-                        description: 'Failed to add position history.',
+                        title: t('common.error'),
+                        description: t('staff_management.position_history.messages.add_error'),
                         variant: 'destructive',
                     });
                 },
@@ -135,13 +137,13 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
         // Basic validation
         const newErrors: Record<string, string> = {};
         if (!editForm.title.trim()) {
-            newErrors.title = 'Position title is required';
+            newErrors.title = t('staff_management.position_history.validation.title_required');
         }
         if (!editForm.start_year.trim()) {
-            newErrors.start_year = 'Start year is required';
+            newErrors.start_year = t('staff_management.position_history.validation.start_year_required');
         }
         if (editForm.end_year && parseInt(editForm.end_year) < parseInt(editForm.start_year)) {
-            newErrors.end_year = 'End year must be greater than or equal to start year';
+            newErrors.end_year = t('staff_management.position_history.validation.end_year_greater');
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -163,8 +165,8 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                 preserveScroll: true,
                 onSuccess: () => {
                     toast({
-                        title: 'Success',
-                        description: 'Position history updated successfully.',
+                        title: t('common.success'),
+                        description: t('staff_management.position_history.messages.update_success'),
                         variant: 'success',
                     });
                     setEditingId(null);
@@ -175,8 +177,8 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                 onError: (errors) => {
                     setErrors(errors);
                     toast({
-                        title: 'Error',
-                        description: 'Failed to update position history.',
+                        title: t('common.error'),
+                        description: t('staff_management.position_history.messages.update_error'),
                         variant: 'destructive',
                     });
                 },
@@ -197,8 +199,8 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
             preserveScroll: true,
             onSuccess: () => {
                 toast({
-                    title: 'Success',
-                    description: 'Position history deleted successfully.',
+                    title: t('common.success'),
+                    description: t('staff_management.position_history.messages.delete_success'),
                     variant: 'success',
                 });
                 setSelectedIds([]); // Clear selections after successful delete
@@ -207,8 +209,8 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
             },
             onError: () => {
                 toast({
-                    title: 'Error',
-                    description: 'Failed to delete position history.',
+                    title: t('common.error'),
+                    description: t('staff_management.position_history.messages.delete_error'),
                     variant: 'destructive',
                 });
                 setDeleteDialogOpen(false);
@@ -257,8 +259,8 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
             preserveScroll: true,
             onSuccess: () => {
                 toast({
-                    title: 'Success',
-                    description: `${selectedIds.length} position history record(s) deleted successfully.`,
+                    title: t('common.success'),
+                    description: `${selectedIds.length} ${t('staff_management.position_history.messages.bulk_delete_success')}`,
                     variant: 'success',
                 });
                 setSelectedIds([]);
@@ -266,8 +268,8 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
             },
             onError: () => {
                 toast({
-                    title: 'Error',
-                    description: 'Failed to delete position history records.',
+                    title: t('common.error'),
+                    description: t('staff_management.position_history.messages.bulk_delete_error'),
                     variant: 'destructive',
                 });
                 setBulkDeleteDialogOpen(false);
@@ -280,7 +282,7 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
             <Card>
                 <CardHeader>
                     <div className="flex items-center justify-between">
-                        <CardTitle>Position History</CardTitle>
+                        <CardTitle>{t('staff_management.position_history.title')}</CardTitle>
                         <div className="flex items-center gap-2">
                             {selectedIds.length > 0 && (
                                 <Button
@@ -291,7 +293,7 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                                     disabled={isAdding || editingId !== null}
                                 >
                                     <Trash2 className="mr-2 h-4 w-4" />
-                                    Delete Selected ({selectedIds.length})
+                                    {t('staff_management.position_history.delete_selected')} ({selectedIds.length})
                                 </Button>
                             )}
                             <Button
@@ -302,7 +304,7 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                                 disabled={isAdding || editingId !== null}
                             >
                                 <Plus className="mr-2 h-4 w-4" />
-                                Add Position
+                                {t('staff_management.position_history.add_position')}
                             </Button>
                         </div>
                     </div>
@@ -313,38 +315,38 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                         <div className="rounded-lg border bg-gray-50 p-4 dark:bg-gray-800">
                             <div className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="new-title">Position Title *</Label>
+                                    <Label htmlFor="new-title">{t('staff_management.position_history.position_title')} *</Label>
                                     <Input
                                         id="new-title"
                                         type="text"
                                         value={newPositionForm.title}
                                         onChange={(e) => setNewPositionForm((prev) => ({ ...prev, title: e.target.value }))}
-                                        placeholder="e.g., Head of Mathematics Department"
+                                        placeholder={t('staff_management.position_history.placeholders.position_title')}
                                     />
                                     <InputError message={errors.title} />
                                 </div>
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <div className="space-y-2">
-                                        <Label htmlFor="new-start-year">Start Year *</Label>
+                                        <Label htmlFor="new-start-year">{t('staff_management.position_history.start_year')} *</Label>
                                         <Input
                                             id="new-start-year"
                                             type="number"
                                             value={newPositionForm.start_year}
                                             onChange={(e) => setNewPositionForm((prev) => ({ ...prev, start_year: e.target.value }))}
-                                            placeholder="2023"
+                                            placeholder={t('staff_management.position_history.placeholders.start_year')}
                                             min="1900"
                                             max="2100"
                                         />
                                         <InputError message={errors.start_year} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="new-end-year">End Year</Label>
+                                        <Label htmlFor="new-end-year">{t('staff_management.position_history.end_year')}</Label>
                                         <Input
                                             id="new-end-year"
                                             type="number"
                                             value={newPositionForm.end_year}
                                             onChange={(e) => setNewPositionForm((prev) => ({ ...prev, end_year: e.target.value }))}
-                                            placeholder="2024 (leave empty if ongoing)"
+                                            placeholder={t('staff_management.position_history.placeholders.end_year')}
                                             min="1900"
                                             max="2100"
                                         />
@@ -354,11 +356,11 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                                 <div className="flex items-center gap-2">
                                     <Button type="button" size="sm" onClick={handleAdd}>
                                         <Save className="mr-2 h-4 w-4" />
-                                        Save
+                                        {t('staff_management.position_history.save')}
                                     </Button>
                                     <Button type="button" variant="ghost" size="sm" onClick={handleCancelAdd}>
                                         <X className="mr-2 h-4 w-4" />
-                                        Cancel
+                                        {t('staff_management.position_history.cancel')}
                                     </Button>
                                 </div>
                             </div>
@@ -374,7 +376,7 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                                     checked={selectedIds.length === positionHistory.length && positionHistory.length > 0}
                                     onCheckedChange={handleSelectAll}
                                 />
-                                <Label className="text-sm text-gray-600 dark:text-gray-400">Select All ({positionHistory.length} records)</Label>
+                                <Label className="text-sm text-gray-600 dark:text-gray-400">{t('staff_management.position_history.select_all')} ({positionHistory.length} {t('staff_management.position_history.records')})</Label>
                             </div>
 
                             {positionHistory.map((position) => (
@@ -383,38 +385,38 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                                         /* Edit Form */
                                         <div className="space-y-4">
                                             <div className="space-y-2">
-                                                <Label htmlFor={`edit-title-${position.id}`}>Position Title *</Label>
+                                                <Label htmlFor={`edit-title-${position.id}`}>{t('staff_management.position_history.position_title')} *</Label>
                                                 <Input
                                                     id={`edit-title-${position.id}`}
                                                     type="text"
                                                     value={editForm.title}
                                                     onChange={(e) => setEditForm((prev) => ({ ...prev, title: e.target.value }))}
-                                                    placeholder="e.g., Head of Mathematics Department"
+                                                    placeholder={t('staff_management.position_history.placeholders.position_title')}
                                                 />
                                                 <InputError message={errors.title} />
                                             </div>
                                             <div className="grid gap-4 md:grid-cols-2">
                                                 <div className="space-y-2">
-                                                    <Label htmlFor={`edit-start-year-${position.id}`}>Start Year *</Label>
+                                                    <Label htmlFor={`edit-start-year-${position.id}`}>{t('staff_management.position_history.start_year')} *</Label>
                                                     <Input
                                                         id={`edit-start-year-${position.id}`}
                                                         type="number"
                                                         value={editForm.start_year}
                                                         onChange={(e) => setEditForm((prev) => ({ ...prev, start_year: e.target.value }))}
-                                                        placeholder="2023"
+                                                        placeholder={t('staff_management.position_history.placeholders.start_year')}
                                                         min="1900"
                                                         max="2100"
                                                     />
                                                     <InputError message={errors.start_year} />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <Label htmlFor={`edit-end-year-${position.id}`}>End Year</Label>
+                                                    <Label htmlFor={`edit-end-year-${position.id}`}>{t('staff_management.position_history.end_year')}</Label>
                                                     <Input
                                                         id={`edit-end-year-${position.id}`}
                                                         type="number"
                                                         value={editForm.end_year}
                                                         onChange={(e) => setEditForm((prev) => ({ ...prev, end_year: e.target.value }))}
-                                                        placeholder="2024 (leave empty if ongoing)"
+                                                        placeholder={t('staff_management.position_history.placeholders.end_year')}
                                                         min="1900"
                                                         max="2100"
                                                     />
@@ -424,11 +426,11 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                                             <div className="flex items-center gap-2">
                                                 <Button type="button" size="sm" onClick={handleUpdate}>
                                                     <Save className="mr-2 h-4 w-4" />
-                                                    Save
+                                                    {t('staff_management.position_history.save')}
                                                 </Button>
                                                 <Button type="button" variant="ghost" size="sm" onClick={handleCancelEdit}>
                                                     <X className="mr-2 h-4 w-4" />
-                                                    Cancel
+                                                    {t('staff_management.position_history.cancel')}
                                                 </Button>
                                             </div>
                                         </div>
@@ -444,7 +446,7 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                                                 <div>
                                                     <h4 className="font-medium text-gray-900 dark:text-gray-100">{position.title}</h4>
                                                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                                                        {position.start_year} - {position.end_year || 'Present'}
+                                                        {position.start_year} - {position.end_year || t('staff_management.position_history.present')}
                                                     </p>
                                                 </div>
                                             </div>
@@ -476,8 +478,8 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
                         </div>
                     ) : (
                         <div className="py-8 text-center text-gray-500 dark:text-gray-400">
-                            <p>No position history records found.</p>
-                            <p className="text-sm">Click "Add Position" to add the first record.</p>
+                            <p>{t('staff_management.position_history.no_records')}</p>
+                            <p className="text-sm">{t('staff_management.position_history.add_first_record')}</p>
                         </div>
                     )}
                 </CardContent>
@@ -487,17 +489,17 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
             <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Delete Position History</DialogTitle>
+                        <DialogTitle>{t('staff_management.position_history.dialogs.delete_title')}</DialogTitle>
                         <DialogDescription>
-                            Are you sure you want to delete this position history record? This action cannot be undone.
+                            {t('staff_management.position_history.dialogs.delete_description')}
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
                         <Button type="button" variant="ghost" onClick={() => setDeleteDialogOpen(false)}>
-                            Cancel
+                            {t('staff_management.position_history.dialogs.cancel')}
                         </Button>
                         <Button type="button" variant="destructive" onClick={confirmDelete}>
-                            Delete
+                            {t('staff_management.position_history.dialogs.delete')}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -507,17 +509,17 @@ export default function PositionHistoryManager({ staff }: PositionHistoryManager
             <Dialog open={bulkDeleteDialogOpen} onOpenChange={setBulkDeleteDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Delete Multiple Records</DialogTitle>
+                        <DialogTitle>{t('staff_management.position_history.dialogs.bulk_delete_title')}</DialogTitle>
                         <DialogDescription>
-                            Are you sure you want to delete {selectedIds.length} position history record(s)? This action cannot be undone.
+                            {t('staff_management.position_history.dialogs.bulk_delete_description', { count: selectedIds.length })}
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
                         <Button type="button" variant="ghost" onClick={() => setBulkDeleteDialogOpen(false)}>
-                            Cancel
+                            {t('staff_management.position_history.dialogs.cancel')}
                         </Button>
                         <Button type="button" variant="destructive" onClick={confirmBulkDelete}>
-                            Delete {selectedIds.length} Record(s)
+                            {t('staff_management.position_history.dialogs.delete_count', { count: selectedIds.length })}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

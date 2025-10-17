@@ -1,15 +1,20 @@
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ExtracurricularDescriptionFieldProps {
     value: string;
     onChange: (value: string) => void;
     error?: string;
     maxLength?: number;
+    isEditing?: boolean;
 }
 
-export function ExtracurricularDescriptionField({ value, onChange, error, maxLength = 1000 }: ExtracurricularDescriptionFieldProps) {
+export function ExtracurricularDescriptionField({ value, onChange, error, maxLength = 1000, isEditing = false }: ExtracurricularDescriptionFieldProps) {
+    const { t } = useTranslation('common');
+    const translationKey = isEditing ? 'extracurricular_edit' : 'extracurricular_create';
+    
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         onChange(e.target.value);
     };
@@ -21,12 +26,12 @@ export function ExtracurricularDescriptionField({ value, onChange, error, maxLen
 
     return (
         <div className="space-y-2">
-            <Label htmlFor="description">Description (Optional)</Label>
+            <Label htmlFor="description">{t(`${translationKey}.form.description_label`)}</Label>
             <Textarea
                 id="description"
                 value={value}
                 onChange={handleChange}
-                placeholder="Enter a description for this extracurricular activity"
+                placeholder={t(`${translationKey}.form.description_placeholder`)}
                 className="min-h-[100px] resize-y"
                 maxLength={maxLength}
             />

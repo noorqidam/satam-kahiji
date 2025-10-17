@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
-use App\Models\SchoolClass;
 use App\Models\Staff;
 use App\Models\Student;
 use App\Models\Extracurricular;

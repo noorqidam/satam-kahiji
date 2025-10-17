@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { EXTRACURRICULAR_CATEGORIES, PREDEFINED_ACTIVITIES } from '@/types/extracurricular';
 import { extracurricularUtils } from '@/utils/extracurricular-utils';
 import React, { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ExtracurricularNameSelectorProps {
     value: string;
@@ -16,6 +17,9 @@ interface ExtracurricularNameSelectorProps {
 type NameInputType = 'predefined' | 'custom';
 
 export function ExtracurricularNameSelector({ value, onChange, error, isEditing = false, originalName }: ExtracurricularNameSelectorProps) {
+    const { t } = useTranslation('common');
+    const translationKey = isEditing ? 'extracurricular_edit' : 'extracurricular_create';
+    
     const [nameType, setNameType] = useState<NameInputType>(() => {
         if (isEditing && originalName) {
             return extracurricularUtils.isPredefinedActivity(originalName) ? 'predefined' : 'custom';
@@ -32,10 +36,10 @@ export function ExtracurricularNameSelector({ value, onChange, error, isEditing 
 
     const activitiesByCategory = useMemo(() => {
         return Object.entries(PREDEFINED_ACTIVITIES).map(([categoryKey, activities]) => ({
-            category: EXTRACURRICULAR_CATEGORIES[categoryKey as keyof typeof EXTRACURRICULAR_CATEGORIES],
+            category: t(`${translationKey}.categories.${categoryKey}`) || EXTRACURRICULAR_CATEGORIES[categoryKey as keyof typeof EXTRACURRICULAR_CATEGORIES],
             activities,
         }));
-    }, []);
+    }, [t, translationKey]);
 
     const handleNameTypeChange = useCallback(
         (type: NameInputType) => {
@@ -84,7 +88,7 @@ export function ExtracurricularNameSelector({ value, onChange, error, isEditing 
 
     return (
         <div className="space-y-4">
-            <Label htmlFor="name-type">Activity Name</Label>
+            <Label htmlFor="name-type">{t(`${translationKey}.form.activity_name`)}</Label>
 
             <div className="mb-4 flex gap-4">
                 <label className="flex items-center gap-2">
@@ -96,7 +100,7 @@ export function ExtracurricularNameSelector({ value, onChange, error, isEditing 
                         onChange={(e) => handleNameTypeChange(e.target.value as NameInputType)}
                         className="text-blue-600"
                     />
-                    <span className="text-sm">Choose from list</span>
+                    <span className="text-sm">{t(`${translationKey}.form.choose_from_list`)}</span>
                 </label>
                 <label className="flex items-center gap-2">
                     <input
@@ -107,14 +111,14 @@ export function ExtracurricularNameSelector({ value, onChange, error, isEditing 
                         onChange={(e) => handleNameTypeChange(e.target.value as NameInputType)}
                         className="text-blue-600"
                     />
-                    <span className="text-sm">Enter custom name</span>
+                    <span className="text-sm">{t(`${translationKey}.form.enter_custom_name`)}</span>
                 </label>
             </div>
 
             {nameType === 'predefined' && (
                 <Select value={getCurrentPredefinedValue()} onValueChange={handlePredefinedChange}>
                     <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select an extracurricular activity" />
+                        <SelectValue placeholder={t(`${translationKey}.form.select_placeholder`)} />
                     </SelectTrigger>
                     <SelectContent className="max-h-60">
                         {activitiesByCategory.map(({ category, activities }) => (
@@ -139,7 +143,7 @@ export function ExtracurricularNameSelector({ value, onChange, error, isEditing 
                     type="text"
                     value={customName}
                     onChange={handleCustomChange}
-                    placeholder="Enter custom extracurricular activity name"
+                    placeholder={t(`${translationKey}.form.custom_placeholder`)}
                     className="w-full"
                 />
             )}

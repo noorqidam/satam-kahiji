@@ -11,6 +11,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 
+// Import i18n to ensure it's initialized
+
 type LoginForm = {
     email: string;
     password: string;
@@ -23,14 +25,25 @@ interface LoginProps {
 }
 
 export default function Login({ status, canResetPassword }: LoginProps) {
-    const { t } = useTranslation();
+    const [showPassword, setShowPassword] = useState(false);
+    const { t, ready } = useTranslation();
     const { data, setData, post, processing, errors, reset } = useForm<Required<LoginForm>>({
         email: '',
         password: '',
         remember: false,
     });
 
-    const [showPassword, setShowPassword] = useState(false);
+    // Show loading state while translations are loading
+    if (!ready) {
+        return (
+            <AuthLayout title="Loading..." description="Loading...">
+                <Head title="Loading..." />
+                <div className="flex items-center justify-center p-8">
+                    <LoaderCircle className="h-8 w-8 animate-spin" />
+                </div>
+            </AuthLayout>
+        );
+    }
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();

@@ -4,6 +4,8 @@ import { ChevronDown, Menu, User, Users, X } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+// Import i18n to ensure it's initialized
+
 interface Page {
     id: number;
     slug: string;
@@ -20,12 +22,27 @@ interface NavbarProps {
 }
 
 export default function Navbar({ currentPath = '', className = '' }: NavbarProps) {
-    const { t } = useTranslation();
-    const { props } = usePage();
-    const { dynamicPages = [] } = props as { dynamicPages?: Page[] };
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
     const [mobileProfileMenuOpen, setMobileProfileMenuOpen] = useState(false);
+    const { t, ready } = useTranslation();
+    const { props } = usePage();
+    const { dynamicPages = [] } = props as { dynamicPages?: Page[] };
+
+    // Return early if translations aren't ready to maintain hook order
+    if (!ready) {
+        return (
+            <header className={`fixed top-0 right-0 left-0 z-50 ${className}`}>
+                <div className="w-full">
+                    <div className="bg-white/80 shadow-xl backdrop-blur-md supports-[backdrop-filter]:bg-white/70">
+                        <div className="flex h-16 items-center justify-between px-4 sm:px-6">
+                            <div className="flex-shrink-0">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        );
+    }
 
     // Static navigation items
     const staticItems =

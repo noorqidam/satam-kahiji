@@ -12,9 +12,7 @@ import { FilePreviewDialog } from '@/components/ui/file-preview-dialog';
 import { useFileSize } from '@/hooks/use-file-metadata';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
-import type { Subject } from '@/types/subject';
-import type { TeacherWithUserDetail } from '@/types/teacher';
-import type { TeacherSubjectWork, TeacherWorkFile } from '@/types/workItem';
+import type { TeacherSubject, TeacherSubjectWorkWithFeedbackArray, TeacherWithUserDetail, WorkFileWithFeedbackArray } from '@/types/teacher';
 
 interface TeacherDetailProps {
     teacher: TeacherWithUserDetail;
@@ -23,9 +21,9 @@ interface TeacherDetailProps {
 export default function TeacherDetail({ teacher }: TeacherDetailProps) {
     const { t } = useTranslation();
     const [feedbackDialogOpen, setFeedbackDialogOpen] = useState(false);
-    const [selectedFile, setSelectedFile] = useState<TeacherWorkFile | null>(null);
+    const [selectedFile, setSelectedFile] = useState<WorkFileWithFeedbackArray | null>(null);
     const [previewDialogOpen, setPreviewDialogOpen] = useState(false);
-    const [fileToPreview, setFileToPreview] = useState<TeacherWorkFile | null>(null);
+    const [fileToPreview, setFileToPreview] = useState<WorkFileWithFeedbackArray | null>(null);
 
     // File size formatting utility
     const { formatFileSize } = useFileSize();
@@ -36,12 +34,12 @@ export default function TeacherDetail({ teacher }: TeacherDetailProps) {
         { title: teacher.user.name, href: `/headmaster/staff-overview/${teacher.id}` },
     ];
 
-    const handleProvideFeedback = (file: TeacherWorkFile) => {
+    const handleProvideFeedback = (file: WorkFileWithFeedbackArray) => {
         setSelectedFile(file);
         setFeedbackDialogOpen(true);
     };
 
-    const handlePreviewFile = (file: TeacherWorkFile) => {
+    const handlePreviewFile = (file: WorkFileWithFeedbackArray) => {
         // No need to fetch metadata - file_size is already in the database
         setFileToPreview(file);
         setPreviewDialogOpen(true);
@@ -86,7 +84,7 @@ export default function TeacherDetail({ teacher }: TeacherDetailProps) {
             acc[subjectKey].workItems.push(work);
             return acc;
         },
-        {} as Record<number, { subject: Subject; workItems: TeacherSubjectWork[] }>,
+        {} as Record<number, { subject: TeacherSubject; workItems: TeacherSubjectWorkWithFeedbackArray[] }>,
     );
 
     return (
@@ -214,13 +212,13 @@ export default function TeacherDetail({ teacher }: TeacherDetailProps) {
                                             <div className="border-b border-gray-200 bg-gray-50 px-4 py-3 sm:px-6 sm:py-4 dark:border-gray-700 dark:bg-gray-800/50">
                                                 <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center sm:gap-3">
                                                     <h4 className="text-base font-semibold break-words text-gray-900 sm:text-lg dark:text-gray-100">
-                                                        {workItem.work_item.name}
+                                                        {workItem.work_item?.name}
                                                     </h4>
                                                     <Badge
-                                                        variant={workItem.work_item.is_required ? 'destructive' : 'secondary'}
+                                                        variant={workItem.work_item?.is_required ? 'destructive' : 'secondary'}
                                                         className="w-fit text-xs sm:text-sm"
                                                     >
-                                                        {workItem.work_item.is_required ? (
+                                                        {workItem.work_item?.is_required ? (
                                                             <>
                                                                 <AlertCircle className="mr-1 h-3 w-3" />
                                                                 {t('teacher_detail.work_item_status.required')}
@@ -233,7 +231,7 @@ export default function TeacherDetail({ teacher }: TeacherDetailProps) {
                                             </div>
 
                                             <div className="p-4 sm:p-6">
-                                                {workItem.files.length === 0 ? (
+                                                {workItem.files?.length === 0 ? (
                                                     <div className="py-8 text-center sm:py-12">
                                                         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 sm:mb-4 sm:h-16 sm:w-16 dark:bg-gray-800">
                                                             <FileText className="h-6 w-6 text-gray-400 sm:h-8 sm:w-8" />
@@ -247,7 +245,7 @@ export default function TeacherDetail({ teacher }: TeacherDetailProps) {
                                                     </div>
                                                 ) : (
                                                     <div className="space-y-3 sm:space-y-4">
-                                                        {workItem.files?.map((file: TeacherWorkFile) => {
+                                                        {workItem.files?.map((file: WorkFileWithFeedbackArray) => {
                                                             const latestFeedback = file.feedback?.[0];
 
                                                             return (

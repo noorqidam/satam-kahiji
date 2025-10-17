@@ -3,8 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { ContactCardProps } from '@/types/contact';
 import { Link } from '@inertiajs/react';
 import { Contact as ContactIcon, Edit, Mail, MapPin, MessageCircle, Phone, Trash2, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function ContactCard({ contact, onDelete, showActions = true }: ContactCardProps) {
+    const { t } = useTranslation();
+    
     return (
         <Card className="group hover:shadow-3xl relative gap-0 overflow-hidden border-0 py-0 shadow-xl transition-all duration-500 dark:bg-gray-800/90">
             {/* Animated background */}
@@ -47,7 +50,7 @@ export function ContactCard({ contact, onDelete, showActions = true }: ContactCa
                                 <Button
                                     size="sm"
                                     className="h-9 w-9 bg-white/20 p-0 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-white/30"
-                                    title="View Details"
+                                    title={t('contact_management.card.view_details')}
                                 >
                                     <ContactIcon className="h-4 w-4" />
                                 </Button>
@@ -56,7 +59,7 @@ export function ContactCard({ contact, onDelete, showActions = true }: ContactCa
                                 <Button
                                     size="sm"
                                     className="h-9 w-9 bg-blue-500/90 p-0 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-blue-600"
-                                    title="Edit Contact"
+                                    title={t('contact_management.card.edit_contact')}
                                 >
                                     <Edit className="h-4 w-4" />
                                 </Button>
@@ -65,7 +68,7 @@ export function ContactCard({ contact, onDelete, showActions = true }: ContactCa
                                 <Button
                                     size="sm"
                                     className="h-9 w-9 bg-red-500/90 p-0 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-red-600"
-                                    title="Delete Contact"
+                                    title={t('contact_management.card.delete_contact')}
                                     onClick={() => onDelete(contact)}
                                 >
                                     <Trash2 className="h-4 w-4" />
@@ -82,7 +85,7 @@ export function ContactCard({ contact, onDelete, showActions = true }: ContactCa
                     <div>
                         <div className="mb-2 flex items-center gap-2">
                             <MessageCircle className="h-4 w-4 text-emerald-600" />
-                            <span className="font-semibold text-gray-900 dark:text-white">Contact Message</span>
+                            <span className="font-semibold text-gray-900 dark:text-white">{t('contact_management.card.contact_message')}</span>
                         </div>
                         <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">{contact.message}</p>
                     </div>
