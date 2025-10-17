@@ -4,20 +4,10 @@ import { type SubjectAssignmentData } from './use-subject-assignment-data';
 type AssignmentMatrix = Record<number, Record<number, boolean>>;
 
 export function useAssignmentMatrix(data: SubjectAssignmentData) {
-    // Create initial assignments based on data - only recreate when actual data structure changes
-    const dataKey = useMemo(() => {
-        return JSON.stringify({
-            staff: data.staff.data.map((s) => ({
-                id: s.id,
-                subjects: s.subjects.map((sub) => sub.id).sort(),
-            })),
-            subjects: data.subjects.data.map((s) => s.id).sort(),
-        });
-    }, [data.staff.data, data.subjects.data]);
-
+    // Create initial assignments based on data - stable reference for performance
     const initialAssignments = useMemo(() => {
         return createInitialAssignments(data);
-    }, [data, dataKey]);
+    }, [data]);
 
     const [assignments, setAssignments] = useState<AssignmentMatrix>(initialAssignments);
 

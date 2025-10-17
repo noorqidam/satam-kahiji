@@ -1,5 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useToast } from '@/hooks/use-toast';
 
@@ -7,13 +8,16 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { type StudentCreateProps, type StudentForm } from '@/types/student';
 
-import { PageHeader, StudentFormCard } from '@/components/admin/student/student-form';
+import { AdminStudentFormCard, PageHeader } from '@/components/admin/student/admin-student-form';
+import { StudentRecordsTabs } from '@/components/teacher/students/comprehensive-student-form';
 
-export default function CreateStudent({ staff, availableClasses, extracurriculars }: StudentCreateProps) {
+export default function CreateStudent({ staff, availableClasses, extracurriculars, recordOptions }: StudentCreateProps) {
+    const { t } = useTranslation();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: '/admin/dashboard' },
-        { title: 'Student Management', href: '/admin/students' },
-        { title: 'Create Student', href: '/admin/students/create' },
+        { title: t('student_management.breadcrumbs.admin_dashboard'), href: '/admin/dashboard' },
+        { title: t('student_management.breadcrumbs.students'), href: '/admin/students' },
+        { title: t('student_creation.breadcrumbs.create_student'), href: '/admin/students/create' },
     ];
 
     const { data, setData, post, processing, errors } = useForm<StudentForm>({
@@ -62,41 +66,53 @@ export default function CreateStudent({ staff, availableClasses, extracurricular
                 forceFormData: true,
                 onSuccess: () => {
                     toast({
-                        title: 'Success',
-                        description: 'Student created successfully.',
+                        title: t('student_creation.success.title'),
+                        description: t('student_creation.success.description'),
                         variant: 'success',
                     });
                 },
                 onError: (errors) => {
-                    const errorMessage = Object.values(errors).flat().join(', ') || 'Failed to create student.';
+                    const errorMessage = Object.values(errors).flat().join(', ') || t('student_creation.error.fallback');
                     toast({
-                        title: 'Error',
+                        title: t('student_creation.error.title'),
                         description: errorMessage,
                         variant: 'destructive',
                     });
                 },
             });
         },
-        [post, toast],
+        [post, toast, t],
     );
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Student" />
+            <Head title={t('student_creation.page_title')} />
 
             <div className="space-y-6 px-4 sm:px-6">
-                <PageHeader title="Create New Student" description="Add a new student to the system with their personal information and details." />
+                <PageHeader title={t('student_creation.page_title')} description={t('student_creation.page_description')} />
 
-                <StudentFormCard
+                <AdminStudentFormCard
                     data={data}
                     setData={setData}
                     submit={submit}
                     processing={processing}
                     errors={errors}
-                    submitLabel="Create Student"
+                    submitLabel={t('student_creation.submit_button')}
                     staff={staff}
                     availableClasses={availableClasses}
                     extracurriculars={extracurriculars}
+                />
+
+                {/* Student Records Management - Preview only for new students */}
+                <StudentRecordsTabs
+                    student={{
+                        id: 0,
+                        name: data.name || t('student_creation.placeholders.new_student'),
+                        nisn: data.nisn || '',
+                        class: data.class || '',
+                    }}
+                    recordOptions={recordOptions || { achievement_types: {}, achievement_levels: {} }}
+                    isEdit={false}
                 />
             </div>
         </AppLayout>

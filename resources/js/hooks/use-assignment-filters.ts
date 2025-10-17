@@ -1,5 +1,5 @@
 import { router } from '@inertiajs/react';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 interface AssignmentFilters {
     staff_search?: string;
@@ -9,7 +9,15 @@ interface AssignmentFilters {
 export function useAssignmentFilters(initialFilters: AssignmentFilters = {}) {
     const [staffSearch, setStaffSearch] = useState(initialFilters.staff_search || '');
     const [subjectSearch, setSubjectSearch] = useState(initialFilters.subject_search || '');
-    const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
+    
+    // Use refs to always access current values without dependencies
+    const staffSearchRef = useRef(staffSearch);
+    const subjectSearchRef = useRef(subjectSearch);
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+    
+    // Update refs when state changes
+    staffSearchRef.current = staffSearch;
+    subjectSearchRef.current = subjectSearch;
 
     const updateFilters = useCallback((staffSearchTerm: string, subjectSearchTerm: string) => {
         const params: Record<string, string> = {};
@@ -22,7 +30,7 @@ export function useAssignmentFilters(initialFilters: AssignmentFilters = {}) {
             params.subject_search = subjectSearchTerm.trim();
         }
 
-        router.get(route('admin.subject-assignments.index'), params, {
+        router.get('/admin/subject-assignments', params, {
             preserveState: true,
             replace: true,
         });
@@ -30,12 +38,10 @@ export function useAssignmentFilters(initialFilters: AssignmentFilters = {}) {
 
     const debouncedUpdateFilters = useCallback(
         (staffSearchTerm: string, subjectSearchTerm: string) => {
-            setDebounceTimer((prevTimer) => {
-                if (prevTimer) {
-                    clearTimeout(prevTimer);
-                }
-                return setTimeout(() => updateFilters(staffSearchTerm, subjectSearchTerm), 300);
-            });
+            if (debounceTimerRef.current) {
+                clearTimeout(debounceTimerRef.current);
+            }
+            debounceTimerRef.current = setTimeout(() => updateFilters(staffSearchTerm, subjectSearchTerm), 300);
         },
         [updateFilters],
     );
@@ -43,17 +49,17 @@ export function useAssignmentFilters(initialFilters: AssignmentFilters = {}) {
     const handleStaffSearchChange = useCallback(
         (value: string) => {
             setStaffSearch(value);
-            debouncedUpdateFilters(value, subjectSearch);
+            debouncedUpdateFilters(value, subjectSearchRef.current);
         },
-        [debouncedUpdateFilters, subjectSearch],
+        [debouncedUpdateFilters],
     );
 
     const handleSubjectSearchChange = useCallback(
         (value: string) => {
             setSubjectSearch(value);
-            debouncedUpdateFilters(staffSearch, value);
+            debouncedUpdateFilters(staffSearchRef.current, value);
         },
-        [debouncedUpdateFilters, staffSearch],
+        [debouncedUpdateFilters],
     );
 
     return {

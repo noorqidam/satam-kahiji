@@ -1,6 +1,7 @@
 import { useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import React, { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,6 +23,7 @@ interface ExtracurricularFormProps {
 }
 
 export default function ExtracurricularForm({ extracurricular, isEditing = false, onCancel, onSuccess }: ExtracurricularFormProps) {
+    const { t } = useTranslation('common');
     const { toast } = useToast();
     const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
     const [removeExistingPhoto, setRemoveExistingPhoto] = useState(false);
@@ -77,9 +79,10 @@ export default function ExtracurricularForm({ extracurricular, isEditing = false
     );
 
     const handleSuccess = useCallback(() => {
+        const translationKey = isEditing ? 'extracurricular_edit' : 'extracurricular_create';
         toast({
-            title: 'Success',
-            description: `Extracurricular activity ${isEditing ? 'updated' : 'created'} successfully.`,
+            title: t(`${translationKey}.messages.success_title`),
+            description: t(`${translationKey}.messages.success_description`),
             variant: 'success',
         });
 
@@ -90,24 +93,26 @@ export default function ExtracurricularForm({ extracurricular, isEditing = false
         }
 
         onSuccess?.();
-    }, [isEditing, reset, toast, onSuccess]);
+    }, [isEditing, reset, toast, onSuccess, t]);
 
     const handleError = useCallback(() => {
+        const translationKey = isEditing ? 'extracurricular_edit' : 'extracurricular_create';
         toast({
-            title: 'Error',
-            description: `Failed to ${isEditing ? 'update' : 'create'} extracurricular activity.`,
+            title: t(`${translationKey}.messages.error_title`),
+            description: t(`${translationKey}.messages.error_description`),
             variant: 'destructive',
         });
-    }, [isEditing, toast]);
+    }, [isEditing, toast, t]);
 
     const handleSubmit = useCallback(
         (e: React.FormEvent) => {
             e.preventDefault();
 
             if (hasValidationErrors) {
+                const translationKey = isEditing ? 'extracurricular_edit' : 'extracurricular_create';
                 toast({
-                    title: 'Validation Error',
-                    description: 'Please fix the errors before submitting.',
+                    title: t(`${translationKey}.messages.validation_error_title`),
+                    description: t(`${translationKey}.messages.validation_error_description`),
                     variant: 'destructive',
                 });
                 return;
@@ -131,10 +136,11 @@ export default function ExtracurricularForm({ extracurricular, isEditing = false
                 extracurricularService.create(formData, options);
             }
         },
-        [hasValidationErrors, data, selectedPhoto, removeExistingPhoto, isEditing, extracurricular, handleSuccess, handleError, toast],
+        [hasValidationErrors, data, selectedPhoto, removeExistingPhoto, isEditing, extracurricular, handleSuccess, handleError, toast, t],
     );
 
-    const formTitle = isEditing ? 'Edit Extracurricular Activity' : 'Create New Extracurricular Activity';
+    const translationKey = isEditing ? 'extracurricular_edit' : 'extracurricular_create';
+    const formTitle = t(`${translationKey}.form.title`);
 
     return (
         <Card>
@@ -155,10 +161,11 @@ export default function ExtracurricularForm({ extracurricular, isEditing = false
                         value={data.description}
                         onChange={handleDescriptionChange}
                         error={validationErrors.description}
+                        isEditing={isEditing}
                     />
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Activity Photo (Optional)</label>
+                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{t(`${translationKey}.form.photo_label`)}</label>
                         <Dropzone
                             onFileSelect={handlePhotoChange}
                             currentImage={extracurricular?.photo}
@@ -171,12 +178,14 @@ export default function ExtracurricularForm({ extracurricular, isEditing = false
                     <div className="flex gap-3 pt-4">
                         <Button type="submit" disabled={processing || hasValidationErrors} className="flex-1 sm:flex-none">
                             {processing && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
-                            {isEditing ? 'Update Activity' : 'Create Activity'}
+                            {processing
+                                ? t(`${translationKey}.form.${isEditing ? 'updating' : 'creating'}`)
+                                : t(`${translationKey}.form.${isEditing ? 'update_button' : 'create_button'}`)}
                         </Button>
 
                         {onCancel && (
                             <Button type="button" variant="outline" onClick={onCancel} disabled={processing} className="flex-1 sm:flex-none">
-                                Cancel
+                                {t(`${translationKey}.form.cancel_button`)}
                             </Button>
                         )}
                     </div>

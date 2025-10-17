@@ -23,14 +23,11 @@ export interface SubjectAssignmentData {
 }
 
 export function useSubjectAssignmentData(data: SubjectAssignmentData) {
-    // Auto-refresh data when component mounts or when returning to the page
+    // Only listen for external events, don't auto-refresh on mount
     useEffect(() => {
         const handleSubjectAssignmentChange = () => {
-            // Force refresh when assignments are updated from other pages
-            router.visit(route('admin.subject-assignments.index'), {
-                preserveState: true,
-                replace: true,
-            });
+            // Refresh when assignments are updated from other pages
+            router.reload();
         };
 
         window.addEventListener('subject-staff-updated', handleSubjectAssignmentChange);

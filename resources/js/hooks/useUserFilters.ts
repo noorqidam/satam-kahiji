@@ -49,7 +49,7 @@ export function useUserFilters({ initialFilters }: UseUserFiltersProps) {
     );
 
     const clearFilters = useCallback(() => {
-        const clearedFilters: UserFilters = { search: '', roles: [] };
+        const clearedFilters: UserFilters = { search: '', roles: [], per_page: 15 };
         setFilters(clearedFilters);
         setSearchValue('');
         UserService.updateFilters(clearedFilters);

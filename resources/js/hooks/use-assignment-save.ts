@@ -1,6 +1,7 @@
 import { useToast } from '@/hooks/use-toast';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface FlashMessages {
     success?: string;
@@ -17,12 +18,13 @@ interface InertiaPageProps {
 export function useAssignmentSave() {
     const [isSaving, setIsSaving] = useState(false);
     const { toast } = useToast();
+    const { t } = useTranslation();
 
     const saveAssignments = (assignmentsData: Array<{ staff_id: number; subject_ids: number[] }>, hasChanges: boolean) => {
         if (!hasChanges) {
             toast({
-                title: 'No Changes',
-                description: 'No changes detected in subject assignments.',
+                title: t('class_management.subject_staff_assignments.save.no_changes_title'),
+                description: t('class_management.subject_staff_assignments.save.no_changes_description'),
                 variant: 'default',
             });
             return;
@@ -30,13 +32,13 @@ export function useAssignmentSave() {
 
         setIsSaving(true);
 
-        router.post(route('admin.subject-assignments.bulk-update'), JSON.parse(JSON.stringify({ assignments: assignmentsData })), {
+        router.post('/admin/subject-assignments/bulk-update', JSON.parse(JSON.stringify({ assignments: assignmentsData })), {
             onSuccess: (page: { props: InertiaPageProps }) => {
                 const props = page.props;
 
                 if (props.flash?.success) {
                     toast({
-                        title: 'Success',
+                        title: t('class_management.subject_staff_assignments.save.success_title'),
                         description: props.flash.success,
                         variant: 'success',
                     });
@@ -46,29 +48,29 @@ export function useAssignmentSave() {
                     router.visit('/admin/subjects', { preserveState: false });
                 } else if (props.flash?.info) {
                     toast({
-                        title: 'No Changes',
-                        description: 'No changes detected in subject assignments.',
+                        title: t('class_management.subject_staff_assignments.save.no_changes_title'),
+                        description: t('class_management.subject_staff_assignments.save.no_changes_description'),
                         variant: 'default',
                     });
                 } else if (props.flash?.warning) {
                     toast({
-                        title: 'Warning',
+                        title: t('class_management.subject_staff_assignments.save.warning_title'),
                         description: props.flash.warning,
                         variant: 'default',
                     });
                 } else {
                     toast({
-                        title: 'Success',
-                        description: 'Assignment operation completed.',
+                        title: t('class_management.subject_staff_assignments.save.success_title'),
+                        description: t('class_management.subject_staff_assignments.save.success_description'),
                         variant: 'success',
                     });
                     router.visit('/admin/subjects', { preserveState: false });
                 }
             },
             onError: (errors) => {
-                const errorMessage = Object.values(errors).flat().join(', ') || 'Failed to save assignments. Please try again.';
+                const errorMessage = Object.values(errors).flat().join(', ') || t('class_management.subject_staff_assignments.save.error_fallback');
                 toast({
-                    title: 'Error',
+                    title: t('class_management.subject_staff_assignments.save.error_title'),
                     description: errorMessage,
                     variant: 'destructive',
                 });

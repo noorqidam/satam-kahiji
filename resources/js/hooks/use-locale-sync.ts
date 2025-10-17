@@ -28,7 +28,7 @@ export function useLocaleSync() {
                 localStorage.setItem('i18nextLng', locale);
             }
         }
-    }, [locale, i18n?.language, i18n?.isInitialized]);
+    }, [locale, i18n]);
 
     return { serverLocale: locale, currentLanguage: i18n?.language || 'id' };
 }
