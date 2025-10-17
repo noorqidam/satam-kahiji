@@ -83,18 +83,18 @@ class User extends Authenticatable implements MustVerifyEmail
         static::deleting(function (User $user) {
             // Log information about related records that will be deleted
             if ($user->staff) {
-                \Log::info("Deleting user {$user->name} (ID: {$user->id}) - This will cascade delete staff record: {$user->staff->name} (ID: {$user->staff->id})");
+                Log::info("Deleting user {$user->name} (ID: {$user->id}) - This will cascade delete staff record: {$user->staff->name} (ID: {$user->staff->id})");
                 
                 // Log position history that will be deleted
                 $positionCount = $user->staff->positionHistory()->count();
                 if ($positionCount > 0) {
-                    \Log::info("Staff deletion will cascade delete {$positionCount} position history records");
+                    Log::info("Staff deletion will cascade delete {$positionCount} position history records");
                 }
 
                 // Log subject assignments that will be deleted
                 $subjectCount = $user->staff->subjects()->count();
                 if ($subjectCount > 0) {
-                    \Log::info("Staff deletion will cascade delete {$subjectCount} subject assignments");
+                    Log::info("Staff deletion will cascade delete {$subjectCount} subject assignments");
                 }
             }
         });
