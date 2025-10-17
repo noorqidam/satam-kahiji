@@ -1,70 +1,98 @@
 import * as v from 'valibot';
+import i18n from '@/i18n';
+
+// Helper function to get translated validation messages
+const t = (key: string, params?: Record<string, string | number>) => {
+    return i18n.t(key, params);
+};
 
 // Schema for class form data
 export const ClassFormSchema = v.object({
-    grade_level: v.pipe(v.string(), v.nonEmpty('Grade level is required'), v.regex(/^[789]$/, 'Grade level must be 7, 8, or 9')),
-    class_section: v.pipe(v.string(), v.nonEmpty('Class section is required'), v.regex(/^[A-Z]$/, 'Class section must be a single letter (A-Z)')),
+    grade_level: v.pipe(
+        v.string(), 
+        v.nonEmpty(() => t('classes_management.create.form.validation.grade_level.required')), 
+        v.regex(/^[789]$/, () => t('classes_management.create.form.validation.grade_level.invalid'))
+    ),
+    class_section: v.pipe(
+        v.string(), 
+        v.nonEmpty(() => t('classes_management.create.form.validation.class_section.required')), 
+        v.regex(/^[A-Z]$/, () => t('classes_management.create.form.validation.class_section.invalid'))
+    ),
     capacity: v.pipe(
         v.string(),
-        v.nonEmpty('Capacity is required'),
+        v.nonEmpty(() => t('classes_management.create.form.validation.capacity.required')),
         v.transform(Number),
-        v.number('Capacity must be a number'),
-        v.minValue(1, 'Capacity must be at least 1 student'),
-        v.maxValue(40, 'Capacity cannot exceed 40 students'),
-        v.integer('Capacity must be a whole number'),
+        v.number(() => t('classes_management.create.form.validation.capacity.invalid_number')),
+        v.minValue(1, () => t('classes_management.create.form.validation.capacity.min_value')),
+        v.maxValue(40, () => t('classes_management.create.form.validation.capacity.max_value')),
+        v.integer(() => t('classes_management.create.form.validation.capacity.must_be_integer')),
     ),
-    description: v.optional(v.pipe(v.string(), v.maxLength(500, 'Description cannot exceed 500 characters')), ''),
+    description: v.optional(v.pipe(v.string(), v.maxLength(500, () => t('classes_management.create.form.validation.description.max_length'))), ''),
 });
 
 // Schema for edit form with additional validation for existing students
 export const ClassEditSchema = (currentStudentCount: number = 0) =>
     v.object({
-        grade_level: v.pipe(v.string(), v.nonEmpty('Grade level is required'), v.regex(/^[789]$/, 'Grade level must be 7, 8, or 9')),
-        class_section: v.pipe(v.string(), v.nonEmpty('Class section is required'), v.regex(/^[A-Z]$/, 'Class section must be a single letter (A-Z)')),
+        grade_level: v.pipe(
+            v.string(), 
+            v.nonEmpty(() => t('classes_management.create.form.validation.grade_level.required')), 
+            v.regex(/^[789]$/, () => t('classes_management.create.form.validation.grade_level.invalid'))
+        ),
+        class_section: v.pipe(
+            v.string(), 
+            v.nonEmpty(() => t('classes_management.create.form.validation.class_section.required')), 
+            v.regex(/^[A-Z]$/, () => t('classes_management.create.form.validation.class_section.invalid'))
+        ),
         capacity: v.pipe(
             v.string(),
-            v.nonEmpty('Capacity is required'),
+            v.nonEmpty(() => t('classes_management.create.form.validation.capacity.required')),
             v.transform(Number),
-            v.number('Capacity must be a number'),
-            v.minValue(currentStudentCount, `Capacity must be at least ${currentStudentCount} to accommodate current students`),
-            v.maxValue(40, 'Capacity cannot exceed 40 students'),
-            v.integer('Capacity must be a whole number'),
+            v.number(() => t('classes_management.create.form.validation.capacity.invalid_number')),
+            v.minValue(currentStudentCount, () => t('classes_management.create.form.validation.capacity.min_current_students', { count: currentStudentCount })),
+            v.maxValue(40, () => t('classes_management.create.form.validation.capacity.max_value')),
+            v.integer(() => t('classes_management.create.form.validation.capacity.must_be_integer')),
         ),
-        description: v.optional(v.pipe(v.string(), v.maxLength(500, 'Description cannot exceed 500 characters')), ''),
+        description: v.optional(v.pipe(v.string(), v.maxLength(500, () => t('classes_management.create.form.validation.description.max_length'))), ''),
     });
 
 // Individual field schemas for real-time validation
-export const GradeLevelSchema = v.pipe(v.string(), v.nonEmpty('Grade level is required'), v.regex(/^[789]$/, 'Grade level must be 7, 8, or 9'));
+export const GradeLevelSchema = v.pipe(
+    v.string(), 
+    v.nonEmpty(() => t('classes_management.create.form.validation.grade_level.required')), 
+    v.regex(/^[789]$/, () => t('classes_management.create.form.validation.grade_level.invalid'))
+);
 
 export const ClassSectionSchema = v.pipe(
     v.string(),
-    v.nonEmpty('Class section is required'),
-    v.regex(/^[A-Z]$/, 'Class section must be a single letter (A-Z)'),
+    v.nonEmpty(() => t('classes_management.create.form.validation.class_section.required')),
+    v.regex(/^[A-Z]$/, () => t('classes_management.create.form.validation.class_section.invalid')),
 );
 
 export const CapacitySchema = (minCapacity: number = 1) =>
     v.pipe(
         v.string(),
-        v.nonEmpty('Capacity is required'),
-        v.regex(/^\d+$/, 'Capacity must be a valid number'),
+        v.nonEmpty(() => t('classes_management.create.form.validation.capacity.required')),
+        v.regex(/^\d+$/, () => t('classes_management.create.form.validation.capacity.invalid_format')),
         v.check(
             (value) => {
                 const num = Number(value);
                 return !isNaN(num) && num >= minCapacity;
             },
-            minCapacity > 1 ? `Capacity must be at least ${minCapacity} to accommodate current students` : 'Capacity must be at least 1 student',
+            () => minCapacity > 1 
+                ? t('classes_management.create.form.validation.capacity.min_current_students', { count: minCapacity })
+                : t('classes_management.create.form.validation.capacity.min_value'),
         ),
         v.check((value) => {
             const num = Number(value);
             return !isNaN(num) && num <= 40;
-        }, 'Capacity cannot exceed 40 students'),
+        }, () => t('classes_management.create.form.validation.capacity.max_value')),
         v.check((value) => {
             const num = Number(value);
             return !isNaN(num) && Number.isInteger(num);
-        }, 'Capacity must be a whole number'),
+        }, () => t('classes_management.create.form.validation.capacity.must_be_integer')),
     );
 
-export const DescriptionSchema = v.optional(v.pipe(v.string(), v.maxLength(500, 'Description cannot exceed 500 characters')), '');
+export const DescriptionSchema = v.optional(v.pipe(v.string(), v.maxLength(500, () => t('classes_management.create.form.validation.description.max_length'))), '');
 
 // Type definitions
 export type ClassFormData = v.InferInput<typeof ClassFormSchema>;
@@ -78,9 +106,9 @@ export function validateField(schema: v.BaseSchema<unknown, unknown, v.BaseIssue
         return { success: true };
     } catch (error) {
         if (error instanceof v.ValiError) {
-            return { success: false, error: error.issues[0]?.message || 'Validation error' };
+            return { success: false, error: error.issues[0]?.message || t('classes_management.create.form.validation.general.validation_error') };
         }
-        return { success: false, error: 'Unexpected validation error' };
+        return { success: false, error: t('classes_management.create.form.validation.general.unexpected_error') };
     }
 }
 
@@ -103,6 +131,6 @@ export function validateForm(
             });
             return { success: false, errors };
         }
-        return { success: false, errors: { general: 'Validation failed' } };
+        return { success: false, errors: { general: t('classes_management.create.form.validation.general.validation_failed') } };
     }
 }

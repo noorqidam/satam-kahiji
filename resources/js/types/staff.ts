@@ -1,4 +1,5 @@
 import type { UserRole } from '@/constants/roles';
+import type { TeacherSubjectWork } from '@/types/teacher';
 
 export interface Staff {
     id: number;
@@ -16,6 +17,7 @@ export interface Staff {
     positionHistory?: PositionHistory[];
     position_history?: PositionHistory[];
     subjects?: StaffSubject[];
+    teacher_subject_works?: TeacherSubjectWork[];
 }
 
 export interface PositionHistory {

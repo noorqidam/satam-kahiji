@@ -121,6 +121,10 @@ export interface StudentCreateProps {
         name: string;
         description?: string;
     }>;
+    recordOptions?: {
+        achievement_types: Record<string, string>;
+        achievement_levels: Record<string, string>;
+    };
 }
 
 export interface StudentEditProps {
@@ -145,6 +149,10 @@ export interface StudentEditProps {
         name: string;
         description?: string;
     }>;
+    recordOptions?: {
+        achievement_types: Record<string, string>;
+        achievement_levels: Record<string, string>;
+    };
 }
 
 export interface StudentShowProps {

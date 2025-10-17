@@ -73,3 +73,36 @@ export interface HomeProps {
     galleries: Gallery[];
     extracurriculars: Extracurricular[];
 }
+
+// Hook return types
+export interface UseHomeCarouselReturn {
+    currentSlide: number;
+    setCurrentSlide: (slide: number) => void;
+    nextSlide: () => void;
+    prevSlide: () => void;
+    isAutoPlaying: boolean;
+    startAutoPlay: () => void;
+    stopAutoPlay: () => void;
+    screenSize: 'mobile' | 'tablet' | 'desktop';
+    getExcerptLength: () => number;
+}
+
+export type ScrollDirection = 'left' | 'right';
+
+export interface UseScrollControlReturn {
+    newsScrollPosition: number;
+    galleryScrollPosition: number;
+    extracurricularScrollPosition: number;
+    scrollNews: (direction: ScrollDirection) => void;
+    scrollGallery: (direction: ScrollDirection) => void;
+    scrollExtracurricular: (direction: ScrollDirection) => void;
+}
+
+export type NewsCategory = 'news' | 'announcements';
+
+export interface UseHomeUtilsReturn {
+    formatDate: (dateString: string) => string;
+    getCategoryLabel: (category: NewsCategory) => string;
+    getCategoryStyle: (category: NewsCategory) => string;
+    truncateText: (text: string, maxLength: number) => string;
+}

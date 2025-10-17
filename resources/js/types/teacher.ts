@@ -55,6 +55,8 @@ export interface WorkFileWithFeedbackArray {
     file_name: string;
     file_url: string;
     uploaded_at: string;
+    file_size?: number;
+    created_at: string;
     feedback: WorkFileFeedback[];
 }
 
