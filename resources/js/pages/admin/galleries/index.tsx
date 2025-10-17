@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 import { Calendar, Edit, Eye, ImageIcon, Plus, Search, ToggleLeft, ToggleRight, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -63,10 +64,11 @@ interface GalleriesPageProps {
 
 export default function GalleriesIndex() {
     const { galleries, filters } = usePage<GalleriesPageProps>().props;
+    const { t } = useTranslation();
 
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: route('admin.dashboard') },
-        { title: 'Gallery Management', href: route('admin.galleries.index') },
+        { title: t('gallery_management.breadcrumbs.admin_dashboard'), href: route('admin.dashboard') },
+        { title: t('gallery_management.breadcrumbs.gallery_management'), href: route('admin.galleries.index') },
     ];
 
     const [searchTerm, setSearchTerm] = useState(filters.search || '');
@@ -130,7 +132,7 @@ export default function GalleriesIndex() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Gallery Management" />
+            <Head title={t('gallery_management.header.title')} />
 
             <div className="w-full max-w-none space-y-3 px-4 sm:px-8">
                 {/* Header */}
@@ -138,23 +140,23 @@ export default function GalleriesIndex() {
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="space-y-2 text-center sm:text-left">
                             <h1 className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-2xl font-bold text-transparent sm:text-3xl lg:text-4xl">
-                                Gallery Management
+                                {t('gallery_management.header.title')}
                             </h1>
                             <p className="text-sm text-muted-foreground sm:text-base lg:text-lg">
-                                Organize and showcase your photo collections with Google Drive integration
+                                {t('gallery_management.header.description')}
                             </p>
                             <div className="mt-2 flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground sm:justify-start sm:gap-4 sm:text-sm">
                                 <div className="flex items-center gap-1">
                                     <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                                    <span>{galleries.data.filter((gallery) => gallery.is_published).length} Published</span>
+                                    <span>{galleries.data.filter((gallery) => gallery.is_published).length} {t('gallery_management.list.filters.published')}</span>
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <div className="h-2 w-2 rounded-full bg-gray-400"></div>
-                                    <span>{galleries.data.filter((gallery) => !gallery.is_published).length} Drafts</span>
+                                    <span>{galleries.data.filter((gallery) => !gallery.is_published).length} {t('gallery_management.list.filters.draft')}</span>
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <div className="h-2 w-2 rounded-full bg-purple-500"></div>
-                                    <span>{galleries.total} Total Galleries</span>
+                                    <span>{galleries.total} {t('gallery_management.list.title')}</span>
                                 </div>
                             </div>
                         </div>
@@ -165,8 +167,8 @@ export default function GalleriesIndex() {
                                     className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg transition-all duration-200 hover:from-purple-700 hover:to-indigo-700 hover:shadow-xl sm:w-auto"
                                 >
                                     <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                                    <span className="xs:inline hidden">Create New Gallery</span>
-                                    <span className="xs:hidden">Create Gallery</span>
+                                    <span className="xs:inline hidden">{t('gallery_management.create.title')}</span>
+                                    <span className="xs:hidden">{t('gallery_management.actions.create_gallery')}</span>
                                 </Button>
                             </Link>
                         </div>
@@ -178,10 +180,10 @@ export default function GalleriesIndex() {
                     <CardHeader className="border-b border-gray-100 pb-4 dark:border-gray-800">
                         <div className="flex items-center gap-2">
                             <Search className="h-5 w-5 text-purple-600" />
-                            <CardTitle className="text-xl text-gray-900 dark:text-white">Search & Filter</CardTitle>
+                            <CardTitle className="text-xl text-gray-900 dark:text-white">{t('gallery_management.list.search_and_filter.title')}</CardTitle>
                         </div>
                         <CardDescription className="text-base text-gray-600 dark:text-gray-400">
-                            Find galleries quickly with advanced search and filtering options
+                            {t('gallery_management.list.search_and_filter.description')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -192,7 +194,7 @@ export default function GalleriesIndex() {
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                 <Input
                                     type="text"
-                                    placeholder="Search by title or description..."
+                                    placeholder={t('gallery_management.list.search_placeholder')}
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="h-11 border-gray-200 pl-10 transition-colors focus:border-purple-500 focus:ring-purple-500 dark:border-gray-700"
@@ -203,12 +205,12 @@ export default function GalleriesIndex() {
                             <div className="flex flex-col gap-3 sm:flex-row sm:gap-3 lg:flex-shrink-0">
                                 <Select value={selectedStatus} onValueChange={setSelectedStatus}>
                                     <SelectTrigger className="h-11 w-full border-gray-200 focus:border-purple-500 focus:ring-purple-500 sm:w-[150px] dark:border-gray-700">
-                                        <SelectValue placeholder="All Status" />
+                                        <SelectValue placeholder={t('gallery_management.list.filters.all')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="all">All Status</SelectItem>
-                                        <SelectItem value="published">✅ Published</SelectItem>
-                                        <SelectItem value="draft">📝 Draft</SelectItem>
+                                        <SelectItem value="all">{t('gallery_management.list.filters.all')}</SelectItem>
+                                        <SelectItem value="published">✅ {t('gallery_management.list.filters.published')}</SelectItem>
+                                        <SelectItem value="draft">📝 {t('gallery_management.list.filters.draft')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -224,9 +226,9 @@ export default function GalleriesIndex() {
                                 <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900 dark:to-indigo-900">
                                     <Edit className="h-12 w-12 text-purple-600 dark:text-purple-400" />
                                 </div>
-                                <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">No galleries found</h3>
+                                <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">{t('gallery_management.list.empty_state.title')}</h3>
                                 <p className="mx-auto mb-8 max-w-md text-lg text-gray-600 dark:text-gray-400">
-                                    Start creating beautiful photo galleries. Your first gallery is just one click away!
+                                    {t('gallery_management.list.empty_state.description')}
                                 </p>
                                 <div className="flex flex-col justify-center gap-3 sm:flex-row">
                                     <Link href={route('admin.galleries.create')}>
@@ -235,7 +237,7 @@ export default function GalleriesIndex() {
                                             className="bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg transition-all duration-200 hover:from-purple-700 hover:to-indigo-700 hover:shadow-xl"
                                         >
                                             <Plus className="mr-2 h-5 w-5" />
-                                            Create Your First Gallery
+                                            {t('gallery_management.list.empty_state.create_button')}
                                         </Button>
                                     </Link>
                                 </div>
@@ -248,12 +250,12 @@ export default function GalleriesIndex() {
                             <Table className="w-full">
                                 <TableHeader>
                                     <TableRow className="border-b">
-                                        <TableHead className="w-16 sm:w-20">Image</TableHead>
-                                        <TableHead className="min-w-[200px]">Title & Description</TableHead>
-                                        <TableHead className="w-20 sm:w-24">Items</TableHead>
-                                        <TableHead className="w-20 sm:w-24">Status</TableHead>
-                                        <TableHead className="hidden w-32 md:table-cell">Created At</TableHead>
-                                        <TableHead className="w-24 text-right sm:w-36">Actions</TableHead>
+                                        <TableHead className="w-16 sm:w-20">{t('gallery_management.list.table.columns.image')}</TableHead>
+                                        <TableHead className="min-w-[200px]">{t('gallery_management.list.table.columns.title')} & {t('gallery_management.list.table.columns.description')}</TableHead>
+                                        <TableHead className="w-20 sm:w-24">{t('gallery_management.list.table.columns.items_count')}</TableHead>
+                                        <TableHead className="w-20 sm:w-24">{t('gallery_management.list.table.columns.status')}</TableHead>
+                                        <TableHead className="hidden w-32 md:table-cell">{t('gallery_management.list.table.columns.created_at')}</TableHead>
+                                        <TableHead className="w-24 text-right sm:w-36">{t('gallery_management.list.table.columns.actions')}</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -296,7 +298,7 @@ export default function GalleriesIndex() {
                                                         </p>
                                                     )}
                                                     <div className="hidden items-center gap-1 text-xs text-gray-500 sm:flex">
-                                                        <span>Sort order: {gallery.sort_order}</span>
+                                                        <span>{t('gallery_management.list.table.sort_order')}: {gallery.sort_order}</span>
                                                     </div>
                                                     {/* Mobile: Show status inline */}
                                                     <div className="mt-1 flex items-center gap-2 sm:hidden">
@@ -326,7 +328,7 @@ export default function GalleriesIndex() {
                                                 {gallery.is_published ? (
                                                     <Badge className="bg-gradient-to-r from-green-100 to-emerald-100 px-2 py-1 text-xs font-medium text-green-800 shadow-sm transition-all duration-200 hover:from-green-200 hover:to-emerald-200 hover:shadow-md sm:px-3 dark:from-green-900 dark:to-emerald-900 dark:text-green-300">
                                                         <span className="mr-1 h-2 w-2 animate-pulse rounded-full bg-green-500 sm:mr-1.5"></span>
-                                                        <span className="hidden sm:inline">✅ Published</span>
+                                                        <span className="hidden sm:inline">✅ {t('gallery_management.show.overview.published')}</span>
                                                         <span className="sm:hidden">✅</span>
                                                     </Badge>
                                                 ) : (
@@ -335,7 +337,7 @@ export default function GalleriesIndex() {
                                                         className="bg-gradient-to-r from-gray-100 to-slate-100 px-2 py-1 text-xs font-medium text-gray-600 shadow-sm transition-all duration-200 hover:from-gray-200 hover:to-slate-200 hover:shadow-md sm:px-3 dark:from-gray-800 dark:to-slate-800 dark:text-gray-400"
                                                     >
                                                         <span className="mr-1 h-2 w-2 rounded-full bg-gray-400 sm:mr-1.5"></span>
-                                                        <span className="hidden sm:inline">📝 Draft</span>
+                                                        <span className="hidden sm:inline">📝 {t('gallery_management.show.overview.draft')}</span>
                                                         <span className="sm:hidden">📝</span>
                                                     </Badge>
                                                 )}
@@ -368,13 +370,16 @@ export default function GalleriesIndex() {
                                             <TableCell className="py-4">
                                                 <div className="flex items-center justify-end gap-1">
                                                     {/* Desktop Actions */}
-                                                    <div className="hidden items-center gap-1 opacity-100 transition-opacity duration-200 group-hover:opacity-100 sm:flex">
+                                                    <div className="hidden items-center gap-1 sm:flex">
                                                         <Button
-                                                            variant="ghost"
                                                             size="sm"
                                                             onClick={() => handleTogglePublish(gallery)}
-                                                            title={gallery.is_published ? 'Unpublish Gallery' : 'Publish Gallery'}
-                                                            className="h-8 w-8 rounded-lg transition-all duration-200 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 hover:text-green-600 hover:shadow-md sm:h-10 sm:w-10 sm:rounded-xl dark:hover:from-green-950 dark:hover:to-emerald-950"
+                                                            title={gallery.is_published ? t('gallery_management.actions.unpublish') : t('gallery_management.actions.publish')}
+                                                            className={`h-8 w-8 rounded-lg transition-all duration-200 hover:shadow-md sm:h-10 sm:w-10 sm:rounded-xl ${
+                                                                gallery.is_published
+                                                                    ? 'bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50'
+                                                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700'
+                                                            }`}
                                                         >
                                                             {gallery.is_published ? (
                                                                 <ToggleRight className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -384,30 +389,27 @@ export default function GalleriesIndex() {
                                                         </Button>
                                                         <Link href={route('admin.galleries.show', gallery.id)}>
                                                             <Button
-                                                                variant="ghost"
                                                                 size="sm"
-                                                                title="View Gallery"
-                                                                className="h-8 w-8 rounded-lg transition-all duration-200 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-600 hover:shadow-md sm:h-10 sm:w-10 sm:rounded-xl dark:hover:from-blue-950 dark:hover:to-indigo-950"
+                                                                title={t('gallery_management.actions.view_gallery')}
+                                                                className="h-8 w-8 rounded-lg bg-blue-100 text-blue-700 transition-all duration-200 hover:bg-blue-200 hover:shadow-md sm:h-10 sm:w-10 sm:rounded-xl dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"
                                                             >
                                                                 <Eye className="h-4 w-4 sm:h-5 sm:w-5" />
                                                             </Button>
                                                         </Link>
                                                         <Link href={route('admin.galleries.edit', gallery.id)}>
                                                             <Button
-                                                                variant="ghost"
                                                                 size="sm"
-                                                                title="Edit Gallery"
-                                                                className="h-8 w-8 rounded-lg transition-all duration-200 hover:bg-gradient-to-r hover:from-orange-50 hover:to-amber-50 hover:text-orange-600 hover:shadow-md sm:h-10 sm:w-10 sm:rounded-xl dark:hover:from-orange-950 dark:hover:to-amber-950"
+                                                                title={t('gallery_management.actions.edit_gallery')}
+                                                                className="h-8 w-8 rounded-lg bg-orange-100 text-orange-700 transition-all duration-200 hover:bg-orange-200 hover:shadow-md sm:h-10 sm:w-10 sm:rounded-xl dark:bg-orange-900/30 dark:text-orange-400 dark:hover:bg-orange-900/50"
                                                             >
                                                                 <Edit className="h-4 w-4 sm:h-5 sm:w-5" />
                                                             </Button>
                                                         </Link>
                                                         <Button
-                                                            variant="ghost"
                                                             size="sm"
                                                             onClick={() => handleDelete(gallery)}
-                                                            title="Delete Gallery"
-                                                            className="h-8 w-8 rounded-lg text-gray-500 transition-all duration-200 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 hover:text-red-600 hover:shadow-md sm:h-10 sm:w-10 sm:rounded-xl dark:hover:from-red-950 dark:hover:to-pink-950"
+                                                            title={t('gallery_management.actions.delete_gallery')}
+                                                            className="h-8 w-8 rounded-lg bg-red-100 text-red-700 transition-all duration-200 hover:bg-red-200 hover:shadow-md sm:h-10 sm:w-10 sm:rounded-xl dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50"
                                                         >
                                                             <Trash2 className="h-4 w-4 sm:h-5 sm:w-5" />
                                                         </Button>
@@ -453,9 +455,9 @@ export default function GalleriesIndex() {
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div className="text-sm text-gray-600 dark:text-gray-400">
-                                    Showing <span className="font-medium text-gray-900 dark:text-white">{galleries.from}</span> to{' '}
-                                    <span className="font-medium text-gray-900 dark:text-white">{galleries.to}</span> of{' '}
-                                    <span className="font-medium text-gray-900 dark:text-white">{galleries.total}</span> results
+                                    {t('gallery_management.pagination.showing')} <span className="font-medium text-gray-900 dark:text-white">{galleries.from}</span> {t('gallery_management.pagination.to')}{' '}
+                                    <span className="font-medium text-gray-900 dark:text-white">{galleries.to}</span> {t('gallery_management.pagination.of')}{' '}
+                                    <span className="font-medium text-gray-900 dark:text-white">{galleries.total}</span> {t('gallery_management.pagination.results')}
                                 </div>
                                 <Pagination data={galleries} />
                             </div>
@@ -467,8 +469,8 @@ export default function GalleriesIndex() {
                 <DeleteConfirmationDialog
                     open={deleteDialog.open}
                     onOpenChange={(open) => setDeleteDialog({ open, gallery: null })}
-                    title="Delete Gallery"
-                    description={`Are you sure you want to delete "${deleteDialog.gallery?.title}" and all its items? This will permanently remove:\n\n• The gallery and its ${deleteDialog.gallery?.items_count || 0} items\n• All files from Google Drive\n• All associated data\n\nThis action cannot be undone.`}
+                    title={t('gallery_management.delete.title')}
+                    description={t('gallery_management.delete.message')}
                     itemName={deleteDialog.gallery?.title}
                     itemType="gallery"
                     onConfirm={confirmDelete}

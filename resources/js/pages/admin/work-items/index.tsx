@@ -109,7 +109,7 @@ export default function WorkItemsIndex({ workItems, teachers = [], stats, userRo
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="p-0">
-                            <TeacherProgressTable teachers={teachers} workItems={workItems} />
+                            <TeacherProgressTable teachers={teachers} workItems={workItems} userRole={userRole} />
                         </CardContent>
                     </Card>
                 )}

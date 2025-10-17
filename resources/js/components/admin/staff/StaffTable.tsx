@@ -3,6 +3,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import type { Staff, StaffDivision } from '@/types/staff';
 import { Link } from '@inertiajs/react';
 import { Plus, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { StaffTableRow } from './StaffTableRow';
 
 interface StaffTableProps {
@@ -32,16 +33,17 @@ export function StaffTable({
     onDeleteStaff,
     isLoading,
 }: StaffTableProps) {
+    const { t } = useTranslation();
     if (staff.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center py-12">
                 <User className="h-12 w-12 text-gray-400" />
-                <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">No staff members found</h3>
-                <p className="mt-2 text-gray-600 dark:text-gray-400">Get started by adding a new staff member.</p>
+                <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">{t('staff_management.table.no_staff_found')}</h3>
+                <p className="mt-2 text-gray-600 dark:text-gray-400">{t('staff_management.table.get_started')}</p>
                 <Link href={route('admin.staff.create')} className="mt-4">
                     <Button>
                         <Plus className="mr-2 h-4 w-4" />
-                        Add Staff Member
+                        {t('staff_management.actions.add_staff_member')}
                     </Button>
                 </Link>
             </div>
@@ -56,13 +58,13 @@ export function StaffTable({
                         <th className="pr-4 pb-3">
                             <Checkbox checked={isAllSelected} onCheckedChange={onSelectAll} disabled={deletableStaff.length === 0} />
                         </th>
-                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">Photo</th>
-                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">Name</th>
-                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">Position</th>
-                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">Division</th>
-                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">Email</th>
-                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">Phone</th>
-                        <th className="pb-3 font-medium text-gray-900 dark:text-gray-100">Actions</th>
+                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('staff_management.table.photo')}</th>
+                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('staff_management.table.name')}</th>
+                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('staff_management.table.position')}</th>
+                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('staff_management.table.division')}</th>
+                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('staff_management.table.email')}</th>
+                        <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('staff_management.table.phone')}</th>
+                        <th className="pb-3 font-medium text-gray-900 dark:text-gray-100">{t('staff_management.table.actions')}</th>
                     </tr>
                 </thead>
                 <tbody>

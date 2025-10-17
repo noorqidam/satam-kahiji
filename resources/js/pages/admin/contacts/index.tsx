@@ -1,4 +1,3 @@
-// Single Responsibility: Display and manage contact information listing
 import { ContactCard } from '@/components/contact/ContactCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,12 +9,14 @@ import { generateContactBreadcrumbs } from '@/utils/contact';
 import { Head, Link } from '@inertiajs/react';
 import { Building2, Contact as ContactIcon, Edit, Mail, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     contact: Contact | null;
 }
 
 export default function ContactsIndex({ contact }: Props) {
+    const { t } = useTranslation();
     const [mounted, setMounted] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [contactToDelete, setContactToDelete] = useState<Contact | null>(null);
@@ -28,7 +29,7 @@ export default function ContactsIndex({ contact }: Props) {
     }, []);
 
     // Use utility function following SRP
-    const breadcrumbs = generateContactBreadcrumbs('index');
+    const breadcrumbs = generateContactBreadcrumbs('index', undefined, t);
 
     // Handle delete action following SRP
     const openDeleteDialog = (contactToDelete: Contact) => {
@@ -47,7 +48,7 @@ export default function ContactsIndex({ contact }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="School Contact Information" />
+            <Head title={t('contact_management.page_title')} />
 
             <div
                 className={`w-full max-w-none space-y-6 px-4 pb-3 transition-all duration-500 sm:px-6 lg:px-8 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
@@ -75,29 +76,32 @@ export default function ContactsIndex({ contact }: Props) {
                                 </div>
                                 <div className="text-white">
                                     <h1 className="mb-1 text-lg font-bold sm:mb-2 sm:text-3xl lg:text-4xl">
-                                        <span className="block sm:hidden">School Contact</span>
-                                        <span className="hidden sm:block">School Contact Information</span>
+                                        <span className="block sm:hidden">{t('contact_management.header.title_short')}</span>
+                                        <span className="hidden sm:block">{t('contact_management.header.title')}</span>
                                     </h1>
                                     <div className="text-xs text-emerald-100 sm:hidden">
-                                        <p className="mb-1">Manage school contact details for the landing page</p>
+                                        <p className="mb-1">{t('contact_management.header.description_mobile')}</p>
                                         <div className="flex items-center gap-3">
                                             <span className="flex items-center gap-1">
                                                 <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400" />
-                                                {contact ? 'Active' : 'Not Set'}
+                                                {contact ? t('contact_management.status.active') : t('contact_management.status.not_set')}
                                             </span>
                                         </div>
                                     </div>
                                     <div className="hidden sm:block">
-                                        <p className="text-base text-emerald-100 lg:text-lg">Manage school contact details for the landing page</p>
+                                        <p className="text-base text-emerald-100 lg:text-lg">{t('contact_management.header.description')}</p>
                                         <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-emerald-200">
                                             <div className="flex items-center gap-2">
                                                 <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
-                                                <span>Status: {contact ? 'Active' : 'Not Configured'}</span>
+                                                <span>
+                                                    {t('contact_management.sidebar.status')}{' '}
+                                                    {contact ? t('contact_management.status.active') : t('contact_management.status.not_configured')}
+                                                </span>
                                             </div>
                                             {contact && (
                                                 <div className="flex items-center gap-2">
                                                     <Mail className="h-4 w-4" />
-                                                    <span>Contact Available</span>
+                                                    <span>{t('contact_management.status.contact_available')}</span>
                                                 </div>
                                             )}
                                         </div>
@@ -113,7 +117,7 @@ export default function ContactsIndex({ contact }: Props) {
                                             className="sm:size-lg w-full bg-white text-emerald-700 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-white/90 sm:w-auto"
                                         >
                                             <Edit className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                                            Edit Contact
+                                            {t('contact_management.actions.edit_contact')}
                                         </Button>
                                     </Link>
                                 ) : (
@@ -123,7 +127,7 @@ export default function ContactsIndex({ contact }: Props) {
                                             className="sm:size-lg w-full bg-white text-emerald-700 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-white/90 sm:w-auto"
                                         >
                                             <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                                            Set Up Contact
+                                            {t('contact_management.actions.set_up_contact')}
                                         </Button>
                                     </Link>
                                 )}
@@ -134,11 +138,15 @@ export default function ContactsIndex({ contact }: Props) {
                         <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4 lg:mt-8">
                             <div className="flex items-center gap-2">
                                 <div className={`h-3 w-3 animate-pulse rounded-full ${contact ? 'bg-green-400' : 'bg-yellow-400'}`} />
-                                <span className="text-sm font-medium text-white/90">{contact ? 'Contact Configured' : 'Setup Required'}</span>
+                                <span className="text-sm font-medium text-white/90">
+                                    {contact ? t('contact_management.status.contact_configured') : t('contact_management.status.setup_required')}
+                                </span>
                             </div>
                             <div className="hidden h-6 w-px bg-white/20 sm:block" />
                             <div className="text-xs text-white/80 sm:text-sm">
-                                {contact ? `Last updated: ${new Date(contact.updated_at).toLocaleDateString()}` : 'No contact information set'}
+                                {contact
+                                    ? `${t('contact_management.status.last_updated')} ${new Date(contact.updated_at).toLocaleDateString()}`
+                                    : t('contact_management.status.no_contact_info')}
                             </div>
                         </div>
                     </div>
@@ -155,15 +163,13 @@ export default function ContactsIndex({ contact }: Props) {
                                         <ContactIcon className="h-12 w-12 text-emerald-600 dark:text-emerald-400" />
                                     </div>
                                 </div>
-                                <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">No Contact Information</h3>
-                                <p className="mb-8 max-w-md text-gray-600 dark:text-gray-400">
-                                    Set up your school's contact information to display on the landing page and enable visitors to reach out.
-                                </p>
+                                <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">{t('contact_management.empty_state.title')}</h3>
+                                <p className="mb-8 max-w-md text-gray-600 dark:text-gray-400">{t('contact_management.empty_state.description')}</p>
                                 <div className="flex flex-col gap-3 sm:flex-row">
                                     <Link href={route('admin.contacts.create')}>
                                         <Button className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-emerald-700 hover:to-teal-700">
                                             <Plus className="mr-2 h-5 w-5" />
-                                            Set Up Contact Information
+                                            {t('contact_management.empty_state.button')}
                                         </Button>
                                     </Link>
                                 </div>
@@ -185,23 +191,29 @@ export default function ContactsIndex({ contact }: Props) {
                                         <CardHeader className="pb-3">
                                             <CardTitle className="flex items-center gap-2 text-base">
                                                 <div className="h-2 w-2 rounded-full bg-green-500" />
-                                                Contact Status
+                                                {t('contact_management.sidebar.contact_status')}
                                             </CardTitle>
                                         </CardHeader>
                                         <CardContent className="pt-0">
                                             <div className="space-y-2 text-sm">
                                                 <div className="flex justify-between">
-                                                    <span className="text-gray-600 dark:text-gray-400">Status:</span>
-                                                    <span className="font-medium text-green-600 dark:text-green-400">Active</span>
+                                                    <span className="text-gray-600 dark:text-gray-400">{t('contact_management.sidebar.status')}</span>
+                                                    <span className="font-medium text-green-600 dark:text-green-400">
+                                                        {t('contact_management.status.active')}
+                                                    </span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="text-gray-600 dark:text-gray-400">Created:</span>
+                                                    <span className="text-gray-600 dark:text-gray-400">
+                                                        {t('contact_management.sidebar.created')}
+                                                    </span>
                                                     <span className="font-medium text-gray-900 dark:text-white">
                                                         {new Date(contact.created_at).toLocaleDateString()}
                                                     </span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="text-gray-600 dark:text-gray-400">Updated:</span>
+                                                    <span className="text-gray-600 dark:text-gray-400">
+                                                        {t('contact_management.sidebar.updated')}
+                                                    </span>
                                                     <span className="font-medium text-gray-900 dark:text-white">
                                                         {new Date(contact.updated_at).toLocaleDateString()}
                                                     </span>
@@ -220,11 +232,11 @@ export default function ContactsIndex({ contact }: Props) {
             <DeleteDialog
                 open={isDeleteDialogOpen}
                 onOpenChange={setIsDeleteDialogOpen}
-                title="Delete Contact Information"
-                description="Are you sure you want to delete the school contact information? This will remove the contact details from the landing page and cannot be undone."
+                title={t('contact_management.delete_dialog.title')}
+                description={t('contact_management.delete_dialog.description')}
                 onConfirm={handleDelete}
                 isLoading={contactService.processing}
-                confirmButtonText="Delete Contact"
+                confirmButtonText={t('contact_management.delete_dialog.confirm')}
             />
         </AppLayout>
     );

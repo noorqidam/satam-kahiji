@@ -13,6 +13,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Calendar, Edit, Eye, FileText, Image as ImageIcon, Plus, Search, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface User {
     id: number;
@@ -44,12 +45,13 @@ interface PostsPageProps {
 }
 
 export default function PostsIndex() {
+    const { t } = useTranslation('common');
     const { toast } = useToast();
     const { posts, filters } = usePage<PostsPageProps>().props;
 
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: route('admin.dashboard') },
-        { title: 'Posts & News', href: route('admin.posts.index') },
+        { title: t('posts_management.breadcrumbs.admin_dashboard'), href: route('admin.dashboard') },
+        { title: t('posts_management.breadcrumbs.posts_news'), href: route('admin.posts.index') },
     ];
     const [searchTerm, setSearchTerm] = useState(filters.search || '');
     const [selectedCategory, setSelectedCategory] = useState(filters.category || 'all');
@@ -105,20 +107,20 @@ export default function PostsIndex() {
 
             if (data.success) {
                 toast({
-                    title: 'Success',
-                    description: data.message,
+                    title: t('posts_management.messages.success'),
+                    description: data.message || t('posts_management.messages.update_success'),
                     variant: 'success',
                 });
 
                 // Refresh the page to show updated data
                 router.reload({ only: ['posts'] });
             } else {
-                throw new Error(data.message || 'Failed to update post');
+                throw new Error(data.message || t('posts_management.messages.update_error'));
             }
         } catch (error) {
             toast({
-                title: 'Error',
-                description: error instanceof Error ? error.message : 'Failed to update post status',
+                title: t('posts_management.messages.error'),
+                description: error instanceof Error ? error.message : t('posts_management.messages.update_error'),
                 variant: 'destructive',
             });
         } finally {
@@ -147,7 +149,7 @@ export default function PostsIndex() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Posts & News Management" />
+            <Head title={t('posts_management.page_title')} />
 
             <div className="w-full max-w-none space-y-3 px-4 sm:px-8">
                 {/* Header */}
@@ -155,23 +157,23 @@ export default function PostsIndex() {
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="space-y-2 text-center sm:text-left">
                             <h1 className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-2xl font-bold text-transparent sm:text-3xl lg:text-4xl">
-                                Posts & News
+                                {t('posts_management.header.title')}
                             </h1>
                             <p className="text-sm text-muted-foreground sm:text-base lg:text-lg">
-                                Create, manage, and publish your content with ease
+                                {t('posts_management.header.description')}
                             </p>
                             <div className="mt-2 flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground sm:justify-start sm:gap-4 sm:text-sm">
                                 <div className="flex items-center gap-1">
                                     <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                                    <span>{posts.data.filter((post) => post.is_published).length} Published</span>
+                                    <span>{posts.data.filter((post) => post.is_published).length} {t('posts_management.stats.published')}</span>
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <div className="h-2 w-2 rounded-full bg-gray-400"></div>
-                                    <span>{posts.data.filter((post) => !post.is_published).length} Drafts</span>
+                                    <span>{posts.data.filter((post) => !post.is_published).length} {t('posts_management.stats.drafts')}</span>
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <div className="h-2 w-2 rounded-full bg-blue-500"></div>
-                                    <span>{posts.total} Total Posts</span>
+                                    <span>{posts.total} {t('posts_management.stats.total_posts')}</span>
                                 </div>
                             </div>
                         </div>
@@ -182,8 +184,8 @@ export default function PostsIndex() {
                                     className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg transition-all duration-200 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl sm:w-auto"
                                 >
                                     <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                                    <span className="xs:inline hidden">Create New Post</span>
-                                    <span className="xs:hidden">Create Post</span>
+                                    <span className="xs:inline hidden">{t('posts_management.actions.create_new_post')}</span>
+                                    <span className="xs:hidden">{t('posts_management.actions.create_post')}</span>
                                 </Button>
                             </Link>
                         </div>
@@ -195,10 +197,10 @@ export default function PostsIndex() {
                     <CardHeader className="border-b border-gray-100 pb-4 dark:border-gray-800">
                         <div className="flex items-center gap-2">
                             <Search className="h-5 w-5 text-blue-600" />
-                            <CardTitle className="text-xl text-gray-900 dark:text-white">Search & Filter</CardTitle>
+                            <CardTitle className="text-xl text-gray-900 dark:text-white">{t('posts_management.filters.title')}</CardTitle>
                         </div>
                         <CardDescription className="text-base text-gray-600 dark:text-gray-400">
-                            Find posts quickly with advanced search and filtering options
+                            {t('posts_management.filters.description')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -209,7 +211,7 @@ export default function PostsIndex() {
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                                 <Input
                                     type="text"
-                                    placeholder="Search by title, content, or excerpt..."
+                                    placeholder={t('posts_management.filters.search_placeholder')}
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="h-11 border-gray-200 pl-10 transition-colors focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700"
@@ -220,23 +222,23 @@ export default function PostsIndex() {
                             <div className="flex flex-col gap-3 sm:flex-row sm:gap-3 lg:flex-shrink-0">
                                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                                     <SelectTrigger className="h-11 w-full border-gray-200 focus:border-blue-500 focus:ring-blue-500 sm:w-[180px] dark:border-gray-700">
-                                        <SelectValue placeholder="All Categories" />
+                                        <SelectValue placeholder={t('posts_management.filters.all_categories')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="all">All Categories</SelectItem>
-                                        <SelectItem value="news">📰 News</SelectItem>
-                                        <SelectItem value="announcements">📢 Announcements</SelectItem>
+                                        <SelectItem value="all">{t('posts_management.filters.all_categories')}</SelectItem>
+                                        <SelectItem value="news">📰 {t('posts_management.categories.news')}</SelectItem>
+                                        <SelectItem value="announcements">📢 {t('posts_management.categories.announcements')}</SelectItem>
                                     </SelectContent>
                                 </Select>
 
                                 <Select value={selectedStatus} onValueChange={setSelectedStatus}>
                                     <SelectTrigger className="h-11 w-full border-gray-200 focus:border-blue-500 focus:ring-blue-500 sm:w-[150px] dark:border-gray-700">
-                                        <SelectValue placeholder="All Status" />
+                                        <SelectValue placeholder={t('posts_management.filters.all_status')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="all">All Status</SelectItem>
-                                        <SelectItem value="published">✅ Published</SelectItem>
-                                        <SelectItem value="draft">📝 Draft</SelectItem>
+                                        <SelectItem value="all">{t('posts_management.filters.all_status')}</SelectItem>
+                                        <SelectItem value="published">✅ {t('posts_management.status.published')}</SelectItem>
+                                        <SelectItem value="draft">📝 {t('posts_management.status.draft')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -252,9 +254,9 @@ export default function PostsIndex() {
                                 <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
                                     <FileText className="h-12 w-12 text-blue-600 dark:text-blue-400" />
                                 </div>
-                                <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">No posts found</h3>
+                                <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">{t('posts_management.empty_state.title')}</h3>
                                 <p className="mx-auto mb-8 max-w-md text-lg text-gray-600 dark:text-gray-400">
-                                    Start creating engaging content for your audience. Your first post is just one click away!
+                                    {t('posts_management.empty_state.description')}
                                 </p>
                                 <div className="flex flex-col justify-center gap-3 sm:flex-row">
                                     <Link href={route('admin.posts.create')}>
@@ -263,12 +265,12 @@ export default function PostsIndex() {
                                             className="bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg transition-all duration-200 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl"
                                         >
                                             <Plus className="mr-2 h-5 w-5" />
-                                            Create Your First Post
+                                            {t('posts_management.actions.create_first_post')}
                                         </Button>
                                     </Link>
                                     <Button variant="outline" size="lg" className="border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
                                         <FileText className="mr-2 h-4 w-4" />
-                                        Learn Best Practices
+                                        {t('posts_management.actions.learn_best_practices')}
                                     </Button>
                                 </div>
                             </div>
@@ -280,13 +282,13 @@ export default function PostsIndex() {
                             <Table className="w-full">
                                 <TableHeader>
                                     <TableRow className="border-b">
-                                        <TableHead className="w-16 sm:w-20">Image</TableHead>
-                                        <TableHead className="min-w-[200px]">Title & Content</TableHead>
-                                        <TableHead className="hidden w-28 sm:table-cell">Category</TableHead>
-                                        <TableHead className="w-20 sm:w-24">Published</TableHead>
-                                        <TableHead className="hidden w-32 md:table-cell">Created At</TableHead>
-                                        <TableHead className="hidden w-32 lg:table-cell">Published Date</TableHead>
-                                        <TableHead className="w-24 text-right sm:w-36">Actions</TableHead>
+                                        <TableHead className="w-16 sm:w-20">{t('posts_management.table.columns.image')}</TableHead>
+                                        <TableHead className="min-w-[200px]">{t('posts_management.table.columns.title_content')}</TableHead>
+                                        <TableHead className="hidden w-28 sm:table-cell">{t('posts_management.table.columns.category')}</TableHead>
+                                        <TableHead className="w-20 sm:w-24">{t('posts_management.table.columns.published')}</TableHead>
+                                        <TableHead className="hidden w-32 md:table-cell">{t('posts_management.table.columns.created_at')}</TableHead>
+                                        <TableHead className="hidden w-32 lg:table-cell">{t('posts_management.table.columns.published_date')}</TableHead>
+                                        <TableHead className="w-24 text-right sm:w-36">{t('posts_management.table.columns.actions')}</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -327,9 +329,9 @@ export default function PostsIndex() {
                                                         </p>
                                                     )}
                                                     <div className="hidden items-center gap-1 text-xs text-gray-500 sm:flex">
-                                                        <span>{post.content.replace(/<[^>]*>/g, '').length} characters</span>
+                                                        <span>{post.content.replace(/<[^>]*>/g, '').length} {t('posts_management.table.content_stats.characters')}</span>
                                                         <span>•</span>
-                                                        <span>~{Math.ceil(post.content.replace(/<[^>]*>/g, '').length / 1000)} min read</span>
+                                                        <span>~{Math.ceil(post.content.replace(/<[^>]*>/g, '').length / 1000)} {t('posts_management.table.content_stats.min_read')}</span>
                                                     </div>
                                                     {/* Mobile: Show category and status inline */}
                                                     <div className="mt-1 flex items-center gap-2 sm:hidden">
@@ -355,7 +357,7 @@ export default function PostsIndex() {
                                                     variant={getCategoryBadgeVariant(post.category)}
                                                     className="px-2 py-1 text-xs font-medium capitalize shadow-sm transition-shadow duration-200 hover:shadow-md sm:px-3"
                                                 >
-                                                    {post.category === 'news' ? '📰 News' : '📢 Announcements'}
+                                                    {post.category === 'news' ? `📰 ${t('posts_management.categories.news')}` : `📢 ${t('posts_management.categories.announcements')}`}
                                                 </Badge>
                                             </TableCell>
 
@@ -369,7 +371,7 @@ export default function PostsIndex() {
                                                         className="data-[state=checked]:bg-green-500"
                                                     />
                                                     <span className="hidden text-xs text-muted-foreground sm:inline">
-                                                        {toggleLoading === post.id ? 'Updating...' : post.is_published ? 'Published' : 'Draft'}
+                                                        {toggleLoading === post.id ? t('posts_management.status.updating') : post.is_published ? t('posts_management.status.published') : t('posts_management.status.draft')}
                                                     </span>
                                                 </div>
                                             </TableCell>
@@ -404,7 +406,7 @@ export default function PostsIndex() {
                                                         <Calendar className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" />
                                                         <div className="flex flex-col">
                                                             <span className="text-xs font-medium whitespace-nowrap text-green-700 sm:text-sm dark:text-green-400">
-                                                                Published
+                                                                {t('posts_management.status.published')}
                                                             </span>
                                                             <span className="text-xs whitespace-nowrap text-green-600 dark:text-green-500">
                                                                 {new Date(post.updated_at).toLocaleDateString('en-US', {
@@ -425,7 +427,7 @@ export default function PostsIndex() {
                                                 ) : (
                                                     <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm dark:text-gray-400">
                                                         <Calendar className="h-4 w-4 text-gray-400" />
-                                                        <span className="italic">Not published</span>
+                                                        <span className="italic">{t('posts_management.status.not_published')}</span>
                                                     </div>
                                                 )}
                                             </TableCell>
@@ -439,7 +441,7 @@ export default function PostsIndex() {
                                                             <Button
                                                                 variant="ghost"
                                                                 size="sm"
-                                                                title="View Post"
+                                                                title={t('posts_management.actions.view_post')}
                                                                 className="h-8 w-8 rounded-lg transition-all duration-200 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-600 hover:shadow-md sm:h-10 sm:w-10 sm:rounded-xl dark:hover:from-blue-950 dark:hover:to-indigo-950"
                                                             >
                                                                 <Eye className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -449,7 +451,7 @@ export default function PostsIndex() {
                                                             <Button
                                                                 variant="ghost"
                                                                 size="sm"
-                                                                title="Edit Post"
+                                                                title={t('posts_management.actions.edit_post')}
                                                                 className="h-8 w-8 rounded-lg transition-all duration-200 hover:bg-gradient-to-r hover:from-orange-50 hover:to-amber-50 hover:text-orange-600 hover:shadow-md sm:h-10 sm:w-10 sm:rounded-xl dark:hover:from-orange-950 dark:hover:to-amber-950"
                                                             >
                                                                 <Edit className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -459,7 +461,7 @@ export default function PostsIndex() {
                                                             variant="ghost"
                                                             size="sm"
                                                             onClick={() => handleDelete(post)}
-                                                            title="Delete Post"
+                                                            title={t('posts_management.actions.delete_post')}
                                                             className="h-8 w-8 rounded-lg text-gray-500 transition-all duration-200 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 hover:text-red-600 hover:shadow-md sm:h-10 sm:w-10 sm:rounded-xl dark:hover:from-red-950 dark:hover:to-pink-950"
                                                         >
                                                             <Trash2 className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -511,9 +513,9 @@ export default function PostsIndex() {
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div className="text-sm text-gray-600 dark:text-gray-400">
-                                    Showing <span className="font-medium text-gray-900 dark:text-white">{posts.from}</span> to{' '}
-                                    <span className="font-medium text-gray-900 dark:text-white">{posts.to}</span> of{' '}
-                                    <span className="font-medium text-gray-900 dark:text-white">{posts.total}</span> results
+                                    {t('posts_management.pagination.showing')} <span className="font-medium text-gray-900 dark:text-white">{posts.from}</span> {t('posts_management.pagination.to')}{' '}
+                                    <span className="font-medium text-gray-900 dark:text-white">{posts.to}</span> {t('posts_management.pagination.of')}{' '}
+                                    <span className="font-medium text-gray-900 dark:text-white">{posts.total}</span> {t('posts_management.pagination.results')}
                                 </div>
                                 <Pagination data={posts} />
                             </div>

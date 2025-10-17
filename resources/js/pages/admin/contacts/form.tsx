@@ -12,8 +12,10 @@ import { formatContactDate, generateContactBreadcrumbs } from '@/utils/contact';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { AlertCircle, ArrowLeft, CheckCircle, Contact as ContactIcon, Eye, Mail, MapPin, MessageCircle, Phone, Save, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function ContactForm({ contact }: { contact?: Contact }) {
+    const { t } = useTranslation();
     const isEditing = !!contact;
     const [mounted, setMounted] = useState(false);
 
@@ -26,7 +28,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
     }, []);
 
     // Use utility function following SRP
-    const breadcrumbs = generateContactBreadcrumbs(isEditing ? 'edit' : 'create', contact);
+    const breadcrumbs = generateContactBreadcrumbs(isEditing ? 'edit' : 'create', contact, t);
 
     const { data, setData, errors } = useForm<ContactFormData>({
         name: contact?.name || '',
@@ -54,7 +56,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={isEditing ? `Edit Contact - ${contact?.name}` : 'Create Contact'} />
+            <Head title={isEditing ? `${t('contact_management.form.edit_title')} - ${contact?.name}` : t('contact_management.form.create_title')} />
 
             <div
                 className={`w-full max-w-none space-y-6 px-4 pb-3 transition-all duration-500 sm:px-6 lg:px-8 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
@@ -70,12 +72,12 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                     </div>
                                     <div>
                                         <CardTitle className="text-2xl font-bold">
-                                            {isEditing ? 'Edit School Contact' : 'Set Up School Contact'}
+                                            {isEditing ? t('contact_management.form.edit_title') : t('contact_management.form.create_title')}
                                         </CardTitle>
                                         <CardDescription className="text-emerald-100">
                                             {isEditing
-                                                ? 'Update school contact information for the landing page'
-                                                : 'Set up school contact information to display on the landing page'}
+                                                ? t('contact_management.form.edit_description')
+                                                : t('contact_management.form.create_description')}
                                         </CardDescription>
                                     </div>
                                 </div>
@@ -88,7 +90,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                             className="border-white/20 bg-white/10 text-white backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white/20"
                                         >
                                             <Eye className="mr-2 h-4 w-4" />
-                                            View Details
+                                            {t('contact_management.actions.view_details')}
                                         </Button>
                                     </Link>
                                 )}
@@ -99,8 +101,8 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                             {/* Basic Information Section */}
                             <div className="space-y-6">
                                 <div className="border-l-4 border-emerald-500 pl-4">
-                                    <h3 className="mb-1 text-lg font-bold text-gray-900 dark:text-white">Contact Information</h3>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">Enter the contact details and message</p>
+                                    <h3 className="mb-1 text-lg font-bold text-gray-900 dark:text-white">{t('contact_management.form.sections.contact_info')}</h3>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400">{t('contact_management.form.sections.contact_info_description')}</p>
                                 </div>
 
                                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-4">
@@ -108,7 +110,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                         <div className="flex items-center gap-2">
                                             <User className="h-4 w-4 text-emerald-600" />
                                             <Label htmlFor="name" className="text-base font-semibold text-gray-900 dark:text-white">
-                                                Contact Name
+                                                {t('contact_management.form.fields.contact_name')}
                                             </Label>
                                             <span className="text-red-500">*</span>
                                             {data.name && <CheckCircle className="h-4 w-4 text-green-500" />}
@@ -118,7 +120,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                             type="text"
                                             value={data.name}
                                             onChange={(e) => setData('name', e.target.value)}
-                                            placeholder="Enter full name..."
+                                            placeholder={t('contact_management.form.fields.placeholders.name')}
                                             className={`h-12 text-base transition-all duration-300 focus:ring-2 ${
                                                 errors.name || contactValidation.validationErrors.name
                                                     ? 'border-red-500 focus:ring-red-500'
@@ -139,7 +141,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                         <div className="flex items-center gap-2">
                                             <Mail className="h-4 w-4 text-emerald-600" />
                                             <Label htmlFor="email" className="text-base font-semibold text-gray-900 dark:text-white">
-                                                Email Address
+                                                {t('contact_management.form.fields.email_address')}
                                             </Label>
                                             <span className="text-red-500">*</span>
                                             {data.email && <CheckCircle className="h-4 w-4 text-green-500" />}
@@ -149,7 +151,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                             type="email"
                                             value={data.email}
                                             onChange={(e) => setData('email', e.target.value)}
-                                            placeholder="Enter email address..."
+                                            placeholder={t('contact_management.form.fields.placeholders.email')}
                                             className={`h-12 text-base transition-all duration-300 focus:ring-2 ${
                                                 errors.email || contactValidation.validationErrors.email
                                                     ? 'border-red-500 focus:ring-red-500'
@@ -170,7 +172,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                         <div className="flex items-center gap-2">
                                             <Phone className="h-4 w-4 text-emerald-600" />
                                             <Label htmlFor="phone" className="text-base font-semibold text-gray-900 dark:text-white">
-                                                Phone Number
+                                                {t('contact_management.form.fields.phone_number')}
                                             </Label>
                                             {data.phone && <CheckCircle className="h-4 w-4 text-green-500" />}
                                         </div>
@@ -179,7 +181,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                             type="tel"
                                             value={data.phone}
                                             onChange={(e) => setData('phone', e.target.value)}
-                                            placeholder="Enter phone number..."
+                                            placeholder={t('contact_management.form.fields.placeholders.phone')}
                                             className={`h-12 text-base transition-all duration-300 focus:ring-2 ${
                                                 errors.phone || contactValidation.validationErrors.phone
                                                     ? 'border-red-500 focus:ring-red-500'
@@ -200,7 +202,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                         <div className="flex items-center gap-2">
                                             <MapPin className="h-4 w-4 text-emerald-600" />
                                             <Label htmlFor="address" className="text-base font-semibold text-gray-900 dark:text-white">
-                                                Address
+                                                {t('contact_management.form.fields.address')}
                                             </Label>
                                             {data.address && <CheckCircle className="h-4 w-4 text-green-500" />}
                                         </div>
@@ -209,7 +211,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                             type="text"
                                             value={data.address}
                                             onChange={(e) => setData('address', e.target.value)}
-                                            placeholder="Enter address..."
+                                            placeholder={t('contact_management.form.fields.placeholders.address')}
                                             className={`h-12 text-base transition-all duration-300 focus:ring-2 ${
                                                 errors.address || contactValidation.validationErrors.address
                                                     ? 'border-red-500 focus:ring-red-500'
@@ -232,7 +234,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                     <div className="flex items-center gap-2">
                                         <MessageCircle className="h-4 w-4 text-emerald-600" />
                                         <Label htmlFor="message" className="text-base font-semibold text-gray-900 dark:text-white">
-                                            Message
+                                            {t('contact_management.form.fields.message')}
                                         </Label>
                                         <span className="text-red-500">*</span>
                                         {data.message && <CheckCircle className="h-4 w-4 text-green-500" />}
@@ -241,7 +243,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                         id="message"
                                         value={data.message}
                                         onChange={(e) => setData('message', e.target.value)}
-                                        placeholder="Enter the message or inquiry details..."
+                                        placeholder={t('contact_management.form.fields.placeholders.message')}
                                         rows={6}
                                         className={`text-base transition-all duration-300 focus:ring-2 ${
                                             errors.message || contactValidation.validationErrors.message
@@ -264,20 +266,20 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                             {isEditing && (
                                 <div className="space-y-6">
                                     <div className="border-l-4 border-blue-500 pl-4">
-                                        <h3 className="mb-1 text-lg font-bold text-gray-900 dark:text-white">Contact Details</h3>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400">Additional information about this contact</p>
+                                        <h3 className="mb-1 text-lg font-bold text-gray-900 dark:text-white">{t('contact_management.form.sections.contact_details')}</h3>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('contact_management.form.sections.contact_details_description')}</p>
                                     </div>
 
                                     <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800/50">
                                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                             <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800/50 dark:bg-blue-900/20">
-                                                <Label className="text-sm font-semibold text-blue-800 dark:text-blue-200">Created</Label>
+                                                <Label className="text-sm font-semibold text-blue-800 dark:text-blue-200">{t('contact_management.form.fields.created')}</Label>
                                                 <p className="mt-1 text-base font-medium text-blue-900 dark:text-blue-100">
                                                     {formatContactDate(contact!.created_at)}
                                                 </p>
                                             </div>
                                             <div className="rounded-lg border border-green-200 bg-green-50 p-4 dark:border-green-800/50 dark:bg-green-900/20">
-                                                <Label className="text-sm font-semibold text-green-800 dark:text-green-200">Last Updated</Label>
+                                                <Label className="text-sm font-semibold text-green-800 dark:text-green-200">{t('contact_management.form.fields.last_updated')}</Label>
                                                 <p className="mt-1 text-base font-medium text-green-900 dark:text-green-100">
                                                     {formatContactDate(contact!.updated_at)}
                                                 </p>
@@ -296,7 +298,7 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                         type="button"
                                     >
                                         <ArrowLeft className="mr-2 h-4 w-4" />
-                                        Cancel & Return
+                                        {t('contact_management.actions.cancel_return')}
                                     </Button>
                                 </Link>
 
@@ -308,12 +310,12 @@ export default function ContactForm({ contact }: { contact?: Contact }) {
                                     {contactService.processing ? (
                                         <div className="flex items-center gap-2">
                                             <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                                            <span>Processing...</span>
+                                            <span>{t('contact_management.actions.processing')}</span>
                                         </div>
                                     ) : (
                                         <div className="flex items-center gap-2">
                                             <Save className="h-4 w-4" />
-                                            <span>{isEditing ? 'Update Contact' : 'Create Contact'}</span>
+                                            <span>{isEditing ? t('contact_management.actions.update_contact') : t('contact_management.actions.create_contact')}</span>
                                         </div>
                                     )}
                                 </Button>

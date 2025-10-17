@@ -1,5 +1,7 @@
 import { Head } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -25,11 +27,6 @@ import type { User, UserFilters as UserFiltersType } from '@/types/user';
 // Constants
 import { availableRoles, roleColors, roleLabels } from '@/constants/roles';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Admin Dashboard', href: '/admin/dashboard' },
-    { title: 'User Management', href: '/admin/users' },
-];
-
 interface UsersIndexProps {
     users: PaginationData & {
         data: User[];
@@ -47,7 +44,15 @@ interface UsersIndexProps {
  * - Interface Segregation: Focused, minimal interfaces
  * - Dependency Inversion: Depends on abstractions (hooks, services)
  */
-export default function UsersIndex({ users, filters = { search: '', roles: [] } }: UsersIndexProps) {
+export default function UsersIndex({ users, filters = { search: '', roles: [], per_page: 15 } }: UsersIndexProps) {
+    const { t } = useTranslation();
+    
+    // Create breadcrumbs with translations
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('user_management.breadcrumbs.admin_dashboard'), href: '/admin/dashboard' },
+        { title: t('user_management.breadcrumbs.user_management'), href: '/admin/users' },
+    ];
+
     // Business logic hooks
     const filterHook = useUserFilters({ initialFilters: filters });
     const selectionHook = useUserSelection({ users: users.data });
@@ -65,19 +70,19 @@ export default function UsersIndex({ users, filters = { search: '', roles: [] } 
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="User Management" />
+            <Head title={t('user_management.page_title')} />
 
             <div className="space-y-6 px-4 sm:px-6">
                 {/* Header Section */}
                 <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                     <div>
-                        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">User Management</h1>
-                        <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">Manage system users and their roles</p>
+                        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">{t('user_management.header.title')}</h1>
+                        <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">{t('user_management.header.description')}</p>
                     </div>
                     <Button onClick={() => operationsHook.setShowCreateDialog(true)} className="w-full sm:w-auto">
                         <Plus className="mr-2 h-4 w-4" />
-                        <span className="hidden sm:inline">Add New User</span>
-                        <span className="sm:hidden">Add User</span>
+                        <span className="hidden sm:inline">{t('user_management.actions.add_new_user')}</span>
+                        <span className="sm:hidden">{t('user_management.actions.add_user')}</span>
                     </Button>
                 </div>
 
@@ -85,7 +90,7 @@ export default function UsersIndex({ users, filters = { search: '', roles: [] } 
                 <Card>
                     <CardHeader>
                         <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
-                            <CardTitle>All Users ({users.total})</CardTitle>
+                            <CardTitle>{t('user_management.table.all_users')} ({users.total})</CardTitle>
 
                             {/* Filter Component */}
                             <UserFilters
@@ -125,8 +130,8 @@ export default function UsersIndex({ users, filters = { search: '', roles: [] } 
                             <div className="py-8 text-center">
                                 <p className="text-gray-500 dark:text-gray-400">
                                     {filterHook.filters.search || filterHook.filters.roles.length > 0
-                                        ? 'No users match the current filters.'
-                                        : 'No users found.'}
+                                        ? t('user_management.table.no_users_match')
+                                        : t('user_management.table.no_users_found')}
                                 </p>
                             </div>
                         )}

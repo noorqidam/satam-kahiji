@@ -1,6 +1,7 @@
 import { Head, router, useForm } from '@inertiajs/react';
 import { AlertCircle, CheckCircle, FileText, Save, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import RichTextEditor from '@/components/rich-text-editor';
 import { Button } from '@/components/ui/button';
@@ -28,6 +29,7 @@ interface Props {
 }
 
 export default function EditPage({ page }: Props) {
+    const { t } = useTranslation('common');
     const { toast } = useToast();
     const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
     const [fieldStates, setFieldStates] = useState({
@@ -46,9 +48,9 @@ export default function EditPage({ page }: Props) {
     });
 
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: '/admin/dashboard' },
-        { title: 'Page Management', href: '/admin/pages' },
-        { title: `Edit ${page.title}`, href: `/admin/pages/${page.id}/edit` },
+        { title: t('page_management.breadcrumbs.admin_dashboard'), href: '/admin/dashboard' },
+        { title: t('page_management.breadcrumbs.page_management'), href: '/admin/pages' },
+        { title: `${t('page_management.breadcrumbs.edit_page')} ${page.title}`, href: `/admin/pages/${page.id}/edit` },
     ];
 
     const handleTitleChange = (title: string) => {
@@ -107,8 +109,8 @@ export default function EditPage({ page }: Props) {
             if (file.size > 2 * 1024 * 1024) {
                 // 2MB limit
                 toast({
-                    title: 'Error',
-                    description: 'Image must be smaller than 2MB',
+                    title: t('page_management.edit.messages.error.title'),
+                    description: t('page_management.create.form.validation.image_too_large'),
                     variant: 'destructive',
                 });
                 return;
@@ -146,16 +148,16 @@ export default function EditPage({ page }: Props) {
             forceFormData: true,
             onSuccess: () => {
                 toast({
-                    title: 'Success',
-                    description: 'Page updated successfully',
+                    title: t('page_management.edit.messages.success.title'),
+                    description: t('page_management.edit.messages.success.description'),
                     variant: 'success',
                 });
             },
             onError: (errors) => {
                 console.log('Validation errors:', errors);
                 toast({
-                    title: 'Error',
-                    description: 'Please check the form for errors',
+                    title: t('page_management.edit.messages.error.title'),
+                    description: t('page_management.edit.messages.error.description'),
                     variant: 'destructive',
                 });
             },
@@ -168,7 +170,7 @@ export default function EditPage({ page }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${page.title}`} />
+            <Head title={`${t('page_management.edit.page_title')} ${page.title}`} />
 
             <div className="space-y-8 px-4 sm:px-6 lg:px-8">
                 {/* Header */}
@@ -178,8 +180,8 @@ export default function EditPage({ page }: Props) {
                             <FileText className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl dark:text-gray-100">Edit {page.title}</h1>
-                            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Update the page content and settings</p>
+                            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl dark:text-gray-100">{t('page_management.edit.header.title')} {page.title}</h1>
+                            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">{t('page_management.edit.header.description')}</p>
                         </div>
                     </div>
                 </div>
@@ -188,19 +190,19 @@ export default function EditPage({ page }: Props) {
                 <form onSubmit={handleSubmit}>
                     <Card className="border-2 border-gray-200 dark:border-gray-700">
                         <CardHeader>
-                            <CardTitle>Page Information</CardTitle>
+                            <CardTitle>{t('page_management.edit.form.title')}</CardTitle>
                         </CardHeader>
 
                         <CardContent className="space-y-6">
                             {/* Title */}
                             <div className="space-y-2">
-                                <Label htmlFor="title">Page Title *</Label>
+                                <Label htmlFor="title">{t('page_management.create.form.fields.page_title.required')}</Label>
                                 <div className="relative">
                                     <Input
                                         id="title"
                                         value={data.title}
                                         onChange={(e) => handleTitleChange(e.target.value)}
-                                        placeholder="Enter page title"
+                                        placeholder={t('page_management.create.form.fields.page_title.placeholder')}
                                         className={`pr-10 ${
                                             fieldStates.title.isDirty
                                                 ? fieldStates.title.isValid
@@ -230,21 +232,21 @@ export default function EditPage({ page }: Props) {
                                 {fieldStates.title.isDirty && fieldStates.title.isValid && !validationErrors.title && (
                                     <p className="flex items-center gap-1 text-sm text-green-600">
                                         <CheckCircle className="h-4 w-4" />
-                                        Title looks good!
+                                        {t('page_management.create.form.validation.title_valid')}
                                     </p>
                                 )}
                             </div>
 
                             {/* Slug - Auto-generated */}
                             <div className="space-y-2">
-                                <Label htmlFor="slug">URL Slug (Auto-generated)</Label>
+                                <Label htmlFor="slug">{t('page_management.create.form.fields.slug.label')}</Label>
                                 <div className="flex items-center">
                                     <span className="mr-1 text-sm text-gray-500">/</span>
                                     <div className="relative">
                                         <Input
                                             id="slug"
                                             value={data.slug}
-                                            placeholder="page-url-slug"
+                                            placeholder={t('page_management.create.form.fields.slug.placeholder')}
                                             className={`bg-gray-50 pr-10 dark:bg-gray-800 ${
                                                 fieldStates.slug.isDirty
                                                     ? fieldStates.slug.isValid
@@ -268,7 +270,7 @@ export default function EditPage({ page }: Props) {
                                         )}
                                     </div>
                                 </div>
-                                <p className="text-xs text-gray-500">Automatically generated from the page title</p>
+                                <p className="text-xs text-gray-500">{t('page_management.create.form.fields.slug.help')}</p>
                                 {(validationErrors.slug || errors.slug) && (
                                     <p className="flex items-center gap-1 text-sm text-red-600">
                                         <AlertCircle className="h-4 w-4" />
@@ -279,7 +281,7 @@ export default function EditPage({ page }: Props) {
 
                             {/* Content */}
                             <div className="space-y-2">
-                                <Label htmlFor="content">Content *</Label>
+                                <Label htmlFor="content">{t('page_management.create.form.fields.content.required')}</Label>
                                 <div
                                     className={`relative ${
                                         fieldStates.content.isDirty
@@ -294,7 +296,7 @@ export default function EditPage({ page }: Props) {
                                     <RichTextEditor
                                         value={data.content}
                                         onChange={handleContentChange}
-                                        placeholder="Enter page content..."
+                                        placeholder={t('page_management.create.form.fields.content.placeholder')}
                                         height={400}
                                     />
                                     {fieldStates.content.isDirty && (
@@ -307,7 +309,7 @@ export default function EditPage({ page }: Props) {
                                         </div>
                                     )}
                                 </div>
-                                <p className="text-xs text-gray-500">Use the rich text editor to format your content</p>
+                                <p className="text-xs text-gray-500">{t('page_management.create.form.fields.content.help')}</p>
                                 {(validationErrors.content || errors.content) && (
                                     <p className="flex items-center gap-1 text-sm text-red-600">
                                         <AlertCircle className="h-4 w-4" />
@@ -317,14 +319,14 @@ export default function EditPage({ page }: Props) {
                                 {fieldStates.content.isDirty && fieldStates.content.isValid && !validationErrors.content && (
                                     <p className="flex items-center gap-1 text-sm text-green-600">
                                         <CheckCircle className="h-4 w-4" />
-                                        Content looks good!
+                                        {t('page_management.create.form.validation.content_valid')}
                                     </p>
                                 )}
                             </div>
 
                             {/* Image Upload */}
                             <div className="space-y-2">
-                                <Label>Featured Image (Optional)</Label>
+                                <Label>{t('page_management.create.form.fields.image.label')}</Label>
                                 <Dropzone
                                     onFileSelect={handleImageSelect}
                                     currentImageUrl={page.image}
@@ -344,7 +346,7 @@ export default function EditPage({ page }: Props) {
                     <div className="mt-6 flex flex-col justify-end gap-3 sm:flex-row sm:gap-4">
                         <Button type="button" variant="outline" onClick={handleCancel} className="w-full sm:w-auto">
                             <X className="mr-2 h-4 w-4" />
-                            Cancel
+                            {t('page_management.edit.form.buttons.cancel')}
                         </Button>
 
                         <Button
@@ -355,12 +357,12 @@ export default function EditPage({ page }: Props) {
                             {processing ? (
                                 <div className="flex items-center gap-2">
                                     <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                                    Updating...
+                                    {t('page_management.edit.form.buttons.updating')}
                                 </div>
                             ) : (
                                 <div className="flex items-center gap-2">
                                     <Save className="h-4 w-4" />
-                                    Update Page
+                                    {t('page_management.edit.form.buttons.update')}
                                 </div>
                             )}
                         </Button>

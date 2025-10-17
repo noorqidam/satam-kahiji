@@ -3,6 +3,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import type { UserRole } from '@/constants/roles';
 import type { User } from '@/types/user';
 import { Edit, Eye, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
+// Import i18n to ensure it's initialized
 
 interface UserTableRowProps {
     user: User;
@@ -17,6 +20,7 @@ interface UserTableRowProps {
 }
 
 export function UserTableRow({ user, isSelected, roleLabels, roleColors, onSelect, onView, onEdit, onDelete, isLoading }: UserTableRowProps) {
+    const { t } = useTranslation();
     return (
         <tr className="border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800">
             <td className="px-2 py-3 sm:px-4">
@@ -41,15 +45,15 @@ export function UserTableRow({ user, isSelected, roleLabels, roleColors, onSelec
                 <div className="flex items-center justify-end space-x-1">
                     <Button variant="ghost" size="sm" onClick={() => onView(user)} disabled={isLoading}>
                         <Eye className="h-4 w-4" />
-                        <span className="sr-only">View</span>
+                        <span className="sr-only">{t('user_management.actions_sr.view')}</span>
                     </Button>
                     <Button variant="ghost" size="sm" onClick={() => onEdit(user)} disabled={isLoading}>
                         <Edit className="h-4 w-4" />
-                        <span className="sr-only">Edit</span>
+                        <span className="sr-only">{t('user_management.actions_sr.edit')}</span>
                     </Button>
                     <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700" onClick={() => onDelete(user)} disabled={isLoading}>
                         <Trash2 className="h-4 w-4" />
-                        <span className="sr-only">Delete</span>
+                        <span className="sr-only">{t('user_management.actions_sr.delete')}</span>
                     </Button>
                 </div>
             </td>

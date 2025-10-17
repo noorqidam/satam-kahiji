@@ -13,8 +13,9 @@ import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
-import { Eye, Save } from 'lucide-react';
+import { Save } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as v from 'valibot';
 
 interface PostFormData {
@@ -29,11 +30,12 @@ interface PostFormData {
 }
 
 export default function CreatePost() {
+    const { t } = useTranslation('common');
     const { toast } = useToast();
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: route('admin.dashboard') },
-        { title: 'Posts & News', href: route('admin.posts.index') },
-        { title: 'Create Post', href: route('admin.posts.create') },
+        { title: t('posts_management.breadcrumbs.admin_dashboard'), href: route('admin.dashboard') },
+        { title: t('posts_management.breadcrumbs.posts_news'), href: route('admin.posts.index') },
+        { title: t('posts_management.forms.create.breadcrumbs.create_post'), href: route('admin.posts.create') },
     ];
 
     // Removed publishNow state - using is_published in form data instead
@@ -64,12 +66,12 @@ export default function CreatePost() {
     });
 
     const PostSchema = v.object({
-        title: v.pipe(v.string(), v.trim(), v.minLength(1, 'Title is required')),
+        title: v.pipe(v.string(), v.trim(), v.minLength(1, t('posts_management.forms.fields.title.required_error'))),
         excerpt: v.optional(v.string()),
-        content: v.pipe(v.string(), v.trim(), v.minLength(1, 'Content is required')),
-        category: v.pipe(v.string(), v.minLength(1, 'Category is required')),
+        content: v.pipe(v.string(), v.trim(), v.minLength(1, t('posts_management.forms.fields.content.required_error'))),
+        category: v.pipe(v.string(), v.minLength(1, t('posts_management.forms.fields.category.required_error'))),
         image: v.optional(v.any()),
-        created_at: v.pipe(v.string(), v.trim(), v.minLength(1, 'Created date is required')),
+        created_at: v.pipe(v.string(), v.trim(), v.minLength(1, t('posts_management.forms.fields.created_at.required_error'))),
         is_published: v.boolean(),
     });
 
@@ -127,47 +129,36 @@ export default function CreatePost() {
             forceFormData: true,
             onSuccess: () => {
                 toast({
-                    title: 'Success',
-                    description: 'Post created successfully.',
+                    title: t('posts_management.messages.success'),
+                    description: t('posts_management.forms.create.success_message'),
                     variant: 'success',
                 });
             },
             onError: (errors) => {
                 toast({
-                    title: 'Error',
-                    description: `${errors} Failed to create post. Please check the form for errors.`,
+                    title: t('posts_management.messages.error'),
+                    description: `${errors} ${t('posts_management.forms.create.error_message')}`,
                     variant: 'destructive',
                 });
             },
         });
     };
 
-    const handlePreview = () => {
-        // For now, we'll just show an alert. In a real implementation,
-        // you might want to open a modal or new tab with a preview
-        alert('Preview functionality would be implemented here');
-    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Post" />
+            <Head title={t('posts_management.forms.create.page_title')} />
 
             <div className="w-full max-w-none space-y-6 px-4 sm:px-8">
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <div>
-                            <h1 className="text-2xl font-bold tracking-tight">Create New Post</h1>
-                            <p className="text-muted-foreground">Create a new post or news article for your website</p>
+                            <h1 className="text-2xl font-bold tracking-tight">{t('posts_management.forms.create.header.title')}</h1>
+                            <p className="text-muted-foreground">{t('posts_management.forms.create.header.description')}</p>
                         </div>
                     </div>
 
-                    <div className="flex gap-2">
-                        <Button type="button" variant="outline" onClick={handlePreview}>
-                            <Eye className="mr-2 h-4 w-4" />
-                            Preview
-                        </Button>
-                    </div>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -177,18 +168,18 @@ export default function CreatePost() {
                             {/* Basic Information */}
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Post Content</CardTitle>
-                                    <CardDescription>Enter the main content for your post</CardDescription>
+                                    <CardTitle>{t('posts_management.forms.sections.post_content.title')}</CardTitle>
+                                    <CardDescription>{t('posts_management.forms.sections.post_content.create_description')}</CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <div>
-                                        <Label htmlFor="title">Title</Label>
+                                        <Label htmlFor="title">{t('posts_management.forms.fields.title.label')}</Label>
                                         <Input
                                             id="title"
                                             type="text"
                                             value={data.title}
                                             onChange={(e) => setData('title', e.target.value)}
-                                            placeholder="Enter post title..."
+                                            placeholder={t('posts_management.forms.fields.title.placeholder')}
                                             className={errors.title || validationErrors.title ? 'border-destructive' : ''}
                                         />
                                         {(errors.title || validationErrors.title) && (
@@ -197,26 +188,26 @@ export default function CreatePost() {
                                     </div>
 
                                     <div>
-                                        <Label htmlFor="excerpt">Excerpt (Optional)</Label>
+                                        <Label htmlFor="excerpt">{t('posts_management.forms.fields.excerpt.label')}</Label>
                                         <Textarea
                                             id="excerpt"
                                             value={data.excerpt}
                                             onChange={(e) => setData('excerpt', e.target.value)}
-                                            placeholder="Brief description or summary..."
+                                            placeholder={t('posts_management.forms.fields.excerpt.placeholder')}
                                             rows={3}
                                             className={errors.excerpt ? 'border-destructive' : ''}
                                         />
                                         {errors.excerpt && <p className="mt-1 text-sm text-destructive">{errors.excerpt}</p>}
-                                        <p className="mt-1 text-xs text-muted-foreground">This will be displayed in post listings and previews</p>
+                                        <p className="mt-1 text-xs text-muted-foreground">{t('posts_management.forms.fields.excerpt.help_text')}</p>
                                     </div>
 
                                     <div>
-                                        <Label htmlFor="content">Content</Label>
+                                        <Label htmlFor="content">{t('posts_management.forms.fields.content.label')}</Label>
                                         <div className="mt-2">
                                             <RichTextEditor
                                                 value={data.content}
                                                 onChange={(content) => setData('content', content)}
-                                                placeholder="Write your post content here..."
+                                                placeholder={t('posts_management.forms.fields.content.placeholder')}
                                                 height={400}
                                             />
                                         </div>
@@ -230,8 +221,8 @@ export default function CreatePost() {
                             {/* Featured Image */}
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Featured Image</CardTitle>
-                                    <CardDescription>Upload an image for your post (optional)</CardDescription>
+                                    <CardTitle>{t('posts_management.forms.sections.featured_image.title')}</CardTitle>
+                                    <CardDescription>{t('posts_management.forms.sections.featured_image.create_description')}</CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <Dropzone
@@ -255,22 +246,22 @@ export default function CreatePost() {
                             {/* Post Settings */}
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Post Settings</CardTitle>
-                                    <CardDescription>Configure post category and publishing options</CardDescription>
+                                    <CardTitle>{t('posts_management.forms.sections.post_settings.title')}</CardTitle>
+                                    <CardDescription>{t('posts_management.forms.sections.post_settings.description')}</CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <div>
-                                        <Label htmlFor="category">Category</Label>
+                                        <Label htmlFor="category">{t('posts_management.forms.fields.category.label')}</Label>
                                         <Select
                                             value={data.category}
                                             onValueChange={(value) => setData('category', value as 'news' | 'announcements')}
                                         >
                                             <SelectTrigger className={errors.category || validationErrors.category ? 'border-destructive' : ''}>
-                                                <SelectValue placeholder="Select category" />
+                                                <SelectValue placeholder={t('posts_management.forms.fields.category.placeholder')} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="news">News</SelectItem>
-                                                <SelectItem value="announcements">Announcements</SelectItem>
+                                                <SelectItem value="news">{t('posts_management.categories.news')}</SelectItem>
+                                                <SelectItem value="announcements">{t('posts_management.categories.announcements')}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         {(errors.category || validationErrors.category) && (
@@ -279,7 +270,7 @@ export default function CreatePost() {
                                     </div>
 
                                     <div>
-                                        <Label htmlFor="created_at">Created Date</Label>
+                                        <Label htmlFor="created_at">{t('posts_management.forms.fields.created_at.label')}</Label>
                                         <Input
                                             id="created_at"
                                             type="datetime-local"
@@ -290,22 +281,22 @@ export default function CreatePost() {
                                         {(errors.created_at || validationErrors.created_at) && (
                                             <p className="mt-1 text-sm text-destructive">{errors.created_at || validationErrors.created_at}</p>
                                         )}
-                                        <p className="mt-1 text-xs text-muted-foreground">Set when this post was originally created</p>
+                                        <p className="mt-1 text-xs text-muted-foreground">{t('posts_management.forms.fields.created_at.help_text')}</p>
                                     </div>
 
                                     <Separator />
 
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-0.5">
-                                            <Label>Published</Label>
-                                            <p className="text-xs text-muted-foreground">Make this post visible to the public</p>
+                                            <Label>{t('posts_management.forms.fields.published.label')}</Label>
+                                            <p className="text-xs text-muted-foreground">{t('posts_management.forms.fields.published.create_help_text')}</p>
                                         </div>
                                         <Switch checked={data.is_published} onCheckedChange={(checked) => setData('is_published', checked)} />
                                     </div>
 
                                     {!data.is_published && (
                                         <Alert>
-                                            <AlertDescription>Post will be saved as draft and can be published later</AlertDescription>
+                                            <AlertDescription>{t('posts_management.forms.fields.published.draft_alert_create')}</AlertDescription>
                                         </Alert>
                                     )}
                                 </CardContent>
@@ -317,12 +308,12 @@ export default function CreatePost() {
                                     <div className="flex flex-col gap-2">
                                         <Button type="submit" className="w-full" disabled={processing}>
                                             <Save className="mr-2 h-4 w-4" />
-                                            {processing ? 'Creating...' : 'Create Post'}
+                                            {processing ? t('posts_management.forms.create.actions.creating') : t('posts_management.forms.create.actions.create_post')}
                                         </Button>
 
                                         <Link href={route('admin.posts.index')}>
                                             <Button variant="outline" className="w-full" type="button">
-                                                Cancel
+                                                {t('posts_management.forms.create.actions.cancel')}
                                             </Button>
                                         </Link>
                                     </div>

@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { AlertCircle, Edit, Eye, FileText, Plus, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -45,13 +46,16 @@ interface Props {
     stats?: Stats;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Admin Dashboard', href: '/admin/dashboard' },
-    { title: 'Page Management', href: '/admin/pages' },
-];
+// Breadcrumbs will be defined inside the component to use translations
 
 export default function PagesIndex({ pages }: Props) {
+    const { t } = useTranslation('common');
     const { dialogState, openDialog, closeDialog, confirmDelete } = useDeleteDialog();
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('page_management.breadcrumbs.admin_dashboard'), href: '/admin/dashboard' },
+        { title: t('page_management.breadcrumbs.page_management'), href: '/admin/pages' },
+    ];
 
     // Handle both paginated and simple array data
     const pageData = Array.isArray(pages) ? pages : pages.data || [];
@@ -70,7 +74,7 @@ export default function PagesIndex({ pages }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Page Management" />
+            <Head title={t('page_management.page_title')} />
 
             <div className="space-y-8 px-4 sm:px-6 lg:px-8">
                 {/* Header */}
@@ -81,15 +85,17 @@ export default function PagesIndex({ pages }: Props) {
                                 <FileText className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl dark:text-gray-100">Page Management</h1>
-                                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Create and manage pages for your website</p>
+                                <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl dark:text-gray-100">
+                                    {t('page_management.header.title')}
+                                </h1>
+                                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">{t('page_management.header.description')}</p>
                             </div>
                         </div>
 
                         <Link href={route('admin.pages.create')}>
                             <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 sm:w-auto">
                                 <Plus className="mr-2 h-4 w-4" />
-                                <span className="xs:inline hidden">Create </span>Page
+                                {t('page_management.actions.create_page')}
                             </Button>
                         </Link>
                     </div>
@@ -99,18 +105,18 @@ export default function PagesIndex({ pages }: Props) {
                 <div>
                     <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-gray-900 dark:text-gray-100">
                         <FileText className="h-5 w-5 text-blue-600" />
-                        All Pages ({pageData.length})
+                        {t('page_management.table.all_pages', { count: pageData.length })}
                     </h2>
 
                     {pageData.length === 0 ? (
                         <Card className="border-2 border-dashed border-gray-300 dark:border-gray-600">
                             <CardContent className="flex flex-col items-center justify-center py-12">
                                 <FileText className="mb-4 h-12 w-12 text-gray-400" />
-                                <p className="mb-4 text-center text-gray-500">No pages created yet</p>
+                                <p className="mb-4 text-center text-gray-500">{t('page_management.empty_state.title')}</p>
                                 <Link href={route('admin.pages.create')}>
                                     <Button>
                                         <Plus className="mr-2 h-4 w-4" />
-                                        Create Your First Page
+                                        {t('page_management.actions.create_first_page')}
                                     </Button>
                                 </Link>
                             </CardContent>
@@ -145,14 +151,14 @@ export default function PagesIndex({ pages }: Props) {
                                             <Link href={route('admin.pages.show', page.id)}>
                                                 <Button variant="outline" size="sm" className="w-full">
                                                     <Eye className="h-4 w-4" />
-                                                    <span className="ml-1 hidden sm:inline">View</span>
+                                                    <span className="ml-1 hidden sm:inline">{t('page_management.actions.view')}</span>
                                                 </Button>
                                             </Link>
 
                                             <Link href={route('admin.pages.edit', page.id)}>
                                                 <Button variant="outline" size="sm" className="w-full">
                                                     <Edit className="h-4 w-4" />
-                                                    <span className="ml-1 hidden sm:inline">Edit</span>
+                                                    <span className="ml-1 hidden sm:inline">{t('page_management.actions.edit')}</span>
                                                 </Button>
                                             </Link>
 
@@ -163,12 +169,12 @@ export default function PagesIndex({ pages }: Props) {
                                                 className="w-full text-red-600 hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950"
                                             >
                                                 <Trash2 className="h-4 w-4" />
-                                                <span className="ml-1 hidden sm:inline">Delete</span>
+                                                <span className="ml-1 hidden sm:inline">{t('page_management.actions.delete')}</span>
                                             </Button>
                                         </div>
 
                                         <p className="flex-shrink-0 text-xs text-gray-500">
-                                            Created:{' '}
+                                            {t('page_management.table.created')}{' '}
                                             {new Date(page.created_at).toLocaleDateString('en-US', {
                                                 month: 'short',
                                                 day: 'numeric',
@@ -191,19 +197,17 @@ export default function PagesIndex({ pages }: Props) {
                             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
                                 <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Delete Page</h3>
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{t('page_management.delete.title')}</h3>
                         </div>
                         <p className="mb-6 leading-relaxed text-gray-600 dark:text-gray-300">
-                            Are you sure you want to delete{' '}
-                            <span className="font-medium text-gray-900 dark:text-gray-100">"{dialogState.itemName}"</span>? This action cannot be
-                            undone and all page content will be permanently removed.
+                            {t('page_management.delete.description', { itemName: dialogState.itemName })}
                         </p>
                         <div className="flex justify-end gap-3">
                             <Button variant="outline" onClick={closeDialog}>
-                                Cancel
+                                {t('page_management.delete.cancel')}
                             </Button>
                             <Button variant="destructive" onClick={handleConfirmDelete}>
-                                Delete Page
+                                {t('page_management.delete.confirm')}
                             </Button>
                         </div>
                     </div>

@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ImageIcon, Upload, X } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import GalleryDrivePicker from './gallery-drive-picker';
 
 interface DriveFile {
@@ -37,6 +38,7 @@ export default function GalleryFilePicker({
     placeholder = 'No file selected',
     disabled = false,
 }: GalleryFilePickerProps) {
+    const { t } = useTranslation();
     const [dragOver, setDragOver] = useState(false);
 
     // If no gallery is provided yet, show upload-only interface
@@ -45,7 +47,7 @@ export default function GalleryFilePicker({
             <Card className="border-2 border-dashed border-gray-300 dark:border-gray-600">
                 <CardContent className="p-6 text-center">
                     <Upload className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-                    <p className="text-gray-600 dark:text-gray-400">Save the gallery first to enable Google Drive file management</p>
+                    <p className="text-gray-600 dark:text-gray-400">{t('gallery_management.show.file_picker.save_first')}</p>
                 </CardContent>
             </Card>
         );
@@ -110,7 +112,7 @@ export default function GalleryFilePicker({
                     <CardContent className="p-8 text-center">
                         <ImageIcon className="mx-auto mb-4 h-12 w-12 text-gray-400" />
                         <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">{placeholder}</h3>
-                        <p className="mb-4 text-gray-600 dark:text-gray-400">Choose from your gallery's Google Drive folder or upload a new file</p>
+                        <p className="mb-4 text-gray-600 dark:text-gray-400">{t('gallery_management.show.file_picker.choose_from_drive')}</p>
 
                         <GalleryDrivePicker
                             galleryId={galleryId}
@@ -140,7 +142,7 @@ export default function GalleryFilePicker({
                         multiSelect={false}
                         trigger={
                             <Button variant="outline" disabled={disabled}>
-                                Change File
+                                {t('gallery_management.show.file_picker.change_file')}
                             </Button>
                         }
                     />

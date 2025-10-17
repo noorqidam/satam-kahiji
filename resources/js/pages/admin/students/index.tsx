@@ -1,5 +1,7 @@
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -15,11 +17,12 @@ import { Pagination } from '@/components/ui/pagination';
 import { useStudentActions, useStudentDataRefresh, useStudentFilters, useStudentSelection } from '@/hooks/use-student-hooks';
 
 export default function StudentsIndex({ students, filters }: StudentIndexProps) {
+    const { t } = useTranslation();
     useStudentDataRefresh();
 
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: '/admin/dashboard' },
-        { title: 'Student Management', href: '/admin/students' },
+        { title: t('student_management.breadcrumbs.admin_dashboard'), href: '/admin/dashboard' },
+        { title: t('student_management.breadcrumbs.students'), href: '/admin/students' },
     ];
 
     const { searchTerm, genderFilter, statusFilter, setSearchTerm, setGenderFilter, setStatusFilter, clearFilters, isLoading } = useStudentFilters(
@@ -53,13 +56,13 @@ export default function StudentsIndex({ students, filters }: StudentIndexProps) 
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Student Management" />
+            <Head title={t('student_management.page_title')} />
 
             <div className="space-y-6 px-4 sm:px-6">
                 <div className="border-b border-gray-200 pb-5 dark:border-gray-700">
-                    <h3 className="text-2xl leading-6 font-semibold text-gray-900 dark:text-gray-100">Student Management</h3>
+                    <h3 className="text-2xl leading-6 font-semibold text-gray-900 dark:text-gray-100">{t('student_management.page_title')}</h3>
                     <p className="mt-2 max-w-4xl text-sm text-gray-500 dark:text-gray-400">
-                        Manage student information, including personal details, contact information, and notes.
+                        {t('student_management.page_description')}
                     </p>
                 </div>
 
@@ -78,7 +81,7 @@ export default function StudentsIndex({ students, filters }: StudentIndexProps) 
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Students ({students.total})</CardTitle>
+                        <CardTitle>{t('student_management.table.total_count', { count: students.total })}</CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                         <div className="overflow-x-auto">
@@ -92,43 +95,43 @@ export default function StudentsIndex({ students, filters }: StudentIndexProps) 
                                             scope="col"
                                             className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                         >
-                                            Student
+                                            {t('student_management.table.headers.student')}
                                         </th>
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                         >
-                                            Class & Entry Year
+                                            {t('student_management.table.headers.class_entry_year')}
                                         </th>
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                         >
-                                            Gender
+                                            {t('student_management.table.headers.gender')}
                                         </th>
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                         >
-                                            Date of Birth
+                                            {t('student_management.table.headers.date_of_birth')}
                                         </th>
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                         >
-                                            Homeroom Teacher
+                                            {t('student_management.table.headers.homeroom_teacher')}
                                         </th>
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                         >
-                                            Status
+                                            {t('student_management.table.headers.status')}
                                         </th>
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400"
                                         >
-                                            Actions
+                                            {t('student_management.table.headers.actions')}
                                         </th>
                                     </tr>
                                 </thead>
@@ -148,8 +151,8 @@ export default function StudentsIndex({ students, filters }: StudentIndexProps) 
                                             <td colSpan={8} className="px-6 py-12 text-center">
                                                 <p className="text-sm text-gray-500 dark:text-gray-400">
                                                     {searchTerm || genderFilter || statusFilter
-                                                        ? 'No students found matching your search.'
-                                                        : 'No students found.'}
+                                                        ? t('student_management.table.empty_states.no_students_filtered')
+                                                        : t('student_management.table.empty_states.no_students')}
                                                 </p>
                                             </td>
                                         </tr>
@@ -170,9 +173,9 @@ export default function StudentsIndex({ students, filters }: StudentIndexProps) 
             <ConfirmationDialog
                 open={studentToDelete !== null}
                 onOpenChange={() => setStudentToDelete(null)}
-                title="Delete Student"
-                message={`Are you sure you want to delete this student? This action cannot be undone.`}
-                confirmLabel="Delete Student"
+                title={t('student_management.dialogs.delete_student.title')}
+                message={t('student_management.dialogs.delete_student.message')}
+                confirmLabel={t('student_management.dialogs.delete_student.confirm_button')}
                 onConfirm={() => studentToDelete && handleDelete(studentToDelete)}
                 isLoading={isDeleting}
             />
@@ -181,9 +184,15 @@ export default function StudentsIndex({ students, filters }: StudentIndexProps) 
             <ConfirmationDialog
                 open={showBulkDeleteDialog}
                 onOpenChange={setShowBulkDeleteDialog}
-                title="Delete Students"
-                message={`Are you sure you want to delete ${selectedStudents.length} student${selectedStudents.length > 1 ? 's' : ''}? This action cannot be undone.`}
-                confirmLabel={`Delete ${selectedStudents.length} Student${selectedStudents.length > 1 ? 's' : ''}`}
+                title={t('student_management.dialogs.bulk_delete.title')}
+                message={t('student_management.dialogs.bulk_delete.message', { 
+                    count: selectedStudents.length,
+                    plural: selectedStudents.length > 1 ? 's' : ''
+                })}
+                confirmLabel={t('student_management.dialogs.bulk_delete.confirm_button', { 
+                    count: selectedStudents.length,
+                    plural: selectedStudents.length > 1 ? 's' : ''
+                })}
                 onConfirm={handleBulkDelete}
                 isLoading={isDeleting}
             />

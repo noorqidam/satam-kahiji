@@ -1,5 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { ArrowLeft, LoaderCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
 
 import { StaffSubjectAssignments } from '@/components/admin/staff/StaffSubjectAssignments';
 import AvatarDropzone from '@/components/ui/avatar-dropzone';
@@ -33,10 +35,12 @@ interface EditStaffProps {
 }
 
 export default function EditStaff({ staff, availableSubjects, filters = {} }: EditStaffProps) {
+    const { t } = useTranslation();
+    
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: '/admin/dashboard' },
-        { title: 'Staff Management', href: '/admin/staff' },
-        { title: `Edit ${staff.name}`, href: `/admin/staff/${staff.id}/edit` },
+        { title: t('staff_management.edit.breadcrumbs.admin_dashboard'), href: '/admin/dashboard' },
+        { title: t('staff_management.edit.breadcrumbs.staff_management'), href: '/admin/staff' },
+        { title: `${t('staff_management.edit.breadcrumbs.edit_staff')} ${staff.name}`, href: `/admin/staff/${staff.id}/edit` },
     ];
 
     const {
@@ -58,7 +62,7 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${staff.name}`} />
+            <Head title={`${t('staff_management.edit.page_title')} ${staff.name}`} />
 
             <div className="space-y-6 px-4 sm:px-6">
                 <div className="flex items-center gap-4">
@@ -68,15 +72,15 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
                         </Button>
                     </Link>
                     <div>
-                        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">Edit Staff Member</h1>
-                        <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">Update {staff.name}'s information</p>
+                        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">{t('staff_management.edit.page_title')}</h1>
+                        <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">{t('staff_management.edit.page_description', { name: staff.name })}</p>
                     </div>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Basic Information</CardTitle>
+                            <CardTitle>{t('staff_management.edit.sections.basic_information')}</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-6">
                             {/* User Account and Profile Photo Section */}
@@ -84,12 +88,16 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
                                 <div className="flex flex-col gap-6 lg:flex-row">
                                     <div className="lg:w-1/2">
                                         <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-950">
-                                            <h4 className="font-medium text-blue-900 dark:text-blue-100">Associated User Account</h4>
+                                            <h4 className="font-medium text-blue-900 dark:text-blue-100">{t('staff_management.edit.sections.associated_user_account')}</h4>
                                             <p className="text-sm text-blue-700 dark:text-blue-300">
-                                                {staff.user.name} ({staff.user.email}) - {staff.user.role.replace('_', ' ')}
+                                                {t('staff_management.edit.messages.user_account_details', { 
+                                                    name: staff.user.name, 
+                                                    email: staff.user.email, 
+                                                    role: staff.user.role.replace('_', ' ') 
+                                                })}
                                             </p>
                                             <p className="mt-2 text-xs text-blue-600 dark:text-blue-400">
-                                                Basic information is managed through the user account. Only bio and photo can be edited here.
+                                                {t('staff_management.edit.messages.user_account_info')}
                                             </p>
                                         </div>
                                     </div>
@@ -97,7 +105,7 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
                                     {/* Profile Photo Section */}
                                     <div className="flex flex-col items-center lg:w-1/2">
                                         <div className="mb-4 text-center">
-                                            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Profile Photo</h3>
+                                            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('staff_management.edit.sections.profile_photo')}</h3>
                                         </div>
                                         <AvatarDropzone
                                             onFileSelect={handlePhotoSelect}
@@ -114,14 +122,14 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
                                     <div className="flex flex-col gap-6 lg:flex-row">
                                         <div className="lg:w-2/3">
                                             <div className="space-y-2">
-                                                <Label htmlFor="name">Full Name *</Label>
+                                                <Label htmlFor="name">{t('staff_management.edit.fields.full_name')} *</Label>
                                                 <Input
                                                     id="name"
                                                     type="text"
                                                     value={form.data.name}
                                                     onChange={(e) => form.setData('name', e.target.value)}
                                                     required
-                                                    placeholder="Enter full name"
+                                                    placeholder={t('staff_management.edit.placeholders.enter_full_name')}
                                                     disabled={hasUserAccount}
                                                 />
                                                 <InputError message={form.errors.name} />
@@ -130,7 +138,7 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
 
                                         <div className="flex flex-col items-center lg:w-1/3">
                                             <div className="mb-4 text-center">
-                                                <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Profile Photo</h3>
+                                                <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('staff_management.edit.sections.profile_photo')}</h3>
                                             </div>
                                             <AvatarDropzone
                                                 onFileSelect={handlePhotoSelect}
@@ -149,20 +157,20 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
                                 <>
                                     <div className="grid gap-4 md:grid-cols-2">
                                         <div className="space-y-2">
-                                            <Label htmlFor="position">Position *</Label>
+                                            <Label htmlFor="position">{t('staff_management.edit.fields.position')} *</Label>
                                             <Input
                                                 id="position"
                                                 type="text"
                                                 value={form.data.position}
                                                 onChange={(e) => form.setData('position', e.target.value)}
                                                 required
-                                                placeholder="e.g., Mathematics Teacher"
+                                                placeholder={t('staff_management.edit.placeholders.position_example')}
                                                 disabled={hasUserAccount}
                                             />
                                             <InputError message={form.errors.position} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="division">Division *</Label>
+                                            <Label htmlFor="division">{t('staff_management.edit.fields.division')} *</Label>
                                             <Select
                                                 value={form.data.division}
                                                 onValueChange={(value) => form.setData('division', value)}
@@ -170,7 +178,7 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
                                                 disabled={hasUserAccount}
                                             >
                                                 <SelectTrigger>
-                                                    <SelectValue placeholder="select division" />
+                                                    <SelectValue placeholder={t('staff_management.edit.placeholders.select_division')} />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem value="Hubungan Masyarakat">Hubungan Masyarakat</SelectItem>
@@ -183,26 +191,26 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
                                     </div>
                                     <div className="grid gap-4 md:grid-cols-2">
                                         <div className="space-y-2">
-                                            <Label htmlFor="email">Email Address *</Label>
+                                            <Label htmlFor="email">{t('staff_management.edit.fields.email_address')} *</Label>
                                             <Input
                                                 id="email"
                                                 type="email"
                                                 value={form.data.email}
                                                 onChange={(e) => form.setData('email', e.target.value)}
                                                 required
-                                                placeholder="email@example.com"
+                                                placeholder={t('staff_management.edit.placeholders.email_example')}
                                                 disabled={hasUserAccount}
                                             />
                                             <InputError message={form.errors.email} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="phone">Phone Number</Label>
+                                            <Label htmlFor="phone">{t('staff_management.edit.fields.phone_number')}</Label>
                                             <Input
                                                 id="phone"
                                                 type="tel"
                                                 value={form.data.phone}
                                                 onChange={(e) => form.setData('phone', e.target.value)}
-                                                placeholder="+62 123 4567 8900"
+                                                placeholder={t('staff_management.edit.placeholders.phone_example')}
                                             />
                                             <InputError message={form.errors.phone} />
                                         </div>
@@ -211,23 +219,23 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
                             )}
 
                             <div className="space-y-2">
-                                <Label htmlFor="phone">Phone Number</Label>
+                                <Label htmlFor="phone">{t('staff_management.edit.fields.phone_number')}</Label>
                                 <Input
                                     id="phone"
                                     type="tel"
                                     value={form.data.phone}
                                     onChange={(e) => form.setData('phone', e.target.value)}
-                                    placeholder="+62 123 4567 8900"
+                                    placeholder={t('staff_management.edit.placeholders.phone_example')}
                                 />
                                 <InputError message={form.errors.phone} />
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="bio">Biography</Label>
+                                <Label htmlFor="bio">{t('staff_management.edit.fields.biography')}</Label>
                                 <RichTextEditor
                                     value={form.data.bio}
                                     onChange={(content) => form.setData('bio', content)}
-                                    placeholder="Enter staff member's biography, achievements, background..."
+                                    placeholder={t('staff_management.edit.placeholders.biography_placeholder')}
                                     height={250}
                                 />
                                 <InputError message={form.errors.bio} />
@@ -235,12 +243,12 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
                             <div className="flex items-center justify-end gap-4 border-t pt-6">
                                 <Link href={route('admin.staff.index')}>
                                     <Button type="button" variant="ghost">
-                                        Cancel
+                                        {t('staff_management.edit.actions.cancel')}
                                     </Button>
                                 </Link>
                                 <Button type="submit" disabled={form.processing}>
                                     {form.processing && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
-                                    Update Staff Member
+                                    {t('staff_management.edit.actions.update_staff_member')}
                                 </Button>
                             </div>
                         </CardContent>

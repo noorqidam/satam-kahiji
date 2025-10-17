@@ -6,8 +6,9 @@ import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Calendar, Edit, Eye, FileText, ToggleLeft, ToggleRight, Trash2 } from 'lucide-react';
+import { Calendar, Edit, ToggleLeft, ToggleRight, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface User {
     id: number;
@@ -34,13 +35,14 @@ interface ShowPostProps {
 }
 
 export default function ShowPost() {
+    const { t } = useTranslation('common');
     const { toast } = useToast();
     const { post } = usePage<ShowPostProps>().props;
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: route('admin.dashboard') },
-        { title: 'Posts & News', href: route('admin.posts.index') },
+        { title: t('posts_management.breadcrumbs.admin_dashboard'), href: route('admin.dashboard') },
+        { title: t('posts_management.breadcrumbs.posts_news'), href: route('admin.posts.index') },
         { title: post.title, href: route('admin.posts.show', post.id) },
     ];
 
@@ -61,7 +63,7 @@ export default function ShowPost() {
 
             if (data.success) {
                 toast({
-                    title: 'Success',
+                    title: t('posts_management.messages.success'),
                     description: data.message,
                     variant: 'success',
                 });
@@ -69,12 +71,12 @@ export default function ShowPost() {
                 // Refresh the page to show updated data
                 router.reload({ only: ['post'] });
             } else {
-                throw new Error(data.message || 'Failed to update post');
+                throw new Error(data.message || t('posts_management.messages.update_error'));
             }
         } catch (error) {
             toast({
-                title: 'Error',
-                description: error instanceof Error ? error.message : 'Failed to update post status',
+                title: t('posts_management.messages.error'),
+                description: error instanceof Error ? error.message : t('posts_management.messages.update_error'),
                 variant: 'destructive',
             });
         } finally {
@@ -104,9 +106,9 @@ export default function ShowPost() {
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="text-center sm:text-left">
                             <h1 className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-xl font-bold text-transparent sm:text-2xl lg:text-3xl">
-                                Post Details
+                                {t('posts_management.forms.show.header.title')}
                             </h1>
-                            <p className="mt-1 text-sm text-gray-600 sm:text-base lg:text-lg dark:text-gray-400">Preview and manage your content</p>
+                            <p className="mt-1 text-sm text-gray-600 sm:text-base lg:text-lg dark:text-gray-400">{t('posts_management.forms.show.header.description')}</p>
                         </div>
 
                         <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
@@ -114,20 +116,20 @@ export default function ShowPost() {
                                 variant={post.is_published ? 'destructive' : 'default'}
                                 size="sm"
                                 onClick={handleTogglePublish}
-                                title={post.is_published ? 'Unpublish Post' : 'Publish Post'}
+                                title={post.is_published ? t('posts_management.forms.show.actions.unpublish_post') : t('posts_management.forms.show.actions.publish_post')}
                                 className="h-10 w-full shadow-md transition-all duration-200 hover:shadow-lg sm:w-auto"
                             >
                                 {post.is_published ? (
                                     <>
                                         <ToggleRight className="mr-2 h-4 w-4" />
-                                        <span className="xs:inline hidden">Unpublish</span>
-                                        <span className="xs:hidden">Unpublish</span>
+                                        <span className="xs:inline hidden">{t('posts_management.forms.show.actions.unpublish')}</span>
+                                        <span className="xs:hidden">{t('posts_management.forms.show.actions.unpublish')}</span>
                                     </>
                                 ) : (
                                     <>
                                         <ToggleLeft className="mr-2 h-4 w-4" />
-                                        <span className="xs:inline hidden">Publish Now</span>
-                                        <span className="xs:hidden">Publish</span>
+                                        <span className="xs:inline hidden">{t('posts_management.forms.show.actions.publish_now')}</span>
+                                        <span className="xs:hidden">{t('posts_management.forms.show.actions.publish')}</span>
                                     </>
                                 )}
                             </Button>
@@ -139,7 +141,7 @@ export default function ShowPost() {
                                     className="h-10 w-full shadow-md transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 hover:shadow-lg sm:w-auto"
                                 >
                                     <Edit className="mr-2 h-4 w-4" />
-                                    Edit
+                                    {t('posts_management.forms.show.actions.edit')}
                                 </Button>
                             </Link>
 
@@ -150,7 +152,7 @@ export default function ShowPost() {
                                 className="h-10 w-full text-red-600 shadow-md transition-all duration-200 hover:border-red-300 hover:bg-red-50 hover:text-red-700 hover:shadow-lg sm:w-auto"
                             >
                                 <Trash2 className="mr-2 h-4 w-4" />
-                                Delete
+                                {t('posts_management.forms.show.actions.delete')}
                             </Button>
                         </div>
                     </div>
@@ -169,7 +171,7 @@ export default function ShowPost() {
                                         variant={getCategoryBadgeVariant(post.category)}
                                         className="rounded-md px-2 py-1 text-xs font-medium capitalize shadow-sm sm:px-3 sm:py-1.5 sm:text-sm"
                                     >
-                                        {post.category === 'news' ? '📰 News' : '📢 Announcements'}
+                                        {post.category === 'news' ? `📰 ${t('posts_management.categories.news')}` : `📢 ${t('posts_management.categories.announcements')}`}
                                     </Badge>
                                     <Badge
                                         className={
@@ -178,7 +180,7 @@ export default function ShowPost() {
                                                 : 'rounded-md bg-gradient-to-r from-gray-100 to-slate-100 px-2 py-1 text-xs font-medium text-gray-600 shadow-sm sm:px-3 sm:py-1.5 sm:text-sm'
                                         }
                                     >
-                                        {post.is_published ? '✅ Published' : '📝 Draft'}
+                                        {post.is_published ? `✅ ${t('posts_management.status.published')}` : `📝 ${t('posts_management.status.draft')}`}
                                     </Badge>
                                 </div>
 
@@ -188,7 +190,7 @@ export default function ShowPost() {
                                         <Calendar className="h-4 w-4 flex-shrink-0 text-blue-600" />
                                         <div className="min-w-0 flex-1">
                                             <div className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                                                Created:{' '}
+                                                {t('posts_management.forms.show.meta.created')}{' '}
                                                 {new Date(post.created_at).toLocaleDateString('en-US', {
                                                     year: 'numeric',
                                                     month: 'short',
@@ -210,7 +212,7 @@ export default function ShowPost() {
                                             <div className="h-2 w-2 flex-shrink-0 animate-pulse rounded-full bg-green-500"></div>
                                             <div className="min-w-0 flex-1">
                                                 <div className="truncate text-sm font-medium text-green-700 dark:text-green-400">
-                                                    Published:{' '}
+                                                    {t('posts_management.forms.show.meta.published')}{' '}
                                                     {new Date(post.updated_at).toLocaleDateString('en-US', {
                                                         year: 'numeric',
                                                         month: 'short',
@@ -267,7 +269,7 @@ export default function ShowPost() {
                                 <div className="text-lg font-bold text-blue-600 sm:text-xl lg:text-2xl">
                                     {post.content.replace(/<[^>]*>/g, '').length}
                                 </div>
-                                <div className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">Characters</div>
+                                <div className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">{t('posts_management.forms.show.stats.characters')}</div>
                             </div>
                             <div className="rounded-lg bg-green-50 p-3 text-center sm:p-4 dark:bg-green-900/20">
                                 <div className="text-lg font-bold text-green-600 sm:text-xl lg:text-2xl">
@@ -278,13 +280,13 @@ export default function ShowPost() {
                                             .filter((word) => word.length > 0).length
                                     }
                                 </div>
-                                <div className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">Words</div>
+                                <div className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">{t('posts_management.forms.show.stats.words')}</div>
                             </div>
                             <div className="rounded-lg bg-purple-50 p-3 text-center sm:p-4 dark:bg-purple-900/20">
                                 <div className="text-lg font-bold text-purple-600 sm:text-xl lg:text-2xl">
                                     ~{Math.ceil(post.content.replace(/<[^>]*>/g, '').length / 1000)}
                                 </div>
-                                <div className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">Min Read</div>
+                                <div className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">{t('posts_management.forms.show.stats.min_read')}</div>
                             </div>
                         </div>
 
@@ -300,7 +302,7 @@ export default function ShowPost() {
                         <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 sm:p-6 dark:border-gray-700 dark:bg-gray-800">
                             <div className="flex flex-col gap-4 text-sm sm:flex-row sm:items-center sm:justify-between">
                                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                                    <span className="font-medium text-gray-600 dark:text-gray-400">URL Slug:</span>
+                                    <span className="font-medium text-gray-600 dark:text-gray-400">{t('posts_management.forms.show.meta.url_slug')}</span>
                                     <code className="rounded-md border bg-white px-2 py-1 font-mono text-xs break-all text-blue-600 dark:bg-gray-900 dark:text-blue-400">
                                         {post.slug}
                                     </code>
@@ -308,7 +310,7 @@ export default function ShowPost() {
                                 <div className="flex items-start gap-2 text-gray-600 dark:text-gray-400">
                                     <Calendar className="mt-0.5 h-4 w-4 flex-shrink-0" />
                                     <div>
-                                        <span className="text-sm font-medium">Last updated:</span>
+                                        <span className="text-sm font-medium">{t('posts_management.forms.show.meta.last_updated')}</span>
                                         <div className="mt-1 space-y-0.5 text-xs">
                                             <div className="font-medium">
                                                 {new Date(post.updated_at).toLocaleDateString('en-US', {
@@ -332,84 +334,6 @@ export default function ShowPost() {
                     </CardContent>
                 </Card>
 
-                {/* Action Cards */}
-                <div className="grid grid-cols-1 gap-3 pb-4 sm:grid-cols-2 sm:gap-4 sm:pb-6 lg:grid-cols-3">
-                    <Card className="border-0 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-md transition-shadow duration-200 hover:shadow-lg sm:shadow-lg sm:hover:shadow-xl dark:from-blue-900/20 dark:to-indigo-900/20">
-                        <CardContent className="p-4 sm:p-6">
-                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                <div className="min-w-0 flex-1 space-y-2">
-                                    <div className="flex items-center gap-2">
-                                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 sm:h-10 sm:w-10 dark:bg-blue-800">
-                                            <Eye className="h-4 w-4 text-blue-600 sm:h-5 sm:w-5 dark:text-blue-400" />
-                                        </div>
-                                        <h3 className="text-sm font-semibold text-gray-900 sm:text-base dark:text-white">Public View</h3>
-                                    </div>
-                                    <p className="text-xs leading-relaxed text-gray-600 sm:text-sm dark:text-gray-400">
-                                        {post.is_published ? 'View how this post appears to visitors' : 'Post needs to be published first'}
-                                    </p>
-                                </div>
-                                <Button
-                                    variant={post.is_published ? 'default' : 'secondary'}
-                                    size="sm"
-                                    disabled={!post.is_published}
-                                    className="w-full flex-shrink-0 shadow-md transition-all duration-200 hover:shadow-lg sm:w-auto"
-                                >
-                                    <span className="text-xs sm:text-sm">{post.is_published ? 'View Live' : 'Not Available'}</span>
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="border-0 bg-gradient-to-br from-green-50 to-emerald-50 shadow-md transition-shadow duration-200 hover:shadow-lg sm:shadow-lg sm:hover:shadow-xl dark:from-green-900/20 dark:to-emerald-900/20">
-                        <CardContent className="p-4 sm:p-6">
-                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                <div className="min-w-0 flex-1 space-y-2">
-                                    <div className="flex items-center gap-2">
-                                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:h-10 sm:w-10 dark:bg-green-800">
-                                            <Calendar className="h-4 w-4 text-green-600 sm:h-5 sm:w-5 dark:text-green-400" />
-                                        </div>
-                                        <h3 className="text-sm font-semibold text-gray-900 sm:text-base dark:text-white">Schedule</h3>
-                                    </div>
-                                    <p className="text-xs leading-relaxed text-gray-600 sm:text-sm dark:text-gray-400">
-                                        Schedule this post for future publication
-                                    </p>
-                                </div>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="w-full flex-shrink-0 shadow-md transition-all duration-200 hover:shadow-lg sm:w-auto"
-                                >
-                                    <span className="text-xs sm:text-sm">Schedule</span>
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="border-0 bg-gradient-to-br from-purple-50 to-pink-50 shadow-md transition-shadow duration-200 hover:shadow-lg sm:shadow-lg sm:hover:shadow-xl dark:from-purple-900/20 dark:to-pink-900/20">
-                        <CardContent className="p-4 sm:p-6">
-                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                <div className="min-w-0 flex-1 space-y-2">
-                                    <div className="flex items-center gap-2">
-                                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-purple-100 sm:h-10 sm:w-10 dark:bg-purple-800">
-                                            <FileText className="h-4 w-4 text-purple-600 sm:h-5 sm:w-5 dark:text-purple-400" />
-                                        </div>
-                                        <h3 className="text-sm font-semibold text-gray-900 sm:text-base dark:text-white">Duplicate</h3>
-                                    </div>
-                                    <p className="text-xs leading-relaxed text-gray-600 sm:text-sm dark:text-gray-400">
-                                        Create a copy of this post as template
-                                    </p>
-                                </div>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="w-full flex-shrink-0 shadow-md transition-all duration-200 hover:shadow-lg sm:w-auto"
-                                >
-                                    <span className="text-xs sm:text-sm">Duplicate</span>
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
             </div>
 
             <DeleteConfirmationDialog

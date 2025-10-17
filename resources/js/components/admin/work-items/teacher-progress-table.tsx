@@ -12,9 +12,10 @@ import { useTranslation } from 'react-i18next';
 interface TeacherProgressTableProps {
     teachers: TeacherWithDirectProps[];
     workItems: WorkItem[];
+    userRole?: string;
 }
 
-export function TeacherProgressTable({ teachers, workItems }: TeacherProgressTableProps) {
+export function TeacherProgressTable({ teachers, workItems, userRole }: TeacherProgressTableProps) {
     const { t } = useTranslation('common');
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -170,11 +171,17 @@ export function TeacherProgressTable({ teachers, workItems }: TeacherProgressTab
                                                 title={t('work_items_management.table.action_titles.view_details')}
                                                 asChild
                                             >
-                                                <Link href={route('headmaster.staff-overview.show', teacher.id)}>
+                                                <Link
+                                                    href={
+                                                        userRole === 'super_admin'
+                                                            ? route('admin.staff-overview.show', teacher.id)
+                                                            : route('headmaster.staff-overview.show', teacher.id)
+                                                    }
+                                                >
                                                     <Eye className="h-4 w-4" />
                                                 </Link>
                                             </Button>
-                                            {progress.totalFiles > 0 && (
+                                            {progress.totalFiles > 0 && userRole === 'headmaster' && (
                                                 <Button
                                                     variant="ghost"
                                                     size="sm"

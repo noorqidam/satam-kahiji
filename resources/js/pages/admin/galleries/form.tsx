@@ -15,6 +15,7 @@ import { Head, Link, router, useForm } from '@inertiajs/react';
 import axios from 'axios';
 import { Eye, FileText, ImageIcon, Save, Settings, Trash2, Upload } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as v from 'valibot';
 
 // Extend Window interface to include gallery files storage
@@ -77,19 +78,20 @@ interface GalleryFormData {
 
 export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
     const { toast } = useToast();
+    const { t } = useTranslation();
     const isEditing = !!gallery;
 
     const breadcrumbs: BreadcrumbItem[] = isEditing
         ? [
               { title: 'Admin Dashboard', href: route('admin.dashboard') },
-              { title: 'Gallery Management', href: route('admin.galleries.index') },
+              { title: t('gallery_management.header.title'), href: route('admin.galleries.index') },
               { title: gallery.title, href: route('admin.galleries.show', gallery.id) },
-              { title: 'Edit', href: route('admin.galleries.edit', gallery.id) },
+              { title: t('gallery_management.edit.title'), href: route('admin.galleries.edit', gallery.id) },
           ]
         : [
               { title: 'Admin Dashboard', href: route('admin.dashboard') },
-              { title: 'Gallery Management', href: route('admin.galleries.index') },
-              { title: 'Create Gallery', href: route('admin.galleries.create') },
+              { title: t('gallery_management.header.title'), href: route('admin.galleries.index') },
+              { title: t('gallery_management.create.title'), href: route('admin.galleries.create') },
           ];
 
     const [publishNow, setPublishNow] = useState(gallery?.is_published || false);
@@ -132,7 +134,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
     });
 
     const GallerySchema = v.object({
-        title: v.pipe(v.string(), v.trim(), v.minLength(1, 'Title is required')),
+        title: v.pipe(v.string(), v.trim(), v.minLength(1, t('gallery_management.create.form.validation.title_required'))),
         description: v.optional(v.string()),
         featured_image: v.optional(v.string()),
         is_published: v.boolean(),
@@ -227,8 +229,8 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
 
         if (uniqueFiles.length === 0) {
             toast({
-                title: 'No New Files',
-                description: 'All selected files are already in the gallery.',
+                title: t('gallery_management.show.items.empty_state.no_matches'),
+                description: t('gallery_management.show.items.empty_state.adjust_search'),
                 variant: 'default',
             });
             return;
@@ -404,8 +406,8 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                 if (result.gallery) {
                     targetGalleryId = result.gallery.id;
                     toast({
-                        title: 'Gallery Created',
-                        description: 'Gallery created successfully. Now uploading items...',
+                        title: t('gallery_management.create.success'),
+                        description: t('gallery_management.show.drive_picker.uploading'),
                         variant: 'success',
                     });
                 } else {
@@ -415,8 +417,8 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                 setIsSubmitting(false);
                 setLoadingStep('');
                 toast({
-                    title: 'Error',
-                    description: error instanceof Error ? error.message : 'Failed to create gallery',
+                    title: t('gallery_management.create.error'),
+                    description: error instanceof Error ? error.message : t('gallery_management.create.error'),
                     variant: 'destructive',
                 });
                 return;
@@ -445,8 +447,8 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
 
             try {
                 toast({
-                    title: 'Uploading Files',
-                    description: `Uploading ${itemsToUpload.length} files to Google Drive...`,
+                    title: t('gallery_management.show.drive_picker.upload.uploading'),
+                    description: `${t('gallery_management.show.drive_picker.upload.uploading')} ${itemsToUpload.length} files...`,
                     variant: 'default',
                 });
 
@@ -683,8 +685,8 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                     setLoadingStep('');
 
                     toast({
-                        title: 'Success',
-                        description: 'Gallery updated successfully',
+                        title: t('gallery_management.edit.success'),
+                        description: t('gallery_management.edit.success'),
                         variant: 'success',
                     });
                 },
@@ -692,8 +694,8 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                     setIsSubmitting(false);
                     setLoadingStep('');
                     toast({
-                        title: 'Error',
-                        description: 'Failed to update gallery. Please check the form for errors.',
+                        title: t('gallery_management.edit.error'),
+                        description: t('gallery_management.edit.error'),
                         variant: 'destructive',
                     });
                 },
@@ -706,8 +708,8 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                     setLoadingStep('Uploading featured image...');
                     try {
                         toast({
-                            title: 'Uploading Featured Image',
-                            description: 'Gallery created successfully. Uploading featured image...',
+                            title: t('gallery_management.show.drive_picker.upload.uploading'),
+                            description: t('gallery_management.create.success'),
                             variant: 'default',
                         });
 
@@ -746,8 +748,8 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                         setLoadingStep('');
 
                         toast({
-                            title: 'Success',
-                            description: 'Gallery created successfully with all items uploaded to proper folders',
+                            title: t('gallery_management.create.success'),
+                            description: t('gallery_management.create.success'),
                             variant: 'success',
                         });
 
@@ -761,8 +763,8 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                         setLoadingStep('');
 
                         toast({
-                            title: 'Warning',
-                            description: `${errors} Gallery created but failed to save final data. You may need to edit the gallery.`,
+                            title: t('gallery_management.create.error'),
+                            description: t('gallery_management.create.error'),
                             variant: 'destructive',
                         });
                     },
@@ -773,7 +775,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={isEditing ? `Edit Gallery - ${gallery?.title}` : 'Create Gallery'} />
+            <Head title={isEditing ? `${t('gallery_management.edit.title')} - ${gallery?.title}` : t('gallery_management.create.title')} />
 
             <div className="w-full max-w-none space-y-4 px-3 sm:px-4 md:px-6 lg:px-8">
                 {/* Modern Header with Gradient */}
@@ -786,12 +788,10 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                             </div>
                             <div className="space-y-1 sm:space-y-2">
                                 <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl md:text-3xl lg:text-4xl dark:text-white">
-                                    {isEditing ? 'Edit Gallery' : 'Create New Gallery'}
+                                    {isEditing ? t('gallery_management.edit.title') : t('gallery_management.create.title')}
                                 </h1>
                                 <p className="max-w-2xl text-sm text-gray-600 sm:text-base md:text-lg dark:text-gray-300">
-                                    {isEditing
-                                        ? 'Update gallery details, manage media, and organize your collection'
-                                        : 'Build a stunning gallery with images and videos from Google Drive'}
+                                    {isEditing ? t('gallery_management.edit.description') : t('gallery_management.create.description')}
                                 </p>
                                 {isEditing && (
                                     <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500 sm:gap-4 sm:text-sm dark:text-gray-400">
@@ -801,7 +801,11 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                                         </div>
                                         <div className="flex items-center gap-1">
                                             <Eye className="h-4 w-4" />
-                                            <span>{gallery!.is_published ? 'Published' : 'Draft'}</span>
+                                            <span>
+                                                {gallery!.is_published
+                                                    ? t('gallery_management.show.overview.published')
+                                                    : t('gallery_management.show.overview.draft')}
+                                            </span>
                                         </div>
                                     </div>
                                 )}
@@ -816,8 +820,8 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                                         className="lg:size-default w-full border border-gray-200 bg-white/80 backdrop-blur-sm hover:bg-white sm:w-auto"
                                     >
                                         <Eye className="mr-1 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />
-                                        <span className="hidden sm:inline">View Gallery</span>
-                                        <span className="sm:hidden">View</span>
+                                        <span className="hidden sm:inline">{t('gallery_management.actions.view_gallery')}</span>
+                                        <span className="sm:hidden">{t('gallery_management.actions.view_gallery')}</span>
                                     </Button>
                                 </Link>
                             </div>
@@ -830,30 +834,34 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                         {/* Main Content - 2/3 width */}
                         <div className="space-y-4 sm:space-y-6 md:space-y-8 lg:col-span-2">
                             {/* Basic Information */}
-                            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-gray-50 shadow-xl dark:from-gray-900 dark:to-gray-800">
+                            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-gray-50 pt-0 shadow-xl dark:from-gray-900 dark:to-gray-800">
                                 <CardHeader className="bg-gradient-to-r from-violet-500 to-indigo-600 p-2 text-white">
                                     <div className="flex items-center gap-3">
                                         <div className="rounded-lg bg-white/20 p-2 backdrop-blur-sm">
                                             <FileText className="h-5 w-5" />
                                         </div>
                                         <div>
-                                            <CardTitle className="text-xl sm:text-2xl">Gallery Information</CardTitle>
-                                            <CardDescription className="text-violet-100">Basic details and settings for your gallery</CardDescription>
+                                            <CardTitle className="text-xl sm:text-2xl">
+                                                {t('gallery_management.create.form.fields.title.label')} Information
+                                            </CardTitle>
+                                            <CardDescription className="text-violet-100">
+                                                {isEditing ? t('gallery_management.edit.description') : t('gallery_management.create.description')}
+                                            </CardDescription>
                                         </div>
                                     </div>
                                 </CardHeader>
-                                <div className="p-4 sm:p-5">
+                                <div className="p-4 pt-0 sm:p-5 sm:pt-0">
                                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                                         <div className="sm:col-span-2">
                                             <Label htmlFor="title" className="text-base font-semibold text-gray-900 dark:text-white">
-                                                Gallery Title *
+                                                {t('gallery_management.create.form.fields.title.label')} *
                                             </Label>
                                             <Input
                                                 id="title"
                                                 type="text"
                                                 value={data.title}
                                                 onChange={(e) => setData('title', e.target.value)}
-                                                placeholder="Enter a descriptive title..."
+                                                placeholder={t('gallery_management.create.form.fields.title.placeholder')}
                                                 className={`mt-2 h-12 text-base ${errors.title || validationErrors.title ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-violet-500'} rounded-lg`}
                                             />
                                             {(errors.title || validationErrors.title) && (
@@ -863,36 +871,38 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
 
                                         <div className="sm:col-span-2">
                                             <Label htmlFor="description" className="text-base font-semibold text-gray-900 dark:text-white">
-                                                Description
+                                                {t('gallery_management.create.form.fields.description.label')}
                                             </Label>
                                             <Textarea
                                                 id="description"
                                                 value={data.description}
                                                 onChange={(e) => setData('description', e.target.value)}
-                                                placeholder="Brief description of your gallery..."
+                                                placeholder={t('gallery_management.create.form.fields.description.placeholder')}
                                                 rows={4}
                                                 className={`mt-2 text-base ${errors.description ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-violet-500'} resize-none rounded-lg`}
                                             />
                                             {errors.description && <p className="mt-2 text-sm text-red-600">{errors.description}</p>}
-                                            <p className="mt-2 text-sm text-gray-500">This will be shown on gallery listings and headers</p>
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                {t('gallery_management.create.form.fields.description.help')}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </Card>
 
                             {/* Gallery Items */}
-                            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-gray-50 shadow-xl dark:from-gray-900 dark:to-gray-800">
+                            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-gray-50 pt-0 shadow-xl dark:from-gray-900 dark:to-gray-800">
                                 <CardHeader className="bg-gradient-to-r from-emerald-500 to-teal-600 p-2 text-white">
                                     <div className="flex items-center gap-3">
                                         <div className="rounded-lg bg-white/20 p-2 backdrop-blur-sm">
                                             <Upload className="h-5 w-5" />
                                         </div>
                                         <div>
-                                            <CardTitle className="text-xl sm:text-2xl">Gallery Items</CardTitle>
+                                            <CardTitle className="text-xl sm:text-2xl">{t('gallery_management.show.items.title')}</CardTitle>
                                             <CardDescription className="text-emerald-100">
                                                 {galleryItems.length === 0
-                                                    ? 'Upload images and videos to your gallery'
-                                                    : `${galleryItems.length} item(s) in your gallery`}
+                                                    ? t('gallery_management.show.items.empty_state.description')
+                                                    : `${galleryItems.length} ${t('gallery_management.show.items.title')}`}
                                             </CardDescription>
                                         </div>
                                     </div>
@@ -903,8 +913,12 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                                             <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900 dark:to-teal-900">
                                                 <Upload className="h-10 w-10 text-emerald-600 dark:text-emerald-400" />
                                             </div>
-                                            <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">Upload Your First Items</h3>
-                                            <p className="mb-6 text-gray-600 dark:text-gray-400">Drag and drop files or click to browse</p>
+                                            <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
+                                                {t('gallery_management.show.items.add_items')}
+                                            </h3>
+                                            <p className="mb-6 text-gray-600 dark:text-gray-400">
+                                                {t('gallery_management.show.items.empty_state.description')}
+                                            </p>
                                             <FileDropzone
                                                 onFileSelect={handleBulkFileUpload}
                                                 accept={{
@@ -1047,7 +1061,9 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                                                                     <div className="absolute inset-0 flex items-center justify-center">
                                                                         <div className="text-center">
                                                                             <Upload className="mx-auto mb-2 h-8 w-8 text-gray-400" />
-                                                                            <span className="text-sm text-gray-500">Click to add</span>
+                                                                            <span className="text-sm text-gray-500">
+                                                                                {t('gallery_management.show.items.add_items')}
+                                                                            </span>
                                                                         </div>
                                                                     </div>
                                                                 )}
@@ -1060,7 +1076,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                                                                         variant="destructive"
                                                                         onClick={() => removeGalleryItem(item.id)}
                                                                         className="h-8 w-8 p-0"
-                                                                        title="Delete item"
+                                                                        title={t('gallery_management.show.items.item_actions.delete')}
                                                                     >
                                                                         <Trash2 className="h-4 w-4" />
                                                                     </Button>
@@ -1070,7 +1086,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                                                                 {item.is_featured && (
                                                                     <div className="absolute top-2 left-2">
                                                                         <div className="rounded-full bg-yellow-500 px-2 py-1 text-xs font-medium text-white">
-                                                                            Featured
+                                                                            {t('gallery_management.list.filters.featured')}
                                                                         </div>
                                                                     </div>
                                                                 )}
@@ -1080,26 +1096,26 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                                                             <div className="space-y-2 p-3 sm:space-y-3 sm:p-4">
                                                                 <div>
                                                                     <Label htmlFor={`item-title-${item.id}`} className="text-sm font-medium">
-                                                                        Title
+                                                                        {t('gallery_management.list.table.columns.title')}
                                                                     </Label>
                                                                     <Input
                                                                         id={`item-title-${item.id}`}
                                                                         value={item.title}
                                                                         onChange={(e) => updateGalleryItem(item.id, 'title', e.target.value)}
-                                                                        placeholder="Enter title..."
+                                                                        placeholder={t('gallery_management.create.form.fields.title.placeholder')}
                                                                         className="mt-1 h-8 text-sm sm:h-9 sm:text-base"
                                                                     />
                                                                 </div>
 
                                                                 <div>
                                                                     <Label htmlFor={`item-caption-${item.id}`} className="text-sm font-medium">
-                                                                        Caption
+                                                                        {t('gallery_management.show.items.search_placeholder')}
                                                                     </Label>
                                                                     <Textarea
                                                                         id={`item-caption-${item.id}`}
                                                                         value={item.caption}
                                                                         onChange={(e) => updateGalleryItem(item.id, 'caption', e.target.value)}
-                                                                        placeholder="Add caption..."
+                                                                        placeholder={t('gallery_management.show.items.search_placeholder')}
                                                                         rows={2}
                                                                         className="mt-1 resize-none text-xs sm:text-sm"
                                                                     />
@@ -1112,7 +1128,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                                                                             updateGalleryItem(item.id, 'is_featured', checked)
                                                                         }
                                                                     />
-                                                                    <Label className="text-sm">Featured Item</Label>
+                                                                    <Label className="text-sm">{t('gallery_management.list.filters.featured')}</Label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1145,19 +1161,23 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                         {/* Sidebar - 1/3 width */}
                         <div className="space-y-4 sm:space-y-6 lg:col-span-1">
                             {/* Featured Image */}
-                            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-gray-50 shadow-xl dark:from-gray-900 dark:to-gray-800">
+                            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-gray-50 pt-0 shadow-xl dark:from-gray-900 dark:to-gray-800">
                                 <CardHeader className="bg-gradient-to-r from-amber-500 to-orange-600 p-2 text-white">
                                     <div className="flex items-center gap-3">
                                         <div className="rounded-lg bg-white/20 p-2 backdrop-blur-sm">
                                             <ImageIcon className="h-5 w-5" />
                                         </div>
                                         <div>
-                                            <CardTitle className="text-base sm:text-lg">Featured Image</CardTitle>
-                                            <CardDescription className="text-sm text-amber-100">Gallery thumbnail</CardDescription>
+                                            <CardTitle className="text-base sm:text-lg">
+                                                {t('gallery_management.create.form.fields.featured_image.label')}
+                                            </CardTitle>
+                                            <CardDescription className="text-sm text-amber-100">
+                                                {t('gallery_management.create.form.fields.featured_image.help')}
+                                            </CardDescription>
                                         </div>
                                     </div>
                                 </CardHeader>
-                                <div className="p-4">
+                                <div className="px-4 pt-0 pb-4">
                                     <FeaturedImageDropzone
                                         galleryId={gallery?.id || null}
                                         currentImageUrl={featuredImageUrl}
@@ -1169,42 +1189,50 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                             </Card>
 
                             {/* Settings */}
-                            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-gray-50 shadow-xl dark:from-gray-900 dark:to-gray-800">
+                            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-gray-50 pt-0 shadow-xl dark:from-gray-900 dark:to-gray-800">
                                 <CardHeader className="bg-gradient-to-r from-blue-500 to-indigo-600 p-2 text-white">
                                     <div className="flex items-center gap-3">
                                         <div className="rounded-lg bg-white/20 p-2 backdrop-blur-sm">
                                             <Settings className="h-5 w-5" />
                                         </div>
                                         <div>
-                                            <CardTitle className="text-base sm:text-lg">Settings</CardTitle>
-                                            <CardDescription className="text-sm text-blue-100">Gallery configuration</CardDescription>
+                                            <CardTitle className="text-base sm:text-lg">{t('gallery_management.show.tabs.settings')}</CardTitle>
+                                            <CardDescription className="text-sm text-blue-100">
+                                                {t('gallery_management.show.tabs.settings')}
+                                            </CardDescription>
                                         </div>
                                     </div>
                                 </CardHeader>
-                                <div className="space-y-3 p-3 sm:space-y-4 sm:p-4">
+                                <div className="space-y-3 px-3 pt-0 pb-3 sm:space-y-4 sm:px-4 sm:pt-0 sm:pb-4">
                                     <div>
                                         <Label htmlFor="sort_order" className="text-sm font-medium">
-                                            Display Order
+                                            {t('gallery_management.create.form.fields.sort_order.label')}
                                         </Label>
                                         <Input
                                             id="sort_order"
                                             type="number"
                                             value={data.sort_order}
                                             onChange={(e) => setData('sort_order', parseInt(e.target.value) || 0)}
-                                            placeholder="0"
+                                            placeholder={t('gallery_management.create.form.fields.sort_order.placeholder')}
                                             min={0}
                                             className={`mt-1 ${errors.sort_order ? 'border-red-500' : ''}`}
                                         />
                                         {errors.sort_order && <p className="mt-1 text-sm text-red-600">{errors.sort_order}</p>}
-                                        <p className="mt-1 text-xs text-gray-500">Lower numbers appear first</p>
+                                        <p className="mt-1 text-xs text-gray-500">{t('gallery_management.create.form.fields.sort_order.help')}</p>
                                     </div>
 
                                     <Separator />
 
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-0.5">
-                                            <Label className="text-base font-medium">Publish Status</Label>
-                                            <p className="text-sm text-gray-500">{publishNow ? 'Gallery will be public' : 'Save as draft'}</p>
+                                            <Label className="text-base font-medium">
+                                                {t('gallery_management.create.form.fields.is_published.label')}
+                                            </Label>
+                                            <p className="text-sm text-gray-500">
+                                                {publishNow
+                                                    ? t('gallery_management.show.overview.published')
+                                                    : t('gallery_management.show.overview.draft')}
+                                            </p>
                                         </div>
                                         <Switch checked={publishNow} onCheckedChange={setPublishNow} className="data-[state=checked]:bg-green-600" />
                                     </div>
@@ -1213,22 +1241,22 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                                         <Alert>
                                             <AlertDescription>
                                                 {publishNow
-                                                    ? '✅ Gallery will be made public after saving'
-                                                    : '📝 Gallery will be unpublished after saving'}
+                                                    ? `✅ ${t('gallery_management.actions.publish')}`
+                                                    : `📝 ${t('gallery_management.actions.unpublish')}`}
                                             </AlertDescription>
                                         </Alert>
                                     )}
 
                                     {!isEditing && !publishNow && (
                                         <Alert>
-                                            <AlertDescription>📝 Gallery will be saved as draft and can be published later</AlertDescription>
+                                            <AlertDescription>📝 {t('gallery_management.create.form.buttons.save_draft')}</AlertDescription>
                                         </Alert>
                                     )}
                                 </div>
                             </Card>
 
                             {/* Actions */}
-                            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-gray-50 p-3 shadow-xl sm:p-4 dark:from-gray-900 dark:to-gray-800">
+                            <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-gray-50 px-3 pt-0 pb-3 shadow-xl sm:px-4 sm:pt-0 sm:pb-4 dark:from-gray-900 dark:to-gray-800">
                                 <div className="space-y-2 sm:space-y-3">
                                     <Button
                                         type="submit"
@@ -1244,15 +1272,21 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                                         ) : (
                                             <div className="flex items-center gap-1 sm:gap-2">
                                                 <Save className="h-4 w-4 sm:h-5 sm:w-5" />
-                                                <span className="hidden sm:inline">{isEditing ? 'Update Gallery' : 'Create Gallery'}</span>
-                                                <span className="sm:hidden">{isEditing ? 'Update' : 'Create'}</span>
+                                                <span className="hidden sm:inline">
+                                                    {isEditing ? t('gallery_management.edit.title') : t('gallery_management.create.title')}
+                                                </span>
+                                                <span className="sm:hidden">
+                                                    {isEditing
+                                                        ? t('gallery_management.actions.edit_gallery')
+                                                        : t('gallery_management.actions.create_gallery')}
+                                                </span>
                                             </div>
                                         )}
                                     </Button>
 
                                     <Link href={route('admin.galleries.index')} className="w-full">
                                         <Button variant="outline" className="h-10 w-full text-sm font-medium sm:h-12 sm:text-base" type="button">
-                                            Cancel
+                                            {t('gallery_management.create.form.buttons.cancel')}
                                         </Button>
                                     </Link>
                                 </div>
@@ -1262,7 +1296,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                             {isEditing && (
                                 <Card className="overflow-hidden border-0 bg-gradient-to-br from-white to-gray-50 shadow-xl dark:from-gray-900 dark:to-gray-800">
                                     <CardHeader className="pb-1">
-                                        <CardTitle className="text-sm sm:text-base">Gallery Details</CardTitle>
+                                        <CardTitle className="text-sm sm:text-base">{t('gallery_management.show.overview.status')}</CardTitle>
                                     </CardHeader>
                                     <div className="space-y-2 p-3 pt-0 sm:space-y-3 sm:p-4 sm:pt-1">
                                         <div className="grid grid-cols-1 gap-2 text-xs sm:gap-3 sm:text-sm">
@@ -1273,11 +1307,15 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                                                 </p>
                                             </div>
                                             <div>
-                                                <Label className="text-gray-600 dark:text-gray-400">Created</Label>
+                                                <Label className="text-gray-600 dark:text-gray-400">
+                                                    {t('gallery_management.show.overview.created')}
+                                                </Label>
                                                 <p>{new Date(gallery!.created_at).toLocaleDateString()}</p>
                                             </div>
                                             <div>
-                                                <Label className="text-gray-600 dark:text-gray-400">Last Updated</Label>
+                                                <Label className="text-gray-600 dark:text-gray-400">
+                                                    {t('gallery_management.show.overview.updated')}
+                                                </Label>
                                                 <p>{new Date(gallery!.updated_at).toLocaleDateString()}</p>
                                             </div>
                                         </div>
@@ -1298,15 +1336,19 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
                             <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-violet-600"></div>
 
                             {/* Current Step */}
-                            <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Processing Gallery</h3>
+                            <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+                                {isEditing ? t('gallery_management.edit.title') : t('gallery_management.create.title')}
+                            </h3>
 
-                            <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">{loadingStep || 'Please wait...'}</p>
+                            <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                                {loadingStep || t('gallery_management.show.drive_picker.loading')}
+                            </p>
 
                             {/* Progress Bar for File Uploads */}
                             {uploadProgress.total > 0 && (
                                 <div className="mb-4">
                                     <div className="mb-2 flex justify-between text-xs text-gray-600 dark:text-gray-400">
-                                        <span>File Upload Progress</span>
+                                        <span>{t('gallery_management.show.drive_picker.upload.uploading')}</span>
                                         <span>
                                             {uploadProgress.current} of {uploadProgress.total}
                                         </span>
@@ -1324,9 +1366,7 @@ export default function GalleryForm({ gallery }: { gallery?: Gallery }) {
 
                             {/* Warning Message */}
                             <div className="rounded-lg bg-amber-50 p-3 dark:bg-amber-900/20">
-                                <p className="text-xs text-amber-700 dark:text-amber-300">
-                                    Please don't close this window or navigate away. Multiple operations are in progress.
-                                </p>
+                                <p className="text-xs text-amber-700 dark:text-amber-300">{t('gallery_management.show.drive_picker.loading')}</p>
                             </div>
                         </div>
                     </div>

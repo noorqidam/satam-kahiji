@@ -7,6 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle, Check, FileImage, ImageIcon, Loader2, Play, Search, Upload, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface DriveFile {
     id: string;
@@ -40,6 +41,7 @@ export default function GalleryDrivePicker({
     fileTypes = ['image', 'video'],
     trigger,
 }: GalleryDrivePickerProps) {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [files, setFiles] = useState<DriveFile[]>([]);
     const [loading, setLoading] = useState(false);
@@ -231,14 +233,14 @@ export default function GalleryDrivePicker({
 
             <DialogContent className="max-h-[80vh] max-w-4xl">
                 <DialogHeader>
-                    <DialogTitle>Gallery Files</DialogTitle>
-                    <DialogDescription>Browse or upload files for this gallery. Files are stored in your Google Drive.</DialogDescription>
+                    <DialogTitle>{t('gallery_management.show.drive_picker.title')}</DialogTitle>
+                    <DialogDescription>{t('gallery_management.show.drive_picker.description')}</DialogDescription>
                 </DialogHeader>
 
                 <Tabs defaultValue="browse" className="w-full">
                     <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="browse">Browse Files</TabsTrigger>
-                        <TabsTrigger value="upload">Upload New</TabsTrigger>
+                        <TabsTrigger value="browse">{t('gallery_management.show.drive_picker.tabs.browse')}</TabsTrigger>
+                        <TabsTrigger value="upload">{t('gallery_management.show.drive_picker.tabs.upload')}</TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="browse" className="space-y-4">
@@ -246,7 +248,7 @@ export default function GalleryDrivePicker({
                         <div className="relative">
                             <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
-                                placeholder="Search files..."
+                                placeholder={t('gallery_management.show.drive_picker.search_placeholder')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="pl-9"
@@ -268,16 +270,16 @@ export default function GalleryDrivePicker({
                         {loading ? (
                             <div className="flex items-center justify-center py-12">
                                 <Loader2 className="mr-2 h-6 w-6 animate-spin" />
-                                Loading files...
+                                {t('gallery_management.show.drive_picker.loading')}
                             </div>
                         ) : filteredFiles.length === 0 ? (
                             <div className="py-12 text-center">
                                 <ImageIcon className="mx-auto mb-4 h-12 w-12 text-gray-400" />
                                 <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                                    {searchQuery ? 'No files match your search' : 'No files in this gallery yet'}
+                                    {searchQuery ? t('gallery_management.show.items.empty_state.no_matches') : t('gallery_management.show.items.empty_state.title')}
                                 </p>
                                 <p className="text-gray-600 dark:text-gray-400">
-                                    {searchQuery ? 'Try adjusting your search terms' : 'Upload some files to get started'}
+                                    {searchQuery ? t('gallery_management.show.items.empty_state.adjust_search') : t('gallery_management.show.items.empty_state.description')}
                                 </p>
                             </div>
                         ) : (
@@ -290,14 +292,14 @@ export default function GalleryDrivePicker({
                         {multiSelect && selectedFileIds.size > 0 && (
                             <div className="flex items-center justify-between rounded-md border border-blue-200 bg-blue-50 p-3">
                                 <span className="text-sm text-blue-800">
-                                    {selectedFileIds.size} file{selectedFileIds.size === 1 ? '' : 's'} selected
+                                    {selectedFileIds.size} {t('gallery_management.show.drive_picker.selection.files_selected')}
                                 </span>
                                 <div className="flex gap-2">
                                     <Button variant="ghost" size="sm" onClick={() => setSelectedFileIds(new Set())}>
-                                        Clear
+                                        {t('gallery_management.show.drive_picker.selection.clear')}
                                     </Button>
                                     <Button size="sm" onClick={handleConfirmSelection}>
-                                        Use Selected
+                                        {t('gallery_management.show.drive_picker.selection.use_selected')}
                                     </Button>
                                 </div>
                             </div>
@@ -309,13 +311,13 @@ export default function GalleryDrivePicker({
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                     <Upload className="h-5 w-5" />
-                                    Upload New File
+                                    {t('gallery_management.show.drive_picker.upload.title')}
                                 </CardTitle>
-                                <CardDescription>Upload images or videos to this gallery's Google Drive folder</CardDescription>
+                                <CardDescription>{t('gallery_management.show.drive_picker.upload.description')}</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div>
-                                    <Label htmlFor="file-upload">Select File ({fileTypes.join(', ')})</Label>
+                                    <Label htmlFor="file-upload">{t('gallery_management.show.drive_picker.upload.select_file')} ({fileTypes.join(', ')})</Label>
                                     <Input
                                         id="file-upload"
                                         type="file"
@@ -335,12 +337,12 @@ export default function GalleryDrivePicker({
                                 {uploading && (
                                     <div className="flex items-center gap-2 text-sm text-blue-600">
                                         <Loader2 className="h-4 w-4 animate-spin" />
-                                        Uploading to Google Drive...
+                                        {t('gallery_management.show.drive_picker.upload.uploading')}
                                     </div>
                                 )}
 
                                 <p className="text-sm text-muted-foreground">
-                                    Maximum file size: 20MB. Supported formats: JPEG, PNG, GIF, WebP, MP4, MOV, AVI, MKV, WebM
+                                    {t('gallery_management.show.drive_picker.upload.max_size')}
                                 </p>
                             </CardContent>
                         </Card>

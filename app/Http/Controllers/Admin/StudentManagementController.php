@@ -6,6 +6,7 @@ use App\Services\PhotoHandler;
 use App\Http\Controllers\Controller;
 use App\Models\SchoolClass;
 use App\Models\Student;
+use App\Models\StudentAchievement;
 use App\Models\Staff;
 use App\Models\Extracurricular;
 use Illuminate\Http\Request;
@@ -112,6 +113,10 @@ class StudentManagementController extends Controller
             'staff' => $staff,
             'availableClasses' => $availableClasses,
             'extracurriculars' => $extracurriculars,
+            'recordOptions' => [
+                'achievement_types' => StudentAchievement::ACHIEVEMENT_TYPES,
+                'achievement_levels' => StudentAchievement::LEVELS,
+            ],
         ]);
     }
 
@@ -212,17 +217,96 @@ class StudentManagementController extends Controller
                                 ->orderBy('name')
                                 ->get();
 
+        // Load student relationships for records display
+        $student->load([
+            'extracurriculars', 
+            'homeroomTeacher',
+            'positiveNotes.staff',
+            'disciplinaryRecords.staff', 
+            'extracurricularHistory.extracurricular',
+            'achievements',
+            'documents'
+        ]);
+
         // Format the birth_date for the HTML input
         $studentData = $student->toArray();
         if ($student->birth_date) {
             $studentData['birth_date'] = $student->birth_date->format('Y-m-d');
         }
 
+        // Add formatted student records data to the response
+        $studentData['positive_notes'] = $student->positiveNotes->map(function ($note) {
+            return [
+                'id' => $note->id,
+                'note' => $note->note,
+                'category' => $note->category,
+                'date' => $note->date->format('Y-m-d'),
+                'staff_name' => $note->staff->name,
+                'created_at' => $note->created_at->format('Y-m-d H:i'),
+            ];
+        });
+
+        $studentData['disciplinary_records'] = $student->disciplinaryRecords->map(function ($record) {
+            return [
+                'id' => $record->id,
+                'incident_type' => $record->incident_type,
+                'incident_description' => $record->description,
+                'action_taken' => $record->action_taken,
+                'severity' => $record->severity,
+                'incident_date' => $record->date->format('Y-m-d'),
+                'staff_name' => $record->staff->name,
+                'created_at' => $record->created_at->format('Y-m-d H:i'),
+            ];
+        });
+
+        $studentData['documents'] = $student->documents->map(function ($document) {
+            return [
+                'id' => $document->id,
+                'title' => $document->title,
+                'category_name' => $document->category_name ?? 'General',
+                'uploaded_at' => $document->uploaded_at?->format('Y-m-d H:i') ?? $document->created_at->format('Y-m-d H:i'),
+                'file_path' => $document->file_path,
+                'file_name' => $document->file_name,
+                'mime_type' => $document->mime_type,
+                'file_size' => $document->file_size,
+            ];
+        });
+
+        $studentData['achievements'] = $student->achievements->map(function ($achievement) {
+            return [
+                'id' => $achievement->id,
+                'achievement_type' => $achievement->achievement_type,
+                'achievement_name' => $achievement->achievement_name,
+                'description' => $achievement->description,
+                'date_achieved' => $achievement->date_achieved->format('Y-m-d'),
+                'level' => $achievement->level,
+                'score_value' => $achievement->score_value,
+                'issuing_organization' => $achievement->issuing_organization,
+                'created_at' => $achievement->created_at->format('Y-m-d H:i'),
+            ];
+        });
+
+        $studentData['extracurricular_history'] = $student->extracurricularHistory->map(function ($history) {
+            return [
+                'id' => $history->id,
+                'extracurricular_name' => $history->extracurricular->name,
+                'academic_year' => $history->academic_year,
+                'role' => $history->role,
+                'start_date' => $history->start_date->format('Y-m-d'),
+                'end_date' => $history->end_date?->format('Y-m-d'),
+                'performance_notes' => $history->performance_notes,
+            ];
+        });
+
         return Inertia::render('admin/students/edit', [
             'student' => $studentData,
             'staff' => $staff,
             'availableClasses' => $availableClasses,
             'extracurriculars' => $extracurriculars,
+            'recordOptions' => [
+                'achievement_types' => StudentAchievement::ACHIEVEMENT_TYPES,
+                'achievement_levels' => StudentAchievement::LEVELS,
+            ],
         ]);
     }
 

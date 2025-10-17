@@ -1,10 +1,11 @@
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import type { UserRole } from '@/constants/roles';
 import type { User as UserType } from '@/types/user';
-import { Link } from '@inertiajs/react';
-import { Plus, User } from 'lucide-react';
+import { User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { UserTableRow } from './UserTableRow';
+
+// Import i18n to ensure it's initialized
 
 interface UserTableProps {
     users: UserType[];
@@ -33,18 +34,13 @@ export function UserTable({
     onDeleteUser,
     isLoading,
 }: UserTableProps) {
+    const { t } = useTranslation();
     if (users.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center py-12">
                 <User className="h-12 w-12 text-gray-400" />
-                <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">No users found</h3>
-                <p className="mt-2 text-gray-600 dark:text-gray-400">Get started by adding a new user.</p>
-                <Link href={route('admin.users.create')} className="mt-4">
-                    <Button>
-                        <Plus className="mr-2 h-4 w-4" />
-                        Add User
-                    </Button>
-                </Link>
+                <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">{t('user_management.table.no_users_found')}</h3>
+                <p className="mt-2 text-gray-600 dark:text-gray-400">{t('user_management.table.get_started')}</p>
             </div>
         );
     }
@@ -62,15 +58,21 @@ export function UserTable({
                                 className="border-gray-300 data-[state=checked]:bg-gray-500 data-[state=checked]:text-white"
                             />
                         </th>
-                        <th className="min-w-[120px] px-2 py-3 text-left font-medium text-gray-400 sm:px-4 dark:text-gray-400">Name</th>
+                        <th className="min-w-[120px] px-2 py-3 text-left font-medium text-gray-400 sm:px-4 dark:text-gray-400">
+                            {t('user_management.table.name')}
+                        </th>
                         <th className="hidden min-w-[150px] px-2 py-3 text-left font-medium text-gray-400 sm:table-cell sm:px-4 dark:text-gray-400">
-                            Email
+                            {t('user_management.table.email')}
                         </th>
-                        <th className="min-w-[100px] px-2 py-3 text-left font-medium text-gray-400 sm:px-4 dark:text-gray-400">Role</th>
+                        <th className="min-w-[100px] px-2 py-3 text-left font-medium text-gray-400 sm:px-4 dark:text-gray-400">
+                            {t('user_management.table.role')}
+                        </th>
                         <th className="hidden min-w-[100px] px-2 py-3 text-left font-medium text-gray-400 sm:px-4 md:table-cell dark:text-gray-400">
-                            Created
+                            {t('user_management.table.created')}
                         </th>
-                        <th className="min-w-[120px] px-2 py-3 text-right font-medium text-gray-400 sm:px-4 dark:text-gray-400">Actions</th>
+                        <th className="min-w-[120px] px-2 py-3 text-right font-medium text-gray-400 sm:px-4 dark:text-gray-400">
+                            {t('user_management.table.actions')}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

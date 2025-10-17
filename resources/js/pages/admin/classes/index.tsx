@@ -1,7 +1,3 @@
-import { Head, Link } from '@inertiajs/react';
-import { BookOpen, Building, GraduationCap, Plus, Trash2, Users } from 'lucide-react';
-import { useState } from 'react';
-
 import { ClassDisplay } from '@/components/admin/class/class-display';
 import { ClassViewToggle } from '@/components/admin/class/class-view-toggle';
 import { Button } from '@/components/ui/button';
@@ -12,6 +8,10 @@ import { useViewPreference } from '@/hooks/use-view-preference';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
 import type { ClassStats, SchoolClass } from '@/types/class';
+import { Head, Link } from '@inertiajs/react';
+import { BookOpen, Building, GraduationCap, Plus, Trash2, Users } from 'lucide-react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ClassIndexProps {
     classes: SchoolClass[];
@@ -20,15 +20,16 @@ interface ClassIndexProps {
     userRole: string;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Admin Dashboard', href: '/admin/dashboard' },
-    { title: 'Classes', href: '/admin/classes' },
-];
-
 export default function ClassIndex({ classes, classesByGrade, stats }: ClassIndexProps) {
+    const { t } = useTranslation();
     const { toast } = useToast();
     const [selectedClasses, setSelectedClasses] = useState<number[]>([]);
     const [viewMode, setViewMode] = useViewPreference('class-management-view', 'card');
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('classes_management.breadcrumbs.admin_dashboard'), href: '/admin/dashboard' },
+        { title: t('classes_management.breadcrumbs.classes'), href: '/admin/classes' },
+    ];
 
     const { dialogState, isDeleting, openDialog, closeDialog, confirmDelete } = useDeleteDialog({
         onSuccess: () => {
@@ -48,16 +49,16 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                 route('admin.classes.destroy', dialogState.itemId),
                 undefined,
                 undefined,
-                `Class ${dialogState.itemName} deleted successfully`,
-                'Failed to delete class',
+                t('classes_management.messages.delete_success', { className: dialogState.itemName }),
+                t('classes_management.messages.delete_error'),
             );
         } else if (dialogState.type === 'bulk') {
             confirmDelete(
                 '',
                 route('admin.classes.bulk-destroy'),
                 { ids: selectedClasses },
-                'Selected classes deleted successfully',
-                'Failed to delete selected classes',
+                t('classes_management.messages.bulk_delete_success'),
+                t('classes_management.messages.bulk_delete_error'),
             );
         }
     };
@@ -65,8 +66,8 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
     const handleBulkDelete = () => {
         if (selectedClasses.length === 0) {
             toast({
-                title: 'Error',
-                description: 'Please select classes to delete',
+                title: t('common.error'),
+                description: t('classes_management.messages.select_classes_error'),
                 variant: 'destructive',
             });
             return;
@@ -90,7 +91,7 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Class Management" />
+            <Head title={t('classes_management.page_title')} />
 
             <div className="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8 xl:px-10">
                 {/* Enhanced Header */}
@@ -102,8 +103,10 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                                     <Building className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                                 </div>
                                 <div>
-                                    <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl dark:text-gray-100">Class Management</h1>
-                                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Organize and manage junior high school classes</p>
+                                    <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl dark:text-gray-100">
+                                        {t('classes_management.header.title')}
+                                    </h1>
+                                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">{t('classes_management.header.description')}</p>
                                 </div>
                             </div>
 
@@ -111,15 +114,21 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                             <div className="flex flex-wrap items-center gap-4 text-sm">
                                 <div className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
                                     <Building className="h-4 w-4" />
-                                    <span className="font-medium">{stats.total_classes} Total Classes</span>
+                                    <span className="font-medium">
+                                        {stats.total_classes} {t('classes_management.stats.total_classes')}
+                                    </span>
                                 </div>
                                 <div className="flex items-center gap-2 text-green-700 dark:text-green-300">
                                     <GraduationCap className="h-4 w-4" />
-                                    <span className="font-medium">{stats.total_students} Students</span>
+                                    <span className="font-medium">
+                                        {stats.total_students} {t('classes_management.stats.students')}
+                                    </span>
                                 </div>
                                 <div className="flex items-center gap-2 text-purple-700 dark:text-purple-300">
                                     <Users className="h-4 w-4" />
-                                    <span className="font-medium">{stats.classes_with_teachers} With Teachers</span>
+                                    <span className="font-medium">
+                                        {stats.classes_with_teachers} {t('classes_management.stats.with_teachers')}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -134,13 +143,13 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                                 {selectedClasses.length > 0 && (
                                     <Button variant="destructive" onClick={handleBulkDelete} className="flex-1 sm:flex-none" size="sm">
                                         <Trash2 className="mr-2 h-4 w-4" />
-                                        Delete ({selectedClasses.length})
+                                        {t('classes_management.actions.delete')} ({selectedClasses.length})
                                     </Button>
                                 )}
                                 <Link href={route('admin.classes.create')} className="flex-1 sm:flex-none">
-                                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg hover:from-blue-700 hover:to-indigo-700">
+                                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg hover:from-blue-700 hover:to-indigo-700 text-white">
                                         <Plus className="mr-2 h-4 w-4" />
-                                        Add Class
+                                        {t('classes_management.actions.add_class')}
                                     </Button>
                                 </Link>
                             </div>
@@ -153,7 +162,7 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                     <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Classes</p>
+                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('classes_management.stats.total_classes')}</p>
                                 <p className="mt-1 text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.total_classes}</p>
                             </div>
                             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-900/50">
@@ -165,7 +174,7 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                     <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Active Classes</p>
+                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('classes_management.stats.active_classes')}</p>
                                 <p className="mt-1 text-2xl font-bold text-green-600 dark:text-green-400">{stats.active_classes}</p>
                             </div>
                             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-50 dark:bg-green-900/50">
@@ -177,7 +186,7 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                     <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">With Teachers</p>
+                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('classes_management.stats.with_teachers')}</p>
                                 <p className="mt-1 text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.classes_with_teachers}</p>
                             </div>
                             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-50 dark:bg-purple-900/50">
@@ -189,7 +198,7 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                     <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Capacity</p>
+                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('classes_management.stats.total_capacity')}</p>
                                 <p className="mt-1 text-2xl font-bold text-indigo-600 dark:text-indigo-400">{stats.total_capacity}</p>
                             </div>
                             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-900/50">
@@ -201,7 +210,7 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                     <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Students</p>
+                                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('classes_management.stats.total_students')}</p>
                                 <p className="mt-1 text-2xl font-bold text-orange-600 dark:text-orange-400">{stats.total_students}</p>
                             </div>
                             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-50 dark:bg-orange-900/50">
@@ -225,9 +234,13 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                                             <GraduationCap className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                                         </div>
                                         <div>
-                                            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Grade {gradeLevel}</h2>
+                                            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                                {t('classes_management.grade.title', { level: gradeLevel })}
+                                            </h2>
                                             <p className="text-sm text-gray-600 dark:text-gray-400">
-                                                {gradeClasses.length} {gradeClasses.length === 1 ? 'class' : 'classes'}
+                                                {gradeClasses.length === 1
+                                                    ? t('classes_management.grade.class_count', { count: gradeClasses.length })
+                                                    : t('classes_management.grade.class_count_plural', { count: gradeClasses.length })}
                                             </p>
                                         </div>
                                     </div>
@@ -239,7 +252,9 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                                             onClick={() => toggleGradeSelection(gradeClasses.map((c) => c.id))}
                                             className="text-xs"
                                         >
-                                            {gradeClasses.every((c) => selectedClasses.includes(c.id)) ? 'Deselect All' : 'Select All'}
+                                            {gradeClasses.every((c) => selectedClasses.includes(c.id))
+                                                ? t('classes_management.actions.deselect_all')
+                                                : t('classes_management.actions.select_all')}
                                         </Button>
                                     </div>
                                 </div>
@@ -264,34 +279,34 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
                         <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/50">
                             <Building className="h-10 w-10 text-blue-500 dark:text-blue-400" />
                         </div>
-                        <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-gray-100">No classes created yet</h3>
-                        <p className="mx-auto mb-8 max-w-md text-gray-600 dark:text-gray-400">
-                            Get started by creating your first class. Classes help organize students by grade level and section.
-                        </p>
+                        <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-gray-100">{t('classes_management.empty_state.title')}</h3>
+                        <p className="mx-auto mb-8 max-w-md text-gray-600 dark:text-gray-400">{t('classes_management.empty_state.description')}</p>
                         <div className="flex flex-col justify-center gap-3 sm:flex-row">
                             <Link href={route('admin.classes.create')}>
                                 <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg hover:from-blue-700 hover:to-indigo-700">
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Your First Class
+                                    {t('classes_management.actions.create_first_class')}
                                 </Button>
                             </Link>
                         </div>
 
                         {/* Quick tips */}
                         <div className="mt-8 border-t border-gray-200 pt-8 dark:border-gray-700">
-                            <h4 className="mb-3 text-sm font-medium text-gray-900 dark:text-gray-100">Quick Tips:</h4>
+                            <h4 className="mb-3 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {t('classes_management.empty_state.tips.title')}
+                            </h4>
                             <div className="grid grid-cols-1 gap-4 text-sm text-gray-600 sm:grid-cols-3 dark:text-gray-400">
                                 <div className="flex items-center gap-2">
                                     <div className="h-2 w-2 rounded-full bg-blue-500"></div>
-                                    <span>Classes are named like "7A", "8B"</span>
+                                    <span>{t('classes_management.empty_state.tips.naming')}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                                    <span>Set capacity for each class</span>
+                                    <span>{t('classes_management.empty_state.tips.capacity')}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <div className="h-2 w-2 rounded-full bg-purple-500"></div>
-                                    <span>Assign homeroom teachers</span>
+                                    <span>{t('classes_management.empty_state.tips.teachers')}</span>
                                 </div>
                             </div>
                         </div>
@@ -303,11 +318,15 @@ export default function ClassIndex({ classes, classesByGrade, stats }: ClassInde
             <DeleteConfirmationDialog
                 open={dialogState.open}
                 onOpenChange={(open) => !open && closeDialog()}
-                title={dialogState.type === 'single' ? 'Delete Class' : 'Delete Classes'}
+                title={
+                    dialogState.type === 'single'
+                        ? t('classes_management.dialogs.delete_single.title')
+                        : t('classes_management.dialogs.delete_bulk.title')
+                }
                 description={
                     dialogState.type === 'single' && dialogState.itemName
-                        ? `Are you sure you want to delete class "${dialogState.itemName}"? This will remove all associated data and cannot be undone.`
-                        : `Are you sure you want to delete ${selectedClasses.length} selected classes? This will remove all associated data and cannot be undone.`
+                        ? t('classes_management.dialogs.delete_single.description', { className: dialogState.itemName })
+                        : t('classes_management.dialogs.delete_bulk.description', { count: selectedClasses.length })
                 }
                 itemName={dialogState.type === 'single' ? dialogState.itemName : undefined}
                 itemType={dialogState.type === 'single' ? 'class' : 'classes'}

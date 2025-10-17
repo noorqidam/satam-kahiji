@@ -5,8 +5,10 @@ import type { Facility } from '@/types/facility';
 import { generateFacilityBreadcrumbs } from '@/utils/facility';
 import { Head } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function EditFacility({ facility }: { facility: Facility }) {
+    const { t } = useTranslation();
     const [mounted, setMounted] = useState(false);
     const facilityForm = useFacilityForm(facility);
 
@@ -18,7 +20,7 @@ export default function EditFacility({ facility }: { facility: Facility }) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit Facility - ${facility.name}`} />
+            <Head title={`${t('facility_management.form.page_titles.edit')} - ${facility.name}`} />
 
             <div
                 className={`w-full max-w-none space-y-6 px-4 pb-3 transition-all duration-500 sm:px-6 lg:px-8 ${

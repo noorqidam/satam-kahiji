@@ -3,6 +3,9 @@ import { Input } from '@/components/ui/input';
 import { MultiSelectDropdown } from '@/components/ui/multi-select-dropdown';
 import type { StaffDivision, StaffFilters as StaffFiltersType } from '@/types/staff';
 import { Search, Trash2, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
+// Import i18n to ensure it's initialized
 
 interface StaffFiltersProps {
     filters: StaffFiltersType;
@@ -31,6 +34,7 @@ export function StaffFilters({
     onClearFilters,
     onBulkDelete,
 }: StaffFiltersProps) {
+    const { t } = useTranslation();
     return (
         <div className="space-y-4">
             <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4">
@@ -38,18 +42,18 @@ export function StaffFilters({
                     <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
                     <Input
                         type="text"
-                        placeholder="Search by name, position"
+                        placeholder={t('staff_management.actions.search_placeholder')}
                         value={searchValue}
                         onChange={(e) => onSearchChange(e.target.value)}
-                        className="w-full pl-10 sm:w-64"
+                        className="w-full pl-10 placeholder:text-sm sm:w-90 sm:placeholder:text-base"
                     />
                 </div>
-                <div className="w-full sm:w-48">
+                <div className="w-full sm:w-52">
                     <MultiSelectDropdown
                         options={availableDivisions}
                         selected={filters.divisions}
                         onSelectionChange={onDivisionsChange}
-                        placeholder="Filter by divisions"
+                        placeholder={t('staff_management.actions.filter_by_divisions')}
                         getLabel={(division) => divisionLabels[division]}
                     />
                 </div>
@@ -60,7 +64,7 @@ export function StaffFilters({
                     <div className="flex flex-wrap gap-2">
                         {filters.search && (
                             <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
-                                Search: "{filters.search}"
+                                {t('staff_management.filters.search_label')} "{filters.search}"
                             </span>
                         )}
                         {filters.divisions.map((division) => (
@@ -76,13 +80,13 @@ export function StaffFilters({
                         {selectedStaff.length > 0 && (
                             <Button variant="destructive" size="sm" onClick={onBulkDelete} disabled={isLoading}>
                                 <Trash2 className="mr-2 h-4 w-4" />
-                                Delete Selected ({selectedStaff.length})
+                                {t('staff_management.filters.delete_selected_count', { count: selectedStaff.length })}
                             </Button>
                         )}
                         {(filters.search || filters.divisions.length > 0) && (
                             <Button variant="outline" size="sm" onClick={onClearFilters}>
                                 <X className="mr-2 h-4 w-4" />
-                                Clear Filters
+                                {t('staff_management.actions.clear_filters')}
                             </Button>
                         )}
                     </div>

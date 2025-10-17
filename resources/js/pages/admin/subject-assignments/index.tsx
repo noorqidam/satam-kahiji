@@ -1,5 +1,7 @@
 import { Head } from '@inertiajs/react';
 import { LoaderCircle, Save } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,10 +18,6 @@ import { useAssignmentMatrix } from '@/hooks/use-assignment-matrix';
 import { useAssignmentSave } from '@/hooks/use-assignment-save';
 import { useSubjectAssignmentData, type SubjectAssignmentData } from '@/hooks/use-subject-assignment-data';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Admin Dashboard', href: '/admin/dashboard' },
-    { title: 'Subject-Staff Assignments', href: '/admin/subject-assignments' },
-];
 
 interface SubjectAssignmentsProps extends SubjectAssignmentData {
     filters?: {
@@ -29,10 +27,16 @@ interface SubjectAssignmentsProps extends SubjectAssignmentData {
 }
 
 export default function SubjectAssignments({ staff, subjects, filters = {} }: SubjectAssignmentsProps) {
+    const { t } = useTranslation();
     const data = useSubjectAssignmentData({ staff, subjects });
     const matrixHook = useAssignmentMatrix(data);
     const filterHook = useAssignmentFilters(filters);
     const saveHook = useAssignmentSave();
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('class_management.subject_staff_assignments.breadcrumbs.admin_dashboard'), href: '/admin/dashboard' },
+        { title: t('class_management.subject_staff_assignments.breadcrumbs.subject_staff_assignments'), href: '/admin/subject-assignments' },
+    ];
 
     const handleSaveAllAssignments = () => {
         const assignmentsData = matrixHook.getAssignmentsData();
@@ -42,18 +46,18 @@ export default function SubjectAssignments({ staff, subjects, filters = {} }: Su
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Subject-Staff Assignments" />
+            <Head title={t('class_management.subject_staff_assignments.page_title')} />
 
             <div className="space-y-6 px-4 sm:px-6">
                 <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                     <div>
-                        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">Subject-Staff Assignments</h1>
-                        <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">Manage subject assignments for all staff members</p>
+                        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">{t('class_management.subject_staff_assignments.page_title')}</h1>
+                        <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">{t('class_management.subject_staff_assignments.page_description')}</p>
                     </div>
                     <Button onClick={handleSaveAllAssignments} disabled={saveHook.isSaving}>
                         {saveHook.isSaving && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
                         <Save className="mr-2 h-4 w-4" />
-                        Save All Changes
+                        {t('class_management.subject_staff_assignments.actions.save_all_changes')}
                     </Button>
                 </div>
 
@@ -66,14 +70,17 @@ export default function SubjectAssignments({ staff, subjects, filters = {} }: Su
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Assignment Matrix</CardTitle>
+                        <CardTitle>{t('class_management.subject_staff_assignments.matrix.title')}</CardTitle>
                         <div className="text-sm text-gray-600 dark:text-gray-400">
-                            Showing {data.staff.data.length} of {data.staff.total} staff members and {data.subjects.data.length} of{' '}
-                            {data.subjects.total} subjects
+                            {t('class_management.subject_staff_assignments.matrix.showing_count', {
+                                staffCount: data.staff.data.length,
+                                staffTotal: data.staff.total,
+                                subjectCount: data.subjects.data.length,
+                                subjectTotal: data.subjects.total
+                            })}
                         </div>
                         <div className="mt-1 text-xs text-blue-600 dark:text-blue-400">
-                            Note: Only teachers/guru from academic division are displayed as they are the only staff members who can be assigned to
-                            subjects.
+                            {t('class_management.subject_staff_assignments.matrix.note')}
                         </div>
                     </CardHeader>
                     <CardContent>

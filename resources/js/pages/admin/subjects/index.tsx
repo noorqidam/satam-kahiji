@@ -1,6 +1,8 @@
 import { Head, Link } from '@inertiajs/react';
 import { BookOpen, Plus } from 'lucide-react';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -16,12 +18,15 @@ import { SubjectFilters } from '@/components/admin/subject/subject-filters';
 import { SubjectTableRow } from '@/components/admin/subject/subject-table-row';
 import { useSubjectActions, useSubjectDataRefresh, useSubjectFilters, useSubjectSelection } from '@/hooks/use-subject-hooks';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Admin Dashboard', href: '/admin/dashboard' },
-    { title: 'Subject Management', href: '/admin/subjects' },
-];
 
 export default function SubjectIndex({ subjects, filters = { search: '' } }: SubjectIndexProps) {
+    const { t } = useTranslation();
+    
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('subject_management.breadcrumbs.admin_dashboard'), href: '/admin/dashboard' },
+        { title: t('subject_management.breadcrumbs.subject_management'), href: '/admin/subjects' },
+    ];
+    
     const { searchTerm, setSearchTerm, clearFilters } = useSubjectFilters(filters.search);
     const { selectedSubjects, handleSelectAll, handleSelectSubject, clearSelection } = useSubjectSelection(subjects.data);
     const { deleteSubject, bulkDelete, isDeleting } = useSubjectActions();
@@ -47,19 +52,19 @@ export default function SubjectIndex({ subjects, filters = { search: '' } }: Sub
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Subject Management" />
+            <Head title={t('subject_management.page_title')} />
 
             <div className="space-y-6 px-4 sm:px-6">
                 <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                     <div>
-                        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">Subject Management</h1>
-                        <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">Manage subjects and their staff assignments</p>
+                        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">{t('subject_management.header.title')}</h1>
+                        <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">{t('subject_management.header.description')}</p>
                     </div>
                     <Link href={route('admin.subjects.create')}>
                         <Button className="w-full sm:w-auto">
                             <Plus className="mr-2 h-4 w-4" />
-                            <span className="hidden sm:inline">Add New Subject</span>
-                            <span className="sm:hidden">Add Subject</span>
+                            <span className="hidden sm:inline">{t('subject_management.actions.add_subject')}</span>
+                            <span className="sm:hidden">{t('subject_management.actions.add_subject_short')}</span>
                         </Button>
                     </Link>
                 </div>
@@ -87,11 +92,11 @@ export default function SubjectIndex({ subjects, filters = { search: '' } }: Sub
                                                         onCheckedChange={handleSelectAll}
                                                     />
                                                 </th>
-                                                <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">Subject Name</th>
-                                                <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">Code</th>
-                                                <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">Assigned Staff</th>
-                                                <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">Created</th>
-                                                <th className="pb-3 font-medium text-gray-900 dark:text-gray-100">Actions</th>
+                                                <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('subject_management.table.columns.subject_name')}</th>
+                                                <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('subject_management.table.columns.code')}</th>
+                                                <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('subject_management.table.columns.assigned_staff')}</th>
+                                                <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('subject_management.table.columns.created')}</th>
+                                                <th className="pb-3 font-medium text-gray-900 dark:text-gray-100">{t('subject_management.table.columns.actions')}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -117,15 +122,15 @@ export default function SubjectIndex({ subjects, filters = { search: '' } }: Sub
                         ) : (
                             <div className="flex flex-col items-center justify-center py-12">
                                 <BookOpen className="h-12 w-12 text-gray-400" />
-                                <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">No subjects found</h3>
+                                <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">{t('subject_management.empty_state.title')}</h3>
                                 <p className="mt-2 text-gray-600 dark:text-gray-400">
-                                    {searchTerm ? 'Try adjusting your search.' : 'Get started by adding a new subject.'}
+                                    {searchTerm ? t('subject_management.empty_state.description_search') : t('subject_management.empty_state.description_empty')}
                                 </p>
                                 {!searchTerm && (
                                     <Link href={route('admin.subjects.create')} className="mt-4">
                                         <Button>
                                             <Plus className="mr-2 h-4 w-4" />
-                                            Add Subject
+                                            {t('subject_management.empty_state.add_subject')}
                                         </Button>
                                     </Link>
                                 )}
@@ -137,8 +142,8 @@ export default function SubjectIndex({ subjects, filters = { search: '' } }: Sub
 
             <ConfirmationDialog
                 isOpen={showBulkDeleteConfirm}
-                title="Delete Subjects"
-                message={`Are you sure you want to delete <strong>${selectedSubjects.length}</strong> subjects? This action cannot be undone.`}
+                title={t('subject_management.dialogs.bulk_delete.title')}
+                message={t('subject_management.dialogs.bulk_delete.message', { count: selectedSubjects.length })}
                 onConfirm={handleBulkDeleteConfirm}
                 onCancel={() => setShowBulkDeleteConfirm(false)}
                 isLoading={isDeleting}
@@ -146,8 +151,8 @@ export default function SubjectIndex({ subjects, filters = { search: '' } }: Sub
 
             <ConfirmationDialog
                 isOpen={!!subjectToDelete}
-                title="Delete Subject"
-                message={`Are you sure you want to delete <strong>${subjectToDelete?.name}</strong>? This action cannot be undone.`}
+                title={t('subject_management.dialogs.single_delete.title')}
+                message={t('subject_management.dialogs.single_delete.message', { name: subjectToDelete?.name })}
                 onConfirm={handleDeleteSubjectConfirm}
                 onCancel={() => setSubjectToDelete(null)}
                 isLoading={isDeleting}
@@ -156,9 +161,9 @@ export default function SubjectIndex({ subjects, filters = { search: '' } }: Sub
             <Dialog open={!!showSubjectDialog} onOpenChange={() => setShowSubjectDialog(null)}>
                 <DialogContent className="max-w-2xl">
                     <DialogHeader>
-                        <DialogTitle>Subject Details: {showSubjectDialog?.name}</DialogTitle>
+                        <DialogTitle>{t('subject_management.dialogs.subject_details.title', { name: showSubjectDialog?.name })}</DialogTitle>
                         <DialogDescription>
-                            View detailed information about this subject including assigned staff and creation date.
+                            {t('subject_management.dialogs.subject_details.description')}
                         </DialogDescription>
                     </DialogHeader>
                     {showSubjectDialog && (
@@ -179,11 +184,11 @@ export default function SubjectIndex({ subjects, filters = { search: '' } }: Sub
 
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div>
-                                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Assigned Staff</label>
-                                    <p className="text-sm text-gray-900 dark:text-gray-100">{showSubjectDialog.staff_count} staff members</p>
+                                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('subject_management.dialogs.subject_details.labels.assigned_staff')}</label>
+                                    <p className="text-sm text-gray-900 dark:text-gray-100">{t('subject_management.dialogs.subject_details.values.staff_members', { count: showSubjectDialog.staff_count })}</p>
                                 </div>
                                 <div>
-                                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Created</label>
+                                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('subject_management.dialogs.subject_details.labels.created')}</label>
                                     <p className="text-sm text-gray-900 dark:text-gray-100">
                                         {new Date(showSubjectDialog.created_at).toLocaleDateString()}
                                     </p>

@@ -10,8 +10,10 @@ import { formatFacilityMetadata, generateFacilityBreadcrumbs, getImageDisplayUrl
 import { Head, Link } from '@inertiajs/react';
 import { Building2, Calendar, Camera, Clock, Edit, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function FacilityShow({ facility }: { facility: Facility }) {
+    const { t } = useTranslation();
     const [mounted, setMounted] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -33,7 +35,7 @@ export default function FacilityShow({ facility }: { facility: Facility }) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`${facility.name} - Facility Details`} />
+            <Head title={`${facility.name} - ${t('facility_management.show.page_title')}`} />
 
             <div
                 className={`w-full max-w-none space-y-6 px-4 pb-3 transition-all duration-500 sm:px-6 lg:px-8 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
@@ -61,22 +63,22 @@ export default function FacilityShow({ facility }: { facility: Facility }) {
                                 </div>
                                 <div className="text-white">
                                     <h1 className="mb-2 text-3xl font-bold lg:text-4xl">{facility.name}</h1>
-                                    <p className="text-lg text-blue-100">Facility details and information</p>
+                                    <p className="text-lg text-blue-100">{t('facility_management.show.header.description')}</p>
                                     <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-blue-200">
                                         <div className="flex items-center gap-2">
                                             <Calendar className="h-4 w-4" />
-                                            <span>Created {new Date(facility.created_at).toLocaleDateString()}</span>
+                                            <span>{t('facility_management.show.header.created')} {new Date(facility.created_at).toLocaleDateString()}</span>
                                         </div>
                                         {facility.photo && (
                                             <div className="flex items-center gap-2">
                                                 <Camera className="h-4 w-4" />
-                                                <span>Photo Available</span>
+                                                <span>{t('facility_management.show.header.photo_available')}</span>
                                             </div>
                                         )}
                                         {facility.updated_at !== facility.created_at && (
                                             <div className="flex items-center gap-2">
                                                 <Clock className="h-4 w-4" />
-                                                <span>Updated {new Date(facility.updated_at).toLocaleDateString()}</span>
+                                                <span>{t('facility_management.show.header.updated')} {new Date(facility.updated_at).toLocaleDateString()}</span>
                                             </div>
                                         )}
                                     </div>
@@ -90,7 +92,7 @@ export default function FacilityShow({ facility }: { facility: Facility }) {
                                         className="bg-white text-blue-700 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-white/90"
                                     >
                                         <Edit className="mr-2 h-5 w-5" />
-                                        Edit Facility
+                                        {t('facility_management.show.buttons.edit_facility')}
                                     </Button>
                                 </Link>
 
@@ -104,12 +106,12 @@ export default function FacilityShow({ facility }: { facility: Facility }) {
                                     {facilityService.processing ? (
                                         <div className="flex items-center gap-2">
                                             <div className="h-5 w-5 animate-spin rounded-full border-2 border-red-300 border-t-transparent" />
-                                            <span>Deleting...</span>
+                                            <span>{t('facility_management.show.buttons.deleting')}</span>
                                         </div>
                                     ) : (
                                         <>
                                             <Trash2 className="mr-2 h-5 w-5" />
-                                            Delete
+                                            {t('facility_management.show.buttons.delete')}
                                         </>
                                     )}
                                 </Button>
@@ -135,8 +137,8 @@ export default function FacilityShow({ facility }: { facility: Facility }) {
                                         </div>
                                     </div>
                                     <div>
-                                        <CardTitle className="text-2xl font-bold">Facility Information</CardTitle>
-                                        <CardDescription className="mt-1 text-blue-100">Complete details and description</CardDescription>
+                                        <CardTitle className="text-2xl font-bold">{t('facility_management.show.sections.facility_information')}</CardTitle>
+                                        <CardDescription className="mt-1 text-blue-100">{t('facility_management.show.sections.complete_details')}</CardDescription>
                                     </div>
                                 </div>
                             </CardHeader>
@@ -144,12 +146,12 @@ export default function FacilityShow({ facility }: { facility: Facility }) {
                             <CardContent className="relative p-8">
                                 <div className="space-y-6">
                                     <div className="rounded-lg bg-blue-50 p-6 dark:bg-blue-900/20">
-                                        <Label className="text-lg font-bold text-blue-800 dark:text-blue-200">Facility Name</Label>
+                                        <Label className="text-lg font-bold text-blue-800 dark:text-blue-200">{t('facility_management.show.sections.facility_name')}</Label>
                                         <h2 className="mt-2 text-3xl font-bold text-blue-900 dark:text-blue-100">{facility.name}</h2>
                                     </div>
 
                                     <div className="rounded-lg bg-green-50 p-6 dark:bg-green-900/20">
-                                        <Label className="text-lg font-bold text-green-800 dark:text-green-200">Description</Label>
+                                        <Label className="text-lg font-bold text-green-800 dark:text-green-200">{t('facility_management.show.sections.description')}</Label>
                                         <p className="mt-3 text-lg leading-relaxed whitespace-pre-wrap text-green-700 dark:text-green-300">
                                             {facility.description}
                                         </p>
@@ -159,11 +161,11 @@ export default function FacilityShow({ facility }: { facility: Facility }) {
                                     <div className="rounded-lg bg-gray-50 p-6 dark:bg-gray-800/50">
                                         <div className="mb-4 flex items-center gap-3">
                                             <Clock className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-                                            <Label className="text-lg font-bold text-gray-800 dark:text-gray-200">Timeline</Label>
+                                            <Label className="text-lg font-bold text-gray-800 dark:text-gray-200">{t('facility_management.show.sections.timeline')}</Label>
                                         </div>
                                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                             <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800/50 dark:bg-blue-900/20">
-                                                <Label className="text-sm font-semibold text-blue-800 dark:text-blue-200">Created</Label>
+                                                <Label className="text-sm font-semibold text-blue-800 dark:text-blue-200">{t('facility_management.show.timeline.created')}</Label>
                                                 <p className="mt-1 text-base font-medium text-blue-900 dark:text-blue-100">
                                                     {new Date(facility.created_at).toLocaleDateString('en-US', {
                                                         weekday: 'short',
@@ -174,7 +176,7 @@ export default function FacilityShow({ facility }: { facility: Facility }) {
                                                 </p>
                                             </div>
                                             <div className="rounded-lg border border-green-200 bg-green-50 p-4 dark:border-green-800/50 dark:bg-green-900/20">
-                                                <Label className="text-sm font-semibold text-green-800 dark:text-green-200">Last Updated</Label>
+                                                <Label className="text-sm font-semibold text-green-800 dark:text-green-200">{t('facility_management.show.timeline.last_updated')}</Label>
                                                 <p className="mt-1 text-base font-medium text-green-900 dark:text-green-100">
                                                     {new Date(facility.updated_at).toLocaleDateString('en-US', {
                                                         weekday: 'short',
@@ -203,9 +205,9 @@ export default function FacilityShow({ facility }: { facility: Facility }) {
                                         <Camera className="h-5 w-5" />
                                     </div>
                                     <div>
-                                        <CardTitle className="text-lg font-bold">Photo</CardTitle>
+                                        <CardTitle className="text-lg font-bold">{t('facility_management.show.sections.photo')}</CardTitle>
                                         <CardDescription className="text-emerald-100">
-                                            {facility.photo ? 'Current image' : 'Not available'}
+                                            {facility.photo ? t('facility_management.show.sections.current_image') : t('facility_management.show.sections.not_available')}
                                         </CardDescription>
                                     </div>
                                 </div>
@@ -295,15 +297,15 @@ export default function FacilityShow({ facility }: { facility: Facility }) {
                                                 <Camera className="h-8 w-8 text-gray-400" />
                                             </div>
                                         </div>
-                                        <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">No Photo</h3>
-                                        <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">Add a photo to showcase this facility</p>
+                                        <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">{t('facility_management.show.sections.no_photo_title')}</h3>
+                                        <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">{t('facility_management.show.sections.no_photo_description')}</p>
                                         <Link href={route('admin.facilities.edit', facility.id)}>
                                             <Button
                                                 size="sm"
                                                 className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700"
                                             >
                                                 <Camera className="mr-2 h-4 w-4" />
-                                                Add Photo
+                                                {t('facility_management.show.buttons.add_photo')}
                                             </Button>
                                         </Link>
                                     </div>
@@ -322,25 +324,24 @@ export default function FacilityShow({ facility }: { facility: Facility }) {
                             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
                                 <Trash2 className="h-6 w-6 text-red-600 dark:text-red-400" />
                             </div>
-                            Delete Facility
+                            {t('facility_management.show.delete_dialog.title')}
                         </DialogTitle>
                         <DialogDescription>
-                            Are you sure you want to delete <strong>{facility.name}</strong>? This action cannot be undone and will permanently remove
-                            the facility and its associated photo.
+                            {t('facility_management.show.delete_dialog.description')} <strong>{facility.name}</strong>{t('facility_management.show.delete_dialog.description_continued')}
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter className="flex-col-reverse gap-2 sm:flex-row sm:gap-3">
                         <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)} disabled={facilityService.processing}>
-                            Cancel
+                            {t('facility_management.show.delete_dialog.cancel')}
                         </Button>
                         <Button variant="destructive" onClick={handleDelete} disabled={facilityService.processing}>
                             {facilityService.processing ? (
                                 <div className="flex items-center gap-2">
                                     <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                                    Deleting...
+                                    {t('facility_management.show.delete_dialog.processing')}
                                 </div>
                             ) : (
-                                <>Delete Facility</>
+                                <>{t('facility_management.show.delete_dialog.confirm')}</>
                             )}
                         </Button>
                     </DialogFooter>

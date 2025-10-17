@@ -9,6 +9,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Calendar, Edit, Eye, GripVertical, ImageIcon, Images, Music, Play, Plus, Search, Star, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Note: URL optimization is now handled by the backend GalleryItem model
 
@@ -65,6 +66,7 @@ interface GalleryShowPageProps {
 
 export default function ShowGallery() {
     const { gallery } = usePage<GalleryShowPageProps>().props;
+    const { t } = useTranslation();
 
     // State for search and filtering
     const [searchTerm, setSearchTerm] = useState('');
@@ -81,7 +83,7 @@ export default function ShowGallery() {
 
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Admin Dashboard', href: route('admin.dashboard') },
-        { title: 'Gallery Management', href: route('admin.galleries.index') },
+        { title: t('gallery_management.header.title'), href: route('admin.galleries.index') },
         { title: gallery.title, href: route('admin.galleries.show', gallery.id) },
     ];
 
@@ -146,7 +148,7 @@ export default function ShowGallery() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Gallery - ${gallery.title}`} />
+            <Head title={`${t('navigation.gallery')} - ${gallery.title}`} />
 
             <div className="w-full max-w-none space-y-6 px-4 sm:space-y-8 sm:px-6 lg:px-8">
                 {/* Header with Gradient Background */}
@@ -162,16 +164,20 @@ export default function ShowGallery() {
                                     {gallery.title}
                                 </h1>
                                 <p className="max-w-2xl text-sm text-gray-600 sm:text-base lg:text-lg dark:text-gray-300">
-                                    {gallery.description || 'No description provided'}
+                                    {gallery.description || t('gallery_management.list.table.no_description')}
                                 </p>
                                 <div className="flex items-center gap-3 text-xs text-gray-500 sm:gap-4 sm:text-sm dark:text-gray-400">
                                     <div className="flex items-center gap-1">
                                         <Calendar className="h-4 w-4" />
-                                        <span>Created {new Date(gallery.created_at).toLocaleDateString()}</span>
+                                        <span>
+                                            {t('gallery_management.show.overview.created')} {new Date(gallery.created_at).toLocaleDateString()}
+                                        </span>
                                     </div>
                                     <div className="flex items-center gap-1">
                                         <Images className="h-4 w-4" />
-                                        <span>{gallery.items?.length || 0} items</span>
+                                        <span>
+                                            {gallery.items?.length || 0} {t('gallery_management.show.items.title')}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +190,7 @@ export default function ShowGallery() {
                                     className="sm:size-md lg:size-lg bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg hover:from-indigo-700 hover:to-purple-700"
                                 >
                                     <Edit className="mr-1 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />
-                                    Edit Gallery
+                                    {t('gallery_management.actions.edit_gallery')}
                                 </Button>
                             </Link>
                         </div>
@@ -194,10 +200,12 @@ export default function ShowGallery() {
                 {/* Enhanced Stats Cards */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
                     <Card className="overflow-hidden border-0 bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-950 dark:to-green-900">
-                        <CardContent className="p-6">
+                        <CardContent className="px-6 pt-0 pb-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Status</p>
+                                    <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                                        {t('gallery_management.show.overview.status')}
+                                    </p>
                                     <div className="mt-2">
                                         <Badge
                                             variant={gallery.is_published ? 'default' : 'secondary'}
@@ -207,7 +215,9 @@ export default function ShowGallery() {
                                                     : 'bg-amber-100 text-amber-800 dark:bg-amber-800 dark:text-amber-100'
                                             }
                                         >
-                                            {gallery.is_published ? '✅ Published' : '📝 Draft'}
+                                            {gallery.is_published
+                                                ? `✅ ${t('gallery_management.show.overview.published')}`
+                                                : `📝 ${t('gallery_management.show.overview.draft')}`}
                                         </Badge>
                                     </div>
                                 </div>
@@ -226,7 +236,9 @@ export default function ShowGallery() {
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Total Items</p>
+                                    <p className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                                        {t('gallery_management.show.overview.items_count')}
+                                    </p>
                                     <p className="text-3xl font-bold text-blue-900 dark:text-blue-100">{gallery.items.length}</p>
                                 </div>
                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-800">
@@ -240,7 +252,9 @@ export default function ShowGallery() {
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Featured Items</p>
+                                    <p className="text-sm font-medium text-purple-600 dark:text-purple-400">
+                                        {t('gallery_management.show.items.filters.featured')}
+                                    </p>
                                     <p className="text-3xl font-bold text-purple-900 dark:text-purple-100">
                                         {gallery.items.filter((item) => item.is_featured).length}
                                     </p>
@@ -256,7 +270,9 @@ export default function ShowGallery() {
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Sort Order</p>
+                                    <p className="text-sm font-medium text-orange-600 dark:text-orange-400">
+                                        {t('gallery_management.create.form.fields.sort_order.label')}
+                                    </p>
                                     <p className="text-3xl font-bold text-orange-900 dark:text-orange-100">#{gallery.sort_order}</p>
                                 </div>
                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-800">
@@ -275,7 +291,7 @@ export default function ShowGallery() {
                                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600">
                                     <Star className="h-4 w-4 fill-current text-white" />
                                 </div>
-                                <CardTitle className="text-xl">Featured Image</CardTitle>
+                                <CardTitle className="text-xl">{t('gallery_management.create.form.fields.featured_image.label')}</CardTitle>
                             </div>
                         </CardHeader>
                         <CardContent>
@@ -299,9 +315,11 @@ export default function ShowGallery() {
                         <CardHeader className="p-4 pb-0 text-white sm:p-6">
                             <div className="flex flex-col space-y-3 sm:space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
                                 <div>
-                                    <CardTitle className="text-lg font-bold sm:text-xl lg:text-2xl">Gallery Items</CardTitle>
+                                    <CardTitle className="text-lg font-bold sm:text-xl lg:text-2xl">
+                                        {t('gallery_management.show.items.title')}
+                                    </CardTitle>
                                     <CardDescription className="text-sm text-emerald-100 sm:text-base dark:text-emerald-200">
-                                        {filteredItems.length} of {gallery.items?.length || 0} items
+                                        {filteredItems.length} of {gallery.items?.length || 0} {t('gallery_management.show.items.title')}
                                         {searchTerm && ` matching "${searchTerm}"`}
                                         {filterType !== 'all' && ` (${filterType})`}
                                     </CardDescription>
@@ -313,7 +331,7 @@ export default function ShowGallery() {
                                             className="sm:size-md lg:size-lg border border-white/30 bg-white/20 backdrop-blur-sm hover:bg-white/30"
                                         >
                                             <Plus className="mr-1 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />
-                                            Add Items
+                                            {t('gallery_management.show.items.add_items')}
                                         </Button>
                                     </Link>
                                 </div>
@@ -326,7 +344,7 @@ export default function ShowGallery() {
                                         <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-emerald-200 sm:left-4 sm:h-5 sm:w-5 dark:text-emerald-300" />
                                         <Input
                                             type="text"
-                                            placeholder="Search by title or caption..."
+                                            placeholder={t('gallery_management.show.items.search_placeholder')}
                                             value={searchTerm}
                                             onChange={(e) => setSearchTerm(e.target.value)}
                                             className="border-white/20 bg-white/10 py-2 pl-10 text-sm text-white backdrop-blur-sm placeholder:text-emerald-200 focus:border-white/50 focus:ring-white/20 sm:py-3 sm:pl-12 sm:text-base dark:placeholder:text-emerald-300"
@@ -343,7 +361,7 @@ export default function ShowGallery() {
                                                     : 'border-white/20 text-white hover:bg-white/10 hover:text-white'
                                             }
                                         >
-                                            All Items
+                                            {t('gallery_management.show.items.filters.all')}
                                         </Button>
                                         <Button
                                             size="sm"
@@ -356,7 +374,7 @@ export default function ShowGallery() {
                                             }
                                         >
                                             <ImageIcon className="mr-2 h-4 w-4" />
-                                            Images
+                                            {t('gallery_management.show.items.filters.images')}
                                         </Button>
                                         <Button
                                             size="sm"
@@ -369,7 +387,7 @@ export default function ShowGallery() {
                                             }
                                         >
                                             <Play className="mr-2 h-4 w-4" />
-                                            Videos
+                                            {t('gallery_management.show.items.filters.videos')}
                                         </Button>
                                         <Button
                                             size="sm"
@@ -382,7 +400,7 @@ export default function ShowGallery() {
                                             }
                                         >
                                             <Music className="mr-2 h-4 w-4" />
-                                            Audio
+                                            {t('gallery_management.show.items.media_types.audio')}
                                         </Button>
                                         <Button
                                             size="sm"
@@ -395,7 +413,7 @@ export default function ShowGallery() {
                                             }
                                         >
                                             <Star className="mr-2 h-4 w-4" />
-                                            Featured
+                                            {t('gallery_management.show.items.filters.featured')}
                                         </Button>
                                     </div>
                                 </div>
@@ -411,10 +429,10 @@ export default function ShowGallery() {
                                     <ImageIcon className="h-16 w-16 text-emerald-600 dark:text-emerald-400" />
                                 </div>
                                 <h3 className="mb-4 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-3xl font-bold text-transparent dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400">
-                                    No items in this gallery
+                                    {t('gallery_management.show.items.empty_state.title')}
                                 </h3>
                                 <p className="mx-auto mb-10 max-w-lg text-lg text-gray-600 dark:text-gray-300">
-                                    Start building your gallery by adding stunning images and videos from Google Drive.
+                                    {t('gallery_management.show.items.empty_state.description')}
                                 </p>
                                 <div className="flex flex-col justify-center gap-4 sm:flex-row">
                                     <Link href={route('admin.galleries.edit', gallery.id)}>
@@ -423,7 +441,7 @@ export default function ShowGallery() {
                                             className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 shadow-xl hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-700 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 dark:hover:from-emerald-800 dark:hover:via-teal-800 dark:hover:to-cyan-800"
                                         >
                                             <Plus className="mr-2 h-5 w-5" />
-                                            Add First Item
+                                            {t('gallery_management.show.items.add_items')}
                                         </Button>
                                     </Link>
                                 </div>
@@ -436,10 +454,10 @@ export default function ShowGallery() {
                                     <ImageIcon className="h-16 w-16 text-emerald-600 dark:text-emerald-400" />
                                 </div>
                                 <h3 className="mb-4 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-3xl font-bold text-transparent dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400">
-                                    No items match your filters
+                                    {t('gallery_management.show.items.empty_state.no_matches')}
                                 </h3>
                                 <p className="mx-auto mb-10 max-w-lg text-gray-600 dark:text-gray-300">
-                                    Try adjusting your search terms or filters to discover the content you're looking for.
+                                    {t('gallery_management.show.items.empty_state.adjust_search')}
                                 </p>
                                 <div className="flex flex-col justify-center gap-4 sm:flex-row">
                                     <Link href={route('admin.galleries.edit', gallery.id)}>
@@ -495,7 +513,9 @@ export default function ShowGallery() {
                                             <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900">
                                                 <div className="text-center">
                                                     <div className="mb-4 text-6xl">🎵</div>
-                                                    <div className="text-lg font-medium text-indigo-700 dark:text-indigo-300">Audio File</div>
+                                                    <div className="text-lg font-medium text-indigo-700 dark:text-indigo-300">
+                                                        {t('gallery_management.show.items.media_types.audio_file')}
+                                                    </div>
                                                 </div>
 
                                                 {/* Hover overlay */}
@@ -514,7 +534,9 @@ export default function ShowGallery() {
                                             <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800">
                                                 <div className="text-center">
                                                     <div className="mb-2 text-4xl">📄</div>
-                                                    <div className="text-sm text-gray-600 dark:text-gray-400">Unknown File Type</div>
+                                                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                                                        {t('gallery_management.show.items.media_types.unknown_file')}
+                                                    </div>
                                                 </div>
                                             </div>
                                         )}
@@ -524,7 +546,7 @@ export default function ShowGallery() {
                                             <div className="absolute top-3 right-3">
                                                 <Badge className="border-0 bg-gradient-to-r from-yellow-400 to-amber-500 font-semibold text-yellow-900 shadow-xl">
                                                     <Star className="mr-1 h-3 w-3 fill-current" />
-                                                    Featured
+                                                    {t('gallery_management.show.items.badges.featured')}
                                                 </Badge>
                                             </div>
                                         )}
@@ -548,7 +570,7 @@ export default function ShowGallery() {
                                                 ) : (
                                                     <Music className="mr-1 h-3 w-3" />
                                                 )}
-                                                {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
+                                                {t(`gallery_management.show.items.media_types.${item.type}`)}
                                             </Badge>
                                         </div>
 
@@ -563,7 +585,11 @@ export default function ShowGallery() {
                                                             e.stopPropagation();
                                                             handleMediaPlay(item);
                                                         }}
-                                                        title={item.type === 'video' ? 'Play video' : 'Play audio'}
+                                                        title={
+                                                            item.type === 'video'
+                                                                ? t('gallery_management.show.items.media_types.play_video')
+                                                                : t('gallery_management.show.items.media_types.play_audio')
+                                                        }
                                                     >
                                                         <Play className="h-8 w-8 text-white" />
                                                     </div>
@@ -578,7 +604,11 @@ export default function ShowGallery() {
                                                         e.stopPropagation();
                                                         handleToggleFeatured(item);
                                                     }}
-                                                    title={item.is_featured ? 'Remove from featured' : 'Mark as featured'}
+                                                    title={
+                                                        item.is_featured
+                                                            ? t('gallery_management.show.items.item_actions.unfeature')
+                                                            : t('gallery_management.show.items.item_actions.feature')
+                                                    }
                                                     className="h-8 w-8 border-0 bg-white/90 p-0 text-gray-900 shadow-xl backdrop-blur-sm hover:bg-white"
                                                 >
                                                     <Star
@@ -592,7 +622,7 @@ export default function ShowGallery() {
                                                         e.stopPropagation();
                                                         handleDeleteClick(item);
                                                     }}
-                                                    title="Delete item"
+                                                    title={t('gallery_management.show.items.item_actions.delete')}
                                                     className="h-8 w-8 border-0 bg-red-500/90 p-0 shadow-xl backdrop-blur-sm hover:bg-red-600"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
@@ -651,7 +681,7 @@ export default function ShowGallery() {
                                                     {item.is_featured && (
                                                         <Badge className="border-yellow-200 bg-gradient-to-r from-yellow-100 to-amber-100 text-xs font-semibold text-yellow-800 dark:border-yellow-700 dark:from-yellow-900 dark:to-amber-900 dark:text-yellow-200">
                                                             <Star className="mr-1 h-2 w-2 fill-current" />
-                                                            Featured
+                                                            {t('gallery_management.show.items.filters.featured')}
                                                         </Badge>
                                                     )}
                                                 </div>
@@ -667,24 +697,24 @@ export default function ShowGallery() {
                 {/* Gallery Metadata */}
                 <Card>
                     <CardHeader>
-                        <CardTitle>Gallery Details</CardTitle>
+                        <CardTitle>{t('gallery_management.show.overview.status')}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="grid grid-cols-1 gap-3 text-xs sm:grid-cols-2 sm:gap-4 sm:text-sm lg:grid-cols-3">
                             <div className="space-y-1">
-                                <Label className="text-muted-foreground">Gallery ID</Label>
+                                <Label className="text-muted-foreground">{t('gallery_management.show.items.metadata.gallery_id')}</Label>
                                 <p className="font-mono">{gallery.id}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-muted-foreground">Slug</Label>
+                                <Label className="text-muted-foreground">{t('gallery_management.show.items.metadata.slug')}</Label>
                                 <p className="font-mono">{gallery.slug}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-muted-foreground">Sort Order</Label>
+                                <Label className="text-muted-foreground">{t('gallery_management.create.form.fields.sort_order.label')}</Label>
                                 <p>{gallery.sort_order}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-muted-foreground">Created</Label>
+                                <Label className="text-muted-foreground">{t('gallery_management.show.overview.created')}</Label>
                                 <div className="flex items-center gap-1">
                                     <Calendar className="h-4 w-4" />
                                     <span>
@@ -697,7 +727,7 @@ export default function ShowGallery() {
                                 </div>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-muted-foreground">Last Updated</Label>
+                                <Label className="text-muted-foreground">{t('gallery_management.show.overview.updated')}</Label>
                                 <div className="flex items-center gap-1">
                                     <Calendar className="h-4 w-4" />
                                     <span>
@@ -710,8 +740,12 @@ export default function ShowGallery() {
                                 </div>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-muted-foreground">Status</Label>
-                                <p>{gallery.is_published ? '✅ Published' : '📝 Draft'}</p>
+                                <Label className="text-muted-foreground">{t('gallery_management.show.overview.status')}</Label>
+                                <p>
+                                    {gallery.is_published
+                                        ? `✅ ${t('gallery_management.show.overview.published')}`
+                                        : `📝 ${t('gallery_management.show.overview.draft')}`}
+                                </p>
                             </div>
                         </div>
                     </CardContent>
@@ -725,13 +759,13 @@ export default function ShowGallery() {
                                 <Trash2 className="h-8 w-8 text-red-600 dark:text-red-400" />
                             </div>
                             <DialogTitle className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-2xl font-bold text-transparent">
-                                Delete Gallery Item
+                                {t('gallery_management.show.items.item_actions.delete')}
                             </DialogTitle>
                             <DialogDescription className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
-                                Are you sure you want to permanently delete this {itemToDelete?.type}? This action cannot be undone.
+                                {t('gallery_management.delete.message')}
                                 {itemToDelete?.title && (
                                     <div className="mt-4 rounded-lg border border-gray-200 bg-gradient-to-r from-gray-100 to-gray-200 p-3 dark:border-gray-600 dark:from-gray-800 dark:to-gray-700">
-                                        <span className="text-sm text-gray-500 dark:text-gray-400">Item:</span>
+                                        <span className="text-sm text-gray-500 dark:text-gray-400">{t('gallery_management.show.items.title')}:</span>
                                         <div className="mt-1 font-semibold text-gray-900 dark:text-white">"{itemToDelete.title}"</div>
                                     </div>
                                 )}
@@ -744,7 +778,7 @@ export default function ShowGallery() {
                                 className="flex-1 border-gray-300 bg-white text-gray-700 shadow-lg hover:bg-gray-50"
                                 size="lg"
                             >
-                                Cancel
+                                {t('gallery_management.delete.cancel')}
                             </Button>
                             <Button
                                 variant="destructive"
@@ -753,7 +787,7 @@ export default function ShowGallery() {
                                 size="lg"
                             >
                                 <Trash2 className="mr-2 h-5 w-5" />
-                                Delete Forever
+                                {t('gallery_management.delete.confirm')}
                             </Button>
                         </DialogFooter>
                     </DialogContent>
@@ -762,11 +796,15 @@ export default function ShowGallery() {
                 {/* Media Player Modal */}
                 <Dialog open={videoPlayerOpen} onOpenChange={setVideoPlayerOpen}>
                     <DialogContent className="border-0 bg-black p-0 shadow-2xl sm:max-w-4xl">
-                        <DialogTitle className="sr-only">{currentVideoItem?.type === 'video' ? 'Video Player' : 'Audio Player'}</DialogTitle>
+                        <DialogTitle className="sr-only">
+                            {currentVideoItem?.type === 'video'
+                                ? t('gallery_management.show.items.filters.videos')
+                                : t('gallery_management.show.items.media_types.audio')}
+                        </DialogTitle>
                         <DialogDescription className="sr-only">
                             {currentVideoItem?.type === 'video'
-                                ? `Playing video: ${currentVideoItem.title || `Video #${currentVideoItem.id}`}`
-                                : `Playing audio: ${currentVideoItem?.title || `Audio #${currentVideoItem?.id}`}`}
+                                ? `${t('gallery_management.show.items.media_types.play_video')}: ${currentVideoItem.title || `${t('gallery_management.show.items.media_types.video')} #${currentVideoItem.id}`}`
+                                : `${t('gallery_management.show.items.media_types.play_audio')}: ${currentVideoItem?.title || `${t('gallery_management.show.items.media_types.audio')} #${currentVideoItem?.id}`}`}
                         </DialogDescription>
                         {currentVideoItem?.type === 'video' ? (
                             <>
@@ -794,7 +832,7 @@ export default function ShowGallery() {
                                                         }}
                                                         onError={(e) => {
                                                             console.error('Embed iframe error:', e);
-                                                            setMediaError('Failed to load video embed');
+                                                            setMediaError(t('gallery_management.show.items.media_error'));
                                                         }}
                                                     />
                                                     {/* Overlay to hide the top-right corner where the external link button appears */}
@@ -845,29 +883,31 @@ export default function ShowGallery() {
                                                 if (target.error) {
                                                     switch (target.error.code) {
                                                         case target.error.MEDIA_ERR_ABORTED:
-                                                            setMediaError('Audio playback was aborted');
+                                                            setMediaError(t('gallery_management.show.items.media_error'));
                                                             break;
                                                         case target.error.MEDIA_ERR_NETWORK:
-                                                            setMediaError('Network error occurred while loading audio');
+                                                            setMediaError(t('gallery_management.show.items.media_error'));
                                                             break;
                                                         case target.error.MEDIA_ERR_DECODE:
-                                                            setMediaError('Audio format is not supported');
+                                                            setMediaError(t('gallery_management.show.items.media_error'));
                                                             break;
                                                         case target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-                                                            setMediaError('Audio source is not supported');
+                                                            setMediaError(t('gallery_management.show.items.media_error'));
                                                             break;
                                                         default:
-                                                            setMediaError('An unknown audio error occurred');
+                                                            setMediaError(t('gallery_management.show.items.media_error'));
                                                     }
                                                 } else {
-                                                    setMediaError('Failed to load audio');
+                                                    setMediaError(t('gallery_management.show.items.media_error'));
                                                 }
                                             }}
                                         />
                                     ) : (
                                         <div className="w-full max-w-md text-center">
                                             <div className="mb-4 text-6xl">⚠️</div>
-                                            <h3 className="mb-2 text-lg font-semibold text-white">Audio Error</h3>
+                                            <h3 className="mb-2 text-lg font-semibold text-white">
+                                                {t('gallery_management.show.items.media_error')}
+                                            </h3>
                                             <p className="mb-4 text-sm text-gray-300">{mediaError}</p>
                                             <button
                                                 onClick={() => {
@@ -879,7 +919,7 @@ export default function ShowGallery() {
                                                 }}
                                                 className="rounded-lg bg-white px-4 py-2 text-black transition-colors hover:bg-gray-200"
                                             >
-                                                Retry
+                                                {t('gallery_management.show.drive_picker.selection.clear')}
                                             </button>
                                         </div>
                                     )}

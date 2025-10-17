@@ -23,18 +23,20 @@ export function ClassDisplay({
         return <ClassTable gradeClasses={gradeClasses} selectedClasses={selectedClasses} onToggleSelection={onToggleSelection} onDelete={onDelete} />;
     }
 
-    // Card view - remove the Card wrapper since it's now handled by the parent
+    // Card view - wrap in container to match table styling
     return (
-        <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {gradeClasses.map((schoolClass) => (
-                <ClassCard
-                    key={schoolClass.id}
-                    schoolClass={schoolClass}
-                    isSelected={selectedClasses.includes(schoolClass.id)}
-                    onToggleSelection={onToggleSelection}
-                    onDelete={onDelete}
-                />
-            ))}
+        <div className="w-full overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+            <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4">
+                {gradeClasses.map((schoolClass) => (
+                    <ClassCard
+                        key={schoolClass.id}
+                        schoolClass={schoolClass}
+                        isSelected={selectedClasses.includes(schoolClass.id)}
+                        onToggleSelection={onToggleSelection}
+                        onDelete={onDelete}
+                    />
+                ))}
+            </div>
         </div>
     );
 }

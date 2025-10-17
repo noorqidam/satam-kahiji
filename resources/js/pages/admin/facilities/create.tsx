@@ -4,8 +4,10 @@ import AppLayout from '@/layouts/app-layout';
 import { generateFacilityBreadcrumbs } from '@/utils/facility';
 import { Head } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function CreateFacility() {
+    const { t } = useTranslation();
     const [mounted, setMounted] = useState(false);
     const facilityForm = useFacilityForm();
 
@@ -17,7 +19,7 @@ export default function CreateFacility() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Facility" />
+            <Head title={t('facility_management.actions.create_facility')} />
 
             <div
                 className={`w-full max-w-none space-y-6 px-4 pb-3 transition-all duration-500 sm:px-6 lg:px-8 ${

@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import type { useStaffOperations } from '@/hooks/useStaffOperations';
 import { Trash2, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface StaffDialogsProps {
     operations: ReturnType<typeof useStaffOperations>;
@@ -11,6 +12,7 @@ interface StaffDialogsProps {
 }
 
 export function StaffDialogs({ operations, selectedStaff, onBulkDelete, onClearSelection }: StaffDialogsProps) {
+    const { t } = useTranslation();
     const {
         isLoading,
         showBulkDeleteConfirm,
@@ -28,7 +30,9 @@ export function StaffDialogs({ operations, selectedStaff, onBulkDelete, onClearS
             <Dialog open={!!showStaffDialog} onOpenChange={() => setShowStaffDialog(null)}>
                 <DialogContent className="max-w-2xl">
                     <DialogHeader>
-                        <DialogTitle>Staff Details: {showStaffDialog?.name}</DialogTitle>
+                        <DialogTitle>
+                            {t('staff_management.dialogs.view.title')}: {showStaffDialog?.name}
+                        </DialogTitle>
                     </DialogHeader>
                     {showStaffDialog && (
                         <div className="space-y-6">
@@ -53,18 +57,22 @@ export function StaffDialogs({ operations, selectedStaff, onBulkDelete, onClearS
 
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div>
-                                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Email Address</label>
+                                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                                        {t('staff_management.dialogs.view.email')}
+                                    </label>
                                     <p className="text-sm text-gray-900 dark:text-gray-100">{showStaffDialog.email}</p>
                                 </div>
                                 <div>
-                                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone Number</label>
-                                    <p className="text-sm text-gray-900 dark:text-gray-100">{showStaffDialog.phone || 'Not provided'}</p>
+                                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                                        {t('staff_management.dialogs.view.phone')}
+                                    </label>
+                                    <p className="text-sm text-gray-900 dark:text-gray-100">{showStaffDialog.phone || t('common.not_provided')}</p>
                                 </div>
                             </div>
 
                             {showStaffDialog.bio && (
                                 <div>
-                                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Biography</label>
+                                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('common.biography')}</label>
                                     <div
                                         className="prose dark:prose-invert mt-1 max-w-none text-sm text-gray-900 dark:text-gray-100"
                                         dangerouslySetInnerHTML={{ __html: showStaffDialog.bio }}
@@ -73,7 +81,9 @@ export function StaffDialogs({ operations, selectedStaff, onBulkDelete, onClearS
                             )}
 
                             <div>
-                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Created</label>
+                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                                    {t('staff_management.dialogs.view.created')}
+                                </label>
                                 <p className="text-sm text-gray-900 dark:text-gray-100">
                                     {new Date(showStaffDialog.created_at).toLocaleDateString()}
                                 </p>
@@ -92,22 +102,21 @@ export function StaffDialogs({ operations, selectedStaff, onBulkDelete, onClearS
                                 <Trash2 className="h-6 w-6 text-red-600" />
                             </div>
                             <div className="ml-3">
-                                <DialogTitle>Delete Staff Member</DialogTitle>
+                                <DialogTitle>{t('staff_management.dialogs.delete.title')}</DialogTitle>
                             </div>
                         </div>
                     </DialogHeader>
                     {staffToDelete && (
                         <div className="space-y-4">
                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                                Are you sure you want to delete <strong>{staffToDelete.name}</strong> ({staffToDelete.email})? This action cannot be
-                                undone.
+                                {t('staff_management.dialogs.delete.message', { name: staffToDelete.name })}
                             </p>
                             <div className="flex justify-end space-x-3">
                                 <Button variant="ghost" onClick={() => setStaffToDelete(null)} disabled={isLoading}>
-                                    Cancel
+                                    {t('staff_management.dialogs.delete.cancel')}
                                 </Button>
                                 <Button variant="destructive" onClick={handleDeleteStaff} disabled={isLoading}>
-                                    {isLoading ? 'Deleting...' : 'Delete'}
+                                    {isLoading ? t('staff_management.dialogs.delete.deleting') : t('staff_management.dialogs.delete.delete')}
                                 </Button>
                             </div>
                         </div>
@@ -124,17 +133,20 @@ export function StaffDialogs({ operations, selectedStaff, onBulkDelete, onClearS
                                 <Trash2 className="h-6 w-6 text-red-600" />
                             </div>
                             <div className="ml-3">
-                                <DialogTitle>Delete Staff Members</DialogTitle>
+                                <DialogTitle>{t('staff_management.dialogs.bulk_delete.title')}</DialogTitle>
                             </div>
                         </div>
                     </DialogHeader>
                     <div className="space-y-4">
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                            Are you sure you want to delete <strong>{selectedStaff.length}</strong> staff members? This action cannot be undone.
+                            {t('staff_management.dialogs.bulk_delete.message', {
+                                count: selectedStaff.length,
+                                plural: selectedStaff.length !== 1 ? 's' : '',
+                            })}
                         </p>
                         <div className="flex justify-end space-x-3">
                             <Button variant="ghost" onClick={() => setShowBulkDeleteConfirm(false)} disabled={isLoading}>
-                                Cancel
+                                {t('staff_management.dialogs.bulk_delete.cancel')}
                             </Button>
                             <Button
                                 variant="destructive"
@@ -148,7 +160,7 @@ export function StaffDialogs({ operations, selectedStaff, onBulkDelete, onClearS
                                 }}
                                 disabled={isLoading}
                             >
-                                {isLoading ? 'Deleting...' : 'Delete'}
+                                {isLoading ? t('staff_management.dialogs.bulk_delete.deleting') : t('staff_management.dialogs.bulk_delete.delete')}
                             </Button>
                         </div>
                     </div>

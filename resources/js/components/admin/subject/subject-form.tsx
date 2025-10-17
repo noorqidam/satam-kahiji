@@ -1,6 +1,8 @@
 import { Link } from '@inertiajs/react';
 import { ArrowLeft, BookOpen, LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
+import { useTranslation } from 'react-i18next';
+
 
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -25,40 +27,42 @@ interface PageHeaderProps {
 }
 
 export function SubjectFormCard({ data, setData, submit, processing, errors, submitLabel }: SubjectFormProps) {
+    const { t } = useTranslation();
+    
     return (
         <form onSubmit={submit}>
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <BookOpen className="h-5 w-5" />
-                        Subject Information
+                        {t('subject_management.create.form.title')}
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <div className="grid gap-4 md:grid-cols-2">
                         <div className="space-y-2">
-                            <Label htmlFor="name">Subject Name *</Label>
+                            <Label htmlFor="name">{t('subject_management.create.form.fields.name.label')} *</Label>
                             <Input
                                 id="name"
                                 type="text"
                                 value={data.name}
                                 onChange={(e) => setData('name', e.target.value)}
                                 required
-                                placeholder="e.g., Mathematics, English Literature"
+                                placeholder={t('subject_management.create.form.fields.name.placeholder')}
                             />
                             <InputError message={errors.name} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="code">Subject Code</Label>
+                            <Label htmlFor="code">{t('subject_management.create.form.fields.code.label')}</Label>
                             <Input
                                 id="code"
                                 type="text"
                                 value={data.code}
                                 onChange={(e) => setData('code', e.target.value.toUpperCase())}
-                                placeholder="e.g., MATH101, ENG201"
+                                placeholder={t('subject_management.create.form.fields.code.placeholder')}
                                 maxLength={20}
                             />
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Optional unique identifier for the subject</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">{t('subject_management.create.form.fields.code.help')}</p>
                             <InputError message={errors.code} />
                         </div>
                     </div>
@@ -66,7 +70,7 @@ export function SubjectFormCard({ data, setData, submit, processing, errors, sub
                     <div className="flex items-center justify-end gap-4 border-t pt-6">
                         <Link href={route('admin.subjects.index')}>
                             <Button type="button" variant="ghost">
-                                Cancel
+                                {t('subject_management.create.form.buttons.cancel')}
                             </Button>
                         </Link>
                         <Button type="submit" disabled={processing}>

@@ -1,5 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+
 
 import { useToast } from '@/hooks/use-toast';
 
@@ -7,13 +9,16 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { type StudentEditProps, type StudentForm } from '@/types/student';
 
-import { PageHeader, StudentFormCard } from '@/components/admin/student/student-form';
+import { AdminStudentFormCard, PageHeader } from '@/components/admin/student/admin-student-form';
+import { StudentRecordsTabs } from '@/components/teacher/students/comprehensive-student-form';
 
-export default function EditStudent({ student, staff, availableClasses, extracurriculars }: StudentEditProps) {
+export default function EditStudent({ student, staff, availableClasses, extracurriculars, recordOptions }: StudentEditProps) {
+    const { t } = useTranslation();
+
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: '/admin/dashboard' },
-        { title: 'Student Management', href: '/admin/students' },
-        { title: `Edit ${student.name}`, href: `/admin/students/${student.id}/edit` },
+        { title: t('student_management.breadcrumbs.admin_dashboard'), href: '/admin/dashboard' },
+        { title: t('student_management.breadcrumbs.students'), href: '/admin/students' },
+        { title: t('student_edit.breadcrumbs.edit_student', { name: student.name }), href: `/admin/students/${student.id}/edit` },
     ];
 
     const { data, setData, post, processing, errors } = useForm<StudentForm>({
@@ -64,46 +69,52 @@ export default function EditStudent({ student, staff, availableClasses, extracur
                 forceFormData: true,
                 onSuccess: () => {
                     toast({
-                        title: 'Success',
-                        description: 'Student updated successfully.',
+                        title: t('student_edit.success.title'),
+                        description: t('student_edit.success.description'),
                         variant: 'success',
                     });
                 },
                 onError: (errors) => {
-                    const errorMessage = Object.values(errors).flat().join(', ') || 'Failed to update student.';
+                    const errorMessage = Object.values(errors).flat().join(', ') || t('student_edit.error.fallback');
                     toast({
-                        title: 'Error',
+                        title: t('student_edit.error.title'),
                         description: errorMessage,
                         variant: 'destructive',
                     });
                 },
             });
         },
-        [post, student.id, toast],
+        [post, student.id, toast, t],
     );
 
     const currentPhotoUrl = student.photo ? (student.photo.startsWith('http') ? student.photo : `/storage/students/${student.photo}`) : undefined;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Edit ${student.name}`} />
+            <Head title={t('student_edit.page_title', { name: student.name })} />
 
             <div className="space-y-6 px-4 sm:px-6">
-                <PageHeader title="Edit Student" description={`Update ${student.name}'s information and details.`} />
+                <PageHeader
+                    title={t('student_edit.page_title', { name: student.name })}
+                    description={t('student_edit.page_description', { name: student.name })}
+                />
 
-                <StudentFormCard
+                <AdminStudentFormCard
                     data={data}
                     setData={setData}
                     submit={submit}
                     processing={processing}
                     errors={errors}
-                    submitLabel="Update Student"
+                    submitLabel={t('student_edit.submit_button')}
                     isEdit={true}
                     currentPhotoUrl={currentPhotoUrl}
                     staff={staff}
                     availableClasses={availableClasses}
                     extracurriculars={extracurriculars}
                 />
+
+                {/* Student Records Management */}
+                <StudentRecordsTabs student={student} recordOptions={recordOptions || { achievement_types: {}, achievement_levels: {} }} isEdit={true} />
             </div>
         </AppLayout>
     );

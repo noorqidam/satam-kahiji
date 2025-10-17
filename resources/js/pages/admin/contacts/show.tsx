@@ -10,8 +10,10 @@ import { formatContactDate, generateContactBreadcrumbs } from '@/utils/contact';
 import { Head, Link } from '@inertiajs/react';
 import { Calendar, Clock, Contact as ContactIcon, Edit, Mail, MapPin, MessageCircle, Phone, Trash2, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function ContactShow({ contact }: { contact: Contact }) {
+    const { t } = useTranslation();
     const [mounted, setMounted] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -23,7 +25,7 @@ export default function ContactShow({ contact }: { contact: Contact }) {
     }, []);
 
     // Use utility function following SRP
-    const breadcrumbs = generateContactBreadcrumbs('show', contact);
+    const breadcrumbs = generateContactBreadcrumbs('show', contact, t);
 
     const handleDelete = () => {
         contactService.deleteContact(contact, () => {
@@ -33,7 +35,7 @@ export default function ContactShow({ contact }: { contact: Contact }) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`${contact.name} - Contact Details`} />
+            <Head title={`${contact.name} - ${t('contact_management.show.page_title')}`} />
 
             <div
                 className={`w-full max-w-none space-y-6 px-4 pb-3 transition-all duration-500 sm:px-6 lg:px-8 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
@@ -61,26 +63,26 @@ export default function ContactShow({ contact }: { contact: Contact }) {
                                 </div>
                                 <div className="text-white">
                                     <h1 className="mb-2 text-3xl font-bold lg:text-4xl">{contact.name}</h1>
-                                    <p className="text-lg text-emerald-100">Contact details and message information</p>
+                                    <p className="text-lg text-emerald-100">{t('contact_management.show.header.description')}</p>
                                     <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-emerald-200">
                                         <div className="flex items-center gap-2">
                                             <Calendar className="h-4 w-4" />
-                                            <span>Created {new Date(contact.created_at).toLocaleDateString()}</span>
+                                            <span>{t('contact_management.show.header.created')} {new Date(contact.created_at).toLocaleDateString()}</span>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Mail className="h-4 w-4" />
-                                            <span>Email Available</span>
+                                            <span>{t('contact_management.show.header.email_available')}</span>
                                         </div>
                                         {contact.phone && (
                                             <div className="flex items-center gap-2">
                                                 <Phone className="h-4 w-4" />
-                                                <span>Phone Available</span>
+                                                <span>{t('contact_management.show.header.phone_available')}</span>
                                             </div>
                                         )}
                                         {contact.updated_at !== contact.created_at && (
                                             <div className="flex items-center gap-2">
                                                 <Clock className="h-4 w-4" />
-                                                <span>Updated {new Date(contact.updated_at).toLocaleDateString()}</span>
+                                                <span>{t('contact_management.show.header.updated')} {new Date(contact.updated_at).toLocaleDateString()}</span>
                                             </div>
                                         )}
                                     </div>
@@ -94,7 +96,7 @@ export default function ContactShow({ contact }: { contact: Contact }) {
                                         className="bg-white text-emerald-700 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-white/90"
                                     >
                                         <Edit className="mr-2 h-5 w-5" />
-                                        Edit Contact
+                                        {t('contact_management.actions.edit_contact')}
                                     </Button>
                                 </Link>
 
@@ -108,12 +110,12 @@ export default function ContactShow({ contact }: { contact: Contact }) {
                                     {contactService.processing ? (
                                         <div className="flex items-center gap-2">
                                             <div className="h-5 w-5 animate-spin rounded-full border-2 border-red-300 border-t-transparent" />
-                                            <span>Deleting...</span>
+                                            <span>{t('contact_management.actions.deleting')}</span>
                                         </div>
                                     ) : (
                                         <>
                                             <Trash2 className="mr-2 h-5 w-5" />
-                                            Delete
+                                            {t('contact_management.actions.delete')}
                                         </>
                                     )}
                                 </Button>
@@ -132,19 +134,19 @@ export default function ContactShow({ contact }: { contact: Contact }) {
                                 <div>
                                     <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold text-gray-900 dark:text-gray-100">
                                         <User className="h-6 w-6 text-emerald-600" />
-                                        Contact Information
+                                        {t('contact_management.show.sections.contact_information')}
                                     </h2>
                                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                                         <div className="space-y-2">
                                             <Label className="text-sm font-semibold tracking-wide text-gray-600 uppercase dark:text-gray-400">
-                                                Full Name
+                                                {t('contact_management.form.fields.full_name')}
                                             </Label>
                                             <p className="text-xl font-bold text-gray-900 dark:text-gray-100">{contact.name}</p>
                                         </div>
 
                                         <div className="space-y-2">
                                             <Label className="text-sm font-semibold tracking-wide text-gray-600 uppercase dark:text-gray-400">
-                                                Email Address
+                                                {t('contact_management.form.fields.email_address')}
                                             </Label>
                                             <div className="flex items-center gap-2">
                                                 <Mail className="h-4 w-4 text-blue-600" />
@@ -160,7 +162,7 @@ export default function ContactShow({ contact }: { contact: Contact }) {
                                         {contact.phone && (
                                             <div className="space-y-2">
                                                 <Label className="text-sm font-semibold tracking-wide text-gray-600 uppercase dark:text-gray-400">
-                                                    Phone Number
+                                                    {t('contact_management.form.fields.phone_number')}
                                                 </Label>
                                                 <div className="flex items-center gap-2">
                                                     <Phone className="h-4 w-4 text-green-600" />
@@ -177,7 +179,7 @@ export default function ContactShow({ contact }: { contact: Contact }) {
                                         {contact.address && (
                                             <div className="space-y-2">
                                                 <Label className="text-sm font-semibold tracking-wide text-gray-600 uppercase dark:text-gray-400">
-                                                    Address
+                                                    {t('contact_management.form.fields.address')}
                                                 </Label>
                                                 <div className="flex items-center gap-2">
                                                     <MapPin className="h-4 w-4 text-purple-600" />
@@ -188,7 +190,7 @@ export default function ContactShow({ contact }: { contact: Contact }) {
 
                                         <div className="space-y-2">
                                             <Label className="text-sm font-semibold tracking-wide text-gray-600 uppercase dark:text-gray-400">
-                                                Date Created
+                                                {t('contact_management.form.fields.date_created')}
                                             </Label>
                                             <div className="flex items-center gap-2">
                                                 <Calendar className="h-4 w-4 text-gray-600" />
@@ -201,7 +203,7 @@ export default function ContactShow({ contact }: { contact: Contact }) {
                                         {contact.updated_at !== contact.created_at && (
                                             <div className="space-y-2">
                                                 <Label className="text-sm font-semibold tracking-wide text-gray-600 uppercase dark:text-gray-400">
-                                                    Last Updated
+                                                    {t('contact_management.form.fields.last_updated')}
                                                 </Label>
                                                 <div className="flex items-center gap-2">
                                                     <Clock className="h-4 w-4 text-gray-600" />
@@ -219,7 +221,7 @@ export default function ContactShow({ contact }: { contact: Contact }) {
                             <div className="space-y-4">
                                 <h3 className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-gray-100">
                                     <MessageCircle className="h-5 w-5 text-purple-600" />
-                                    Message
+                                    {t('contact_management.show.sections.message')}
                                 </h3>
                                 <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800/50">
                                     <div className="max-h-80 overflow-y-auto">
@@ -236,11 +238,11 @@ export default function ContactShow({ contact }: { contact: Contact }) {
             <DeleteDialog
                 open={isDeleteDialogOpen}
                 onOpenChange={setIsDeleteDialogOpen}
-                title="Delete Contact"
-                description={`Are you sure you want to delete the contact from ${contact.name}? This action cannot be undone and will permanently remove the contact and their message.`}
+                title={t('contact_management.delete_dialog.contact_title')}
+                description={`${t('contact_management.delete_dialog.contact_description')} ${contact.name}${t('contact_management.delete_dialog.contact_description_continued')}`}
                 onConfirm={handleDelete}
                 isLoading={contactService.processing}
-                confirmButtonText="Delete Contact"
+                confirmButtonText={t('contact_management.delete_dialog.confirm_info')}
             />
         </AppLayout>
     );

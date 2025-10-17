@@ -7,6 +7,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import type { UserRole } from '@/constants/roles';
 import type { useUserOperations } from '@/hooks/useUserOperations';
 import { LoaderCircle, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
+// Import i18n to ensure it's initialized
 
 interface UserDialogsProps {
     operations: ReturnType<typeof useUserOperations>;
@@ -19,6 +22,7 @@ interface UserDialogsProps {
 }
 
 export function UserDialogs({ operations, roleLabels, roleColors, availableRoles, selectedUsers, onBulkDelete, onClearSelection }: UserDialogsProps) {
+    const { t } = useTranslation();
     const {
         isLoading,
         showCreateDialog,
@@ -44,12 +48,12 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
             <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
                 <DialogContent className="max-w-2xl">
                     <DialogHeader>
-                        <DialogTitle>Create New User</DialogTitle>
+                        <DialogTitle>{t('user_management.dialogs.create.title')}</DialogTitle>
                     </DialogHeader>
                     <form onSubmit={handleCreateUser} className="space-y-4">
                         <div className="grid gap-4 md:grid-cols-2">
                             <div className="space-y-2">
-                                <Label htmlFor="create-name">Full Name</Label>
+                                <Label htmlFor="create-name">{t('user_management.dialogs.create.full_name')}</Label>
                                 <Input
                                     id="create-name"
                                     type="text"
@@ -62,7 +66,7 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="create-email">Email Address</Label>
+                                <Label htmlFor="create-email">{t('user_management.dialogs.create.email_address')}</Label>
                                 <Input
                                     id="create-email"
                                     type="email"
@@ -76,14 +80,14 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
                         </div>
 
                         <div className="space-y-2">
-                            <Label>Role</Label>
+                            <Label>{t('user_management.dialogs.create.role')}</Label>
                             <Select
                                 value={createForm.data.role}
                                 onValueChange={(value: UserRole) => createForm.setData('role', value)}
                                 disabled={createForm.processing}
                             >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select a role" />
+                                    <SelectValue placeholder={t('user_management.dialogs.create.select_role')} />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {availableRoles.map((role) => (
@@ -98,7 +102,7 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
 
                         <div className="grid gap-4 md:grid-cols-2">
                             <div className="space-y-2">
-                                <Label htmlFor="create-password">Password</Label>
+                                <Label htmlFor="create-password">{t('user_management.dialogs.create.password')}</Label>
                                 <Input
                                     id="create-password"
                                     type="password"
@@ -111,7 +115,7 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="create-password-confirmation">Confirm Password</Label>
+                                <Label htmlFor="create-password-confirmation">{t('user_management.dialogs.create.confirm_password')}</Label>
                                 <Input
                                     id="create-password-confirmation"
                                     type="password"
@@ -126,11 +130,11 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
 
                         <div className="flex justify-end space-x-2 pt-4">
                             <Button type="button" variant="ghost" onClick={() => setShowCreateDialog(false)} disabled={createForm.processing}>
-                                Cancel
+                                {t('user_management.dialogs.create.cancel')}
                             </Button>
                             <Button type="submit" disabled={createForm.processing}>
                                 {createForm.processing && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
-                                Create User
+                                {t('user_management.dialogs.create.create_user')}
                             </Button>
                         </div>
                     </form>
@@ -141,13 +145,13 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
             <Dialog open={!!editUserDialog} onOpenChange={() => setEditUserDialog(null)}>
                 <DialogContent className="max-w-2xl">
                     <DialogHeader>
-                        <DialogTitle>Edit User: {editUserDialog?.name}</DialogTitle>
+                        <DialogTitle>{t('user_management.dialogs.edit.title')} {editUserDialog?.name}</DialogTitle>
                     </DialogHeader>
                     {editUserDialog && (
                         <form onSubmit={handleUpdateUser} className="space-y-4">
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="edit-name">Full Name</Label>
+                                    <Label htmlFor="edit-name">{t('user_management.dialogs.edit.full_name')}</Label>
                                     <Input
                                         id="edit-name"
                                         type="text"
@@ -164,7 +168,7 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="edit-email">Email Address</Label>
+                                    <Label htmlFor="edit-email">{t('user_management.dialogs.edit.email_address')}</Label>
                                     <Input
                                         id="edit-email"
                                         type="email"
@@ -182,7 +186,7 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
                             </div>
 
                             <div className="space-y-2">
-                                <Label>Role</Label>
+                                <Label>{t('user_management.dialogs.edit.role')}</Label>
                                 <Select
                                     value={editForm.data.role}
                                     onValueChange={(value: UserRole) => editForm.setData('role', value)}
@@ -204,7 +208,7 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
 
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="edit-password">New Password (optional)</Label>
+                                    <Label htmlFor="edit-password">{t('user_management.dialogs.edit.new_password')}</Label>
                                     <Input
                                         id="edit-password"
                                         type="password"
@@ -216,7 +220,7 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="edit-password-confirmation">Confirm New Password</Label>
+                                    <Label htmlFor="edit-password-confirmation">{t('user_management.dialogs.edit.confirm_new_password')}</Label>
                                     <Input
                                         id="edit-password-confirmation"
                                         type="password"
@@ -230,11 +234,11 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
 
                             <div className="flex justify-end space-x-2 pt-4">
                                 <Button type="button" variant="ghost" onClick={() => setEditUserDialog(null)} disabled={editForm.processing}>
-                                    Cancel
+                                    {t('user_management.dialogs.edit.cancel')}
                                 </Button>
                                 <Button type="submit" disabled={editForm.processing}>
                                     {editForm.processing && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
-                                    Update User
+                                    {t('user_management.dialogs.edit.update_user')}
                                 </Button>
                             </div>
                         </form>
@@ -246,20 +250,20 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
             <Dialog open={!!showUserDialog} onOpenChange={() => setShowUserDialog(null)}>
                 <DialogContent className="max-w-md">
                     <DialogHeader>
-                        <DialogTitle>User Details</DialogTitle>
+                        <DialogTitle>{t('user_management.dialogs.view.title')}</DialogTitle>
                     </DialogHeader>
                     {showUserDialog && (
                         <div className="space-y-4">
                             <div>
-                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Name</label>
+                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('user_management.dialogs.view.name')}</label>
                                 <p className="text-sm text-gray-900 dark:text-gray-100">{showUserDialog.name}</p>
                             </div>
                             <div>
-                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</label>
+                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('user_management.dialogs.view.email')}</label>
                                 <p className="text-sm text-gray-900 dark:text-gray-100">{showUserDialog.email}</p>
                             </div>
                             <div>
-                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Role</label>
+                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('user_management.dialogs.view.role')}</label>
                                 <div className="mt-1">
                                     <span
                                         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${roleColors[showUserDialog.role]}`}
@@ -269,7 +273,7 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
                                 </div>
                             </div>
                             <div>
-                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Created</label>
+                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('user_management.dialogs.view.created')}</label>
                                 <p className="text-sm text-gray-900 dark:text-gray-100">{new Date(showUserDialog.created_at).toLocaleDateString()}</p>
                             </div>
                         </div>
@@ -286,22 +290,21 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
                                 <Trash2 className="h-6 w-6 text-red-600" />
                             </div>
                             <div className="ml-3">
-                                <DialogTitle>Delete User</DialogTitle>
+                                <DialogTitle>{t('user_management.dialogs.delete.title')}</DialogTitle>
                             </div>
                         </div>
                     </DialogHeader>
                     {userToDelete && (
                         <div className="space-y-4">
                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                                Are you sure you want to delete <strong>{userToDelete.name}</strong> ({userToDelete.email})? This action cannot be
-                                undone.
+                                {t('user_management.dialogs.delete.message', { name: userToDelete.name, email: userToDelete.email })}
                             </p>
                             <div className="flex justify-end space-x-3">
                                 <Button variant="ghost" onClick={() => setUserToDelete(null)} disabled={isLoading}>
-                                    Cancel
+                                    {t('user_management.dialogs.delete.cancel')}
                                 </Button>
                                 <Button variant="destructive" onClick={handleDeleteUser} disabled={isLoading}>
-                                    {isLoading ? 'Deleting...' : 'Delete'}
+                                    {isLoading ? t('user_management.dialogs.delete.deleting') : t('user_management.dialogs.delete.delete')}
                                 </Button>
                             </div>
                         </div>
@@ -318,18 +321,20 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
                                 <Trash2 className="h-6 w-6 text-red-600" />
                             </div>
                             <div className="ml-3">
-                                <DialogTitle>Delete Users</DialogTitle>
+                                <DialogTitle>{t('user_management.dialogs.bulk_delete.title')}</DialogTitle>
                             </div>
                         </div>
                     </DialogHeader>
                     <div className="space-y-4">
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                            Are you sure you want to delete <strong>{selectedUsers.length}</strong> selected user
-                            {selectedUsers.length !== 1 ? 's' : ''}? This action cannot be undone.
+                            {t('user_management.dialogs.bulk_delete.message', { 
+                                count: selectedUsers.length, 
+                                plural: selectedUsers.length !== 1 ? 's' : '' 
+                            })}
                         </p>
                         <div className="flex justify-end space-x-3">
                             <Button variant="ghost" onClick={() => setShowBulkDeleteConfirm(false)} disabled={isLoading}>
-                                Cancel
+                                {t('user_management.dialogs.bulk_delete.cancel')}
                             </Button>
                             <Button
                                 variant="destructive"
@@ -343,7 +348,7 @@ export function UserDialogs({ operations, roleLabels, roleColors, availableRoles
                                 }}
                                 disabled={isLoading}
                             >
-                                {isLoading ? 'Deleting...' : 'Delete'}
+                                {isLoading ? t('user_management.dialogs.bulk_delete.deleting') : t('user_management.dialogs.bulk_delete.delete')}
                             </Button>
                         </div>
                     </div>

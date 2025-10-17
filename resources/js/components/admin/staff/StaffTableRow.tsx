@@ -3,6 +3,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import type { Staff, StaffDivision } from '@/types/staff';
 import { Link } from '@inertiajs/react';
 import { Edit, Eye, Trash2, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
+// Import i18n to ensure it's initialized
 
 interface StaffTableRowProps {
     staff: Staff;
@@ -27,6 +30,7 @@ export function StaffTableRow({
     onDelete,
     isLoading,
 }: StaffTableRowProps) {
+    const { t } = useTranslation();
     return (
         <tr className="border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800">
             <td className="py-4 pr-4">
@@ -63,12 +67,12 @@ export function StaffTableRow({
                 <div className="flex items-center gap-2">
                     <Button variant="ghost" size="sm" onClick={() => onView(staff)} className="h-8 w-8 p-0">
                         <Eye className="h-4 w-4" />
-                        <span className="sr-only">View</span>
+                        <span className="sr-only">{t('staff_management.actions_sr.view')}</span>
                     </Button>
                     <Link href={route('admin.staff.edit', staff.id)}>
                         <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                             <Edit className="h-4 w-4" />
-                            <span className="sr-only">Edit</span>
+                            <span className="sr-only">{t('staff_management.actions_sr.edit')}</span>
                         </Button>
                     </Link>
                     {!staff.user && (
@@ -80,7 +84,7 @@ export function StaffTableRow({
                             disabled={isLoading}
                         >
                             <Trash2 className="h-4 w-4" />
-                            <span className="sr-only">Delete</span>
+                            <span className="sr-only">{t('staff_management.actions_sr.delete')}</span>
                         </Button>
                     )}
                 </div>

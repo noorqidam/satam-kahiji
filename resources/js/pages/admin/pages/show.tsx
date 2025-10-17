@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { Calendar, Edit, FileText, Link as LinkIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,9 +22,11 @@ interface Props {
 }
 
 export default function ShowPage({ page }: Props) {
+    const { t } = useTranslation('common');
+    
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Admin Dashboard', href: '/admin/dashboard' },
-        { title: 'Page Management', href: '/admin/pages' },
+        { title: t('page_management.breadcrumbs.admin_dashboard'), href: '/admin/dashboard' },
+        { title: t('page_management.breadcrumbs.page_management'), href: '/admin/pages' },
         { title: page.title, href: `/admin/pages/${page.id}` },
     ];
 
@@ -47,7 +50,7 @@ export default function ShowPage({ page }: Props) {
                                     </div>
                                     <div className="flex items-center gap-1">
                                         <Calendar className="h-4 w-4" />
-                                        Updated {new Date(page.updated_at).toLocaleDateString()}
+                                        {t('page_management.show.header.updated')} {new Date(page.updated_at).toLocaleDateString()}
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +59,7 @@ export default function ShowPage({ page }: Props) {
                         <Link href={route('admin.pages.edit', page.id)}>
                             <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
                                 <Edit className="mr-2 h-4 w-4" />
-                                Edit Page
+                                {t('page_management.show.actions.edit_page')}
                             </Button>
                         </Link>
                     </div>
@@ -68,7 +71,7 @@ export default function ShowPage({ page }: Props) {
                     <div className="lg:col-span-2">
                         <Card className="border-2 border-gray-200 dark:border-gray-700">
                             <CardHeader>
-                                <CardTitle>Page Content</CardTitle>
+                                <CardTitle>{t('page_management.create.form.fields.content.label')}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 {page.image && (
@@ -91,29 +94,29 @@ export default function ShowPage({ page }: Props) {
                         {/* Page Information */}
                         <Card className="border-2 border-gray-200 dark:border-gray-700">
                             <CardHeader>
-                                <CardTitle className="text-lg">Page Information</CardTitle>
+                                <CardTitle className="text-lg">{t('page_management.show.meta.title')}</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div>
-                                    <label className="text-sm font-medium text-gray-600 dark:text-gray-400">URL Slug</label>
+                                    <label className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('page_management.show.meta.slug')}</label>
                                     <p className="rounded bg-gray-100 px-2 py-1 font-mono text-sm text-gray-900 dark:bg-gray-800 dark:text-gray-100">
                                         /{page.slug}
                                     </p>
                                 </div>
 
                                 <div>
-                                    <label className="text-sm font-medium text-gray-600 dark:text-gray-400">Created</label>
+                                    <label className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('page_management.show.meta.created_at')}</label>
                                     <p className="text-sm text-gray-900 dark:text-gray-100">{new Date(page.created_at).toLocaleString()}</p>
                                 </div>
 
                                 <div>
-                                    <label className="text-sm font-medium text-gray-600 dark:text-gray-400">Last Updated</label>
+                                    <label className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('page_management.show.meta.updated_at')}</label>
                                     <p className="text-sm text-gray-900 dark:text-gray-100">{new Date(page.updated_at).toLocaleString()}</p>
                                 </div>
 
                                 {page.image && (
                                     <div>
-                                        <label className="text-sm font-medium text-gray-600 dark:text-gray-400">Featured Image</label>
+                                        <label className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('page_management.show.meta.featured_image')}</label>
                                         <div className="mt-1">
                                             <img src={page.image || undefined} alt={page.title} className="h-24 w-full rounded border object-cover" />
                                         </div>

@@ -1,4 +1,7 @@
 import { AlertCircle, CheckCircle2, Eye, FileText, Hash, Save, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
+// Import i18n to ensure it's initialized
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -43,8 +46,10 @@ export function ClassFormCard({
     onSubmit,
     onCancel,
 }: ClassFormCardProps) {
-    const actionText = isEdit ? 'Update' : 'Create';
-    const loadingText = isEdit ? 'Updating...' : 'Creating...';
+    const { t } = useTranslation();
+
+    const actionText = isEdit ? t('classes_management.create.form.buttons.update') : t('classes_management.create.form.buttons.create');
+    const loadingText = isEdit ? t('classes_management.create.form.buttons.updating') : t('classes_management.create.form.buttons.creating');
 
     // Get field states for enhanced validation feedback
     const gradeFieldState = getFieldState?.('grade_level') || {
@@ -74,16 +79,18 @@ export function ClassFormCard({
 
     return (
         <form onSubmit={onSubmit} className="w-full">
-            <Card className="border-2 border-gray-200 shadow-lg dark:border-gray-700">
-                <CardHeader className="border-b bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-800 dark:to-slate-800">
+            <Card className="border-2 border-gray-200 pt-0 shadow-lg dark:border-gray-700">
+                <CardHeader className="rounded-t-lg border-b bg-gradient-to-r from-gray-50 to-slate-50 py-2 dark:from-gray-800 dark:to-slate-800">
                     <CardTitle className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900">
                                 <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Class Information</h2>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">Configure class details and settings</p>
+                                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                                    {t('classes_management.create.form.title')}
+                                </h2>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">{t('classes_management.create.form.description')}</p>
                             </div>
                         </div>
 
@@ -92,25 +99,29 @@ export function ClassFormCard({
                             {isEdit && currentClassName && (
                                 <div className="flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 dark:bg-gray-700">
                                     <Hash className="h-4 w-4 text-gray-500" />
-                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Current: {currentClassName}</span>
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        {t('classes_management.create.form.current')}: {currentClassName}
+                                    </span>
                                 </div>
                             )}
                             {previewClassName && (!isEdit || previewClassName !== currentClassName) && (
                                 <div className="flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 dark:border-blue-700 dark:bg-blue-900/50">
                                     <Eye className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                                    <span className="text-sm font-bold text-blue-700 dark:text-blue-300">Preview: {previewClassName}</span>
+                                    <span className="text-sm font-bold text-blue-700 dark:text-blue-300">
+                                        {t('classes_management.create.form.preview')}: {previewClassName}
+                                    </span>
                                 </div>
                             )}
                         </div>
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6 p-6">
+                <CardContent className="space-y-6">
                     {/* Grade and Section Selection */}
                     <div className="grid gap-6 sm:grid-cols-2">
                         <div className="space-y-2">
                             <Label htmlFor="grade_level" className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
                                 <Hash className="h-4 w-4 text-blue-600" />
-                                Grade Level *
+                                {t('classes_management.create.form.fields.grade_level.label')} *
                             </Label>
                             <Select value={formData.grade_level || undefined} onValueChange={(value) => onInputChange('grade_level', value)}>
                                 <SelectTrigger
@@ -123,7 +134,7 @@ export function ClassFormCard({
                                     }`}
                                     onBlur={() => onFieldBlur?.('grade_level')}
                                 >
-                                    <SelectValue placeholder="Choose grade level" />
+                                    <SelectValue placeholder={t('classes_management.create.form.fields.grade_level.placeholder')} />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {GRADE_LEVELS.map((grade) => (
@@ -142,7 +153,7 @@ export function ClassFormCard({
                             {gradeFieldState.isTouched && !gradeFieldState.hasError && formData.grade_level && (
                                 <p className="mt-2 flex items-center gap-1 text-xs text-green-600">
                                     <CheckCircle2 className="h-3 w-3" />
-                                    Valid grade level selected
+                                    {t('classes_management.create.form.fields.grade_level.validation.success')}
                                 </p>
                             )}
                         </div>
@@ -150,7 +161,7 @@ export function ClassFormCard({
                         <div className="space-y-2">
                             <Label htmlFor="class_section" className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
                                 <FileText className="h-4 w-4 text-green-600" />
-                                Class Section *
+                                {t('classes_management.create.form.fields.class_section.label')} *
                             </Label>
                             <Select value={formData.class_section || undefined} onValueChange={(value) => onInputChange('class_section', value)}>
                                 <SelectTrigger
@@ -163,12 +174,12 @@ export function ClassFormCard({
                                     }`}
                                     onBlur={() => onFieldBlur?.('class_section')}
                                 >
-                                    <SelectValue placeholder="Choose section" />
+                                    <SelectValue placeholder={t('classes_management.create.form.fields.class_section.placeholder')} />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {CLASS_SECTIONS.map((section) => (
                                         <SelectItem key={section} value={section} className="h-10">
-                                            Section {section}
+                                            {t('classes_management.create.form.fields.class_section.option_label')} {section}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
@@ -182,7 +193,7 @@ export function ClassFormCard({
                             {sectionFieldState.isTouched && !sectionFieldState.hasError && formData.class_section && (
                                 <p className="mt-2 flex items-center gap-1 text-xs text-green-600">
                                     <CheckCircle2 className="h-3 w-3" />
-                                    Valid section selected
+                                    {t('classes_management.create.form.fields.class_section.validation.success')}
                                 </p>
                             )}
                         </div>
@@ -192,7 +203,7 @@ export function ClassFormCard({
                     <div className="space-y-2">
                         <Label htmlFor="capacity" className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
                             <Users className="h-4 w-4 text-purple-600" />
-                            Class Capacity *
+                            {t('classes_management.create.form.fields.capacity.label')} *
                         </Label>
                         <div className="relative">
                             <Input
@@ -203,7 +214,7 @@ export function ClassFormCard({
                                 value={formData.capacity}
                                 onChange={(e) => onInputChange('capacity', e.target.value)}
                                 onBlur={() => onFieldBlur?.('capacity')}
-                                placeholder="Maximum students (e.g., 40)"
+                                placeholder={t('classes_management.create.form.fields.capacity.placeholder')}
                                 className={`h-12 border-2 pr-20 pl-4 transition-colors ${
                                     capacityFieldState.showError
                                         ? 'border-red-500 focus:border-red-500'
@@ -214,7 +225,7 @@ export function ClassFormCard({
                                 required
                             />
                             <div className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 transform">
-                                <span className="text-sm font-medium text-gray-500">students</span>
+                                <span className="text-sm font-medium text-gray-500">{t('classes_management.create.form.fields.capacity.unit')}</span>
                             </div>
                         </div>
                         {capacityFieldState.showError && (
@@ -226,7 +237,7 @@ export function ClassFormCard({
                         {capacityFieldState.isTouched && !capacityFieldState.hasError && formData.capacity && (
                             <p className="mt-2 flex items-center gap-1 text-xs text-green-600">
                                 <CheckCircle2 className="h-3 w-3" />
-                                Valid capacity entered
+                                {t('classes_management.create.form.fields.capacity.validation.success')}
                             </p>
                         )}
                     </div>
@@ -235,14 +246,14 @@ export function ClassFormCard({
                     <div className="space-y-2">
                         <Label htmlFor="description" className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
                             <FileText className="h-4 w-4 text-indigo-600" />
-                            Description (Optional)
+                            {t('classes_management.create.form.fields.description.label')}
                         </Label>
                         <Textarea
                             id="description"
                             value={formData.description}
                             onChange={(e) => onInputChange('description', e.target.value)}
                             onBlur={() => onFieldBlur?.('description')}
-                            placeholder="Add notes about this class... (e.g., 'Advanced science curriculum', 'Arts-focused program', 'Regular academic track')"
+                            placeholder={t('classes_management.create.form.fields.description.placeholder')}
                             rows={4}
                             className={`resize-none border-2 transition-colors ${
                                 descriptionFieldState.showError
@@ -253,8 +264,13 @@ export function ClassFormCard({
                             }`}
                         />
                         <div className="flex items-center justify-between text-xs text-gray-500">
-                            <span>Help students and teachers understand what makes this class unique</span>
-                            <span>{formData.description?.length || 0}/500</span>
+                            <span>{t('classes_management.create.form.fields.description.help')}</span>
+                            <span>
+                                {t('classes_management.create.form.fields.description.char_count', {
+                                    current: formData.description?.length || 0,
+                                    max: 500,
+                                })}
+                            </span>
                         </div>
                         {descriptionFieldState.showError && (
                             <p className="mt-2 flex items-center gap-1 text-xs text-red-600">
@@ -265,7 +281,7 @@ export function ClassFormCard({
                         {descriptionFieldState.isTouched && !descriptionFieldState.hasError && (
                             <p className="mt-2 flex items-center gap-1 text-xs text-green-600">
                                 <CheckCircle2 className="h-3 w-3" />
-                                Description looks good
+                                {t('classes_management.create.form.fields.description.validation.success')}
                             </p>
                         )}
                     </div>
@@ -273,14 +289,14 @@ export function ClassFormCard({
             </Card>
 
             {/* Enhanced Action Buttons */}
-            <div className="mt-8 flex flex-col justify-end gap-3 rounded-b-lg border-t border-gray-200 bg-gray-50 p-6 sm:flex-row sm:gap-4 dark:border-gray-700 dark:bg-gray-800">
+            <div className="flex flex-col justify-end gap-3 py-4 sm:flex-row sm:gap-4 dark:border-gray-700 dark:bg-gray-800">
                 <Button type="button" variant="outline" onClick={onCancel} className="h-12 w-full px-6 font-medium sm:w-auto">
-                    Cancel Changes
+                    {t('classes_management.create.form.buttons.cancel')}
                 </Button>
                 <Button
                     type="submit"
                     disabled={isSubmitting || !isFormValid}
-                    className="h-12 w-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 font-medium shadow-lg hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 disabled:shadow-none sm:w-auto"
+                    className="h-12 w-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 font-medium text-white shadow-lg hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 disabled:shadow-none sm:w-auto"
                 >
                     {isSubmitting ? (
                         <div className="flex items-center gap-2">
@@ -290,7 +306,7 @@ export function ClassFormCard({
                     ) : (
                         <div className="flex items-center gap-2">
                             <Save className="h-4 w-4" />
-                            {actionText} Class
+                            {actionText}
                         </div>
                     )}
                 </Button>

@@ -1,5 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { BookOpen, Edit, Eye, Trash2, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -14,6 +16,8 @@ interface SubjectTableRowProps {
 }
 
 export function SubjectTableRow({ subject, isSelected, onSelect, onView, onDelete }: SubjectTableRowProps) {
+    const { t } = useTranslation();
+    
     return (
         <tr className="border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800">
             <td className="py-4 pr-4">
@@ -33,7 +37,7 @@ export function SubjectTableRow({ subject, isSelected, onSelect, onView, onDelet
                         {subject.code}
                     </span>
                 ) : (
-                    <span className="text-gray-400 dark:text-gray-600">-</span>
+                    <span className="text-gray-400 dark:text-gray-600">{t('subject_management.table.no_code')}</span>
                 )}
             </td>
             <td className="py-4 pr-4">

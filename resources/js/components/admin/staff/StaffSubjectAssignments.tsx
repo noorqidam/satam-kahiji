@@ -1,5 +1,8 @@
 import { Link } from '@inertiajs/react';
 import { BookOpen, LoaderCircle, Plus, Search, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
+// Import i18n to ensure it's initialized
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -38,6 +41,7 @@ export function StaffSubjectAssignments({
     onRemoveSubject,
     onSubjectsSearchChange,
 }: StaffSubjectAssignmentsProps) {
+    const { t } = useTranslation();
     const isTeacherInAcademic =
         (staff.position.toLowerCase().includes('teacher') || staff.position.toLowerCase().includes('guru')) &&
         staff.division.toLowerCase() === 'akademik';
@@ -48,7 +52,7 @@ export function StaffSubjectAssignments({
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <BookOpen className="h-5 w-5" />
-                        Subject Assignments
+                        {t('staff_management.subject_assignments.title')}
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -58,9 +62,9 @@ export function StaffSubjectAssignments({
                                 <BookOpen className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
                             </div>
                             <div>
-                                <h4 className="font-medium text-yellow-900 dark:text-yellow-100">Subject Assignment Restricted</h4>
+                                <h4 className="font-medium text-yellow-900 dark:text-yellow-100">{t('staff_management.subject_assignments.restricted_title')}</h4>
                                 <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                                    Only teachers/guru from academic division can be assigned to subjects.
+                                    {t('staff_management.subject_assignments.restricted_message')}
                                 </p>
                             </div>
                         </div>
@@ -80,11 +84,11 @@ export function StaffSubjectAssignments({
                 <div className="flex items-center justify-between">
                     <CardTitle className="flex items-center gap-2">
                         <BookOpen className="h-5 w-5" />
-                        Subject Assignments ({staff.subjects?.length || 0})
+                        {t('staff_management.subject_assignments.title')} ({staff.subjects?.length || 0})
                     </CardTitle>
                     <Button type="button" variant="outline" size="sm" onClick={onAssignSubjects} disabled={isAssigningSubjects}>
                         {isAssigningSubjects && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
-                        Update Assignments
+                        {t('staff_management.subject_assignments.update_assignments')}
                     </Button>
                 </div>
             </CardHeader>
@@ -92,7 +96,7 @@ export function StaffSubjectAssignments({
                 {/* Currently Assigned Subjects */}
                 {staff.subjects && staff.subjects.length > 0 && (
                     <div className="space-y-3">
-                        <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">Currently Assigned</h4>
+                        <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('staff_management.subject_assignments.currently_assigned')}</h4>
                         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                             {staff.subjects.map((subject) => (
                                 <div
@@ -126,12 +130,12 @@ export function StaffSubjectAssignments({
                 {/* Search and Filter */}
                 <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">All Subjects ({availableSubjects?.total || 0})</h4>
+                        <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('staff_management.subject_assignments.all_subjects')} ({availableSubjects?.total || 0})</h4>
                         <div className="relative">
                             <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
                             <Input
                                 type="text"
-                                placeholder="Search subjects..."
+                                placeholder={t('staff_management.subject_assignments.search_placeholder')}
                                 value={subjectsSearch}
                                 onChange={(e) => onSubjectsSearchChange(e.target.value)}
                                 className="w-64 pl-10"
@@ -190,13 +194,13 @@ export function StaffSubjectAssignments({
                 {(!availableSubjects || availableSubjects.data.length === 0) && (
                     <div className="py-8 text-center">
                         <BookOpen className="mx-auto h-12 w-12 text-gray-400" />
-                        <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No subjects available</h3>
-                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Create some subjects first to assign them to staff.</p>
+                        <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">{t('staff_management.subject_assignments.no_subjects_title')}</h3>
+                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t('staff_management.subject_assignments.no_subjects_message')}</p>
                         <div className="mt-4">
                             <Link href={route('admin.subjects.create')}>
                                 <Button size="sm">
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Subject
+                                    {t('staff_management.subject_assignments.create_subject')}
                                 </Button>
                             </Link>
                         </div>
