@@ -39,10 +39,10 @@ export function DeleteConfirmationDialog({
 }: DeleteConfirmationDialogProps) {
     const { t } = useTranslation();
     
-    const defaultTitle = `Delete ${itemType}`;
+    const defaultTitle = t('common.delete_confirmation.title', { itemType });
     const defaultDescription = itemName 
-        ? `Are you sure you want to delete "${itemName}"? This action cannot be undone.`
-        : `Are you sure you want to delete this ${itemType}? This action cannot be undone.`;
+        ? t('common.delete_confirmation.description_with_name', { itemName })
+        : t('common.delete_confirmation.description_without_name', { itemType });
 
     const handleConfirm = () => {
         onConfirm();
