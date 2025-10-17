@@ -6,8 +6,8 @@ import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
 import { trackWebVitals } from './utils/performance';
 
-// Lazy load i18n only when needed
-const initI18n = () => import('./i18n');
+// Import i18n synchronously to ensure it's available immediately
+import './i18n';
 
 const appName = import.meta.env.VITE_APP_NAME;
 
@@ -22,10 +22,6 @@ createInertiaApp({
             trackWebVitals();
         }
 
-        // Lazy load i18n after initial render
-        setTimeout(() => {
-            initI18n();
-        }, 100);
 
         root.render(<App {...props} />);
     },

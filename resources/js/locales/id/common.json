@@ -1,9 +1,14 @@
 {
+    "common": {
+        "not_provided": "Tidak tersedia",
+        "biography": "Biografi"
+    },
     "navigation": {
         "home": "Beranda",
         "about": "Tentang Kami",
         "news": "Berita",
         "gallery": "Galeri",
+        "gallery_management": "Manajemen Galeri",
         "extracurricular": "Ekstrakurikuler",
         "facilities": "Fasilitas",
         "contact": "Kontak",
@@ -467,6 +472,57 @@
                 "error": "Kesalahan",
                 "create_failed": "Gagal membuat item kerja."
             }
+        }
+    },
+    "super_admin_navigation": {
+        "groups": {
+            "dashboard": "Dashboard",
+            "user_management": "Manajemen Pengguna",
+            "staff_management": "Manajemen Staf",
+            "academic_structure": "Struktur Akademik",
+            "assignments_students": "Tugas & Siswa",
+            "academic": "Akademik",
+            "content_management": "Manajemen Konten",
+            "communication": "Komunikasi",
+            "system": "Sistem"
+        },
+        "items": {
+            "overview": "Ikhtisar",
+            "users": "Pengguna",
+            "staff_management": "Manajemen Staf",
+            "classes": "Kelas",
+            "subjects": "Mata Pelajaran",
+            "subject_assignments": "Penugasan Mata Pelajaran",
+            "homeroom_management": "Manajemen Wali Kelas",
+            "students": "Siswa",
+            "extracurriculars": "Ekstrakurikuler",
+            "work_items": "Item Kerja",
+            "posts_news": "Postingan & Berita",
+            "pages": "Halaman",
+            "gallery": "Galeri",
+            "facilities": "Fasilitas",
+            "contact_management": "Manajemen Kontak",
+            "google_drive_monitor": "Monitor Google Drive"
+        }
+    },
+    "deputy_headmaster_navigation": {
+        "groups": {
+            "dashboard": "Dashboard",
+            "academic_support": "Dukungan Akademik",
+            "content_management": "Manajemen Konten",
+            "administration": "Administrasi"
+        },
+        "items": {
+            "overview": "Ikhtisar",
+            "staff_management": "Manajemen Staf",
+            "students": "Siswa",
+            "subjects": "Mata Pelajaran",
+            "student_grades": "Nilai Siswa",
+            "posts_news": "Postingan & Berita",
+            "pages": "Halaman",
+            "gallery": "Galeri",
+            "reports": "Laporan",
+            "facilities": "Fasilitas"
         }
     },
     "teacher_navigation": {
@@ -1098,6 +1154,629 @@
             "need_account": "Perlu akun? Hubungi administrator sistem Anda."
         }
     },
+    "user_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "user_management": "Manajemen Pengguna"
+        },
+        "page_title": "Manajemen Pengguna",
+        "page_description": "Kelola pengguna sistem dan peran mereka",
+        "header": {
+            "title": "Manajemen Pengguna",
+            "description": "Kelola pengguna sistem dan peran mereka"
+        },
+        "actions": {
+            "add_new_user": "Tambah Pengguna Baru",
+            "add_user": "Tambah Pengguna",
+            "delete_selected": "Hapus Terpilih",
+            "clear_filters": "Hapus Filter",
+            "filter_by_roles": "Filter peran",
+            "search_placeholder": "Cari nama atau email"
+        },
+        "table": {
+            "all_users": "Semua Pengguna",
+            "name": "Nama",
+            "email": "Email",
+            "role": "Peran",
+            "created": "Dibuat",
+            "actions": "Aksi",
+            "no_users_found": "Tidak ada pengguna ditemukan",
+            "no_users_match": "Tidak ada pengguna yang sesuai dengan filter saat ini.",
+            "get_started": "Mulai dengan menambahkan pengguna baru."
+        },
+        "filters": {
+            "search_label": "Pencarian:",
+            "delete_selected_count": "Hapus Terpilih ({count})",
+            "delete_count": "Hapus ({count})"
+        },
+        "dialogs": {
+            "create": {
+                "title": "Buat Pengguna Baru",
+                "full_name": "Nama Lengkap",
+                "email_address": "Alamat Email",
+                "role": "Peran",
+                "password": "Kata Sandi",
+                "confirm_password": "Konfirmasi Kata Sandi",
+                "select_role": "Pilih peran",
+                "cancel": "Batal",
+                "create_user": "Buat Pengguna"
+            },
+            "edit": {
+                "title": "Edit Pengguna:",
+                "full_name": "Nama Lengkap",
+                "email_address": "Alamat Email",
+                "role": "Peran",
+                "new_password": "Kata Sandi Baru (opsional)",
+                "confirm_new_password": "Konfirmasi Kata Sandi Baru",
+                "cancel": "Batal",
+                "update_user": "Perbarui Pengguna"
+            },
+            "view": {
+                "title": "Detail Pengguna",
+                "name": "Nama",
+                "email": "Email",
+                "role": "Peran",
+                "created": "Dibuat"
+            },
+            "delete": {
+                "title": "Hapus Pengguna",
+                "message": "Apakah Anda yakin ingin menghapus {name} ({email})? Tindakan ini tidak dapat dibatalkan.",
+                "cancel": "Batal",
+                "delete": "Hapus",
+                "deleting": "Menghapus..."
+            },
+            "bulk_delete": {
+                "title": "Hapus Pengguna",
+                "message": "Apakah Anda yakin ingin menghapus {count} pengguna{plural} yang dipilih? Tindakan ini tidak dapat dibatalkan.",
+                "cancel": "Batal",
+                "delete": "Hapus",
+                "deleting": "Menghapus..."
+            }
+        },
+        "actions_sr": {
+            "view": "Lihat",
+            "edit": "Edit",
+            "delete": "Hapus"
+        }
+    },
+    "staff_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "staff_management": "Manajemen Staff"
+        },
+        "page_title": "Manajemen Staff",
+        "page_description": "Kelola anggota staff dan informasi mereka",
+        "header": {
+            "title": "Manajemen Staff",
+            "description": "Kelola anggota staff dan informasi mereka"
+        },
+        "actions": {
+            "add_new_staff": "Tambah Staff Baru",
+            "add_staff": "Tambah Staff",
+            "add_staff_member": "Tambah Anggota Staff",
+            "refresh": "Segarkan",
+            "delete_selected": "Hapus Terpilih",
+            "clear_filters": "Hapus Filter",
+            "filter_by_divisions": "Filter berdasarkan divisi",
+            "search_placeholder": "Cari berdasarkan nama, email, atau posisi"
+        },
+        "table": {
+            "all_staff": "Semua Staff",
+            "photo": "Foto",
+            "name": "Nama",
+            "position": "Posisi",
+            "division": "Divisi",
+            "email": "Email",
+            "phone": "Telepon",
+            "actions": "Aksi",
+            "no_staff_found": "Tidak ada anggota staff ditemukan",
+            "no_staff_match": "Tidak ada anggota staff yang sesuai dengan filter saat ini.",
+            "get_started": "Mulai dengan menambahkan anggota staff baru."
+        },
+        "filters": {
+            "search_label": "Pencarian:",
+            "delete_selected_count": "Hapus Terpilih ({count})",
+            "delete_count": "Hapus ({count})"
+        },
+        "dialogs": {
+            "view": {
+                "title": "Detail Staff",
+                "name": "Nama",
+                "position": "Posisi",
+                "division": "Divisi",
+                "email": "Email",
+                "phone": "Telepon",
+                "address": "Alamat",
+                "date_of_birth": "Tanggal Lahir",
+                "hire_date": "Tanggal Masuk",
+                "created": "Dibuat"
+            },
+            "delete": {
+                "title": "Hapus Anggota Staff",
+                "message": "Apakah Anda yakin ingin menghapus {name}? Tindakan ini tidak dapat dibatalkan.",
+                "cancel": "Batal",
+                "delete": "Hapus",
+                "deleting": "Menghapus..."
+            },
+            "bulk_delete": {
+                "title": "Hapus Anggota Staff",
+                "message": "Apakah Anda yakin ingin menghapus {count} anggota staff{plural} yang dipilih? Tindakan ini tidak dapat dibatalkan.",
+                "cancel": "Batal",
+                "delete": "Hapus",
+                "deleting": "Menghapus..."
+            }
+        },
+        "actions_sr": {
+            "view": "Lihat",
+            "edit": "Edit",
+            "delete": "Hapus"
+        },
+        "divisions": {
+            "teaching": "Pengajaran",
+            "administration": "Administrasi",
+            "support": "Dukungan",
+            "leadership": "Kepemimpinan"
+        },
+        "create": {
+            "breadcrumbs": {
+                "admin_dashboard": "Dashboard Admin",
+                "staff_management": "Manajemen Staff",
+                "create_staff": "Tambah Staff"
+            },
+            "page_title": "Tambah Anggota Staff",
+            "page_description": "Tambahkan anggota staff baru ke sistem",
+            "sections": {
+                "basic_information": "Informasi Dasar"
+            },
+            "fields": {
+                "full_name": "Nama Lengkap",
+                "position": "Posisi",
+                "email_address": "Alamat Email",
+                "phone_number": "Nomor Telepon",
+                "division": "Divisi",
+                "biography": "Biografi",
+                "profile_photo": "Foto Profil"
+            },
+            "placeholders": {
+                "enter_full_name": "Masukkan nama lengkap",
+                "position_example": "contoh: Guru Matematika",
+                "email_example": "email@contoh.com",
+                "phone_example": "+62 123 4567 8900",
+                "select_division": "Pilih Divisi",
+                "biography_placeholder": "Masukkan biografi anggota staff, pencapaian, latar belakang..."
+            },
+            "actions": {
+                "cancel": "Batal",
+                "create_staff_member": "Tambah Anggota Staff"
+            }
+        },
+        "edit": {
+            "breadcrumbs": {
+                "admin_dashboard": "Dashboard Admin",
+                "staff_management": "Manajemen Staff",
+                "edit_staff": "Edit Staff"
+            },
+            "page_title": "Edit Anggota Staff",
+            "page_description": "Perbarui informasi {{name}}",
+            "sections": {
+                "basic_information": "Informasi Dasar",
+                "associated_user_account": "Akun Pengguna Terkait",
+                "profile_photo": "Foto Profil"
+            },
+            "fields": {
+                "full_name": "Nama Lengkap",
+                "position": "Posisi",
+                "email_address": "Alamat Email",
+                "phone_number": "Nomor Telepon",
+                "division": "Divisi",
+                "biography": "Biografi",
+                "profile_photo": "Foto Profil"
+            },
+            "placeholders": {
+                "enter_full_name": "Masukkan nama lengkap",
+                "position_example": "contoh: Guru Matematika",
+                "email_example": "email@contoh.com",
+                "phone_example": "+62 123 4567 8900",
+                "select_division": "pilih divisi",
+                "biography_placeholder": "Masukkan biografi anggota staff, pencapaian, latar belakang..."
+            },
+            "messages": {
+                "user_account_info": "Informasi dasar dikelola melalui akun pengguna. Hanya biografi dan foto yang dapat diedit di sini.",
+                "user_account_details": "{{name}} ({{email}}) - {{role}}"
+            },
+            "actions": {
+                "cancel": "Batal",
+                "update_staff_member": "Perbarui Anggota Staff"
+            }
+        },
+        "position_history": {
+            "title": "Riwayat Posisi",
+            "add_position": "Tambah Posisi",
+            "position_title": "Jabatan",
+            "start_year": "Tahun Mulai",
+            "end_year": "Tahun Selesai",
+            "present": "Sekarang",
+            "save": "Simpan",
+            "cancel": "Batal",
+            "edit": "Edit",
+            "delete": "Hapus",
+            "delete_selected": "Hapus Terpilih",
+            "select_all": "Pilih Semua",
+            "records": "rekaman",
+            "placeholders": {
+                "position_title": "contoh: Kepala Jurusan Matematika",
+                "start_year": "2023",
+                "end_year": "2024 (kosongkan jika masih berlangsung)"
+            },
+            "validation": {
+                "title_required": "Jabatan harus diisi",
+                "start_year_required": "Tahun mulai harus diisi",
+                "end_year_greater": "Tahun selesai harus lebih besar atau sama dengan tahun mulai"
+            },
+            "messages": {
+                "no_records": "Tidak ada catatan riwayat posisi ditemukan.",
+                "click_add": "Klik \"Tambah Posisi\" untuk menambah catatan pertama.",
+                "add_success": "Riwayat posisi berhasil ditambahkan.",
+                "update_success": "Riwayat posisi berhasil diperbarui.",
+                "delete_success": "Riwayat posisi berhasil dihapus.",
+                "bulk_delete_success": "rekaman riwayat posisi berhasil dihapus.",
+                "add_error": "Gagal menambahkan riwayat posisi.",
+                "update_error": "Gagal memperbarui riwayat posisi.",
+                "delete_error": "Gagal menghapus riwayat posisi.",
+                "bulk_delete_error": "Gagal menghapus catatan riwayat posisi."
+            },
+            "dialogs": {
+                "delete_title": "Hapus Riwayat Posisi",
+                "delete_description": "Apakah Anda yakin ingin menghapus catatan riwayat posisi ini? Tindakan ini tidak dapat dibatalkan.",
+                "bulk_delete_title": "Hapus Beberapa Catatan",
+                "bulk_delete_description": "Apakah Anda yakin ingin menghapus {{count}} catatan riwayat posisi? Tindakan ini tidak dapat dibatalkan.",
+                "cancel": "Batal",
+                "delete": "Hapus",
+                "delete_count": "Hapus {{count}} Catatan",
+                "delete_button": "Hapus",
+                "bulk_delete_button": "Hapus {{count}} Catatan"
+            }
+        },
+        "subject_assignments": {
+            "title": "Penugasan Mata Pelajaran",
+            "count": "Penugasan Mata Pelajaran ({{count}})",
+            "update_assignments": "Perbarui Penugasan",
+            "currently_assigned": "Saat Ini Ditugaskan",
+            "all_subjects": "Semua Mata Pelajaran ({{total}})",
+            "search_placeholder": "Cari mata pelajaran...",
+            "create_subject": "Buat Mata Pelajaran",
+            "restriction": {
+                "title": "Penugasan Mata Pelajaran Dibatasi",
+                "description": "Hanya guru dari divisi akademik yang dapat ditugaskan ke mata pelajaran."
+            },
+            "empty_state": {
+                "title": "Tidak ada mata pelajaran tersedia",
+                "description": "Buat beberapa mata pelajaran terlebih dahulu untuk menugaskannya ke staff."
+            }
+        }
+    },
+    "class_management": {
+        "subject_staff_assignments": {
+            "breadcrumbs": {
+                "admin_dashboard": "Dashboard Admin",
+                "subject_staff_assignments": "Penugasan Mata Pelajaran-Staff"
+            },
+            "page_title": "Penugasan Mata Pelajaran-Staff",
+            "page_description": "Kelola penugasan mata pelajaran untuk semua anggota staff",
+            "actions": {
+                "save_all_changes": "Simpan Semua Perubahan"
+            },
+            "matrix": {
+                "title": "Matriks Penugasan",
+                "showing_count": "Menampilkan {{staffCount}} dari {{staffTotal}} anggota staff dan {{subjectCount}} dari {{subjectTotal}} mata pelajaran",
+                "note": "Catatan: Hanya guru dari divisi akademik yang ditampilkan karena mereka adalah satu-satunya anggota staff yang dapat ditugaskan ke mata pelajaran."
+            },
+            "search_filters": {
+                "staff_search": {
+                    "title": "Pencarian Staff",
+                    "placeholder": "Cari staff berdasarkan nama, posisi..."
+                },
+                "subject_search": {
+                    "title": "Pencarian Mata Pelajaran",
+                    "placeholder": "Cari mata pelajaran berdasarkan nama, kode..."
+                }
+            },
+            "save": {
+                "no_changes_title": "Tidak Ada Perubahan",
+                "no_changes_description": "Tidak ada perubahan yang terdeteksi dalam penugasan mata pelajaran.",
+                "success_title": "Berhasil",
+                "success_description": "Operasi penugasan telah selesai.",
+                "warning_title": "Peringatan",
+                "error_title": "Kesalahan",
+                "error_fallback": "Gagal menyimpan penugasan. Silakan coba lagi."
+            }
+        }
+    },
+    "classes_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "classes": "Kelas"
+        },
+        "page_title": "Manajemen Kelas",
+        "page_description": "Mengatur dan mengelola kelas sekolah menengah pertama",
+        "header": {
+            "title": "Manajemen Kelas",
+            "description": "Mengatur dan mengelola kelas sekolah menengah pertama"
+        },
+        "stats": {
+            "total_classes": "Total Kelas",
+            "active_classes": "Kelas Aktif", 
+            "with_teachers": "Dengan Guru",
+            "total_capacity": "Total Kapasitas",
+            "total_students": "Total Siswa",
+            "students": "Siswa"
+        },
+        "actions": {
+            "add_class": "Tambah Kelas",
+            "delete": "Hapus",
+            "select_all": "Pilih Semua",
+            "deselect_all": "Batalkan Pilihan",
+            "create_first_class": "Buat Kelas Pertama Anda"
+        },
+        "grade": {
+            "title": "Kelas {{level}}",
+            "class_count": "{{count}} kelas",
+            "class_count_plural": "{{count}} kelas"
+        },
+        "empty_state": {
+            "title": "Belum ada kelas yang dibuat",
+            "description": "Mulai dengan membuat kelas pertama Anda. Kelas membantu mengatur siswa berdasarkan tingkat kelas dan bagian.",
+            "tips": {
+                "title": "Tips Cepat:",
+                "naming": "Kelas diberi nama seperti \"7A\", \"8B\"",
+                "capacity": "Tentukan kapasitas untuk setiap kelas", 
+                "teachers": "Tugaskan guru wali kelas"
+            }
+        },
+        "dialogs": {
+            "delete_single": {
+                "title": "Hapus Kelas",
+                "description": "Apakah Anda yakin ingin menghapus kelas \"{{className}}\"? Ini akan menghapus semua data terkait dan tidak dapat dibatalkan."
+            },
+            "delete_bulk": {
+                "title": "Hapus Kelas",
+                "description": "Apakah Anda yakin ingin menghapus {{count}} kelas yang dipilih? Ini akan menghapus semua data terkait dan tidak dapat dibatalkan."
+            }
+        },
+        "messages": {
+            "select_classes_error": "Silakan pilih kelas yang akan dihapus",
+            "delete_success": "Kelas {{className}} berhasil dihapus",
+            "delete_error": "Gagal menghapus kelas",
+            "bulk_delete_success": "Kelas yang dipilih berhasil dihapus",
+            "bulk_delete_error": "Gagal menghapus kelas yang dipilih"
+        },
+        "table": {
+            "class": "Kelas",
+            "capacity": "Kapasitas",
+            "teacher": "Guru",
+            "actions": "Aksi",
+            "full": "Penuh",
+            "available": "Tersedia",
+            "slots": "slot",
+            "no_teacher_assigned": "Belum ada guru yang ditugaskan",
+            "view": "Lihat",
+            "edit": "Edit",
+            "delete": "Hapus"
+        },
+        "create": {
+            "breadcrumbs": {
+                "admin_dashboard": "Dashboard Admin",
+                "classes": "Kelas",
+                "create_class": "Buat Kelas"
+            },
+            "page_title": "Buat Kelas Baru",
+            "page_description": "Tambahkan kelas baru untuk mengatur siswa berdasarkan tingkat dan bagian",
+            "header": {
+                "title": "Buat Kelas Baru",
+                "description": "Tambahkan kelas baru untuk mengatur siswa berdasarkan tingkat dan bagian"
+            },
+            "naming_convention": {
+                "title": "Konvensi Penamaan Kelas",
+                "description": "Kelas secara otomatis dinamai dengan menggabungkan tingkat kelas dan bagian:",
+                "examples": {
+                    "grade_7_section_a": "Kelas 7, Bagian A",
+                    "grade_8_section_b": "Kelas 8, Bagian B",
+                    "grade_9_section_c": "Kelas 9, Bagian C"
+                },
+                "note": "Sistem penamaan ini memastikan konsistensi di seluruh sekolah menengah pertama."
+            },
+            "best_practices": {
+                "title": "Praktik Terbaik",
+                "capacity": {
+                    "title": "Kapasitas Standar",
+                    "description": "Tetapkan kapasitas maksimal 40 siswa per kelas"
+                },
+                "descriptions": {
+                    "title": "Deskripsi yang Jelas",
+                    "description": "Tambahkan deskripsi yang membantu untuk mengidentifikasi karakteristik kelas"
+                },
+                "organization": {
+                    "title": "Organisasi Kelas",
+                    "description": "Buat beberapa bagian (A, B, C) untuk setiap tingkat kelas"
+                }
+            },
+            "form": {
+                "title": "Informasi Kelas",
+                "description": "Konfigurasi detail dan pengaturan kelas",
+                "preview": "Pratinjau",
+                "current": "Saat Ini",
+                "fields": {
+                    "grade_level": {
+                        "label": "Tingkat Kelas",
+                        "placeholder": "Pilih tingkat kelas",
+                        "validation": {
+                            "success": "Tingkat kelas yang valid dipilih"
+                        }
+                    },
+                    "class_section": {
+                        "label": "Bagian Kelas",
+                        "placeholder": "Pilih bagian",
+                        "option_label": "Bagian",
+                        "validation": {
+                            "success": "Bagian yang valid dipilih"
+                        }
+                    },
+                    "capacity": {
+                        "label": "Kapasitas Kelas",
+                        "placeholder": "Maksimal siswa (contoh: 40)",
+                        "unit": "siswa",
+                        "validation": {
+                            "success": "Kapasitas yang valid dimasukkan"
+                        }
+                    },
+                    "description": {
+                        "label": "Deskripsi (Opsional)",
+                        "placeholder": "Tambahkan catatan tentang kelas ini... (contoh: 'Kurikulum sains lanjutan', 'Program fokus seni', 'Jalur akademik reguler')",
+                        "help": "Bantu siswa dan guru memahami apa yang membuat kelas ini unik",
+                        "char_count": "{{current}}/{{max}}",
+                        "validation": {
+                            "success": "Deskripsi terlihat baik"
+                        }
+                    }
+                },
+                "buttons": {
+                    "cancel": "Batalkan Perubahan",
+                    "create": "Buat Kelas",
+                    "update": "Perbarui Kelas",
+                    "creating": "Membuat...",
+                    "updating": "Memperbarui..."
+                },
+                "validation": {
+                    "grade_level": {
+                        "required": "Tingkat kelas wajib diisi",
+                        "invalid": "Tingkat kelas harus 7, 8, atau 9"
+                    },
+                    "class_section": {
+                        "required": "Bagian kelas wajib diisi",
+                        "invalid": "Bagian kelas harus berupa satu huruf (A-Z)"
+                    },
+                    "capacity": {
+                        "required": "Kapasitas wajib diisi",
+                        "invalid_number": "Kapasitas harus berupa angka",
+                        "invalid_format": "Kapasitas harus berupa angka yang valid",
+                        "min_value": "Kapasitas minimal 1 siswa",
+                        "min_current_students": "Kapasitas minimal {{count}} untuk menampung siswa saat ini",
+                        "max_value": "Kapasitas tidak boleh melebihi 40 siswa",
+                        "must_be_integer": "Kapasitas harus berupa bilangan bulat"
+                    },
+                    "description": {
+                        "max_length": "Deskripsi tidak boleh melebihi 500 karakter"
+                    },
+                    "general": {
+                        "validation_failed": "Validasi gagal",
+                        "validation_error": "Error validasi",
+                        "unexpected_error": "Error validasi yang tidak terduga"
+                    }
+                }
+            }
+        }
+    },
+    "subject_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "subject_management": "Manajemen Mata Pelajaran"
+        },
+        "page_title": "Manajemen Mata Pelajaran",
+        "page_description": "Kelola mata pelajaran dan penugasan staff",
+        "header": {
+            "title": "Manajemen Mata Pelajaran",
+            "description": "Kelola mata pelajaran dan penugasan staff"
+        },
+        "actions": {
+            "add_subject": "Tambah Mata Pelajaran Baru",
+            "add_subject_short": "Tambah Mata Pelajaran"
+        },
+        "filters": {
+            "all_subjects": "Semua Mata Pelajaran",
+            "search_placeholder": "Cari berdasarkan nama atau kode",
+            "search_label": "Pencarian: \"{{term}}\"",
+            "delete_selected": "Hapus Terpilih ({{count}})",
+            "clear_filters": "Hapus Filter"
+        },
+        "table": {
+            "columns": {
+                "subject_name": "Nama Mata Pelajaran",
+                "code": "Kode",
+                "assigned_staff": "Staff Ditugaskan",
+                "created": "Dibuat",
+                "actions": "Aksi"
+            },
+            "staff_count": "{{count}} anggota staff",
+            "no_code": "-"
+        },
+        "empty_state": {
+            "title": "Tidak ada mata pelajaran ditemukan",
+            "description_search": "Coba sesuaikan pencarian Anda.",
+            "description_empty": "Mulai dengan menambahkan mata pelajaran baru.",
+            "add_subject": "Tambah Mata Pelajaran"
+        },
+        "dialogs": {
+            "bulk_delete": {
+                "title": "Hapus Mata Pelajaran",
+                "message": "Apakah Anda yakin ingin menghapus <strong>{{count}}</strong> mata pelajaran? Tindakan ini tidak dapat dibatalkan."
+            },
+            "single_delete": {
+                "title": "Hapus Mata Pelajaran",
+                "message": "Apakah Anda yakin ingin menghapus <strong>{{name}}</strong>? Tindakan ini tidak dapat dibatalkan."
+            },
+            "subject_details": {
+                "title": "Detail Mata Pelajaran: {{name}}",
+                "description": "Lihat informasi detail tentang mata pelajaran ini termasuk staff yang ditugaskan dan tanggal pembuatan.",
+                "labels": {
+                    "assigned_staff": "Staff Ditugaskan",
+                    "created": "Dibuat"
+                },
+                "values": {
+                    "staff_members": "{{count}} anggota staff"
+                }
+            }
+        },
+        "create": {
+            "breadcrumbs": {
+                "admin_dashboard": "Dashboard Admin",
+                "subject_management": "Manajemen Mata Pelajaran",
+                "create_subject": "Buat Mata Pelajaran"
+            },
+            "page_title": "Buat Mata Pelajaran",
+            "header": {
+                "title": "Buat Mata Pelajaran",
+                "description": "Tambahkan mata pelajaran baru ke sistem"
+            },
+            "form": {
+                "title": "Informasi Mata Pelajaran",
+                "fields": {
+                    "name": {
+                        "label": "Nama Mata Pelajaran",
+                        "placeholder": "contoh: Matematika, Bahasa Inggris"
+                    },
+                    "code": {
+                        "label": "Kode Mata Pelajaran",
+                        "placeholder": "contoh: MAT101, ING201",
+                        "help": "Pengenal unik opsional untuk mata pelajaran"
+                    }
+                },
+                "buttons": {
+                    "cancel": "Batal",
+                    "create": "Buat Mata Pelajaran"
+                }
+            },
+            "messages": {
+                "success": {
+                    "title": "Berhasil",
+                    "description": "Mata pelajaran berhasil dibuat."
+                },
+                "error": {
+                    "title": "Error",
+                    "description": "Gagal membuat mata pelajaran."
+                }
+            }
+        }
+    },
     "work_items_management": {
         "breadcrumbs": {
             "admin_dashboard": "Dashboard",
@@ -1343,6 +2022,1225 @@
         "draft": "Konsep",
         "active": "Aktif",
         "inactive": "Tidak Aktif",
-        "of": "dari"
+        "of": "dari",
+        "delete_confirmation": {
+            "title": "Hapus {{itemType}}",
+            "description_with_name": "Apakah Anda yakin ingin menghapus \"{{itemName}}\"? Tindakan ini tidak dapat dibatalkan.",
+            "description_without_name": "Apakah Anda yakin ingin menghapus {{itemType}} ini? Tindakan ini tidak dapat dibatalkan."
+        }
+    },
+    "student_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "students": "Manajemen Siswa"
+        },
+        "page_title": "Manajemen Siswa",
+        "page_description": "Kelola informasi siswa, termasuk detail pribadi, informasi kontak, dan catatan.",
+        "table": {
+            "headers": {
+                "student": "Siswa",
+                "class_entry_year": "Kelas & Tahun Masuk",
+                "gender": "Jenis Kelamin",
+                "date_of_birth": "Tanggal Lahir",
+                "homeroom_teacher": "Guru Wali Kelas",
+                "status": "Status",
+                "actions": "Aksi"
+            },
+            "empty_states": {
+                "no_students_filtered": "Tidak ada siswa yang ditemukan sesuai pencarian Anda.",
+                "no_students": "Tidak ada siswa yang ditemukan."
+            },
+            "total_count": "Siswa ({{count}})"
+        },
+        "filters": {
+            "search_placeholder": "Cari siswa",
+            "gender_filter": {
+                "placeholder": "Semua jenis kelamin",
+                "male": "Laki-laki",
+                "female": "Perempuan"
+            },
+            "status_filter": {
+                "placeholder": "Semua status",
+                "active": "Aktif",
+                "graduated": "Lulus",
+                "transferred": "Pindah",
+                "dropped": "Keluar"
+            }
+        },
+        "actions": {
+            "add_student": "Tambah Siswa",
+            "delete_selected": "Hapus Terpilih ({{count}})"
+        },
+        "dialogs": {
+            "delete_student": {
+                "title": "Hapus Siswa",
+                "message": "Apakah Anda yakin ingin menghapus siswa ini? Tindakan ini tidak dapat dibatalkan.",
+                "confirm_button": "Hapus Siswa"
+            },
+            "bulk_delete": {
+                "title": "Hapus Siswa",
+                "message": "Apakah Anda yakin ingin menghapus {{count}} siswa? Tindakan ini tidak dapat dibatalkan.",
+                "confirm_button": "Hapus {{count}} Siswa"
+            }
+        }
+    },
+    "student_creation": {
+        "breadcrumbs": {
+            "create_student": "Buat Siswa"
+        },
+        "page_title": "Buat Siswa Baru",
+        "page_description": "Tambahkan siswa baru ke sistem dengan informasi lengkap dan kontrol administratif.",
+        "sections": {
+            "photo": "Foto Siswa",
+            "basic_info": "Informasi Dasar",
+            "admin_controls": "Kontrol Administratif",
+            "contact_info": "Informasi Kontak",
+            "transportation_info": "Informasi Transportasi",
+            "health_info": "Informasi Kesehatan",
+            "academic_info": "Informasi Akademik"
+        },
+        "descriptions": {
+            "admin_controls": "Pengaturan administratif termasuk penugasan kelas, guru wali kelas, dan status siswa."
+        },
+        "fields": {
+            "nisn": "NISN (ID Siswa)",
+            "name": "Nama Lengkap",
+            "gender": "Jenis Kelamin",
+            "birth_date": "Tanggal Lahir",
+            "birthplace": "Tempat Lahir",
+            "religion": "Agama",
+            "class": "Kelas",
+            "homeroom_teacher": "Guru Wali Kelas",
+            "status": "Status",
+            "entry_year": "Tahun Masuk",
+            "parent_name": "Nama Orang Tua/Wali",
+            "parent_phone": "Telepon Orang Tua",
+            "parent_email": "Email Orang Tua",
+            "emergency_contact_name": "Nama Kontak Darurat",
+            "emergency_contact_phone": "Telepon Kontak Darurat",
+            "address": "Alamat",
+            "transportation_method": "Metode Transportasi",
+            "distance_from_home": "Jarak dari Rumah (km)",
+            "travel_time": "Waktu Perjalanan (menit)",
+            "pickup_location": "Lokasi Penjemputan",
+            "transportation_notes": "Catatan Transportasi",
+            "blood_type": "Golongan Darah",
+            "allergies": "Alergi",
+            "medical_conditions": "Kondisi Medis",
+            "dietary_restrictions": "Pembatasan Diet",
+            "emergency_medical_info": "Informasi Medis Darurat",
+            "graduation_year": "Tahun Kelulusan",
+            "extracurriculars": "Kegiatan Ekstrakurikuler",
+            "notes": "Catatan"
+        },
+        "placeholders": {
+            "nisn": "Masukkan nomor NISN",
+            "name": "Masukkan nama lengkap",
+            "gender": "Pilih jenis kelamin",
+            "birthplace": "Masukkan tempat lahir",
+            "religion": "Masukkan agama",
+            "select_class": "Pilih kelas",
+            "select_teacher": "Pilih guru wali kelas",
+            "status": "Pilih status",
+            "parent_name": "Masukkan nama orang tua/wali",
+            "parent_phone": "Masukkan nomor telepon orang tua",
+            "parent_email": "Masukkan email orang tua",
+            "emergency_contact_name": "Masukkan nama kontak darurat",
+            "emergency_contact_phone": "Masukkan telepon kontak darurat",
+            "address": "Masukkan alamat lengkap",
+            "transportation_method": "Pilih metode transportasi",
+            "distance_from_home": "Masukkan jarak dalam kilometer",
+            "travel_time": "Masukkan waktu perjalanan dalam menit",
+            "pickup_location": "Masukkan lokasi penjemputan",
+            "transportation_notes": "Catatan tambahan transportasi",
+            "blood_type": "Pilih golongan darah",
+            "allergies": "Masukkan alergi yang diketahui",
+            "medical_conditions": "Masukkan kondisi medis",
+            "dietary_restrictions": "Masukkan pembatasan diet",
+            "emergency_medical_info": "Masukkan informasi medis darurat",
+            "graduation_year": "Pilih tahun kelulusan yang diharapkan",
+            "extracurriculars": "Pilih kegiatan ekstrakurikuler",
+            "notes": "Catatan tambahan tentang siswa",
+            "new_student": "Siswa Baru"
+        },
+        "options": {
+            "gender": {
+                "male": "Laki-laki",
+                "female": "Perempuan"
+            },
+            "status": {
+                "active": "Aktif",
+                "graduated": "Lulus",
+                "transferred": "Pindah",
+                "dropped": "Keluar"
+            },
+            "transportation": {
+                "walking": "Jalan Kaki",
+                "bicycle": "Sepeda",
+                "motorcycle": "Sepeda Motor",
+                "car": "Mobil",
+                "school_bus": "Bus Sekolah",
+                "public_transport": "Angkutan Umum",
+                "other": "Lainnya"
+            }
+        },
+        "help": {
+            "extracurriculars": "Pilih kegiatan ekstrakurikuler yang diminati atau diikuti oleh siswa."
+        },
+        "labels": {
+            "slots_available": "slot tersedia",
+            "class_full": "Penuh",
+            "current_class": "Kelas Saat Ini",
+            "available": "Tersedia"
+        },
+        "actions": {
+            "creating": "Membuat...",
+            "create_student": "Buat Siswa"
+        },
+        "submit_button": "Buat Siswa",
+        "success": {
+            "title": "Berhasil",
+            "description": "Siswa berhasil dibuat."
+        },
+        "error": {
+            "title": "Kesalahan",
+            "fallback": "Gagal membuat siswa. Silakan coba lagi."
+        }
+    },
+    "extracurricular_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "extracurricular_management": "Manajemen Ekstrakurikuler"
+        },
+        "page_title": "Manajemen Ekstrakurikuler",
+        "page_description": "Kelola kegiatan ekstrakurikuler dan penugasan siswa",
+        "add_activity": "Tambah Kegiatan Baru",
+        "add_activity_short": "Tambah Kegiatan",
+        "all_activities": "Semua Kegiatan",
+        "search_placeholder": "Cari berdasarkan nama atau deskripsi",
+        "table": {
+            "activity": "Kegiatan",
+            "description": "Deskripsi",
+            "students": "Siswa",
+            "created": "Dibuat",
+            "actions": "Aksi"
+        },
+        "filters": {
+            "search_label": "Cari: \"{{term}}\"",
+            "clear_filters": "Hapus Filter",
+            "delete_selected": "Hapus Terpilih ({{count}})"
+        },
+        "empty_state": {
+            "no_activities": "Tidak ada kegiatan ditemukan",
+            "try_adjusting": "Coba sesuaikan pencarian Anda.",
+            "get_started": "Mulai dengan menambahkan kegiatan ekstrakurikuler baru.",
+            "add_activity": "Tambah Kegiatan"
+        },
+        "dialogs": {
+            "delete_activities": {
+                "title": "Hapus Kegiatan",
+                "message": "Apakah Anda yakin ingin menghapus <strong>{{count}}</strong> kegiatan? Tindakan ini tidak dapat dibatalkan.",
+                "deleting": "Menghapus...",
+                "delete": "Hapus",
+                "cancel": "Batal"
+            },
+            "delete_activity": {
+                "title": "Hapus Kegiatan",
+                "message": "Apakah Anda yakin ingin menghapus <strong>{{name}}</strong>? Tindakan ini tidak dapat dibatalkan.",
+                "deleting": "Menghapus...",
+                "delete": "Hapus",
+                "cancel": "Batal"
+            },
+            "activity_details": {
+                "title": "Detail Kegiatan: {{name}}",
+                "participating_students": "Siswa yang Berpartisipasi",
+                "students_count": "{{count}} siswa",
+                "created": "Dibuat"
+            }
+        },
+        "messages": {
+            "delete_success": "{{name}} telah berhasil dihapus.",
+            "bulk_delete_success": "{{count}} kegiatan ekstrakurikuler telah berhasil dihapus.",
+            "delete_error": "Gagal menghapus kegiatan ekstrakurikuler. Silakan coba lagi.",
+            "bulk_delete_error": "Gagal menghapus kegiatan ekstrakurikuler. Silakan coba lagi."
+        },
+        "success": "Berhasil",
+        "error": "Kesalahan"
+    },
+    "extracurricular_create": {
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "extracurricular_management": "Manajemen Ekstrakurikuler",
+            "create_activity": "Buat Kegiatan"
+        },
+        "page_title": "Buat Kegiatan Ekstrakurikuler",
+        "page_description": "Tambahkan kegiatan ekstrakurikuler baru ke dalam sistem",
+        "form": {
+            "title": "Buat Kegiatan Ekstrakurikuler Baru",
+            "activity_name": "Nama Kegiatan",
+            "choose_from_list": "Pilih dari daftar",
+            "enter_custom_name": "Masukkan nama kustom",
+            "select_placeholder": "Pilih kegiatan ekstrakurikuler",
+            "custom_placeholder": "Masukkan nama kegiatan ekstrakurikuler kustom",
+            "description_label": "Deskripsi (Opsional)",
+            "description_placeholder": "Masukkan deskripsi untuk kegiatan ekstrakurikuler ini",
+            "photo_label": "Foto Kegiatan (Opsional)",
+            "create_button": "Buat Kegiatan",
+            "cancel_button": "Batal",
+            "creating": "Membuat..."
+        },
+        "categories": {
+            "sports": "Olahraga",
+            "arts_culture": "Seni & Budaya",
+            "academic_science": "Akademik & Sains",
+            "community_service": "Komunitas & Layanan",
+            "religion_character": "Agama & Karakter",
+            "others": "Lainnya"
+        },
+        "messages": {
+            "success_title": "Berhasil",
+            "success_description": "Kegiatan ekstrakurikuler berhasil dibuat.",
+            "error_title": "Kesalahan",
+            "error_description": "Gagal membuat kegiatan ekstrakurikuler.",
+            "validation_error_title": "Kesalahan Validasi",
+            "validation_error_description": "Harap perbaiki kesalahan sebelum mengirim."
+        }
+    },
+    "extracurricular_edit": {
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "extracurricular_management": "Manajemen Ekstrakurikuler",
+            "edit_activity": "Edit {{name}}"
+        },
+        "page_title": "Edit Kegiatan Ekstrakurikuler",
+        "page_description": "Perbarui detail {{name}}",
+        "form": {
+            "title": "Edit Kegiatan Ekstrakurikuler",
+            "activity_name": "Nama Kegiatan",
+            "choose_from_list": "Pilih dari daftar",
+            "enter_custom_name": "Masukkan nama kustom",
+            "select_placeholder": "Pilih kegiatan ekstrakurikuler",
+            "custom_placeholder": "Masukkan nama kegiatan ekstrakurikuler kustom",
+            "description_label": "Deskripsi (Opsional)",
+            "description_placeholder": "Masukkan deskripsi untuk kegiatan ekstrakurikuler ini",
+            "photo_label": "Foto Kegiatan (Opsional)",
+            "update_button": "Perbarui Kegiatan",
+            "cancel_button": "Batal",
+            "updating": "Memperbarui..."
+        },
+        "categories": {
+            "sports": "Olahraga",
+            "arts_culture": "Seni & Budaya",
+            "academic_science": "Akademik & Sains",
+            "community_service": "Komunitas & Layanan",
+            "religion_character": "Agama & Karakter",
+            "others": "Lainnya"
+        },
+        "messages": {
+            "success_title": "Berhasil",
+            "success_description": "Kegiatan ekstrakurikuler berhasil diperbarui.",
+            "error_title": "Kesalahan",
+            "error_description": "Gagal memperbarui kegiatan ekstrakurikuler.",
+            "validation_error_title": "Kesalahan Validasi",
+            "validation_error_description": "Harap perbaiki kesalahan sebelum mengirim."
+        }
+    },
+    "student_edit": {
+        "breadcrumbs": {
+            "edit_student": "Edit {{name}}"
+        },
+        "page_title": "Edit {{name}}",
+        "page_description": "Perbarui informasi dan detail {{name}}.",
+        "submit_button": "Perbarui Siswa",
+        "success": {
+            "title": "Berhasil",
+            "description": "Siswa berhasil diperbarui."
+        },
+        "actions": {
+            "updating": "Memperbarui..."
+        },
+        "error": {
+            "title": "Kesalahan",
+            "fallback": "Gagal memperbarui siswa. Silakan coba lagi."
+        }
+    },
+    "staff_overview": {
+        "page_title": "Ikhtisar Staff",
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "staff_overview": "Ikhtisar Staff"
+        },
+        "header": {
+            "title": "Ikhtisar Staff",
+            "description_admin": "Lihat kemajuan dan status pengumpulan tugas kerja dari semua guru. Sebagai Super Admin, Anda memiliki akses hanya baca.",
+            "description_headmaster": "Pantau kemajuan dan berikan umpan balik pada pengumpulan tugas kerja dari semua guru."
+        },
+        "stats": {
+            "total_teachers": "Total Guru",
+            "upload_completion": "Penyelesaian Upload",
+            "feedback_completion": "Penyelesaian Umpan Balik",
+            "approval_rate": "Tingkat Persetujuan",
+            "of": "dari",
+            "files": "file",
+            "approved": "disetujui",
+            "revision": "revisi"
+        },
+        "teachers": {
+            "title": "Daftar Guru",
+            "search_placeholder": "Cari berdasarkan nama atau posisi..."
+        },
+        "table": {
+            "columns": {
+                "teacher": "Guru",
+                "position": "Posisi",
+                "subjects": "Mata Pelajaran",
+                "progress": "Kemajuan",
+                "status": "Status",
+                "actions": "Aksi"
+            },
+            "more": "lainnya",
+            "status": {
+                "complete": "Selesai",
+                "in_progress": "Sedang Berlangsung",
+                "behind": "Tertinggal",
+                "approved": "Disetujui",
+                "pending": "Menunggu",
+                "revision": "Revisi"
+            },
+            "action_titles": {
+                "view_details": "Lihat Detail"
+            },
+            "empty_states": {
+                "no_teachers": "Belum ada guru terdaftar",
+                "no_teachers_search": "Tidak ada guru yang ditemukan sesuai pencarian Anda"
+            }
+        }
+    },
+    "teacher_detail": {
+        "page_title": "Detail Guru",
+        "view_only_mode": "Mode Hanya Lihat",
+        "stats": {
+            "total_files": "Total File",
+            "approved_files": "File Disetujui",
+            "pending_files": "File Menunggu",
+            "revision_files": "File Revisi"
+        },
+        "work_item": {
+            "required": "Wajib",
+            "optional": "Opsional"
+        },
+        "files": {
+            "uploaded_files": "File yang Diunggah",
+            "no_files_uploaded": "Belum ada file yang diunggah"
+        },
+        "file_status": {
+            "pending": "Menunggu",
+            "approved": "Disetujui",
+            "needs_revision": "Perlu Revisi"
+        },
+        "actions": {
+            "view_file": "Lihat File"
+        },
+        "work_items": {
+            "no_work_items": "Belum ada tugas kerja untuk mata pelajaran ini"
+        },
+        "subjects": {
+            "no_subjects_assigned": "Guru ini belum ditugaskan mata pelajaran apapun"
+        }
+    },
+    "posts_management": {
+        "page_title": "Manajemen Berita & Postingan",
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "posts_news": "Berita & Postingan"
+        },
+        "header": {
+            "title": "Berita & Postingan",
+            "description": "Buat, kelola, dan publikasikan konten Anda dengan mudah"
+        },
+        "stats": {
+            "published": "Dipublikasikan",
+            "drafts": "Draf",
+            "total_posts": "Total Postingan"
+        },
+        "actions": {
+            "create_new_post": "Buat Postingan Baru",
+            "create_post": "Buat Postingan",
+            "create_first_post": "Buat Postingan Pertama Anda",
+            "learn_best_practices": "Pelajari Praktik Terbaik",
+            "view_post": "Lihat Postingan",
+            "edit_post": "Edit Postingan",
+            "delete_post": "Hapus Postingan"
+        },
+        "filters": {
+            "title": "Cari & Filter",
+            "description": "Temukan postingan dengan cepat menggunakan pencarian dan filter lanjutan",
+            "search_placeholder": "Cari berdasarkan judul, konten, atau excerpt...",
+            "all_categories": "Semua Kategori",
+            "all_status": "Semua Status"
+        },
+        "categories": {
+            "news": "Berita",
+            "announcements": "Pengumuman"
+        },
+        "status": {
+            "published": "Dipublikasikan",
+            "draft": "Draf",
+            "not_published": "Belum dipublikasikan",
+            "updating": "Memperbarui..."
+        },
+        "table": {
+            "columns": {
+                "image": "Gambar",
+                "title_content": "Judul & Konten",
+                "category": "Kategori",
+                "published": "Dipublikasikan",
+                "created_at": "Dibuat Pada",
+                "published_date": "Tanggal Publikasi",
+                "actions": "Aksi"
+            },
+            "content_stats": {
+                "characters": "karakter",
+                "min_read": "menit baca"
+            }
+        },
+        "empty_state": {
+            "title": "Tidak ada postingan ditemukan",
+            "description": "Mulai buat konten menarik untuk audiens Anda. Postingan pertama Anda hanya berjarak satu klik!"
+        },
+        "pagination": {
+            "showing": "Menampilkan",
+            "to": "hingga",
+            "of": "dari",
+            "results": "hasil"
+        },
+        "messages": {
+            "success": "Berhasil",
+            "error": "Kesalahan",
+            "update_success": "Status postingan berhasil diperbarui",
+            "update_error": "Gagal memperbarui status postingan",
+            "delete_confirmation": "Apakah Anda yakin ingin menghapus postingan ini?"
+        },
+        "forms": {
+            "create": {
+                "page_title": "Buat Postingan",
+                "breadcrumbs": {
+                    "create_post": "Buat Postingan"
+                },
+                "header": {
+                    "title": "Buat Postingan Baru",
+                    "description": "Buat postingan atau artikel berita baru untuk situs web Anda"
+                },
+                "actions": {
+                    "preview": "Pratinjau",
+                    "creating": "Membuat...",
+                    "create_post": "Buat Postingan",
+                    "cancel": "Batal"
+                },
+                "success_message": "Postingan berhasil dibuat.",
+                "error_message": "Gagal membuat postingan. Periksa formulir untuk kesalahan."
+            },
+            "edit": {
+                "page_title": "Edit Postingan",
+                "breadcrumbs": {
+                    "edit_post": "Edit Postingan"
+                },
+                "header": {
+                    "title": "Edit Postingan",
+                    "description": "Buat perubahan pada postingan Anda"
+                },
+                "actions": {
+                    "preview": "Pratinjau",
+                    "saving": "Menyimpan...",
+                    "save_changes": "Simpan Perubahan",
+                    "cancel": "Batal"
+                },
+                "success_message": "Postingan berhasil diperbarui.",
+                "error_message": "Gagal memperbarui postingan. Periksa formulir untuk kesalahan.",
+                "preview_alert": "Fungsionalitas pratinjau akan diimplementasikan di sini"
+            },
+            "sections": {
+                "post_content": {
+                    "title": "Konten Postingan",
+                    "create_description": "Masukkan konten utama untuk postingan Anda",
+                    "edit_description": "Perbarui konten untuk postingan Anda"
+                },
+                "featured_image": {
+                    "title": "Gambar Unggulan",
+                    "create_description": "Unggah gambar untuk postingan Anda (opsional)",
+                    "edit_description": "Perbarui gambar untuk postingan Anda (opsional)"
+                },
+                "post_settings": {
+                    "title": "Pengaturan Postingan",
+                    "description": "Konfigurasi kategori postingan dan opsi publikasi"
+                }
+            },
+            "fields": {
+                "title": {
+                    "label": "Judul",
+                    "placeholder": "Masukkan judul postingan...",
+                    "required_error": "Judul diperlukan"
+                },
+                "excerpt": {
+                    "label": "Excerpt (Opsional)",
+                    "placeholder": "Deskripsi singkat atau ringkasan...",
+                    "help_text": "Ini akan ditampilkan dalam daftar postingan dan pratinjau"
+                },
+                "content": {
+                    "label": "Konten",
+                    "placeholder": "Tulis konten postingan Anda di sini...",
+                    "required_error": "Konten diperlukan"
+                },
+                "category": {
+                    "label": "Kategori",
+                    "placeholder": "Pilih kategori",
+                    "required_error": "Kategori diperlukan"
+                },
+                "created_at": {
+                    "label": "Tanggal Dibuat",
+                    "help_text": "Tetapkan kapan postingan ini awalnya dibuat",
+                    "required_error": "Tanggal dibuat diperlukan"
+                },
+                "published": {
+                    "label": "Dipublikasikan",
+                    "create_help_text": "Buat postingan ini terlihat oleh publik",
+                    "edit_help_text": "Buat postingan ini publik",
+                    "draft_alert_create": "Postingan akan disimpan sebagai draf dan dapat dipublikasikan nanti",
+                    "draft_alert_edit": "Postingan akan disimpan sebagai draf"
+                }
+            },
+            "show": {
+                "page_title": "Detail Postingan",
+                "breadcrumbs": {
+                    "post_details": "Detail Postingan"
+                },
+                "header": {
+                    "title": "Detail Postingan",
+                    "description": "Tinjau dan kelola konten Anda"
+                },
+                "actions": {
+                    "unpublish": "Batal Publikasi",
+                    "publish_now": "Publikasikan Sekarang",
+                    "publish": "Publikasi",
+                    "edit": "Edit",
+                    "delete": "Hapus",
+                    "unpublish_post": "Batal Publikasi Postingan",
+                    "publish_post": "Publikasikan Postingan"
+                },
+                "meta": {
+                    "created": "Dibuat:",
+                    "published": "Dipublikasikan:",
+                    "url_slug": "URL Slug:",
+                    "last_updated": "Terakhir diperbarui:"
+                },
+                "stats": {
+                    "characters": "Karakter",
+                    "words": "Kata",
+                    "min_read": "Menit Baca"
+                }
+            }
+        }
+    },
+    "gallery_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "gallery_management": "Manajemen Galeri"
+        },
+        "header": {
+            "title": "Manajemen Galeri",
+            "description": "Kelola galeri foto dan video"
+        },
+        "actions": {
+            "create_gallery": "Buat Galeri",
+            "edit_gallery": "Edit Galeri",
+            "delete_gallery": "Hapus Galeri",
+            "view_gallery": "Lihat Galeri",
+            "publish": "Terbitkan",
+            "unpublish": "Batalkan Terbit",
+            "duplicate": "Duplikat",
+            "reorder": "Atur Ulang",
+            "bulk_delete": "Hapus Massal",
+            "sync_with_drive": "Sinkron dengan Drive"
+        },
+        "create": {
+            "title": "Buat Galeri Baru",
+            "description": "Buat galeri foto atau video baru",
+            "form": {
+                "fields": {
+                    "title": {
+                        "label": "Judul Galeri",
+                        "placeholder": "Masukkan judul galeri",
+                        "help": "Ini akan digunakan sebagai nama galeri dan URL slug"
+                    },
+                    "description": {
+                        "label": "Deskripsi",
+                        "placeholder": "Masukkan deskripsi galeri (opsional)",
+                        "help": "Deskripsi singkat tentang isi galeri ini"
+                    },
+                    "featured_image": {
+                        "label": "Gambar Unggulan",
+                        "placeholder": "Pilih gambar unggulan",
+                        "help": "Gambar yang mewakili galeri ini"
+                    },
+                    "is_published": {
+                        "label": "Terbitkan Galeri",
+                        "help": "Buat galeri ini terlihat oleh publik"
+                    },
+                    "sort_order": {
+                        "label": "Urutan Tampilan",
+                        "placeholder": "0",
+                        "help": "Angka yang lebih kecil akan muncul terlebih dahulu"
+                    }
+                },
+                "validation": {
+                    "title_required": "Judul galeri diperlukan",
+                    "title_max": "Judul galeri tidak boleh melebihi 255 karakter",
+                    "description_max": "Deskripsi tidak boleh melebihi 1000 karakter",
+                    "sort_order_min": "Urutan tampilan harus 0 atau lebih besar"
+                },
+                "buttons": {
+                    "save_draft": "Simpan sebagai Draft",
+                    "save_publish": "Simpan & Terbitkan",
+                    "cancel": "Batal"
+                }
+            },
+            "success": "Galeri berhasil dibuat!",
+            "error": "Gagal membuat galeri. Silakan coba lagi."
+        },
+        "edit": {
+            "title": "Edit Galeri",
+            "description": "Perbarui informasi galeri dan kelola item",
+            "success": "Galeri berhasil diperbarui!",
+            "error": "Gagal memperbarui galeri. Silakan coba lagi."
+        },
+        "show": {
+            "tabs": {
+                "overview": "Ringkasan",
+                "items": "Item Galeri",
+                "settings": "Pengaturan"
+            },
+            "overview": {
+                "created": "Dibuat",
+                "updated": "Terakhir Diperbarui",
+                "items_count": "Total Item",
+                "status": "Status",
+                "published": "Diterbitkan",
+                "draft": "Draft",
+                "google_drive": "Integrasi Google Drive",
+                "connected": "Terhubung",
+                "not_connected": "Tidak Terhubung"
+            },
+            "items": {
+                "title": "Item Galeri",
+                "add_items": "Tambah Item",
+                "search_placeholder": "Cari berdasarkan judul atau keterangan...",
+                "filters": {
+                    "all": "Semua Item",
+                    "images": "Gambar",
+                    "videos": "Video",
+                    "featured": "Unggulan"
+                },
+                "item_actions": {
+                    "edit": "Edit Item",
+                    "delete": "Hapus Item",
+                    "feature": "Jadikan Unggulan",
+                    "unfeature": "Hapus dari Unggulan",
+                    "view_original": "Lihat Asli"
+                },
+                "empty_state": {
+                    "title": "Belum ada item di galeri ini",
+                    "description": "Upload beberapa file untuk memulai",
+                    "no_matches": "Tidak ada file yang cocok dengan pencarian Anda",
+                    "adjust_search": "Coba sesuaikan kata kunci pencarian"
+                },
+                "media_error": "Error memuat file media",
+                "media_types": {
+                    "audio": "Audio",
+                    "image": "Gambar",
+                    "video": "Video",
+                    "audio_file": "File Audio",
+                    "unknown_file": "Jenis File Tidak Dikenal",
+                    "play_video": "Putar video",
+                    "play_audio": "Putar audio"
+                },
+                "badges": {
+                    "featured": "Unggulan"
+                },
+                "metadata": {
+                    "gallery_id": "ID Galeri",
+                    "slug": "Slug"
+                }
+            },
+            "file_picker": {
+                "select_file": "Pilih File",
+                "no_file_selected": "Tidak ada file yang dipilih",
+                "change_file": "Ganti File",
+                "browse_files": "Jelajahi File Galeri",
+                "upload_new": "Upload Baru",
+                "save_first": "Simpan galeri terlebih dahulu untuk mengaktifkan manajemen file Google Drive",
+                "choose_from_drive": "Pilih dari folder Google Drive galeri Anda atau upload file baru"
+            },
+            "drive_picker": {
+                "title": "File Galeri",
+                "description": "Jelajahi atau upload file untuk galeri ini. File disimpan di Google Drive Anda.",
+                "tabs": {
+                    "browse": "Jelajahi File",
+                    "upload": "Upload Baru"
+                },
+                "search_placeholder": "Cari file...",
+                "upload": {
+                    "title": "Upload File Baru",
+                    "description": "Upload gambar atau video ke folder Google Drive galeri ini",
+                    "select_file": "Pilih File",
+                    "uploading": "Mengupload ke Google Drive...",
+                    "max_size": "Ukuran file maksimum: 20MB. Format yang didukung: JPEG, PNG, GIF, WebP, MP4, MOV, AVI, MKV, WebM",
+                    "type_error_image": "Gambar tidak diizinkan",
+                    "type_error_video": "Video tidak diizinkan",
+                    "success": "File berhasil diupload",
+                    "error": "Upload gagal"
+                },
+                "selection": {
+                    "files_selected": "file dipilih",
+                    "clear": "Bersihkan",
+                    "use_selected": "Gunakan yang Dipilih"
+                },
+                "loading": "Memuat file...",
+                "connection_error": "Gagal terhubung ke Google Drive"
+            }
+        },
+        "list": {
+            "title": "Semua Galeri",
+            "search_placeholder": "Cari galeri...",
+            "search_and_filter": {
+                "title": "Cari & Saring",
+                "description": "Temukan galeri dengan cepat menggunakan pencarian dan filter lanjutan"
+            },
+            "filters": {
+                "all": "Semua Status",
+                "published": "Diterbitkan",
+                "draft": "Draft",
+                "featured": "Unggulan"
+            },
+            "table": {
+                "columns": {
+                    "image": "Gambar",
+                    "title": "Judul",
+                    "description": "Deskripsi",
+                    "items_count": "Item",
+                    "status": "Status",
+                    "created_at": "Dibuat",
+                    "actions": "Aksi"
+                },
+                "no_description": "Tidak ada deskripsi",
+                "sort_order": "Urutan tampil"
+            },
+            "empty_state": {
+                "title": "Tidak ada galeri ditemukan",
+                "description": "Buat galeri pertama Anda untuk memulai",
+                "create_button": "Buat Galeri"
+            }
+        },
+        "delete": {
+            "title": "Hapus Galeri",
+            "message": "Apakah Anda yakin ingin menghapus galeri ini? Tindakan ini tidak dapat dibatalkan.",
+            "confirm": "Hapus Galeri",
+            "cancel": "Batal",
+            "success": "Galeri berhasil dihapus",
+            "error": "Gagal menghapus galeri"
+        },
+        "bulk_actions": {
+            "selected_count": "dipilih",
+            "publish_selected": "Terbitkan yang Dipilih",
+            "unpublish_selected": "Batalkan Terbit yang Dipilih",
+            "delete_selected": "Hapus yang Dipilih"
+        },
+        "pagination": {
+            "showing": "Menampilkan",
+            "to": "hingga",
+            "of": "dari",
+            "results": "hasil"
+        }
+    },
+    "facility_management": {
+        "header": {
+            "title": "Manajemen Fasilitas",
+            "description": "Kelola fasilitas sekolah dengan penyimpanan cloud yang aman"
+        },
+        "actions": {
+            "add_facility": "Tambah Fasilitas",
+            "add_first_facility": "Tambah Fasilitas Pertama",
+            "create_facility": "Buat Fasilitas",
+            "edit_facility": "Edit Fasilitas",
+            "delete_facility": "Hapus Fasilitas",
+            "view_all_facilities": "Lihat Semua Fasilitas"
+        },
+        "search": {
+            "title": "Cari & Temukan",
+            "placeholder": "Cari fasilitas...",
+            "showing_results": "Menampilkan hasil untuk:",
+            "results": "hasil",
+            "result": "hasil"
+        },
+        "view_modes": {
+            "list_view": "Tampilan Daftar",
+            "grid_view": "Tampilan Grid"
+        },
+        "stats": {
+            "total": "Total",
+            "with_photos": "Dengan Foto",
+            "facilities": "Fasilitas",
+            "facility": "Fasilitas",
+            "live_status": "Status Live",
+            "last_updated": "Terakhir diperbarui:",
+            "showing": "Menampilkan"
+        },
+        "empty_state": {
+            "no_facilities": "Belum ada fasilitas",
+            "no_facilities_found": "Tidak ada fasilitas ditemukan",
+            "get_started": "Mulai dengan menambahkan fasilitas pertama Anda untuk menampilkan infrastruktur sekolah",
+            "try_adjusting": "Coba sesuaikan kriteria pencarian Anda atau jelajahi semua fasilitas"
+        },
+        "delete": {
+            "title": "Hapus Fasilitas",
+            "message": "Apakah Anda yakin ingin menghapus",
+            "warning": "Tindakan ini tidak dapat dibatalkan dan akan menghapus permanen fasilitas dan foto terkait.",
+            "confirm": "Hapus Fasilitas",
+            "cancel": "Batal",
+            "deleting": "Menghapus..."
+        },
+        "pagination": {
+            "page": "Halaman",
+            "of": "dari",
+            "total_facilities": "total fasilitas",
+            "total": "total"
+        },
+        "card": {
+            "has_image": "Ada Gambar",
+            "no_image": "Tidak Ada Gambar",
+            "created": "Dibuat",
+            "view": "Lihat",
+            "edit": "Edit"
+        },
+        "form": {
+            "header": {
+                "edit_title": "Edit Fasilitas",
+                "create_title": "Buat Fasilitas Baru",
+                "edit_description": "Perbarui informasi fasilitas dan kelola fotonya",
+                "create_description": "Tambahkan fasilitas baru dengan penyimpanan cloud yang aman"
+            },
+            "fields": {
+                "name": {
+                    "label": "Nama Fasilitas",
+                    "placeholder": "Masukkan nama fasilitas",
+                    "required": "*"
+                },
+                "description": {
+                    "label": "Deskripsi",
+                    "placeholder": "Berikan deskripsi lengkap tentang fasilitas...",
+                    "required": "*",
+                    "char_count": "karakter"
+                },
+                "featured_image": {
+                    "label": "Gambar Unggulan",
+                    "help": "Upload file gambar (JPEG, PNG, GIF, WebP) hingga 5MB. Gambar disimpan dengan aman di Google Drive."
+                }
+            },
+            "buttons": {
+                "view": "Lihat",
+                "back_to_facilities": "Kembali ke Fasilitas",
+                "create_facility": "Buat Fasilitas",
+                "update_facility": "Perbarui Fasilitas",
+                "creating": "Membuat...",
+                "updating": "Memperbarui..."
+            },
+            "page_titles": {
+                "edit": "Edit Fasilitas"
+            }
+        },
+        "show": {
+            "page_title": "Detail Fasilitas",
+            "header": {
+                "description": "Detail dan informasi fasilitas",
+                "created": "Dibuat",
+                "photo_available": "Foto Tersedia",
+                "updated": "Diperbarui"
+            },
+            "buttons": {
+                "edit_facility": "Edit Fasilitas",
+                "delete": "Hapus",
+                "deleting": "Menghapus...",
+                "add_photo": "Tambah Foto"
+            },
+            "sections": {
+                "facility_information": "Informasi Fasilitas",
+                "complete_details": "Detail dan deskripsi lengkap",
+                "facility_name": "Nama Fasilitas",
+                "description": "Deskripsi",
+                "timeline": "Riwayat",
+                "photo": "Foto",
+                "current_image": "Gambar saat ini",
+                "not_available": "Tidak tersedia",
+                "no_photo_title": "Tidak Ada Foto",
+                "no_photo_description": "Tambahkan foto untuk menampilkan fasilitas ini"
+            },
+            "timeline": {
+                "created": "Dibuat",
+                "last_updated": "Terakhir Diperbarui"
+            },
+            "delete_dialog": {
+                "title": "Hapus Fasilitas",
+                "description": "Apakah Anda yakin ingin menghapus",
+                "description_continued": "? Tindakan ini tidak dapat dibatalkan dan akan menghapus fasilitas serta foto terkait secara permanen.",
+                "cancel": "Batal",
+                "confirm": "Hapus Fasilitas",
+                "processing": "Menghapus..."
+            }
+        }
+    },
+    "contact_management": {
+        "page_title": "Informasi Kontak Sekolah",
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "contact_information": "Informasi Kontak Sekolah",
+            "create_contact": "Buat Kontak",
+            "edit": "Edit"
+        },
+        "header": {
+            "title": "Informasi Kontak Sekolah",
+            "title_short": "Kontak Sekolah",
+            "description": "Kelola detail kontak sekolah untuk halaman landing",
+            "description_mobile": "Kelola detail kontak sekolah untuk halaman landing"
+        },
+        "status": {
+            "active": "Aktif",
+            "not_configured": "Belum Dikonfigurasi",
+            "not_set": "Belum Diatur",
+            "contact_available": "Kontak Tersedia",
+            "contact_configured": "Kontak Dikonfigurasi",
+            "setup_required": "Perlu Pengaturan",
+            "last_updated": "Terakhir diperbarui:",
+            "no_contact_info": "Tidak ada informasi kontak yang diatur"
+        },
+        "actions": {
+            "edit_contact": "Edit Kontak",
+            "set_up_contact": "Atur Kontak",
+            "view_details": "Lihat Detail",
+            "delete": "Hapus",
+            "deleting": "Menghapus...",
+            "cancel_return": "Batal & Kembali",
+            "processing": "Memproses...",
+            "create_contact": "Buat Kontak",
+            "update_contact": "Perbarui Kontak"
+        },
+        "empty_state": {
+            "title": "Tidak Ada Informasi Kontak",
+            "description": "Atur informasi kontak sekolah Anda untuk ditampilkan di halaman landing dan memungkinkan pengunjung menghubungi.",
+            "button": "Atur Informasi Kontak"
+        },
+        "form": {
+            "create_title": "Atur Kontak Sekolah",
+            "edit_title": "Edit Kontak Sekolah",
+            "create_description": "Atur informasi kontak sekolah untuk ditampilkan di halaman landing",
+            "edit_description": "Perbarui informasi kontak sekolah untuk halaman landing",
+            "sections": {
+                "contact_info": "Informasi Kontak",
+                "contact_info_description": "Masukkan detail kontak dan pesan",
+                "contact_details": "Detail Kontak",
+                "contact_details_description": "Informasi tambahan tentang kontak ini"
+            },
+            "fields": {
+                "contact_name": "Nama Kontak",
+                "email_address": "Alamat Email",
+                "phone_number": "Nomor Telepon",
+                "address": "Alamat",
+                "message": "Pesan",
+                "full_name": "Nama Lengkap",
+                "date_created": "Tanggal Dibuat",
+                "last_updated": "Terakhir Diperbarui",
+                "created": "Dibuat",
+                "unnamed_contact": "Kontak Tanpa Nama",
+                "placeholders": {
+                    "name": "Masukkan nama lengkap...",
+                    "email": "Masukkan alamat email...",
+                    "phone": "Masukkan nomor telepon...",
+                    "address": "Masukkan alamat...",
+                    "message": "Masukkan pesan atau detail pertanyaan..."
+                }
+            }
+        },
+        "show": {
+            "page_title": "Detail Kontak",
+            "header": {
+                "description": "Detail kontak dan informasi pesan",
+                "created": "Dibuat",
+                "email_available": "Email Tersedia",
+                "phone_available": "Telepon Tersedia",
+                "updated": "Diperbarui"
+            },
+            "sections": {
+                "contact_information": "Informasi Kontak",
+                "message": "Pesan"
+            }
+        },
+        "card": {
+            "contact_message": "Pesan Kontak",
+            "view_details": "Lihat Detail",
+            "edit_contact": "Edit Kontak",
+            "delete_contact": "Hapus Kontak"
+        },
+        "sidebar": {
+            "contact_status": "Status Kontak",
+            "status": "Status:",
+            "created": "Dibuat:",
+            "updated": "Diperbarui:"
+        },
+        "delete_dialog": {
+            "title": "Hapus Informasi Kontak",
+            "description": "Apakah Anda yakin ingin menghapus informasi kontak sekolah? Ini akan menghapus detail kontak dari halaman landing dan tidak dapat dibatalkan.",
+            "contact_title": "Hapus Kontak",
+            "contact_description": "Apakah Anda yakin ingin menghapus kontak dari",
+            "contact_description_continued": "? Tindakan ini tidak dapat dibatalkan dan akan menghapus kontak beserta pesannya secara permanen.",
+            "confirm": "Hapus Kontak",
+            "confirm_info": "Hapus Kontak",
+            "cancel": "Batal"
+        }
+    },
+    "page_management": {
+        "page_title": "Manajemen Halaman",
+        "breadcrumbs": {
+            "admin_dashboard": "Dashboard Admin",
+            "page_management": "Manajemen Halaman",
+            "create_page": "Buat Halaman",
+            "edit_page": "Edit Halaman"
+        },
+        "header": {
+            "title": "Manajemen Halaman",
+            "description": "Buat dan kelola halaman untuk website Anda"
+        },
+        "actions": {
+            "create_page": "Buat Halaman",
+            "create_first_page": "Buat Halaman Pertama Anda",
+            "edit_page": "Edit Halaman",
+            "view_page": "Lihat Halaman",
+            "delete_page": "Hapus Halaman",
+            "view": "Lihat",
+            "edit": "Edit",
+            "delete": "Hapus"
+        },
+        "table": {
+            "all_pages": "Semua Halaman ({{count}})",
+            "no_pages": "Belum ada halaman yang dibuat",
+            "created": "Dibuat:",
+            "url_slug": "URL Slug"
+        },
+        "empty_state": {
+            "title": "Belum ada halaman yang dibuat",
+            "description": "Mulai buat halaman untuk website Anda"
+        },
+        "delete": {
+            "title": "Hapus Halaman",
+            "description": "Apakah Anda yakin ingin menghapus \"{{itemName}}\"? Tindakan ini tidak dapat dibatalkan dan semua konten halaman akan dihapus secara permanen.",
+            "confirm": "Hapus Halaman",
+            "cancel": "Batal"
+        },
+        "create": {
+            "page_title": "Buat Halaman",
+            "header": {
+                "title": "Buat Halaman Baru",
+                "description": "Tambahkan halaman baru untuk website Anda"
+            },
+            "form": {
+                "title": "Informasi Halaman",
+                "fields": {
+                    "page_title": {
+                        "label": "Judul Halaman",
+                        "placeholder": "Masukkan judul halaman",
+                        "required": "Judul Halaman *"
+                    },
+                    "slug": {
+                        "label": "URL Slug (Dibuat otomatis)",
+                        "placeholder": "url-slug-halaman",
+                        "help": "Dibuat otomatis dari judul halaman"
+                    },
+                    "content": {
+                        "label": "Konten",
+                        "placeholder": "Masukkan konten halaman...",
+                        "help": "Gunakan editor rich text untuk memformat konten Anda",
+                        "required": "Konten *"
+                    },
+                    "image": {
+                        "label": "Gambar Unggulan (Opsional)",
+                        "help": "Ukuran maksimal 2MB"
+                    }
+                },
+                "validation": {
+                    "title_valid": "Judul terlihat bagus!",
+                    "content_valid": "Konten terlihat bagus!",
+                    "image_too_large": "Gambar harus lebih kecil dari 2MB"
+                },
+                "buttons": {
+                    "cancel": "Batal",
+                    "create": "Buat Halaman",
+                    "creating": "Membuat..."
+                }
+            },
+            "messages": {
+                "success": {
+                    "title": "Berhasil",
+                    "description": "Halaman berhasil dibuat"
+                },
+                "error": {
+                    "title": "Error",
+                    "description": "Silakan periksa form untuk kesalahan"
+                }
+            }
+        },
+        "edit": {
+            "page_title": "Edit Halaman",
+            "header": {
+                "title": "Edit Halaman",
+                "description": "Perbarui konten halaman"
+            },
+            "form": {
+                "title": "Informasi Halaman",
+                "image_actions": {
+                    "remove": "Hapus Gambar",
+                    "change": "Ganti Gambar"
+                },
+                "buttons": {
+                    "cancel": "Batal",
+                    "update": "Perbarui Halaman",
+                    "updating": "Memperbarui..."
+                }
+            },
+            "messages": {
+                "success": {
+                    "title": "Berhasil",
+                    "description": "Halaman berhasil diperbarui"
+                },
+                "error": {
+                    "title": "Error",
+                    "description": "Silakan periksa form untuk kesalahan"
+                }
+            }
+        },
+        "show": {
+            "header": {
+                "updated": "Diperbarui",
+                "created": "Dibuat"
+            },
+            "actions": {
+                "edit_page": "Edit Halaman",
+                "view_public": "Lihat Publik"
+            },
+            "meta": {
+                "title": "Metadata Halaman",
+                "slug": "URL Slug",
+                "created_at": "Tanggal Dibuat",
+                "updated_at": "Terakhir Diperbarui",
+                "featured_image": "Gambar Unggulan",
+                "no_image": "Tidak ada gambar unggulan"
+            }
+        }
     }
 }

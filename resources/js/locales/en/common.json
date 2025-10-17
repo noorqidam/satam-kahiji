@@ -1,9 +1,14 @@
 {
+    "common": {
+        "not_provided": "Not provided",
+        "biography": "Biography"
+    },
     "navigation": {
         "home": "Home",
         "about": "About Us",
         "news": "News",
         "gallery": "Gallery",
+        "gallery_management": "Gallery Management",
         "extracurricular": "Extracurricular",
         "facilities": "Facilities",
         "contact": "Contact",
@@ -363,6 +368,57 @@
             "deleting": "Deleting..."
         },
         "feedback_from": "Feedback from"
+    },
+    "super_admin_navigation": {
+        "groups": {
+            "dashboard": "Dashboard",
+            "user_management": "User Management",
+            "staff_management": "Staff Management",
+            "academic_structure": "Academic Structure",
+            "assignments_students": "Assignments & Students",
+            "academic": "Academic",
+            "content_management": "Content Management",
+            "communication": "Communication",
+            "system": "System"
+        },
+        "items": {
+            "overview": "Overview",
+            "users": "Users",
+            "staff_management": "Staff Management",
+            "classes": "Classes",
+            "subjects": "Subjects",
+            "subject_assignments": "Subject Assignments",
+            "homeroom_management": "Homeroom Management",
+            "students": "Students",
+            "extracurriculars": "Extracurriculars",
+            "work_items": "Work Items",
+            "posts_news": "Posts & News",
+            "pages": "Pages",
+            "gallery": "Gallery",
+            "facilities": "Facilities",
+            "contact_management": "Contact Management",
+            "google_drive_monitor": "Google Drive Monitor"
+        }
+    },
+    "deputy_headmaster_navigation": {
+        "groups": {
+            "dashboard": "Dashboard",
+            "academic_support": "Academic Support",
+            "content_management": "Content Management",
+            "administration": "Administration"
+        },
+        "items": {
+            "overview": "Overview",
+            "staff_management": "Staff Management",
+            "students": "Students",
+            "subjects": "Subjects",
+            "student_grades": "Student Grades",
+            "posts_news": "Posts & News",
+            "pages": "Pages",
+            "gallery": "Gallery",
+            "reports": "Reports",
+            "facilities": "Facilities"
+        }
     },
     "teacher_navigation": {
         "groups": {
@@ -736,6 +792,629 @@
             "need_account": "Need an account? Contact your system administrator."
         }
     },
+    "user_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Admin Dashboard",
+            "user_management": "User Management"
+        },
+        "page_title": "User Management",
+        "page_description": "Manage system users and their roles",
+        "header": {
+            "title": "User Management",
+            "description": "Manage system users and their roles"
+        },
+        "actions": {
+            "add_new_user": "Add New User",
+            "add_user": "Add User",
+            "delete_selected": "Delete Selected",
+            "clear_filters": "Clear Filters",
+            "filter_by_roles": "Filter by roles",
+            "search_placeholder": "Search by name or email"
+        },
+        "table": {
+            "all_users": "All Users",
+            "name": "Name",
+            "email": "Email",
+            "role": "Role",
+            "created": "Created",
+            "actions": "Actions",
+            "no_users_found": "No users found",
+            "no_users_match": "No users match the current filters.",
+            "get_started": "Get started by adding a new user."
+        },
+        "filters": {
+            "search_label": "Search:",
+            "delete_selected_count": "Delete Selected ({count})",
+            "delete_count": "Delete ({count})"
+        },
+        "dialogs": {
+            "create": {
+                "title": "Create New User",
+                "full_name": "Full Name",
+                "email_address": "Email Address",
+                "role": "Role",
+                "password": "Password",
+                "confirm_password": "Confirm Password",
+                "select_role": "Select a role",
+                "cancel": "Cancel",
+                "create_user": "Create User"
+            },
+            "edit": {
+                "title": "Edit User:",
+                "full_name": "Full Name",
+                "email_address": "Email Address", 
+                "role": "Role",
+                "new_password": "New Password (optional)",
+                "confirm_new_password": "Confirm New Password",
+                "cancel": "Cancel",
+                "update_user": "Update User"
+            },
+            "view": {
+                "title": "User Details",
+                "name": "Name",
+                "email": "Email",
+                "role": "Role",
+                "created": "Created"
+            },
+            "delete": {
+                "title": "Delete User",
+                "message": "Are you sure you want to delete {name} ({email})? This action cannot be undone.",
+                "cancel": "Cancel",
+                "delete": "Delete",
+                "deleting": "Deleting..."
+            },
+            "bulk_delete": {
+                "title": "Delete Users",
+                "message": "Are you sure you want to delete {count} selected user{plural}? This action cannot be undone.",
+                "cancel": "Cancel",
+                "delete": "Delete",
+                "deleting": "Deleting..."
+            }
+        },
+        "actions_sr": {
+            "view": "View",
+            "edit": "Edit",
+            "delete": "Delete"
+        }
+    },
+    "staff_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Admin Dashboard",
+            "staff_management": "Staff Management"
+        },
+        "page_title": "Staff Management",
+        "page_description": "Manage staff members and their information",
+        "header": {
+            "title": "Staff Management",
+            "description": "Manage staff members and their information"
+        },
+        "actions": {
+            "add_new_staff": "Add New Staff",
+            "add_staff": "Add Staff",
+            "add_staff_member": "Add Staff Member",
+            "refresh": "Refresh",
+            "delete_selected": "Delete Selected",
+            "clear_filters": "Clear Filters",
+            "filter_by_divisions": "Filter by divisions",
+            "search_placeholder": "Search by name, email, or position"
+        },
+        "table": {
+            "all_staff": "All Staff",
+            "photo": "Photo",
+            "name": "Name",
+            "position": "Position", 
+            "division": "Division",
+            "email": "Email",
+            "phone": "Phone",
+            "actions": "Actions",
+            "no_staff_found": "No staff members found",
+            "no_staff_match": "No staff members match the current filters.",
+            "get_started": "Get started by adding a new staff member."
+        },
+        "filters": {
+            "search_label": "Search:",
+            "delete_selected_count": "Delete Selected ({count})",
+            "delete_count": "Delete ({count})"
+        },
+        "dialogs": {
+            "view": {
+                "title": "Staff Details",
+                "name": "Name",
+                "position": "Position",
+                "division": "Division",
+                "email": "Email",
+                "phone": "Phone",
+                "address": "Address",
+                "date_of_birth": "Date of Birth",
+                "hire_date": "Hire Date",
+                "created": "Created"
+            },
+            "delete": {
+                "title": "Delete Staff Member",
+                "message": "Are you sure you want to delete {name}? This action cannot be undone.",
+                "cancel": "Cancel",
+                "delete": "Delete",
+                "deleting": "Deleting..."
+            },
+            "bulk_delete": {
+                "title": "Delete Staff Members",
+                "message": "Are you sure you want to delete {count} selected staff member{plural}? This action cannot be undone.",
+                "cancel": "Cancel",
+                "delete": "Delete",
+                "deleting": "Deleting..."
+            }
+        },
+        "actions_sr": {
+            "view": "View",
+            "edit": "Edit",
+            "delete": "Delete"
+        },
+        "divisions": {
+            "teaching": "Teaching",
+            "administration": "Administration",
+            "support": "Support",
+            "leadership": "Leadership"
+        },
+        "create": {
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard",
+                "staff_management": "Staff Management",
+                "create_staff": "Create Staff"
+            },
+            "page_title": "Create Staff Member",
+            "page_description": "Add a new staff member to the system",
+            "sections": {
+                "basic_information": "Basic Information"
+            },
+            "fields": {
+                "full_name": "Full Name",
+                "position": "Position",
+                "email_address": "Email Address",
+                "phone_number": "Phone Number",
+                "division": "Division",
+                "biography": "Biography",
+                "profile_photo": "Profile Photo"
+            },
+            "placeholders": {
+                "enter_full_name": "Enter full name",
+                "position_example": "e.g., Mathematics Teacher",
+                "email_example": "email@example.com",
+                "phone_example": "+62 123 4567 8900",
+                "select_division": "Select Division",
+                "biography_placeholder": "Enter staff member's biography, achievements, background..."
+            },
+            "actions": {
+                "cancel": "Cancel",
+                "create_staff_member": "Create Staff Member"
+            }
+        },
+        "edit": {
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard",
+                "staff_management": "Staff Management",
+                "edit_staff": "Edit Staff"
+            },
+            "page_title": "Edit Staff Member",
+            "page_description": "Update {{name}}'s information",
+            "sections": {
+                "basic_information": "Basic Information",
+                "associated_user_account": "Associated User Account",
+                "profile_photo": "Profile Photo"
+            },
+            "fields": {
+                "full_name": "Full Name",
+                "position": "Position",
+                "email_address": "Email Address",
+                "phone_number": "Phone Number",
+                "division": "Division",
+                "biography": "Biography",
+                "profile_photo": "Profile Photo"
+            },
+            "placeholders": {
+                "enter_full_name": "Enter full name",
+                "position_example": "e.g., Mathematics Teacher",
+                "email_example": "email@example.com",
+                "phone_example": "+62 123 4567 8900",
+                "select_division": "select division",
+                "biography_placeholder": "Enter staff member's biography, achievements, background..."
+            },
+            "messages": {
+                "user_account_info": "Basic information is managed through the user account. Only bio and photo can be edited here.",
+                "user_account_details": "{{name}} ({{email}}) - {{role}}"
+            },
+            "actions": {
+                "cancel": "Cancel",
+                "update_staff_member": "Update Staff Member"
+            }
+        },
+        "position_history": {
+            "title": "Position History",
+            "add_position": "Add Position",
+            "position_title": "Position Title",
+            "start_year": "Start Year",
+            "end_year": "End Year",
+            "present": "Present",
+            "save": "Save",
+            "cancel": "Cancel",
+            "edit": "Edit",
+            "delete": "Delete",
+            "delete_selected": "Delete Selected",
+            "select_all": "Select All",
+            "records": "records",
+            "placeholders": {
+                "position_title": "e.g., Head of Mathematics Department",
+                "start_year": "2023",
+                "end_year": "2024 (leave empty if ongoing)"
+            },
+            "validation": {
+                "title_required": "Position title is required",
+                "start_year_required": "Start year is required",
+                "end_year_greater": "End year must be greater than or equal to start year"
+            },
+            "messages": {
+                "no_records": "No position history records found.",
+                "click_add": "Click \"Add Position\" to add the first record.",
+                "add_success": "Position history added successfully.",
+                "update_success": "Position history updated successfully.",
+                "delete_success": "Position history deleted successfully.",
+                "bulk_delete_success": "position history record(s) deleted successfully.",
+                "add_error": "Failed to add position history.",
+                "update_error": "Failed to update position history.",
+                "delete_error": "Failed to delete position history.",
+                "bulk_delete_error": "Failed to delete position history records."
+            },
+            "dialogs": {
+                "delete_title": "Delete Position History",
+                "delete_description": "Are you sure you want to delete this position history record? This action cannot be undone.",
+                "bulk_delete_title": "Delete Multiple Records",
+                "bulk_delete_description": "Are you sure you want to delete {{count}} position history record(s)? This action cannot be undone.",
+                "cancel": "Cancel",
+                "delete": "Delete",
+                "delete_count": "Delete {{count}} Record(s)",
+                "delete_button": "Delete",
+                "bulk_delete_button": "Delete {{count}} Record(s)"
+            }
+        },
+        "subject_assignments": {
+            "title": "Subject Assignments",
+            "count": "Subject Assignments ({{count}})",
+            "update_assignments": "Update Assignments",
+            "currently_assigned": "Currently Assigned",
+            "all_subjects": "All Subjects ({{total}})",
+            "search_placeholder": "Search subjects...",
+            "create_subject": "Create Subject",
+            "restriction": {
+                "title": "Subject Assignment Restricted",
+                "description": "Only teachers/guru from academic division can be assigned to subjects."
+            },
+            "empty_state": {
+                "title": "No subjects available",
+                "description": "Create some subjects first to assign them to staff."
+            }
+        }
+    },
+    "class_management": {
+        "subject_staff_assignments": {
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard",
+                "subject_staff_assignments": "Subject-Staff Assignments"
+            },
+            "page_title": "Subject-Staff Assignments",
+            "page_description": "Manage subject assignments for all staff members",
+            "actions": {
+                "save_all_changes": "Save All Changes"
+            },
+            "matrix": {
+                "title": "Assignment Matrix",
+                "showing_count": "Showing {{staffCount}} of {{staffTotal}} staff members and {{subjectCount}} of {{subjectTotal}} subjects",
+                "note": "Note: Only teachers/guru from academic division are displayed as they are the only staff members who can be assigned to subjects."
+            },
+            "search_filters": {
+                "staff_search": {
+                    "title": "Staff Search",
+                    "placeholder": "Search staff by name, position..."
+                },
+                "subject_search": {
+                    "title": "Subject Search",
+                    "placeholder": "Search subjects by name, code..."
+                }
+            },
+            "save": {
+                "no_changes_title": "No Changes",
+                "no_changes_description": "No changes detected in subject assignments.",
+                "success_title": "Success",
+                "success_description": "Assignment operation completed.",
+                "warning_title": "Warning",
+                "error_title": "Error",
+                "error_fallback": "Failed to save assignments. Please try again."
+            }
+        }
+    },
+    "classes_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Admin Dashboard",
+            "classes": "Classes"
+        },
+        "page_title": "Class Management",
+        "page_description": "Organize and manage junior high school classes",
+        "header": {
+            "title": "Class Management",
+            "description": "Organize and manage junior high school classes"
+        },
+        "stats": {
+            "total_classes": "Total Classes",
+            "active_classes": "Active Classes", 
+            "with_teachers": "With Teachers",
+            "total_capacity": "Total Capacity",
+            "total_students": "Total Students",
+            "students": "Students"
+        },
+        "actions": {
+            "add_class": "Add Class",
+            "delete": "Delete",
+            "select_all": "Select All",
+            "deselect_all": "Deselect All",
+            "create_first_class": "Create Your First Class"
+        },
+        "grade": {
+            "title": "Grade {{level}}",
+            "class_count": "{{count}} class",
+            "class_count_plural": "{{count}} classes"
+        },
+        "empty_state": {
+            "title": "No classes created yet",
+            "description": "Get started by creating your first class. Classes help organize students by grade level and section.",
+            "tips": {
+                "title": "Quick Tips:",
+                "naming": "Classes are named like \"7A\", \"8B\"",
+                "capacity": "Set capacity for each class", 
+                "teachers": "Assign homeroom teachers"
+            }
+        },
+        "dialogs": {
+            "delete_single": {
+                "title": "Delete Class",
+                "description": "Are you sure you want to delete class \"{{className}}\"? This will remove all associated data and cannot be undone."
+            },
+            "delete_bulk": {
+                "title": "Delete Classes",
+                "description": "Are you sure you want to delete {{count}} selected classes? This will remove all associated data and cannot be undone."
+            }
+        },
+        "messages": {
+            "select_classes_error": "Please select classes to delete",
+            "delete_success": "Class {{className}} deleted successfully",
+            "delete_error": "Failed to delete class",
+            "bulk_delete_success": "Selected classes deleted successfully",
+            "bulk_delete_error": "Failed to delete selected classes"
+        },
+        "table": {
+            "class": "Class",
+            "capacity": "Capacity",
+            "teacher": "Teacher",
+            "actions": "Actions",
+            "full": "Full",
+            "available": "Available",
+            "slots": "slots",
+            "no_teacher_assigned": "No teacher assigned",
+            "view": "View",
+            "edit": "Edit",
+            "delete": "Delete"
+        },
+        "create": {
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard",
+                "classes": "Classes",
+                "create_class": "Create Class"
+            },
+            "page_title": "Create New Class",
+            "page_description": "Add a new class to organize students by grade and section",
+            "header": {
+                "title": "Create New Class",
+                "description": "Add a new class to organize students by grade and section"
+            },
+            "naming_convention": {
+                "title": "Class Naming Convention",
+                "description": "Classes are automatically named by combining grade level and section:",
+                "examples": {
+                    "grade_7_section_a": "Grade 7, Section A",
+                    "grade_8_section_b": "Grade 8, Section B",
+                    "grade_9_section_c": "Grade 9, Section C"
+                },
+                "note": "This naming system ensures consistency across the junior high school."
+            },
+            "best_practices": {
+                "title": "Best Practices",
+                "capacity": {
+                    "title": "Standard Capacity",
+                    "description": "Set capacity to 40 students per class maximum"
+                },
+                "descriptions": {
+                    "title": "Clear Descriptions",
+                    "description": "Add helpful descriptions to identify class characteristics"
+                },
+                "organization": {
+                    "title": "Grade Organization",
+                    "description": "Create multiple sections (A, B, C) for each grade level"
+                }
+            },
+            "form": {
+                "title": "Class Information",
+                "description": "Configure class details and settings",
+                "preview": "Preview",
+                "current": "Current",
+                "fields": {
+                    "grade_level": {
+                        "label": "Grade Level",
+                        "placeholder": "Choose grade level",
+                        "validation": {
+                            "success": "Valid grade level selected"
+                        }
+                    },
+                    "class_section": {
+                        "label": "Class Section",
+                        "placeholder": "Choose section",
+                        "option_label": "Section",
+                        "validation": {
+                            "success": "Valid section selected"
+                        }
+                    },
+                    "capacity": {
+                        "label": "Class Capacity",
+                        "placeholder": "Maximum students (e.g., 40)",
+                        "unit": "students",
+                        "validation": {
+                            "success": "Valid capacity entered"
+                        }
+                    },
+                    "description": {
+                        "label": "Description (Optional)",
+                        "placeholder": "Add notes about this class... (e.g., 'Advanced science curriculum', 'Arts-focused program', 'Regular academic track')",
+                        "help": "Help students and teachers understand what makes this class unique",
+                        "char_count": "{{current}}/{{max}}",
+                        "validation": {
+                            "success": "Description looks good"
+                        }
+                    }
+                },
+                "buttons": {
+                    "cancel": "Cancel Changes",
+                    "create": "Create Class",
+                    "update": "Update Class",
+                    "creating": "Creating...",
+                    "updating": "Updating..."
+                },
+                "validation": {
+                    "grade_level": {
+                        "required": "Grade level is required",
+                        "invalid": "Grade level must be 7, 8, or 9"
+                    },
+                    "class_section": {
+                        "required": "Class section is required",
+                        "invalid": "Class section must be a single letter (A-Z)"
+                    },
+                    "capacity": {
+                        "required": "Capacity is required",
+                        "invalid_number": "Capacity must be a number",
+                        "invalid_format": "Capacity must be a valid number",
+                        "min_value": "Capacity must be at least 1 student",
+                        "min_current_students": "Capacity must be at least {{count}} to accommodate current students",
+                        "max_value": "Capacity cannot exceed 40 students",
+                        "must_be_integer": "Capacity must be a whole number"
+                    },
+                    "description": {
+                        "max_length": "Description cannot exceed 500 characters"
+                    },
+                    "general": {
+                        "validation_failed": "Validation failed",
+                        "validation_error": "Validation error",
+                        "unexpected_error": "Unexpected validation error"
+                    }
+                }
+            }
+        }
+    },
+    "subject_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Admin Dashboard",
+            "subject_management": "Subject Management"
+        },
+        "page_title": "Subject Management",
+        "page_description": "Manage subjects and their staff assignments",
+        "header": {
+            "title": "Subject Management",
+            "description": "Manage subjects and their staff assignments"
+        },
+        "actions": {
+            "add_subject": "Add New Subject",
+            "add_subject_short": "Add Subject"
+        },
+        "filters": {
+            "all_subjects": "All Subjects",
+            "search_placeholder": "Search by name or code",
+            "search_label": "Search: \"{{term}}\"",
+            "delete_selected": "Delete Selected ({{count}})",
+            "clear_filters": "Clear Filters"
+        },
+        "table": {
+            "columns": {
+                "subject_name": "Subject Name",
+                "code": "Code",
+                "assigned_staff": "Assigned Staff",
+                "created": "Created",
+                "actions": "Actions"
+            },
+            "staff_count": "{{count}} staff members",
+            "no_code": "-"
+        },
+        "empty_state": {
+            "title": "No subjects found",
+            "description_search": "Try adjusting your search.",
+            "description_empty": "Get started by adding a new subject.",
+            "add_subject": "Add Subject"
+        },
+        "dialogs": {
+            "bulk_delete": {
+                "title": "Delete Subjects",
+                "message": "Are you sure you want to delete <strong>{{count}}</strong> subjects? This action cannot be undone."
+            },
+            "single_delete": {
+                "title": "Delete Subject",
+                "message": "Are you sure you want to delete <strong>{{name}}</strong>? This action cannot be undone."
+            },
+            "subject_details": {
+                "title": "Subject Details: {{name}}",
+                "description": "View detailed information about this subject including assigned staff and creation date.",
+                "labels": {
+                    "assigned_staff": "Assigned Staff",
+                    "created": "Created"
+                },
+                "values": {
+                    "staff_members": "{{count}} staff members"
+                }
+            }
+        },
+        "create": {
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard",
+                "subject_management": "Subject Management",
+                "create_subject": "Create Subject"
+            },
+            "page_title": "Create Subject",
+            "header": {
+                "title": "Create Subject",
+                "description": "Add a new subject to the system"
+            },
+            "form": {
+                "title": "Subject Information",
+                "fields": {
+                    "name": {
+                        "label": "Subject Name",
+                        "placeholder": "e.g., Mathematics, English Literature"
+                    },
+                    "code": {
+                        "label": "Subject Code",
+                        "placeholder": "e.g., MATH101, ENG201",
+                        "help": "Optional unique identifier for the subject"
+                    }
+                },
+                "buttons": {
+                    "cancel": "Cancel",
+                    "create": "Create Subject"
+                }
+            },
+            "messages": {
+                "success": {
+                    "title": "Success",
+                    "description": "Subject created successfully."
+                },
+                "error": {
+                    "title": "Error",
+                    "description": "Failed to create subject."
+                }
+            }
+        }
+    },
     "work_items_management": {
         "breadcrumbs": {
             "admin_dashboard": "Dashboard",
@@ -980,7 +1659,12 @@
         "published": "Published",
         "draft": "Draft",
         "active": "Active",
-        "inactive": "Inactive"
+        "inactive": "Inactive",
+        "delete_confirmation": {
+            "title": "Delete {{itemType}}",
+            "description_with_name": "Are you sure you want to delete \"{{itemName}}\"? This action cannot be undone.",
+            "description_without_name": "Are you sure you want to delete this {{itemType}}? This action cannot be undone."
+        }
     },
     "settings": {
         "page": {
@@ -1070,6 +1754,1220 @@
             "languages": {
                 "en": "English",
                 "id": "Bahasa Indonesia"
+            }
+        },
+        "student_management": {
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard",
+                "students": "Student Management"
+            },
+            "page_title": "Student Management",
+            "page_description": "Manage student information, including personal details, contact information, and notes.",
+            "table": {
+                "headers": {
+                    "student": "Student",
+                    "class_entry_year": "Class & Entry Year",
+                    "gender": "Gender",
+                    "date_of_birth": "Date of Birth",
+                    "homeroom_teacher": "Homeroom Teacher",
+                    "status": "Status",
+                    "actions": "Actions"
+                },
+                "empty_states": {
+                    "no_students_filtered": "No students found matching your search.",
+                    "no_students": "No students found."
+                },
+                "total_count": "Students ({{count}})"
+            },
+            "filters": {
+                "search_placeholder": "Search students",
+                "gender_filter": {
+                    "placeholder": "All genders",
+                    "male": "Male",
+                    "female": "Female"
+                },
+                "status_filter": {
+                    "placeholder": "All status",
+                    "active": "Active",
+                    "graduated": "Graduated",
+                    "transferred": "Transferred",
+                    "dropped": "Dropped"
+                }
+            },
+            "actions": {
+                "add_student": "Add Student",
+                "delete_selected": "Delete Selected ({{count}})"
+            },
+            "dialogs": {
+                "delete_student": {
+                    "title": "Delete Student",
+                    "message": "Are you sure you want to delete this student? This action cannot be undone.",
+                    "confirm_button": "Delete Student"
+                },
+                "bulk_delete": {
+                    "title": "Delete Students",
+                    "message": "Are you sure you want to delete {{count}} student{{plural}}? This action cannot be undone.",
+                    "confirm_button": "Delete {{count}} Student{{plural}}"
+                }
+            }
+        },
+        "student_creation": {
+            "breadcrumbs": {
+                "create_student": "Create Student"
+            },
+            "page_title": "Create New Student",
+            "page_description": "Add a new student to the system with comprehensive information and administrative controls.",
+            "sections": {
+                "photo": "Student Photo",
+                "basic_info": "Basic Information",
+                "admin_controls": "Administrative Controls",
+                "contact_info": "Contact Information",
+                "transportation_info": "Transportation Information",
+                "health_info": "Health Information",
+                "academic_info": "Academic Information"
+            },
+            "descriptions": {
+                "admin_controls": "Administrative settings including class assignment, homeroom teacher, and student status."
+            },
+            "fields": {
+                "nisn": "NISN (Student ID)",
+                "name": "Full Name",
+                "gender": "Gender",
+                "birth_date": "Date of Birth",
+                "birthplace": "Place of Birth",
+                "religion": "Religion",
+                "class": "Class",
+                "homeroom_teacher": "Homeroom Teacher",
+                "status": "Status",
+                "entry_year": "Entry Year",
+                "parent_name": "Parent/Guardian Name",
+                "parent_phone": "Parent Phone",
+                "parent_email": "Parent Email",
+                "emergency_contact_name": "Emergency Contact Name",
+                "emergency_contact_phone": "Emergency Contact Phone",
+                "address": "Address",
+                "transportation_method": "Transportation Method",
+                "distance_from_home": "Distance from Home (km)",
+                "travel_time": "Travel Time (minutes)",
+                "pickup_location": "Pickup Location",
+                "transportation_notes": "Transportation Notes",
+                "blood_type": "Blood Type",
+                "allergies": "Allergies",
+                "medical_conditions": "Medical Conditions",
+                "dietary_restrictions": "Dietary Restrictions",
+                "emergency_medical_info": "Emergency Medical Information",
+                "graduation_year": "Graduation Year",
+                "extracurriculars": "Extracurricular Activities",
+                "notes": "Notes"
+            },
+            "placeholders": {
+                "nisn": "Enter NISN number",
+                "name": "Enter full name",
+                "gender": "Select gender",
+                "birthplace": "Enter place of birth",
+                "religion": "Enter religion",
+                "select_class": "Select a class",
+                "select_teacher": "Select homeroom teacher",
+                "status": "Select status",
+                "parent_name": "Enter parent/guardian name",
+                "parent_phone": "Enter parent phone number",
+                "parent_email": "Enter parent email",
+                "emergency_contact_name": "Enter emergency contact name",
+                "emergency_contact_phone": "Enter emergency contact phone",
+                "address": "Enter full address",
+                "transportation_method": "Select transportation method",
+                "distance_from_home": "Enter distance in kilometers",
+                "travel_time": "Enter travel time in minutes",
+                "pickup_location": "Enter pickup location",
+                "transportation_notes": "Additional transportation notes",
+                "blood_type": "Select blood type",
+                "allergies": "Enter known allergies",
+                "medical_conditions": "Enter medical conditions",
+                "dietary_restrictions": "Enter dietary restrictions",
+                "emergency_medical_info": "Enter emergency medical information",
+                "graduation_year": "Select expected graduation year",
+                "extracurriculars": "Select extracurricular activities",
+                "notes": "Additional notes about the student",
+                "new_student": "New Student"
+            },
+            "options": {
+                "gender": {
+                    "male": "Male",
+                    "female": "Female"
+                },
+                "status": {
+                    "active": "Active",
+                    "graduated": "Graduated",
+                    "transferred": "Transferred",
+                    "dropped": "Dropped"
+                },
+                "transportation": {
+                    "walking": "Walking",
+                    "bicycle": "Bicycle",
+                    "motorcycle": "Motorcycle",
+                    "car": "Car",
+                    "school_bus": "School Bus",
+                    "public_transport": "Public Transport",
+                    "other": "Other"
+                }
+            },
+            "help": {
+                "extracurriculars": "Select the extracurricular activities the student is interested in or participating in."
+            },
+            "labels": {
+                "slots_available": "slots available",
+                "class_full": "Full",
+                "current_class": "Current Class",
+                "available": "Available"
+            },
+            "actions": {
+                "creating": "Creating...",
+                "create_student": "Create Student"
+            },
+            "submit_button": "Create Student",
+            "success": {
+                "title": "Success",
+                "description": "Student created successfully."
+            },
+            "error": {
+                "title": "Error",
+                "fallback": "Failed to create student. Please try again."
+            }
+        },
+        "extracurricular_management": {
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard", 
+                "extracurricular_management": "Extracurricular Management"
+            },
+            "page_title": "Extracurricular Management",
+            "page_description": "Manage extracurricular activities and student assignments",
+            "add_activity": "Add New Activity",
+            "add_activity_short": "Add Activity",
+            "all_activities": "All Activities",
+            "search_placeholder": "Search by name or description",
+            "table": {
+                "activity": "Activity",
+                "description": "Description", 
+                "students": "Students",
+                "created": "Created",
+                "actions": "Actions"
+            },
+            "filters": {
+                "search_label": "Search: \"{{term}}\"",
+                "clear_filters": "Clear Filters",
+                "delete_selected": "Delete Selected ({{count}})"
+            },
+            "empty_state": {
+                "no_activities": "No activities found",
+                "try_adjusting": "Try adjusting your search.",
+                "get_started": "Get started by adding a new extracurricular activity.",
+                "add_activity": "Add Activity"
+            },
+            "dialogs": {
+                "delete_activities": {
+                    "title": "Delete Activities",
+                    "message": "Are you sure you want to delete <strong>{{count}}</strong> activities? This action cannot be undone.",
+                    "deleting": "Deleting...",
+                    "delete": "Delete",
+                    "cancel": "Cancel"
+                },
+                "delete_activity": {
+                    "title": "Delete Activity",
+                    "message": "Are you sure you want to delete <strong>{{name}}</strong>? This action cannot be undone.",
+                    "deleting": "Deleting...",
+                    "delete": "Delete",
+                    "cancel": "Cancel"
+                },
+                "activity_details": {
+                    "title": "Activity Details: {{name}}",
+                    "participating_students": "Participating Students",
+                    "students_count": "{{count}} students",
+                    "created": "Created"
+                }
+            },
+            "messages": {
+                "delete_success": "{{name}} has been deleted successfully.",
+                "bulk_delete_success": "{{count}} extracurricular activities have been deleted successfully.",
+                "delete_error": "Failed to delete extracurricular activity. Please try again.",
+                "bulk_delete_error": "Failed to delete extracurricular activities. Please try again."
+            },
+            "success": "Success",
+            "error": "Error"
+        },
+        "extracurricular_create": {
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard",
+                "extracurricular_management": "Extracurricular Management",
+                "create_activity": "Create Activity"
+            },
+            "page_title": "Create Extracurricular Activity",
+            "page_description": "Add a new extracurricular activity to the system",
+            "form": {
+                "title": "Create New Extracurricular Activity",
+                "activity_name": "Activity Name",
+                "choose_from_list": "Choose from list",
+                "enter_custom_name": "Enter custom name",
+                "select_placeholder": "Select an extracurricular activity",
+                "custom_placeholder": "Enter custom extracurricular activity name",
+                "description_label": "Description (Optional)",
+                "description_placeholder": "Enter a description for this extracurricular activity",
+                "photo_label": "Activity Photo (Optional)",
+                "create_button": "Create Activity",
+                "cancel_button": "Cancel",
+                "creating": "Creating..."
+            },
+            "categories": {
+                "sports": "Sports",
+                "arts_culture": "Arts & Culture",
+                "academic_science": "Academic & Science",
+                "community_service": "Community & Service",
+                "religion_character": "Religion & Character",
+                "others": "Others"
+            },
+            "messages": {
+                "success_title": "Success",
+                "success_description": "Extracurricular activity created successfully.",
+                "error_title": "Error",
+                "error_description": "Failed to create extracurricular activity.",
+                "validation_error_title": "Validation Error",
+                "validation_error_description": "Please fix the errors before submitting."
+            }
+        },
+        "extracurricular_edit": {
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard",
+                "extracurricular_management": "Extracurricular Management",
+                "edit_activity": "Edit {{name}}"
+            },
+            "page_title": "Edit Extracurricular Activity",
+            "page_description": "Update {{name}} details",
+            "form": {
+                "title": "Edit Extracurricular Activity",
+                "activity_name": "Activity Name",
+                "choose_from_list": "Choose from list",
+                "enter_custom_name": "Enter custom name",
+                "select_placeholder": "Select an extracurricular activity",
+                "custom_placeholder": "Enter custom extracurricular activity name",
+                "description_label": "Description (Optional)",
+                "description_placeholder": "Enter a description for this extracurricular activity",
+                "photo_label": "Activity Photo (Optional)",
+                "update_button": "Update Activity",
+                "cancel_button": "Cancel",
+                "updating": "Updating..."
+            },
+            "categories": {
+                "sports": "Sports",
+                "arts_culture": "Arts & Culture",
+                "academic_science": "Academic & Science",
+                "community_service": "Community & Service",
+                "religion_character": "Religion & Character",
+                "others": "Others"
+            },
+            "messages": {
+                "success_title": "Success",
+                "success_description": "Extracurricular activity updated successfully.",
+                "error_title": "Error",
+                "error_description": "Failed to update extracurricular activity.",
+                "validation_error_title": "Validation Error",
+                "validation_error_description": "Please fix the errors before submitting."
+            }
+        },
+        "student_edit": {
+            "breadcrumbs": {
+                "edit_student": "Edit {{name}}"
+            },
+            "page_title": "Edit {{name}}",
+            "page_description": "Update {{name}}'s information and details.",
+            "submit_button": "Update Student",
+            "success": {
+                "title": "Success",
+                "description": "Student updated successfully."
+            },
+            "actions": {
+                "updating": "Updating..."
+            },
+            "error": {
+                "title": "Error",
+                "fallback": "Failed to update student. Please try again."
+            }
+        },
+        "staff_overview": {
+            "page_title": "Staff Overview",
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard",
+                "staff_overview": "Staff Overview"
+            },
+            "header": {
+                "title": "Staff Overview",
+                "description_admin": "View progress and status of work item submissions from all teachers. As Super Admin, you have read-only access.",
+                "description_headmaster": "Monitor progress and provide feedback on work item submissions from all teachers."
+            },
+            "stats": {
+                "total_teachers": "Total Teachers",
+                "upload_completion": "Upload Completion",
+                "feedback_completion": "Feedback Completion",
+                "approval_rate": "Approval Rate",
+                "of": "of",
+                "files": "files",
+                "approved": "approved",
+                "revision": "revision"
+            },
+            "teachers": {
+                "title": "Teachers List",
+                "search_placeholder": "Search by name or position..."
+            },
+            "table": {
+                "columns": {
+                    "teacher": "Teacher",
+                    "position": "Position",
+                    "subjects": "Subjects",
+                    "progress": "Progress",
+                    "status": "Status",
+                    "actions": "Actions"
+                },
+                "more": "more",
+                "status": {
+                    "complete": "Complete",
+                    "in_progress": "In Progress",
+                    "behind": "Behind",
+                    "approved": "Approved",
+                    "pending": "Pending",
+                    "revision": "Revision"
+                },
+                "action_titles": {
+                    "view_details": "View Details"
+                },
+                "empty_states": {
+                    "no_teachers": "No teachers registered yet",
+                    "no_teachers_search": "No teachers found matching your search"
+                }
+            }
+        },
+        "teacher_detail": {
+            "page_title": "Teacher Details",
+            "view_only_mode": "View Only Mode",
+            "stats": {
+                "total_files": "Total Files",
+                "approved_files": "Approved Files",
+                "pending_files": "Pending Files",
+                "revision_files": "Revision Files"
+            },
+            "work_item": {
+                "required": "Required",
+                "optional": "Optional"
+            },
+            "files": {
+                "uploaded_files": "Uploaded Files",
+                "no_files_uploaded": "No files uploaded yet"
+            },
+            "file_status": {
+                "pending": "Pending",
+                "approved": "Approved",
+                "needs_revision": "Needs Revision"
+            },
+            "actions": {
+                "view_file": "View File"
+            },
+            "work_items": {
+                "no_work_items": "No work items for this subject yet"
+            },
+            "subjects": {
+                "no_subjects_assigned": "This teacher has not been assigned any subjects yet"
+            }
+        },
+        "posts_management": {
+            "page_title": "Posts & News Management",
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard",
+                "posts_news": "Posts & News"
+            },
+            "header": {
+                "title": "Posts & News",
+                "description": "Create, manage, and publish your content with ease"
+            },
+            "stats": {
+                "published": "Published",
+                "drafts": "Drafts",
+                "total_posts": "Total Posts"
+            },
+            "actions": {
+                "create_new_post": "Create New Post",
+                "create_post": "Create Post",
+                "create_first_post": "Create Your First Post",
+                "learn_best_practices": "Learn Best Practices",
+                "view_post": "View Post",
+                "edit_post": "Edit Post",
+                "delete_post": "Delete Post"
+            },
+            "filters": {
+                "title": "Search & Filter",
+                "description": "Find posts quickly with advanced search and filtering options",
+                "search_placeholder": "Search by title, content, or excerpt...",
+                "all_categories": "All Categories",
+                "all_status": "All Status"
+            },
+            "categories": {
+                "news": "News",
+                "announcements": "Announcements"
+            },
+            "status": {
+                "published": "Published",
+                "draft": "Draft",
+                "not_published": "Not published",
+                "updating": "Updating..."
+            },
+            "table": {
+                "columns": {
+                    "image": "Image",
+                    "title_content": "Title & Content",
+                    "category": "Category",
+                    "published": "Published",
+                    "created_at": "Created At",
+                    "published_date": "Published Date",
+                    "actions": "Actions"
+                },
+                "content_stats": {
+                    "characters": "characters",
+                    "min_read": "min read"
+                }
+            },
+            "empty_state": {
+                "title": "No posts found",
+                "description": "Start creating engaging content for your audience. Your first post is just one click away!"
+            },
+            "pagination": {
+                "showing": "Showing",
+                "to": "to",
+                "of": "of",
+                "results": "results"
+            },
+            "messages": {
+                "success": "Success",
+                "error": "Error",
+                "update_success": "Post status updated successfully",
+                "update_error": "Failed to update post status",
+                "delete_confirmation": "Are you sure you want to delete this post?"
+            },
+            "forms": {
+                "create": {
+                    "page_title": "Create Post",
+                    "breadcrumbs": {
+                        "create_post": "Create Post"
+                    },
+                    "header": {
+                        "title": "Create New Post",
+                        "description": "Create a new post or news article for your website"
+                    },
+                    "actions": {
+                        "preview": "Preview",
+                        "creating": "Creating...",
+                        "create_post": "Create Post",
+                        "cancel": "Cancel"
+                    },
+                    "success_message": "Post created successfully.",
+                    "error_message": "Failed to create post. Please check the form for errors."
+                },
+                "edit": {
+                    "page_title": "Edit Post",
+                    "breadcrumbs": {
+                        "edit_post": "Edit Post"
+                    },
+                    "header": {
+                        "title": "Edit Post",
+                        "description": "Make changes to your post"
+                    },
+                    "actions": {
+                        "preview": "Preview",
+                        "saving": "Saving...",
+                        "save_changes": "Save Changes",
+                        "cancel": "Cancel"
+                    },
+                    "success_message": "Post updated successfully.",
+                    "error_message": "Failed to update post. Please check the form for errors.",
+                    "preview_alert": "Preview functionality would be implemented here"
+                },
+                "sections": {
+                    "post_content": {
+                        "title": "Post Content",
+                        "create_description": "Enter the main content for your post",
+                        "edit_description": "Update the content for your post"
+                    },
+                    "featured_image": {
+                        "title": "Featured Image",
+                        "create_description": "Upload an image for your post (optional)",
+                        "edit_description": "Update the image for your post (optional)"
+                    },
+                    "post_settings": {
+                        "title": "Post Settings",
+                        "description": "Configure post category and publishing options"
+                    }
+                },
+                "fields": {
+                    "title": {
+                        "label": "Title",
+                        "placeholder": "Enter post title...",
+                        "required_error": "Title is required"
+                    },
+                    "excerpt": {
+                        "label": "Excerpt (Optional)",
+                        "placeholder": "Brief description or summary...",
+                        "help_text": "This will be displayed in post listings and previews"
+                    },
+                    "content": {
+                        "label": "Content",
+                        "placeholder": "Write your post content here...",
+                        "required_error": "Content is required"
+                    },
+                    "category": {
+                        "label": "Category",
+                        "placeholder": "Select category",
+                        "required_error": "Category is required"
+                    },
+                    "created_at": {
+                        "label": "Created Date",
+                        "help_text": "Set when this post was originally created",
+                        "required_error": "Created date is required"
+                    },
+                    "published": {
+                        "label": "Published",
+                        "create_help_text": "Make this post visible to the public",
+                        "edit_help_text": "Make this post public",
+                        "draft_alert_create": "Post will be saved as draft and can be published later",
+                        "draft_alert_edit": "Post will be saved as draft"
+                    }
+                }
+            },
+            "show": {
+                "page_title": "Post Details",
+                "breadcrumbs": {
+                    "post_details": "Post Details"
+                },
+                "header": {
+                    "title": "Post Details",
+                    "description": "Preview and manage your content"
+                },
+                "actions": {
+                    "unpublish": "Unpublish",
+                    "publish_now": "Publish Now",
+                    "publish": "Publish",
+                    "edit": "Edit",
+                    "delete": "Delete",
+                    "unpublish_post": "Unpublish Post",
+                    "publish_post": "Publish Post"
+                },
+                "meta": {
+                    "created": "Created:",
+                    "published": "Published:",
+                    "url_slug": "URL Slug:",
+                    "last_updated": "Last updated:"
+                },
+                "stats": {
+                    "characters": "Characters",
+                    "words": "Words",
+                    "min_read": "Min Read"
+                }
+            }
+        },
+        "gallery_management": {
+        "breadcrumbs": {
+            "admin_dashboard": "Admin Dashboard",
+            "gallery_management": "Gallery Management"
+        },
+        "header": {
+            "title": "Gallery Management",
+            "description": "Manage photo and video galleries"
+        },
+        "actions": {
+            "create_gallery": "Create Gallery",
+            "edit_gallery": "Edit Gallery",
+            "delete_gallery": "Delete Gallery",
+            "view_gallery": "View Gallery",
+            "publish": "Publish",
+            "unpublish": "Unpublish",
+            "duplicate": "Duplicate",
+            "reorder": "Reorder",
+            "bulk_delete": "Bulk Delete",
+            "sync_with_drive": "Sync with Drive"
+        },
+        "create": {
+            "title": "Create New Gallery",
+            "description": "Create a new photo or video gallery",
+            "form": {
+                "fields": {
+                    "title": {
+                        "label": "Gallery Title",
+                        "placeholder": "Enter gallery title",
+                        "help": "This will be used as the gallery name and URL slug"
+                    },
+                    "description": {
+                        "label": "Description",
+                        "placeholder": "Enter gallery description (optional)",
+                        "help": "Brief description of what this gallery contains"
+                    },
+                    "featured_image": {
+                        "label": "Featured Image",
+                        "placeholder": "Choose featured image",
+                        "help": "Image that represents this gallery"
+                    },
+                    "is_published": {
+                        "label": "Publish Gallery",
+                        "help": "Make this gallery visible to the public"
+                    },
+                    "sort_order": {
+                        "label": "Display Order",
+                        "placeholder": "0",
+                        "help": "Lower numbers appear first"
+                    }
+                },
+                "validation": {
+                    "title_required": "Gallery title is required",
+                    "title_max": "Gallery title must not exceed 255 characters",
+                    "description_max": "Description must not exceed 1000 characters",
+                    "sort_order_min": "Sort order must be 0 or greater"
+                },
+                "buttons": {
+                    "save_draft": "Save as Draft",
+                    "save_publish": "Save & Publish",
+                    "cancel": "Cancel"
+                }
+            },
+            "success": "Gallery created successfully!",
+            "error": "Failed to create gallery. Please try again."
+        },
+        "edit": {
+            "title": "Edit Gallery",
+            "description": "Update gallery information and manage items",
+            "success": "Gallery updated successfully!",
+            "error": "Failed to update gallery. Please try again."
+        },
+        "show": {
+            "tabs": {
+                "overview": "Overview",
+                "items": "Gallery Items",
+                "settings": "Settings"
+            },
+            "overview": {
+                "created": "Created",
+                "updated": "Last Updated",
+                "items_count": "Total Items",
+                "status": "Status",
+                "published": "Published",
+                "draft": "Draft",
+                "google_drive": "Google Drive Integration",
+                "connected": "Connected",
+                "not_connected": "Not Connected"
+            },
+            "items": {
+                "title": "Gallery Items",
+                "add_items": "Add Items",
+                "search_placeholder": "Search by title or caption...",
+                "filters": {
+                    "all": "All Items",
+                    "images": "Images",
+                    "videos": "Videos",
+                    "featured": "Featured"
+                },
+                "item_actions": {
+                    "edit": "Edit Item",
+                    "delete": "Delete Item",
+                    "feature": "Set as Featured",
+                    "unfeature": "Remove from Featured",
+                    "view_original": "View Original"
+                },
+                "empty_state": {
+                    "title": "No items in this gallery yet",
+                    "description": "Upload some files to get started",
+                    "no_matches": "No files match your search",
+                    "adjust_search": "Try adjusting your search terms"
+                },
+                "media_error": "Error loading media file",
+                "media_types": {
+                    "audio": "Audio",
+                    "image": "Image",
+                    "video": "Video",
+                    "audio_file": "Audio File",
+                    "unknown_file": "Unknown File Type",
+                    "play_video": "Play video",
+                    "play_audio": "Play audio"
+                },
+                "badges": {
+                    "featured": "Featured"
+                },
+                "metadata": {
+                    "gallery_id": "Gallery ID",
+                    "slug": "Slug"
+                }
+            },
+            "file_picker": {
+                "select_file": "Select File",
+                "no_file_selected": "No file selected",
+                "change_file": "Change File",
+                "browse_files": "Browse Gallery Files",
+                "upload_new": "Upload New",
+                "save_first": "Save the gallery first to enable Google Drive file management",
+                "choose_from_drive": "Choose from your gallery's Google Drive folder or upload a new file"
+            },
+            "drive_picker": {
+                "title": "Gallery Files",
+                "description": "Browse or upload files for this gallery. Files are stored in your Google Drive.",
+                "tabs": {
+                    "browse": "Browse Files",
+                    "upload": "Upload New"
+                },
+                "search_placeholder": "Search files...",
+                "upload": {
+                    "title": "Upload New File",
+                    "description": "Upload images or videos to this gallery's Google Drive folder",
+                    "select_file": "Select File",
+                    "uploading": "Uploading to Google Drive...",
+                    "max_size": "Maximum file size: 20MB. Supported formats: JPEG, PNG, GIF, WebP, MP4, MOV, AVI, MKV, WebM",
+                    "type_error_image": "Images are not allowed",
+                    "type_error_video": "Videos are not allowed",
+                    "success": "File uploaded successfully",
+                    "error": "Upload failed"
+                },
+                "selection": {
+                    "files_selected": "file(s) selected",
+                    "clear": "Clear",
+                    "use_selected": "Use Selected"
+                },
+                "loading": "Loading files...",
+                "connection_error": "Failed to connect to Google Drive"
+            }
+        },
+        "list": {
+            "title": "All Galleries",
+            "search_placeholder": "Search galleries...",
+            "search_and_filter": {
+                "title": "Search & Filter",
+                "description": "Find galleries quickly with advanced search and filtering options"
+            },
+            "filters": {
+                "all": "All Status",
+                "published": "Published",
+                "draft": "Draft",
+                "featured": "Featured"
+            },
+            "table": {
+                "columns": {
+                    "image": "Image",
+                    "title": "Title",
+                    "description": "Description",
+                    "items_count": "Items",
+                    "status": "Status",
+                    "created_at": "Created",
+                    "actions": "Actions"
+                },
+                "no_description": "No description",
+                "sort_order": "Sort order"
+            },
+            "empty_state": {
+                "title": "No galleries found",
+                "description": "Create your first gallery to get started",
+                "create_button": "Create Gallery"
+            }
+        },
+        "delete": {
+            "title": "Delete Gallery",
+            "message": "Are you sure you want to delete this gallery? This action cannot be undone.",
+            "confirm": "Delete Gallery",
+            "cancel": "Cancel",
+            "success": "Gallery deleted successfully",
+            "error": "Failed to delete gallery"
+        },
+        "bulk_actions": {
+            "selected_count": "selected",
+            "publish_selected": "Publish Selected",
+            "unpublish_selected": "Unpublish Selected",
+            "delete_selected": "Delete Selected"
+        },
+        "pagination": {
+            "showing": "Showing",
+            "to": "to",
+            "of": "of",
+            "results": "results"
+        }
+    },
+    "facility_management": {
+        "header": {
+            "title": "Facility Management",
+            "description": "Manage school facilities with secure cloud storage"
+        },
+        "actions": {
+            "add_facility": "Add Facility",
+            "add_first_facility": "Add First Facility",
+            "create_facility": "Create Facility",
+            "edit_facility": "Edit Facility",
+            "delete_facility": "Delete Facility",
+            "view_all_facilities": "View All Facilities"
+        },
+        "search": {
+            "title": "Search & Discover",
+            "placeholder": "Search facilities...",
+            "showing_results": "Showing results for:",
+            "results": "results",
+            "result": "result"
+        },
+        "view_modes": {
+            "list_view": "List View",
+            "grid_view": "Grid View"
+        },
+        "stats": {
+            "total": "Total",
+            "with_photos": "With Photos",
+            "facilities": "Facilities",
+            "facility": "Facility",
+            "live_status": "Live Status",
+            "last_updated": "Last updated:",
+            "showing": "Showing"
+        },
+        "empty_state": {
+            "no_facilities": "No facilities yet",
+            "no_facilities_found": "No facilities found",
+            "get_started": "Get started by adding your first facility to showcase your school's infrastructure",
+            "try_adjusting": "Try adjusting your search criteria or browse all facilities"
+        },
+        "delete": {
+            "title": "Delete Facility",
+            "message": "Are you sure you want to delete",
+            "warning": "This action cannot be undone and will permanently remove the facility and its associated photo.",
+            "confirm": "Delete Facility",
+            "cancel": "Cancel",
+            "deleting": "Deleting..."
+        },
+        "pagination": {
+            "page": "Page",
+            "of": "of",
+            "total_facilities": "total facilities",
+            "total": "total"
+        },
+        "card": {
+            "has_image": "Has Image",
+            "no_image": "No Image",
+            "created": "Created",
+            "view": "View",
+            "edit": "Edit"
+        },
+        "form": {
+            "header": {
+                "edit_title": "Edit Facility",
+                "create_title": "Create New Facility",
+                "edit_description": "Update facility information and manage its photo",
+                "create_description": "Add a new facility with secure cloud storage"
+            },
+            "fields": {
+                "name": {
+                    "label": "Facility Name",
+                    "placeholder": "Enter facility name",
+                    "required": "*"
+                },
+                "description": {
+                    "label": "Description",
+                    "placeholder": "Provide a detailed description of the facility...",
+                    "required": "*",
+                    "char_count": "characters"
+                },
+                "featured_image": {
+                    "label": "Featured Image",
+                    "help": "Upload an image file (JPEG, PNG, GIF, WebP) up to 5MB. Images are securely stored in Google Drive."
+                }
+            },
+            "buttons": {
+                "view": "View",
+                "back_to_facilities": "Back to Facilities",
+                "create_facility": "Create Facility",
+                "update_facility": "Update Facility",
+                "creating": "Creating...",
+                "updating": "Updating..."
+            },
+            "page_titles": {
+                "edit": "Edit Facility"
+            }
+        },
+        "show": {
+            "page_title": "Facility Details",
+            "header": {
+                "description": "Facility details and information",
+                "created": "Created",
+                "photo_available": "Photo Available",
+                "updated": "Updated"
+            },
+            "buttons": {
+                "edit_facility": "Edit Facility",
+                "delete": "Delete",
+                "deleting": "Deleting...",
+                "add_photo": "Add Photo"
+            },
+            "sections": {
+                "facility_information": "Facility Information",
+                "complete_details": "Complete details and description",
+                "facility_name": "Facility Name",
+                "description": "Description",
+                "timeline": "Timeline",
+                "photo": "Photo",
+                "current_image": "Current image",
+                "not_available": "Not available",
+                "no_photo_title": "No Photo",
+                "no_photo_description": "Add a photo to showcase this facility"
+            },
+            "timeline": {
+                "created": "Created",
+                "last_updated": "Last Updated"
+            },
+            "delete_dialog": {
+                "title": "Delete Facility",
+                "description": "Are you sure you want to delete",
+                "description_continued": "? This action cannot be undone and will permanently remove the facility and its associated photo.",
+                "cancel": "Cancel",
+                "confirm": "Delete Facility",
+                "processing": "Deleting..."
+            }
+        }
+    },
+    "contact_management": {
+        "page_title": "School Contact Information",
+        "breadcrumbs": {
+            "admin_dashboard": "Admin Dashboard",
+            "contact_information": "School Contact Information",
+            "create_contact": "Create Contact",
+            "edit": "Edit"
+        },
+        "header": {
+            "title": "School Contact Information",
+            "title_short": "School Contact",
+            "description": "Manage school contact details for the landing page",
+            "description_mobile": "Manage school contact details for the landing page"
+        },
+        "status": {
+            "active": "Active",
+            "not_configured": "Not Configured",
+            "not_set": "Not Set",
+            "contact_available": "Contact Available",
+            "contact_configured": "Contact Configured",
+            "setup_required": "Setup Required",
+            "last_updated": "Last updated:",
+            "no_contact_info": "No contact information set"
+        },
+        "actions": {
+            "edit_contact": "Edit Contact",
+            "set_up_contact": "Set Up Contact",
+            "view_details": "View Details",
+            "delete": "Delete",
+            "deleting": "Deleting...",
+            "cancel_return": "Cancel & Return",
+            "processing": "Processing...",
+            "create_contact": "Create Contact",
+            "update_contact": "Update Contact"
+        },
+        "empty_state": {
+            "title": "No Contact Information",
+            "description": "Set up your school's contact information to display on the landing page and enable visitors to reach out.",
+            "button": "Set Up Contact Information"
+        },
+        "form": {
+            "create_title": "Set Up School Contact",
+            "edit_title": "Edit School Contact",
+            "create_description": "Set up school contact information to display on the landing page",
+            "edit_description": "Update school contact information for the landing page",
+            "sections": {
+                "contact_info": "Contact Information",
+                "contact_info_description": "Enter the contact details and message",
+                "contact_details": "Contact Details",
+                "contact_details_description": "Additional information about this contact"
+            },
+            "fields": {
+                "contact_name": "Contact Name",
+                "email_address": "Email Address",
+                "phone_number": "Phone Number",
+                "address": "Address",
+                "message": "Message",
+                "full_name": "Full Name",
+                "date_created": "Date Created",
+                "last_updated": "Last Updated",
+                "created": "Created",
+                "unnamed_contact": "Unnamed Contact",
+                "placeholders": {
+                    "name": "Enter full name...",
+                    "email": "Enter email address...",
+                    "phone": "Enter phone number...",
+                    "address": "Enter address...",
+                    "message": "Enter the message or inquiry details..."
+                }
+            }
+        },
+        "show": {
+            "page_title": "Contact Details",
+            "header": {
+                "description": "Contact details and message information",
+                "created": "Created",
+                "email_available": "Email Available",
+                "phone_available": "Phone Available",
+                "updated": "Updated"
+            },
+            "sections": {
+                "contact_information": "Contact Information",
+                "message": "Message"
+            }
+        },
+        "card": {
+            "contact_message": "Contact Message",
+            "view_details": "View Details",
+            "edit_contact": "Edit Contact", 
+            "delete_contact": "Delete Contact"
+        },
+        "sidebar": {
+            "contact_status": "Contact Status",
+            "status": "Status:",
+            "created": "Created:",
+            "updated": "Updated:"
+        },
+        "delete_dialog": {
+            "title": "Delete Contact Information",
+            "description": "Are you sure you want to delete the school contact information? This will remove the contact details from the landing page and cannot be undone.",
+            "contact_title": "Delete Contact",
+            "contact_description": "Are you sure you want to delete the contact from",
+            "contact_description_continued": "? This action cannot be undone and will permanently remove the contact and their message.",
+            "confirm": "Delete Contact",
+            "confirm_info": "Delete Contact",
+            "cancel": "Cancel"
+        }
+    },
+    "page_management": {
+            "page_title": "Page Management",
+            "breadcrumbs": {
+                "admin_dashboard": "Admin Dashboard",
+                "page_management": "Page Management",
+                "create_page": "Create Page",
+                "edit_page": "Edit Page"
+            },
+            "header": {
+                "title": "Page Management",
+                "description": "Create and manage pages for your website"
+            },
+            "actions": {
+                "create_page": "Create Page",
+                "create_first_page": "Create Your First Page",
+                "edit_page": "Edit Page",
+                "view_page": "View Page",
+                "delete_page": "Delete Page",
+                "view": "View",
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "table": {
+                "all_pages": "All Pages ({{count}})",
+                "no_pages": "No pages created yet",
+                "created": "Created:",
+                "url_slug": "URL Slug"
+            },
+            "empty_state": {
+                "title": "No pages created yet",
+                "description": "Start creating pages for your website"
+            },
+            "delete": {
+                "title": "Delete Page",
+                "description": "Are you sure you want to delete \"{{itemName}}\"? This action cannot be undone and all page content will be permanently removed.",
+                "confirm": "Delete Page",
+                "cancel": "Cancel"
+            },
+            "create": {
+                "page_title": "Create Page",
+                "header": {
+                    "title": "Create New Page",
+                    "description": "Add a new page for your website"
+                },
+                "form": {
+                    "title": "Page Information",
+                    "fields": {
+                        "page_title": {
+                            "label": "Page Title",
+                            "placeholder": "Enter page title",
+                            "required": "Page Title *"
+                        },
+                        "slug": {
+                            "label": "URL Slug (Auto-generated)",
+                            "placeholder": "page-url-slug",
+                            "help": "Automatically generated from the page title"
+                        },
+                        "content": {
+                            "label": "Content",
+                            "placeholder": "Enter page content...",
+                            "help": "Use the rich text editor to format your content",
+                            "required": "Content *"
+                        },
+                        "image": {
+                            "label": "Featured Image (Optional)",
+                            "help": "Maximum size 2MB"
+                        }
+                    },
+                    "validation": {
+                        "title_valid": "Title looks good!",
+                        "content_valid": "Content looks good!",
+                        "image_too_large": "Image must be smaller than 2MB"
+                    },
+                    "buttons": {
+                        "cancel": "Cancel",
+                        "create": "Create Page",
+                        "creating": "Creating..."
+                    }
+                },
+                "messages": {
+                    "success": {
+                        "title": "Success",
+                        "description": "Page created successfully"
+                    },
+                    "error": {
+                        "title": "Error",
+                        "description": "Please check the form for errors"
+                    }
+                }
+            },
+            "edit": {
+                "page_title": "Edit Page",
+                "header": {
+                    "title": "Edit Page",
+                    "description": "Update page content"
+                },
+                "form": {
+                    "title": "Page Information",
+                    "image_actions": {
+                        "remove": "Remove Image",
+                        "change": "Change Image"
+                    },
+                    "buttons": {
+                        "cancel": "Cancel",
+                        "update": "Update Page",
+                        "updating": "Updating..."
+                    }
+                },
+                "messages": {
+                    "success": {
+                        "title": "Success",
+                        "description": "Page updated successfully"
+                    },
+                    "error": {
+                        "title": "Error",
+                        "description": "Please check the form for errors"
+                    }
+                }
+            },
+            "show": {
+                "header": {
+                    "updated": "Updated",
+                    "created": "Created"
+                },
+                "actions": {
+                    "edit_page": "Edit Page",
+                    "view_public": "View Public"
+                },
+                "meta": {
+                    "title": "Page Metadata",
+                    "slug": "URL Slug",
+                    "created_at": "Created Date",
+                    "updated_at": "Last Updated",
+                    "featured_image": "Featured Image",
+                    "no_image": "No featured image"
+                }
             }
         }
     }

@@ -22,7 +22,7 @@ i18n
         resources,
 
         // Set initial language from localStorage or fallback
-        lng: typeof window !== 'undefined' ? localStorage.getItem('i18nextLng') || 'id' : 'id',
+        lng: 'id', // Force Indonesian for now
 
         // Default language
         fallbackLng: 'id', // Default to Indonesian
@@ -47,7 +47,18 @@ i18n
         // React specific options
         react: {
             useSuspense: false, // Set to false to avoid suspense issues with SSR
+            bindI18n: 'languageChanged',
+            bindI18nStore: '',
+            transEmptyNodeValue: '',
+            transSupportBasicHtmlNodes: true,
+            transKeepBasicHtmlNodesFor: ['br', 'strong', 'i'],
         },
+    })
+    .then(() => {
+        console.log('✅ i18next initialized successfully');
+    })
+    .catch((error) => {
+        console.error('❌ i18next initialization failed:', error);
     });
 
 // Set up automatic localStorage sync when language changes
