@@ -10,10 +10,10 @@ export default defineConfig(({ command, mode }) => ({
             input: ['resources/css/app.css', 'resources/js/app.tsx'],
             ssr: 'resources/js/ssr.tsx',
             refresh: true,
+            // Ensure page files are included as entries
+            buildDirectory: 'build',
         }),
         react({
-            // Fix React Fast Refresh for development
-            fastRefresh: command === 'serve',
             // Use SWC for better performance
             jsxRuntime: 'automatic'
         }),
@@ -32,8 +32,13 @@ export default defineConfig(({ command, mode }) => ({
             'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
         },
     },
+    ssr: {
+        noExternal: ['@tinymce/tinymce-react']
+    },
     // Development server configuration
     server: {
+        port: 5173,
+        host: true,
         hmr: {
             overlay: true
         },
@@ -44,6 +49,9 @@ export default defineConfig(({ command, mode }) => ({
         target: 'es2020',
         cssCodeSplit: true,
         cssMinify: 'lightningcss',
+        // Additional optimizations
+        assetsInlineLimit: 4096, // Inline assets smaller than 4kb
+        chunkSizeWarningLimit: 1000, // Increase warning limit for better chunking
         rollupOptions: {
             treeshake: {
                 preset: 'recommended',
@@ -52,97 +60,158 @@ export default defineConfig(({ command, mode }) => ({
             },
             output: {
                 manualChunks: (id) => {
-                    // Only critical React core for initial load
-                    if (id.includes('react/jsx-runtime') || id.includes('react/index')) {
-                        return 'critical-react';
+                    // React core - most critical
+                    if (id.includes('react') || id.includes('react-dom')) {
+                        return 'react-vendor';
                     }
                     
-                    // Split React DOM into smaller pieces
-                    if (id.includes('react-dom/client')) {
-                        return 'react-client';
-                    }
-                    if (id.includes('react-dom')) {
-                        return 'react-dom';
+                    // Inertia - core routing
+                    if (id.includes('@inertiajs')) {
+                        return 'inertia';
                     }
                     
-                    // Other React utilities (lazy load)
-                    if (id.includes('react') && !id.includes('react-dom') && !id.includes('react-dropzone') && !id.includes('react-i18next')) {
-                        return 'react-utils';
+                    // UI component libraries - split into smaller chunks
+                    if (id.includes('@radix-ui')) {
+                        return 'radix-ui';
                     }
                     
-                    // Critical app dependencies
-                    if (id.includes('@inertiajs/react')) {
-                        return 'critical-inertia';
-                    }
-                    if (id.includes('clsx')) {
-                        return 'critical-utils';
-                    }
-                    
-                    // Non-critical utilities (can be lazy loaded)
-                    if (id.includes('class-variance-authority') || id.includes('tailwind-merge')) {
-                        return 'utils-styling';
-                    }
-                    
-                    // Icons (lazy load)
                     if (id.includes('lucide-react')) {
                         return 'icons';
                     }
                     
-                    // UI components (all lazy loaded)
-                    if (id.includes('@radix-ui')) {
-                        // Further split radix based on usage patterns
-                        if (id.includes('dialog') || id.includes('dropdown') || id.includes('popover')) {
-                            return 'ui-overlays';
-                        }
-                        if (id.includes('form') || id.includes('select') || id.includes('switch') || id.includes('checkbox')) {
-                            return 'ui-forms';
-                        }
-                        return 'ui-base';
+                    // i18n libraries
+                    if (id.includes('i18next') || id.includes('react-i18next')) {
+                        return 'i18n';
                     }
                     
-                    // Heavy libraries (always lazy)
-                    if (id.includes('@tinymce/tinymce-react')) {
-                        return 'editor';
+                    // Form and validation libraries
+                    if (id.includes('valibot') || id.includes('react-dropzone')) {
+                        return 'forms';
                     }
+                    
+                    // Animation libraries
                     if (id.includes('framer-motion')) {
                         return 'animations';
                     }
-                    if (id.includes('react-dropzone')) {
-                        return 'dropzone';
+                    
+                    // Editor - separate heavy component
+                    if (id.includes('@tinymce/tinymce-react')) {
+                        return 'editor';
                     }
-                    if (id.includes('i18next')) {
-                        return 'i18n';
+                    
+                    // Headless UI
+                    if (id.includes('@headlessui')) {
+                        return 'headless-ui';
                     }
+                    
+                    // Utility libraries - group together
+                    if (id.includes('clsx') || id.includes('class-variance-authority') || id.includes('tailwind-merge')) {
+                        return 'utils';
+                    }
+                    
+                    // HTTP client
                     if (id.includes('axios')) {
                         return 'http';
                     }
-                    if (id.includes('valibot')) {
-                        return 'validation';
-                    }
                     
-                    // Split other vendor libraries more granularly
-                    if (id.includes('@headlessui')) {
-                        return 'headlessui';
-                    }
-                    
-                    // Group remaining node_modules by size/importance
-                    if (id.includes('node_modules')) {
-                        // Small utilities
-                        if (id.includes('lodash') || id.includes('ramda') || id.includes('date-fns')) {
-                            return 'vendor-utils';
+                    // Admin pages - split into smaller, more specific chunks
+                    if (id.includes('/pages/admin/')) {
+                        // People management
+                        if (id.includes('/students/')) {
+                            return 'admin-students';
                         }
-                        // Everything else
-                        return 'vendor-misc';
+                        if (id.includes('/staff/')) {
+                            return 'admin-staff';
+                        }
+                        if (id.includes('/users/')) {
+                            return 'admin-users';
+                        }
+                        
+                        // Academic management
+                        if (id.includes('/classes/')) {
+                            return 'admin-classes';
+                        }
+                        if (id.includes('/subjects/')) {
+                            return 'admin-subjects';
+                        }
+                        if (id.includes('/subject-assignments/')) {
+                            return 'admin-assignments';
+                        }
+                        
+                        // Content management - allow individual entries for Laravel routes
+                        if (id.includes('/posts/')) {
+                            return null;
+                        }
+                        if (id.includes('/pages/')) {
+                            return null;
+                        }
+                        if (id.includes('/galleries/')) {
+                            return null;
+                        }
+                        if (id.includes('/google-drive/')) {
+                            return null;
+                        }
+                        
+                        // Facilities and activities - allow individual entries for Laravel routes
+                        if (id.includes('/facilities/')) {
+                            return null;
+                        }
+                        if (id.includes('/extracurriculars/')) {
+                            return null;
+                        }
+                        
+                        // Other admin features - allow individual entries for Laravel routes
+                        if (id.includes('/homeroom/') || id.includes('/work-items/') || id.includes('/contacts/')) {
+                            return null;
+                        }
+                        
+                        return 'admin-core';
+                    }
+                    
+                    // Teacher pages - split by feature
+                    if (id.includes('/pages/teacher/')) {
+                        if (id.includes('/students/')) {
+                            return 'teacher-students';
+                        }
+                        if (id.includes('/subjects/')) {
+                            return 'teacher-subjects';
+                        }
+                        if (id.includes('/work-items/')) {
+                            return 'teacher-work';
+                        }
+                        return 'teacher-core';
+                    }
+                    
+                    // Headmaster pages
+                    if (id.includes('/pages/headmaster/')) {
+                        return 'headmaster-portal';
+                    }
+                    
+                    // Auth pages - allow individual entries for Laravel routes
+                    if (id.includes('/pages/auth/')) {
+                        // Don't chunk auth pages to allow individual routing
+                        return null;
+                    }
+                    
+                    // Settings pages - allow individual entries for Laravel routes
+                    if (id.includes('/pages/settings/')) {
+                        // Don't chunk settings pages to allow individual routing
+                        return null;
+                    }
+                    
+                    // Public pages - allow individual entries for Laravel routes
+                    if (id.includes('/pages/') && !id.includes('/admin/') && !id.includes('/teacher/') && !id.includes('/headmaster/') && !id.includes('/auth/') && !id.includes('/settings/')) {
+                        // Don't chunk public pages to allow individual routing
+                        return null;
+                    }
+                    
+                    // Other vendor dependencies
+                    if (id.includes('node_modules')) {
+                        return 'vendor';
                     }
                 },
                 // Optimize chunk sizes and naming
-                chunkFileNames: (chunkInfo) => {
-                    const name = chunkInfo.name;
-                    if (name?.startsWith('vendor-')) {
-                        return `assets/${name}-[hash].js`;
-                    }
-                    return 'assets/[name]-[hash].js';
-                },
+                chunkFileNames: 'assets/[name]-[hash].js',
                 // Ensure stable chunk naming for better caching
                 entryFileNames: 'assets/[name]-[hash].js',
                 assetFileNames: 'assets/[name]-[hash].[ext]'
@@ -152,8 +221,6 @@ export default defineConfig(({ command, mode }) => ({
         minify: 'esbuild',
         // Source maps for debugging (disable in production if not needed)
         sourcemap: false,
-        // Reduce bundle size
-        chunkSizeWarningLimit: 150,
         // Additional esbuild optimizations
         esbuildOptions: {
             treeShaking: true,
@@ -171,19 +238,22 @@ export default defineConfig(({ command, mode }) => ({
             '@inertiajs/react',
             'clsx',
             'class-variance-authority',
-            'tailwind-merge'
+            'tailwind-merge',
+            '@tinymce/tinymce-react'
         ],
         exclude: [
-            '@tinymce/tinymce-react',
-            'framer-motion',
-            'react-dropzone'
-        ]
+            'framer-motion'
+        ],
+        esbuildOptions: {
+            define: {
+                global: 'globalThis'
+            },
+        }
     },
     // Define external dependencies to reduce bundle size (production only)
-    define: mode === 'production' ? {
-        __DEV__: false,
-        'process.env.NODE_ENV': '"production"'
-    } : {
-        __DEV__: true
+    define: {
+        global: 'globalThis',
+        'process.env.NODE_ENV': mode === 'production' ? '"production"' : '"development"',
+        __DEV__: mode !== 'production'
     }
 }));
