@@ -11,6 +11,7 @@ interface StaffTableProps {
     selectedStaff: number[];
     deletableStaff: Staff[];
     isAllSelected: boolean;
+    isPartiallySelected: boolean;
     divisionLabels: Record<StaffDivision, string>;
     divisionColors: Record<StaffDivision, string>;
     onSelectAll: (checked: boolean) => void;
@@ -25,6 +26,7 @@ export function StaffTable({
     selectedStaff,
     deletableStaff,
     isAllSelected,
+    isPartiallySelected,
     divisionLabels,
     divisionColors,
     onSelectAll,
@@ -56,7 +58,7 @@ export function StaffTable({
                 <thead>
                     <tr className="border-b border-gray-200 text-left dark:border-gray-700">
                         <th className="pr-4 pb-3">
-                            <Checkbox checked={isAllSelected} onCheckedChange={onSelectAll} disabled={deletableStaff.length === 0} />
+                            <Checkbox checked={isAllSelected || isPartiallySelected} onCheckedChange={onSelectAll} disabled={deletableStaff.length === 0} />
                         </th>
                         <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('staff_management.table.photo')}</th>
                         <th className="pr-4 pb-3 font-medium text-gray-900 dark:text-gray-100">{t('staff_management.table.name')}</th>

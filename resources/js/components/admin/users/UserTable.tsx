@@ -11,6 +11,7 @@ interface UserTableProps {
     users: UserType[];
     selectedUsers: number[];
     isAllSelected: boolean;
+    isPartiallySelected: boolean;
     roleLabels: Record<UserRole, string>;
     roleColors: Record<UserRole, string>;
     onSelectAll: (checked: boolean) => void;
@@ -25,6 +26,7 @@ export function UserTable({
     users,
     selectedUsers,
     isAllSelected,
+    isPartiallySelected,
     roleLabels,
     roleColors,
     onSelectAll,
@@ -52,7 +54,7 @@ export function UserTable({
                     <tr className="border-b border-gray-100 bg-gray-50 dark:bg-gray-800">
                         <th className="w-12 px-2 py-3 text-left font-medium text-gray-400 sm:px-4 dark:text-gray-400">
                             <Checkbox
-                                checked={isAllSelected}
+                                checked={isAllSelected || isPartiallySelected}
                                 onCheckedChange={onSelectAll}
                                 disabled={isLoading}
                                 className="border-gray-300 data-[state=checked]:bg-gray-500 data-[state=checked]:text-white"

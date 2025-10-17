@@ -1,17 +1,20 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import type { useStaffOperations } from '@/hooks/useStaffOperations';
+import type { StaffDivision } from '@/types/staff';
 import { Trash2, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface StaffDialogsProps {
     operations: ReturnType<typeof useStaffOperations>;
+    divisionLabels: Record<StaffDivision, string>;
+    divisionColors: Record<StaffDivision, string>;
     selectedStaff: number[];
     onBulkDelete: (staffIds: number[]) => Promise<void>;
     onClearSelection: () => void;
 }
 
-export function StaffDialogs({ operations, selectedStaff, onBulkDelete, onClearSelection }: StaffDialogsProps) {
+export function StaffDialogs({ operations, divisionLabels, divisionColors, selectedStaff, onBulkDelete, onClearSelection }: StaffDialogsProps) {
     const { t } = useTranslation();
     const {
         isLoading,
