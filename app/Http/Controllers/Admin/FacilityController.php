@@ -68,7 +68,7 @@ class FacilityController extends Controller
                 'user_id' => Auth::id(),
             ]);
             
-            return redirect()->route('admin.facilities.index')
+            return Inertia::render('admin/facilities/create')
                 ->with('error', 'Failed to load facility creation form.');
         }
     }
@@ -108,7 +108,7 @@ class FacilityController extends Controller
     /**
      * Display the specified facility.
      */
-    public function show(Facility $facility): Response|RedirectResponse
+    public function show(Facility $facility): Response
     {
         try {
             return Inertia::render('admin/facilities/show', [
@@ -121,15 +121,16 @@ class FacilityController extends Controller
                 'user_id' => Auth::id(),
             ]);
             
-            return redirect()->route('admin.facilities.index')
-                ->with('error', 'Failed to display facility.');
+            return Inertia::render('admin/facilities/show', [
+                'facility' => $facility,
+            ])->with('error', 'Failed to display facility.');
         }
     }
 
     /**
      * Show the form for editing the specified facility.
      */
-    public function edit(Facility $facility): Response|RedirectResponse
+    public function edit(Facility $facility): Response
     {
         try {
             return Inertia::render('admin/facilities/edit', [
@@ -142,8 +143,9 @@ class FacilityController extends Controller
                 'user_id' => Auth::id(),
             ]);
             
-            return redirect()->route('admin.facilities.index')
-                ->with('error', 'Failed to load facility edit form.');
+            return Inertia::render('admin/facilities/edit', [
+                'facility' => $facility,
+            ])->with('error', 'Failed to load facility edit form.');
         }
     }
 
