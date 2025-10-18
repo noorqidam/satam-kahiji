@@ -303,6 +303,18 @@
             "success": "Success",
             "error": "Error",
             "initialize_failed": "Failed to initialize folders."
+        },
+        "empty_state": {
+            "title": "No Subjects Assigned",
+            "description": "You don't have any subjects assigned yet. Contact your administrator for subject assignments."
+        },
+        "breadcrumbs": {
+            "teacher_dashboard": "Teacher Dashboard",
+            "my_subjects": "My Subjects"
+        },
+        "loading_states": {
+            "initializing": "Initializing...",
+            "initialize": "Initialize"
         }
     },
     "subject_table": {
@@ -2968,6 +2980,111 @@
                     "featured_image": "Featured Image",
                     "no_image": "No featured image"
                 }
+            }
+        }
+    },
+    "teacher_work_items": {
+        "breadcrumbs": {
+            "teacher_dashboard": "Teacher Dashboard",
+            "my_work_items": "My Work Items"
+        },
+        "page_title": "My Work Items",
+        "page_description": {
+            "full": "Manage your teaching documents including Prota, Prosem, Modules, Attendance Lists, and Agendas",
+            "short": "Manage your teaching documents"
+        },
+        "overall_progress": {
+            "title": "Overall Progress",
+            "completion_rate": "Completion Rate",
+            "work_items_completed": "work items completed",
+            "across_all_subjects": "across all subjects"
+        },
+        "work_item": {
+            "required": "Required",
+            "optional": "Optional",
+            "files": "files",
+            "needs_revision": "need revision",
+            "need_revision": "need revision",
+            "all_approved": "All approved",
+            "pending_review": "pending review",
+            "delete_title": "Delete Work Item",
+            "delete_description": "Are you sure you want to delete this work item? All related files and Google Drive folders will be permanently deleted.",
+            "delete_work_item": "Delete work item"
+        },
+        "folder_management": {
+            "open_folder": "Open Folder",
+            "open": "Open",
+            "initialize_folders": "Initialize Folders",
+            "initialize": "Initialize"
+        },
+        "initialize_folders_dialog": {
+            "title": "Initialize Work Folders",
+            "description": "This will create a complete folder structure in Google Drive for organizing your work items.",
+            "folder_structure": {
+                "title": "Folder Structure",
+                "subject_name": "[Subject Name]",
+                "teacher_name": "[Your Name]",
+                "prota": "Prota (Annual Program)",
+                "prosem": "Prosem (Semester Program)",
+                "module": "Module",
+                "attendance_list": "Attendance List",
+                "agenda": "Agenda"
+            },
+            "important_notes": {
+                "title": "Important Notes",
+                "drive_creation": "Folders will be created in your organization's Google Drive",
+                "full_access": "You'll have full access to upload and manage files",
+                "admin_access": "Administrators can monitor progress and access folders",
+                "once_per_subject": "This action only needs to be done once per subject"
+            },
+            "buttons": {
+                "cancel": "Cancel",
+                "initialize": "Initialize Folders",
+                "initializing": "Creating Folders..."
+            },
+            "messages": {
+                "success": "Success",
+                "success_description": "Work folders initialized successfully",
+                "error": "Error",
+                "error_description": "Failed to initialize folders"
+            }
+        },
+        "feedback_status": {
+            "approved": "Approved",
+            "needs_revision": "Needs Revision",
+            "pending": "Pending"
+        },
+        "success_messages": {
+            "success": "Success",
+            "work_item_deleted": "Work item deleted successfully"
+        },
+        "error_messages": {
+            "error": "Error",
+            "delete_failed": "Failed to delete work item."
+        },
+        "add_dialog": {
+            "trigger_button": "Add Work Item",
+            "title": "Add New Work Item",
+            "description": "Create a new optional work item for your teaching materials. Work items created by teachers are always optional.",
+            "form": {
+                "name_label": "Work Item Name",
+                "name_placeholder": "e.g: Weekly Quiz Material, Lab Report",
+                "note_title": "📝 Note",
+                "note_items": {
+                    "optional": "• Work items created by teachers are automatically optional",
+                    "upload": "• You can upload files and organize materials for this work item",
+                    "access": "• Only you have access to modify this work item"
+                }
+            },
+            "buttons": {
+                "cancel": "Cancel",
+                "create": "Create Work Item",
+                "creating": "Creating..."
+            },
+            "messages": {
+                "success": "Success",
+                "error": "Error",
+                "create_failed": "Failed to create work item."
             }
         }
     }

@@ -4,6 +4,7 @@ import { useToast } from '@/hooks/use-toast';
 import { router } from '@inertiajs/react';
 import { FolderPlus, Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface FlashMessages {
     success?: string;
@@ -25,6 +26,7 @@ interface InitializeFoldersDialogProps {
 
 export function InitializeFoldersDialog({ open, onOpenChange, teacherId, subjectId, onSuccess }: InitializeFoldersDialogProps) {
     const { toast } = useToast();
+    const { t } = useTranslation();
     const [initializing, setInitializing] = useState(false);
 
     const handleInitialize = () => {
@@ -46,15 +48,15 @@ export function InitializeFoldersDialog({ open, onOpenChange, teacherId, subject
                     // Show success message if available
                     if (flash?.success) {
                         toast({
-                            title: 'Success',
+                            title: t('teacher_work_items.initialize_folders_dialog.messages.success'),
                             description: flash.success,
                             variant: 'success',
                         });
                     } else {
                         // Fallback success message
                         toast({
-                            title: 'Success',
-                            description: 'Work folders initialized successfully',
+                            title: t('teacher_work_items.initialize_folders_dialog.messages.success'),
+                            description: t('teacher_work_items.initialize_folders_dialog.messages.success_description'),
                             variant: 'success',
                         });
                     }
@@ -65,9 +67,9 @@ export function InitializeFoldersDialog({ open, onOpenChange, teacherId, subject
                 },
                 onError: (errors) => {
                     setInitializing(false);
-                    const errorMessage = errors.error || 'Failed to initialize folders';
+                    const errorMessage = errors.error || t('teacher_work_items.initialize_folders_dialog.messages.error_description');
                     toast({
-                        title: 'Error',
+                        title: t('teacher_work_items.initialize_folders_dialog.messages.error'),
                         description: errorMessage as string,
                         variant: 'destructive',
                     });
@@ -85,44 +87,51 @@ export function InitializeFoldersDialog({ open, onOpenChange, teacherId, subject
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <FolderPlus className="h-5 w-5" />
-                        Initialize Work Folders
+                        {t('teacher_work_items.initialize_folders_dialog.title')}
                     </DialogTitle>
                     <DialogDescription>
-                        This will create a complete folder structure in Google Drive for organizing your work items.
+                        {t('teacher_work_items.initialize_folders_dialog.description')}
                     </DialogDescription>
                 </DialogHeader>
 
                 <div className="space-y-4">
                     <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-950">
-                        <h4 className="mb-2 font-medium text-blue-900 dark:text-blue-100">Folder Structure</h4>
+                        <h4 className="mb-2 font-medium text-blue-900 dark:text-blue-100">
+                            {t('teacher_work_items.initialize_folders_dialog.folder_structure.title')}
+                        </h4>
                         <div className="space-y-1 text-sm text-blue-800 dark:text-blue-200">
-                            <p>📁 [Subject Name]</p>
-                            <p className="ml-4">📁 [Your Name]</p>
-                            <p className="ml-8">📁 Prota (Annual Program)</p>
-                            <p className="ml-8">📁 Prosem (Semester Program)</p>
-                            <p className="ml-8">📁 Module</p>
-                            <p className="ml-8">📁 Attendance List</p>
-                            <p className="ml-8">📁 Agenda</p>
+                            <p>📁 {t('teacher_work_items.initialize_folders_dialog.folder_structure.subject_name')}</p>
+                            <p className="ml-4">📁 {t('teacher_work_items.initialize_folders_dialog.folder_structure.teacher_name')}</p>
+                            <p className="ml-8">📁 {t('teacher_work_items.initialize_folders_dialog.folder_structure.prota')}</p>
+                            <p className="ml-8">📁 {t('teacher_work_items.initialize_folders_dialog.folder_structure.prosem')}</p>
+                            <p className="ml-8">📁 {t('teacher_work_items.initialize_folders_dialog.folder_structure.module')}</p>
+                            <p className="ml-8">📁 {t('teacher_work_items.initialize_folders_dialog.folder_structure.attendance_list')}</p>
+                            <p className="ml-8">📁 {t('teacher_work_items.initialize_folders_dialog.folder_structure.agenda')}</p>
                         </div>
                     </div>
 
                     <div className="rounded-lg bg-yellow-50 p-4 dark:bg-yellow-950">
-                        <h4 className="mb-2 font-medium text-yellow-900 dark:text-yellow-100">Important Notes</h4>
+                        <h4 className="mb-2 font-medium text-yellow-900 dark:text-yellow-100">
+                            {t('teacher_work_items.initialize_folders_dialog.important_notes.title')}
+                        </h4>
                         <ul className="list-inside list-disc space-y-1 text-sm text-yellow-800 dark:text-yellow-200">
-                            <li>Folders will be created in your organization's Google Drive</li>
-                            <li>You'll have full access to upload and manage files</li>
-                            <li>Administrators can monitor progress and access folders</li>
-                            <li>This action only needs to be done once per subject</li>
+                            <li>{t('teacher_work_items.initialize_folders_dialog.important_notes.drive_creation')}</li>
+                            <li>{t('teacher_work_items.initialize_folders_dialog.important_notes.full_access')}</li>
+                            <li>{t('teacher_work_items.initialize_folders_dialog.important_notes.admin_access')}</li>
+                            <li>{t('teacher_work_items.initialize_folders_dialog.important_notes.once_per_subject')}</li>
                         </ul>
                     </div>
 
                     <div className="flex justify-end gap-3">
                         <Button variant="outline" onClick={() => onOpenChange(false)} disabled={initializing}>
-                            Cancel
+                            {t('teacher_work_items.initialize_folders_dialog.buttons.cancel')}
                         </Button>
                         <Button onClick={handleInitialize} disabled={initializing || !subjectId}>
                             {initializing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            {initializing ? 'Creating Folders...' : 'Initialize Folders'}
+                            {initializing 
+                                ? t('teacher_work_items.initialize_folders_dialog.buttons.initializing')
+                                : t('teacher_work_items.initialize_folders_dialog.buttons.initialize')
+                            }
                         </Button>
                     </div>
                 </div>

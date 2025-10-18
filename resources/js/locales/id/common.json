@@ -335,6 +335,18 @@
             "success": "Berhasil",
             "error": "Kesalahan",
             "initialize_failed": "Gagal menginisialisasi folder."
+        },
+        "empty_state": {
+            "title": "Tidak Ada Mata Pelajaran yang Ditugaskan",
+            "description": "Anda belum memiliki mata pelajaran yang ditugaskan. Hubungi administrator untuk penugasan mata pelajaran."
+        },
+        "breadcrumbs": {
+            "teacher_dashboard": "Dashboard Guru",
+            "my_subjects": "Mata Pelajaran Saya"
+        },
+        "loading_states": {
+            "initializing": "Menginisialisasi...",
+            "initialize": "Inisialisasi"
         }
     },
     "subject_table": {
@@ -434,6 +446,38 @@
             "open": "Buka",
             "initialize_folders": "Inisialisasi Folder",
             "initialize": "Inisialisasi"
+        },
+        "initialize_folders_dialog": {
+            "title": "Inisialisasi Folder Kerja",
+            "description": "Ini akan membuat struktur folder lengkap di Google Drive untuk mengorganisir item kerja Anda.",
+            "folder_structure": {
+                "title": "Struktur Folder",
+                "subject_name": "[Nama Mata Pelajaran]",
+                "teacher_name": "[Nama Anda]",
+                "prota": "Prota (Program Tahunan)",
+                "prosem": "Prosem (Program Semester)",
+                "module": "Modul",
+                "attendance_list": "Daftar Hadir",
+                "agenda": "Agenda"
+            },
+            "important_notes": {
+                "title": "Catatan Penting",
+                "drive_creation": "Folder akan dibuat di Google Drive organisasi Anda",
+                "full_access": "Anda akan memiliki akses penuh untuk mengunggah dan mengelola file",
+                "admin_access": "Administrator dapat memantau kemajuan dan mengakses folder",
+                "once_per_subject": "Tindakan ini hanya perlu dilakukan sekali per mata pelajaran"
+            },
+            "buttons": {
+                "cancel": "Batal",
+                "initialize": "Inisialisasi Folder",
+                "initializing": "Membuat Folder..."
+            },
+            "messages": {
+                "success": "Berhasil",
+                "success_description": "Folder kerja berhasil diinisialisasi",
+                "error": "Kesalahan",
+                "error_description": "Gagal menginisialisasi folder"
+            }
         },
         "feedback_status": {
             "approved": "Disetujui",

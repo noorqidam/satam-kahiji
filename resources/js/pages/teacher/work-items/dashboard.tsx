@@ -1,5 +1,5 @@
 import { Head, router } from '@inertiajs/react';
-import { AlertCircle, BookOpen, CheckCircle, Clock, ExternalLink, FolderOpen, Trash2 } from 'lucide-react';
+import { AlertCircle, BookOpen, CheckCircle, Clock, ExternalLink, FolderOpen, Trash2, HardDriveIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -31,6 +31,7 @@ export default function TeacherWorkDashboard({ progress, teacher, userRole }: Te
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [workItemToDelete, setWorkItemToDelete] = useState<WorkItem | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isInitializing, setIsInitializing] = useState(false);
 
     // Calculate overall progress
     const totalWorkItems = progress.reduce((sum, subject) => sum + subject.total_work_items, 0);
@@ -148,6 +149,35 @@ export default function TeacherWorkDashboard({ progress, teacher, userRole }: Te
         });
     };
 
+    const handleInitializeAllFolders = () => {
+        setIsInitializing(true);
+        router.post(route('teacher.work-items.initialize-all-folders'), {
+            teacher_id: teacher.id,
+        }, {
+            onSuccess: (page) => {
+                const flash = page.props.flash as { success?: string; error?: string } | undefined;
+                if (flash?.success) {
+                    toast({
+                        title: t('teacher_work_items.success_messages.success'),
+                        description: flash.success as string,
+                        variant: 'success',
+                    });
+                }
+                setIsInitializing(false);
+                router.reload({ only: ['progress'] });
+            },
+            onError: (errors) => {
+                const errorMessage = errors.error || t('teacher_work_items.initialize_folders_dialog.messages.error_description');
+                toast({
+                    title: t('teacher_work_items.error_messages.error'),
+                    description: errorMessage as string,
+                    variant: 'destructive',
+                });
+                setIsInitializing(false);
+            },
+        });
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={t('teacher_work_items.page_title')} />
@@ -163,7 +193,20 @@ export default function TeacherWorkDashboard({ progress, teacher, userRole }: Te
                                 <span className="sm:hidden">{t('teacher_work_items.page_description.short')}</span>
                             </p>
                         </div>
-                        <div className="flex-shrink-0">
+                        <div className="flex flex-shrink-0 gap-2">
+                            <Button
+                                variant="outline"
+                                onClick={handleInitializeAllFolders}
+                                disabled={isInitializing}
+                                size="sm"
+                                className="text-xs sm:text-sm"
+                            >
+                                <HardDriveIcon className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                                {isInitializing 
+                                    ? t('teacher_work_items.initialize_folders_dialog.buttons.initializing')
+                                    : t('teacher_work_items.folder_management.initialize_folders')
+                                }
+                            </Button>
                             <AddWorkItemDialog onSuccess={() => router.reload({ only: ['progress'] })} />
                         </div>
                     </div>
