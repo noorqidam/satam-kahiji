@@ -62,9 +62,9 @@ export function StaffSubjectAssignments({
                                 <BookOpen className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
                             </div>
                             <div>
-                                <h4 className="font-medium text-yellow-900 dark:text-yellow-100">{t('staff_management.subject_assignments.restricted_title')}</h4>
+                                <h4 className="font-medium text-yellow-900 dark:text-yellow-100">{t('staff_management.subject_assignments.restriction.title')}</h4>
                                 <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                                    {t('staff_management.subject_assignments.restricted_message')}
+                                    {t('staff_management.subject_assignments.restriction.description')}
                                 </p>
                             </div>
                         </div>
@@ -84,7 +84,7 @@ export function StaffSubjectAssignments({
                 <div className="flex items-center justify-between">
                     <CardTitle className="flex items-center gap-2">
                         <BookOpen className="h-5 w-5" />
-                        {t('staff_management.subject_assignments.title')} ({staff.subjects?.length || 0})
+                        {t('staff_management.subject_assignments.count', { count: staff.subjects?.length || 0 })}
                     </CardTitle>
                     <Button type="button" variant="outline" size="sm" onClick={onAssignSubjects} disabled={isAssigningSubjects}>
                         {isAssigningSubjects && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
@@ -130,7 +130,9 @@ export function StaffSubjectAssignments({
                 {/* Search and Filter */}
                 <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('staff_management.subject_assignments.all_subjects')} ({availableSubjects?.total || 0})</h4>
+                        <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                            {t('staff_management.subject_assignments.all_subjects', { total: availableSubjects?.total || 0 })}
+                        </h4>
                         <div className="relative">
                             <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
                             <Input
@@ -194,8 +196,8 @@ export function StaffSubjectAssignments({
                 {(!availableSubjects || availableSubjects.data.length === 0) && (
                     <div className="py-8 text-center">
                         <BookOpen className="mx-auto h-12 w-12 text-gray-400" />
-                        <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">{t('staff_management.subject_assignments.no_subjects_title')}</h3>
-                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t('staff_management.subject_assignments.no_subjects_message')}</p>
+                        <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">{t('staff_management.subject_assignments.empty_state.title')}</h3>
+                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t('staff_management.subject_assignments.empty_state.description')}</p>
                         <div className="mt-4">
                             <Link href={route('admin.subjects.create')}>
                                 <Button size="sm">
