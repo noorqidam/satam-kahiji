@@ -29,5 +29,7 @@ interface StaffRepositoryInterface
     
     public function detachSubject(Staff $staff, int $subjectId): void;
     
+    public function cleanupStaffWorkResources(Staff $staff): void;
+    
     public function isTeacherInAcademicDivision(Staff $staff): bool;
 }
