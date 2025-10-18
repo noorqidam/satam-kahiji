@@ -78,16 +78,16 @@ interface TeacherSubjectsIndexProps {
     userRole: string;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Teacher Dashboard', href: '/teacher/dashboard' },
-    { title: 'My Subjects', href: '/teacher/subjects' },
-];
-
 export default function TeacherSubjectsIndex({ subjects, overallStats }: TeacherSubjectsIndexProps) {
     const { t } = useTranslation('common');
     const { toast } = useToast();
     const [view, setView] = useViewPreference('teacher-subjects-view', 'card');
     const [initializingSubjectId, setInitializingSubjectId] = useState<number | null>(null);
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('subject_cards.breadcrumbs.teacher_dashboard'), href: '/teacher/dashboard' },
+        { title: t('subject_cards.breadcrumbs.my_subjects'), href: '/teacher/subjects' },
+    ];
 
     const handleInitializeFolders = async (subjectId: number) => {
         setInitializingSubjectId(subjectId);
@@ -230,9 +230,11 @@ export default function TeacherSubjectsIndex({ subjects, overallStats }: Teacher
                     <Card className="py-8 text-center sm:py-12">
                         <CardContent>
                             <BookOpen className="mx-auto h-10 w-10 text-gray-400 sm:h-12 sm:w-12" />
-                            <h3 className="mt-3 text-base font-medium text-gray-900 sm:mt-4 sm:text-lg dark:text-gray-100">No Subjects Assigned</h3>
+                            <h3 className="mt-3 text-base font-medium text-gray-900 sm:mt-4 sm:text-lg dark:text-gray-100">
+                                {t('subject_cards.empty_state.title')}
+                            </h3>
                             <p className="mt-1 text-xs text-gray-500 sm:mt-2 sm:text-sm dark:text-gray-400">
-                                You don't have any subjects assigned yet. Contact your administrator for subject assignments.
+                                {t('subject_cards.empty_state.description')}
                             </p>
                         </CardContent>
                     </Card>
@@ -341,11 +343,11 @@ export default function TeacherSubjectsIndex({ subjects, overallStats }: Teacher
                                             >
                                                 <FolderOpen className="mr-1.5 h-3 w-3" />
                                                 {initializingSubjectId === subject.id ? (
-                                                    <span>Initializing...</span>
+                                                    <span>{t('subject_cards.loading_states.initializing')}</span>
                                                 ) : (
                                                     <>
                                                         <span className="xs:inline hidden">{t('subject_cards.actions.initialize_folders')}</span>
-                                                        <span className="xs:hidden">Initialize</span>
+                                                        <span className="xs:hidden">{t('subject_cards.loading_states.initialize')}</span>
                                                     </>
                                                 )}
                                             </Button>
