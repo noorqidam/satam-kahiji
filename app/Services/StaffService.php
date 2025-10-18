@@ -86,6 +86,9 @@ class StaffService
     {
         $this->handlePhotoDelete($staff);
         
+        // Clean up teacher_subject_work and Google Drive resources before deleting staff
+        $this->staffRepository->cleanupStaffWorkResources($staff);
+        
         return $this->staffRepository->delete($staff);
     }
 
@@ -96,6 +99,10 @@ class StaffService
 
         foreach ($staff as $member) {
             $this->handlePhotoDelete($member);
+            
+            // Clean up teacher_subject_work and Google Drive resources before deleting staff
+            $this->staffRepository->cleanupStaffWorkResources($member);
+            
             $deleted++;
         }
 
