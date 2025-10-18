@@ -370,6 +370,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('store');
             Route::delete('{workItem}', [\App\Http\Controllers\Admin\WorkItemController::class, 'destroyTeacherWorkItem'])
                 ->name('destroy');
+            Route::post('initialize-all-folders', [\App\Http\Controllers\Admin\WorkItemController::class, 'initializeAllTeacherFolders'])
+                ->name('initialize-all-folders');
         });
 
         // Subject Management

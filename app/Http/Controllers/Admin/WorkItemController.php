@@ -520,6 +520,67 @@ class WorkItemController extends Controller
     }
 
     /**
+     * Initialize Google Drive folders for all subjects taught by the teacher
+     */
+    public function initializeAllTeacherFolders(Request $request)
+    {
+        $request->validate([
+            'teacher_id' => 'required|exists:staff,id',
+        ]);
+
+        $user = Auth::user();
+        $teacher = Staff::findOrFail($request->teacher_id);
+
+        // Ensure user is a teacher and can only initialize their own folders
+        if ($user->role !== 'teacher') {
+            return back()->withErrors(['error' => 'Only teachers can initialize folders through this route']);
+        }
+
+        $staff = Staff::where('user_id', $user->id)->first();
+        if (!$staff || $staff->id !== $teacher->id) {
+            return back()->withErrors(['error' => 'You can only initialize your own folders']);
+        }
+
+        try {
+            $subjects = $teacher->subjects;
+            $initializedCount = 0;
+            $failedSubjects = [];
+
+            foreach ($subjects as $subject) {
+                try {
+                    // Check if folders already exist for this subject
+                    $existingFolders = TeacherSubjectWork::where('staff_id', $teacher->id)
+                        ->where('subject_id', $subject->id)
+                        ->whereNotNull('gdrive_folder_id')
+                        ->count();
+
+                    // Only initialize if no folders exist yet
+                    if ($existingFolders === 0) {
+                        $this->workItemService->createTeacherWorkFolders($teacher, $subject);
+                        $initializedCount++;
+                    }
+                } catch (\Exception $e) {
+                    Log::error("Failed to initialize folders for subject {$subject->name}: " . $e->getMessage());
+                    $failedSubjects[] = $subject->name;
+                }
+            }
+
+            if ($failedSubjects) {
+                $message = "Initialized {$initializedCount} subjects. Failed: " . implode(', ', $failedSubjects);
+                return back()->with('success', $message);
+            } else if ($initializedCount === 0) {
+                return back()->with('success', 'All Google Drive folders are already initialized');
+            } else {
+                return back()->with('success', "Successfully initialized Google Drive folders for {$initializedCount} subjects");
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Failed to initialize teacher folders: ' . $e->getMessage());
+            return back()->withErrors(['error' => 'Failed to initialize Google Drive folders: ' . $e->getMessage()]);
+        }
+    }
+
+    /**
      * Helper method to get overall progress statistics
      */
     private function getOverallProgressStats(): array
