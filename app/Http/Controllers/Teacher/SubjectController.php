@@ -256,20 +256,24 @@ class SubjectController extends Controller
         $staff = Staff::where('user_id', $user->id)->first();
         
         if (!$staff) {
-            return back()->withErrors(['error' => 'Staff record not found']);
+            return redirect()->route('teacher.subjects.index')
+                ->with('error', 'Staff record not found');
         }
 
         // Verify teacher is assigned to this subject
         if (!$staff->subjects()->where('subjects.id', $subject->id)->exists()) {
-            return back()->withErrors(['error' => 'You are not assigned to this subject']);
+            return redirect()->route('teacher.subjects.index')
+                ->with('error', 'You are not assigned to this subject');
         }
 
         try {
             app(\App\Services\WorkItemService::class)->createTeacherWorkFolders($staff, $subject);
             
-            return back()->with('success', 'Folders initialized successfully for ' . $subject->name);
+            return redirect()->route('teacher.subjects.index')
+                ->with('success', 'Folders initialized successfully for ' . $subject->name);
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Failed to initialize folders: ' . $e->getMessage()]);
+            return redirect()->route('teacher.subjects.index')
+                ->with('error', 'Failed to initialize folders: ' . $e->getMessage());
         }
     }
 }
