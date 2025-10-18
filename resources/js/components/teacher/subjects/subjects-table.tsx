@@ -54,15 +54,9 @@ export const SubjectsTable = ({ subjects, initializingSubjectId, onInitializeFol
                         <div className="flex items-center space-x-3">
                             <div className="min-w-0 flex-1">
                                 <div className="truncate font-medium text-gray-900 dark:text-gray-100">{subject.name}</div>
+                                <div className="text-xs text-gray-500 dark:text-gray-400">{subject.code}</div>
                             </div>
                         </div>
-                    );
-
-                case 'code':
-                    return (
-                        <Badge variant="outline" className="font-mono text-xs">
-                            {subject.code}
-                        </Badge>
                     );
 
                 case 'completion':
@@ -90,8 +84,9 @@ export const SubjectsTable = ({ subjects, initializingSubjectId, onInitializeFol
                     return (
                         <div className="flex items-center space-x-2">
                             <Link href={`/teacher/subjects/${subject.id}`}>
-                                <Button variant="outline" size="sm" className="text-xs">
+                                <Button variant="outline" size="sm" className="text-xs" title={t('subject_cards.actions.view_details')}>
                                     <ChevronRight className="h-3 w-3" />
+                                    <span className="sr-only">{t('subject_cards.actions.view_details')}</span>
                                 </Button>
                             </Link>
 
@@ -102,8 +97,10 @@ export const SubjectsTable = ({ subjects, initializingSubjectId, onInitializeFol
                                         size="sm"
                                         className="text-xs"
                                         onClick={() => window.open(subject.folder_url!, '_blank')}
+                                        title={t('subject_cards.actions.open_drive_folder')}
                                     >
                                         <ExternalLink className="h-3 w-3" />
+                                        <span className="sr-only">{t('subject_cards.actions.open_drive_folder')}</span>
                                     </Button>
                                 )
                             ) : (
@@ -113,8 +110,10 @@ export const SubjectsTable = ({ subjects, initializingSubjectId, onInitializeFol
                                     className="text-xs"
                                     onClick={() => onInitializeFolders(subject.id)}
                                     disabled={initializingSubjectId === subject.id}
+                                    title={t('subject_cards.actions.initialize_folders')}
                                 >
                                     <FolderOpen className="h-3 w-3" />
+                                    <span className="sr-only">{t('subject_cards.actions.initialize_folders')}</span>
                                 </Button>
                             )}
                         </div>
@@ -124,7 +123,7 @@ export const SubjectsTable = ({ subjects, initializingSubjectId, onInitializeFol
                     return null;
             }
         },
-        [getCompletionBadgeVariant, onInitializeFolders, initializingSubjectId],
+        [getCompletionBadgeVariant, onInitializeFolders, initializingSubjectId, t],
     );
 
     const TableBodyRows = useCallback(
@@ -145,15 +144,17 @@ export const SubjectsTable = ({ subjects, initializingSubjectId, onInitializeFol
     );
 
     return (
-        <div className="rounded-md border">
-            <Table>
-                <TableHeader>
-                    <TableHeaderRow />
-                </TableHeader>
-                <TableBody>
-                    <TableBodyRows />
-                </TableBody>
-            </Table>
+        <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <div className="overflow-x-auto">
+                <Table>
+                    <TableHeader className="bg-gray-50 dark:bg-gray-900">
+                        <TableHeaderRow />
+                    </TableHeader>
+                    <TableBody>
+                        <TableBodyRows />
+                    </TableBody>
+                </Table>
+            </div>
         </div>
     );
 };

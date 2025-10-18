@@ -1,4 +1,4 @@
-import { Grid3X3, Table } from 'lucide-react';
+import { Grid3X3, List } from 'lucide-react';
 
 interface SubjectViewToggleProps {
     view: 'card' | 'table';
@@ -7,28 +7,28 @@ interface SubjectViewToggleProps {
 
 export function SubjectViewToggle({ view, onViewChange }: SubjectViewToggleProps) {
     return (
-        <div className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 p-1 dark:border-gray-600 dark:bg-gray-800">
+        <div className="flex rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
             <button
                 onClick={() => onViewChange('card')}
-                className={`flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:outline-none ${
+                className={`flex items-center justify-center p-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset ${
                     view === 'card'
-                        ? 'bg-white text-gray-900 shadow-sm hover:text-gray-900 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-100'
+                        ? 'bg-gray-900 text-white shadow-sm dark:bg-gray-100 dark:text-gray-900'
+                        : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-100'
                 }`}
+                title="Card View"
             >
                 <Grid3X3 className="h-4 w-4" />
-                <span className="hidden sm:inline">Cards</span>
             </button>
             <button
                 onClick={() => onViewChange('table')}
-                className={`flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:outline-none ${
+                className={`flex items-center justify-center p-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset ${
                     view === 'table'
-                        ? 'bg-white text-gray-900 shadow-sm hover:text-gray-900 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-100'
+                        ? 'bg-gray-900 text-white shadow-sm dark:bg-gray-100 dark:text-gray-900'
+                        : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-100'
                 }`}
+                title="Table View"
             >
-                <Table className="h-4 w-4" />
-                <span className="hidden sm:inline">Table</span>
+                <List className="h-4 w-4" />
             </button>
         </div>
     );
