@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class UpdateStaffRequest extends FormRequest
@@ -25,7 +26,71 @@ class UpdateStaffRequest extends FormRequest
         // Base validation rules (always required)
         $rules = [
             'bio' => 'nullable|string|max:5000',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+            'photo' => [
+                'nullable',
+                'file',
+                'mimes:jpeg,png,jpg,gif,webp',
+                'max:10240',
+                function ($attribute, $value, $fail) {
+                    if ($value) {
+                        // Log debug information about the value type
+                        Log::info('Photo upload debug - value type', [
+                            'value_type' => gettype($value),
+                            'is_uploaded_file' => $value instanceof \Illuminate\Http\UploadedFile,
+                            'value_content' => is_array($value) ? json_encode($value) : 'not array'
+                        ]);
+                        
+                        // Check if value is an UploadedFile instance
+                        if (!$value instanceof \Illuminate\Http\UploadedFile) {
+                            $fail('The uploaded data is not a valid file.');
+                            return;
+                        }
+                        
+                        // Additional validation to debug image issues
+                        $mimeType = $value->getMimeType();
+                        $extension = $value->getClientOriginalExtension();
+                        $size = $value->getSize();
+                        
+                        // Log debug information
+                        Log::info('Photo upload debug', [
+                            'mime_type' => $mimeType,
+                            'extension' => $extension,
+                            'size' => $size,
+                            'original_name' => $value->getClientOriginalName(),
+                            'is_valid' => $value->isValid(),
+                        ]);
+                        
+                        // Check if file is valid
+                        if (!$value->isValid()) {
+                            $fail('The uploaded file is corrupted or invalid.');
+                            return;
+                        }
+                        
+                        // Check MIME type manually
+                        $allowedMimes = [
+                            'image/jpeg',
+                            'image/png', 
+                            'image/jpg',
+                            'image/gif',
+                            'image/webp'
+                        ];
+                        
+                        if (!in_array($mimeType, $allowedMimes)) {
+                            $fail("The file type {$mimeType} is not allowed. Please upload a valid image file.");
+                            return;
+                        }
+                        
+                        // Check if it's actually an image using getimagesize
+                        $tempPath = $value->getPathname();
+                        $imageInfo = @getimagesize($tempPath);
+                        
+                        if ($imageInfo === false) {
+                            $fail('The file does not appear to be a valid image file.');
+                            return;
+                        }
+                    }
+                }
+            ],
             'remove_photo' => 'nullable|boolean',
             'phone' => 'nullable|string|max:20|regex:/^[\+]?[\d\s\-\(\)]{7,20}$/',
         ];
@@ -69,9 +134,9 @@ class UpdateStaffRequest extends FormRequest
             'phone.regex' => 'Please provide a valid phone number format.',
             'bio.string' => 'Biography must be valid text.',
             'bio.max' => 'Biography cannot exceed 5000 characters.',
-            'photo.image' => 'The file must be an image.',
+            'photo.file' => 'Please select a valid file.',
             'photo.mimes' => 'Photo must be a JPEG, PNG, JPG, GIF, or WebP image.',
-            'photo.max' => 'Photo size cannot exceed 10MB.',
+            'photo.max' => 'Photo size cannot exceed 10MB (10,240 KB).',
             'remove_photo.boolean' => 'Remove photo flag must be true or false.',
         ];
     }
