@@ -1,6 +1,7 @@
 import { Head } from '@inertiajs/react';
 import { LoaderCircle, Save } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
 
 
 import { Button } from '@/components/ui/button';
@@ -28,7 +29,9 @@ interface SubjectAssignmentsProps extends SubjectAssignmentData {
 
 export default function SubjectAssignments({ staff, subjects, filters = {} }: SubjectAssignmentsProps) {
     const { t } = useTranslation();
-    const data = useSubjectAssignmentData({ staff, subjects });
+    
+    const dataObject = useMemo(() => ({ staff, subjects }), [staff, subjects]);
+    const data = useSubjectAssignmentData(dataObject);
     const matrixHook = useAssignmentMatrix(data);
     const filterHook = useAssignmentFilters(filters);
     const saveHook = useAssignmentSave();

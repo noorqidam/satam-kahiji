@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { type SubjectAssignmentData } from './use-subject-assignment-data';
 
 type AssignmentMatrix = Record<number, Record<number, boolean>>;
@@ -9,12 +9,14 @@ export function useAssignmentMatrix(data: SubjectAssignmentData) {
         return createInitialAssignments(data);
     }, [data]);
 
-    const [assignments, setAssignments] = useState<AssignmentMatrix>(initialAssignments);
+    const [assignments, setAssignments] = useState<AssignmentMatrix>(() => initialAssignments);
+    const lastInitialAssignmentsRef = useRef(initialAssignments);
 
-    // Update assignments when data actually changes (not on every render)
-    useEffect(() => {
+    // Only update state if initialAssignments has actually changed
+    if (lastInitialAssignmentsRef.current !== initialAssignments) {
+        lastInitialAssignmentsRef.current = initialAssignments;
         setAssignments(initialAssignments);
-    }, [initialAssignments]);
+    }
 
     const toggleAssignment = useCallback((staffId: number, subjectId: number) => {
         setAssignments((prev) => ({

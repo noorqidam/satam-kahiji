@@ -1,6 +1,7 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { type SubjectAssignmentData } from '@/hooks/use-subject-assignment-data';
 import { BookOpen, Users } from 'lucide-react';
+import { memo, useCallback } from 'react';
 
 interface AssignmentMatrixTableProps {
     data: SubjectAssignmentData;
@@ -9,6 +10,31 @@ interface AssignmentMatrixTableProps {
     getStaffAssignmentCount: (staffId: number) => number;
     getSubjectAssignmentCount: (subjectId: number) => number;
 }
+
+const AssignmentCheckbox = memo(({ 
+    staffId, 
+    subjectId, 
+    checked, 
+    onToggle 
+}: { 
+    staffId: number; 
+    subjectId: number; 
+    checked: boolean; 
+    onToggle: (staffId: number, subjectId: number) => void; 
+}) => {
+    const handleChange = useCallback(() => {
+        onToggle(staffId, subjectId);
+    }, [staffId, subjectId, onToggle]);
+
+    return (
+        <Checkbox
+            checked={checked}
+            onCheckedChange={handleChange}
+        />
+    );
+});
+
+AssignmentCheckbox.displayName = 'AssignmentCheckbox';
 
 export function AssignmentMatrixTable({
     data,
@@ -63,9 +89,11 @@ export function AssignmentMatrixTable({
                             {data.subjects.data.map((subject) => (
                                 <td key={subject.id} className="p-3 text-center">
                                     <div className="flex justify-center">
-                                        <Checkbox
+                                        <AssignmentCheckbox
+                                            staffId={staffMember.id}
+                                            subjectId={subject.id}
                                             checked={assignments[staffMember.id]?.[subject.id] || false}
-                                            onCheckedChange={() => onToggleAssignment(staffMember.id, subject.id)}
+                                            onToggle={onToggleAssignment}
                                         />
                                     </div>
                                 </td>
