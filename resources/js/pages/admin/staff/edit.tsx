@@ -112,6 +112,9 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
                                             currentImageUrl={currentPhotoUrl}
                                             size="xl"
                                             maxSize={10 * 1024 * 1024}
+                                            accept={{
+                                                'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+                                            }}
                                         />
                                         <InputError message={form.errors.photo} />
                                     </div>
@@ -145,6 +148,9 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
                                                 currentImageUrl={currentPhotoUrl}
                                                 size="xl"
                                                 maxSize={10 * 1024 * 1024}
+                                                accept={{
+                                                    'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+                                                }}
                                             />
                                             <InputError message={form.errors.photo} />
                                         </div>
