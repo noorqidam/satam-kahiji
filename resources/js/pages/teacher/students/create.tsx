@@ -3,8 +3,6 @@ import { Save } from 'lucide-react';
 import { FormEvent, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { StudentRecordsTabs } from '@/components/teacher/students/comprehensive-student-form';
-
 import RichTextEditor from '@/components/rich-text-editor';
 import AvatarDropzone from '@/components/ui/avatar-dropzone';
 import { Button } from '@/components/ui/button';
@@ -82,7 +80,7 @@ const getBreadcrumbs = (t: (key: string) => string): BreadcrumbItem[] => [
     { title: t('student_form.breadcrumbs.add_student'), href: '/teacher/students/create' },
 ];
 
-export default function TeacherStudentCreate({ assignedClass, extracurriculars, recordOptions }: TeacherStudentCreateProps) {
+export default function TeacherStudentCreate({ assignedClass, extracurriculars }: TeacherStudentCreateProps) {
     const { t } = useTranslation(['common', 'student_form']);
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -693,21 +691,7 @@ export default function TeacherStudentCreate({ assignedClass, extracurriculars, 
                     </div>
                 </form>
 
-                {/* Student Records Management - Preview only for new students */}
-                {recordOptions && (
-                    <div className="mt-6">
-                        <StudentRecordsTabs
-                            student={{
-                                id: 0,
-                                name: formData.name || t('student_form.placeholders.new_student'),
-                                nisn: formData.nisn || '',
-                                class: formData.class || '',
-                            }}
-                            recordOptions={recordOptions}
-                            isEdit={false}
-                        />
-                    </div>
-                )}
+                {/* Student Records Management - Not available during student creation */}
             </div>
         </AppLayout>
     );

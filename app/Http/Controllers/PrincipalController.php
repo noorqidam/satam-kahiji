@@ -14,7 +14,7 @@ class PrincipalController extends Controller
      */
     public function index(): Response
     {
-        $principal = Staff::with(['positionHistory'])
+        $principal = Staff::with(['positionHistory', 'educationalBackgrounds'])
             ->select('id', 'name', 'position', 'division', 'photo', 'bio', 'email', 'phone')
             ->where(function($query) {
                 // Filter by position "kepala sekolah" (case insensitive)
@@ -29,6 +29,23 @@ class PrincipalController extends Controller
             ->whereNotNull('name')
             ->orderBy('name')
             ->get();
+
+        // Transform educational backgrounds to match frontend interface
+        $principal->each(function ($member) {
+            $member->educational_background = $member->educationalBackgrounds->map(function ($education) {
+                return [
+                    'id' => $education->id,
+                    'degree' => $education->degree,
+                    'field_of_study' => $education->field_of_study,
+                    'institution' => $education->institution,
+                    'graduation_year' => $education->graduation_year,
+                    'description' => $education->description,
+                ];
+            })->toArray();
+            
+            // Remove the original relation to avoid duplication
+            unset($member->educationalBackgrounds);
+        });
 
         return Inertia::render('principal', [
             'principal' => $principal,

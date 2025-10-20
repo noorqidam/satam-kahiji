@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card';
 import PublicLayout from '@/layouts/public-layout';
 import { Head } from '@inertiajs/react';
 import { motion, useInView } from 'framer-motion';
-import { Calendar, Clock, Mail, User, Users } from 'lucide-react';
+import { Calendar, Clock, GraduationCap, Mail, User, Users } from 'lucide-react';
 import { useRef } from 'react';
 
 interface PositionHistory {
@@ -10,6 +10,15 @@ interface PositionHistory {
     title: string;
     start_year: number;
     end_year: number | null;
+}
+
+interface EducationalBackground {
+    id: number;
+    degree: string;
+    field_of_study: string;
+    institution: string;
+    graduation_year: number;
+    description?: string;
 }
 
 interface PrincipalMember {
@@ -22,6 +31,7 @@ interface PrincipalMember {
     email: string;
     phone: string | null;
     position_history: PositionHistory[];
+    educational_background?: EducationalBackground[];
 }
 
 interface PrincipalProps {
@@ -120,37 +130,80 @@ export default function Principal({ principal }: PrincipalProps) {
                                                                 <h3 className="text-lg font-bold text-gray-900 sm:text-xl">Riwayat Jabatan</h3>
                                                             </div>
 
-                                                            <div className="space-y-4">
+                                                            <div className="space-y-6 pl-12">
                                                                 {member.position_history
                                                                     .sort((a, b) => b.start_year - a.start_year)
                                                                     .map((history, index) => (
-                                                                        <div key={history.id} className="relative">
-                                                                            {/* Timeline connector */}
+                                                                        <div key={history.id} className="relative flex items-start gap-3">
+                                                                            {/* Timeline connector line */}
                                                                             {index < member.position_history.length - 1 && (
-                                                                                <div className="absolute top-8 left-5 h-8 w-0.5 bg-gradient-to-b from-blue-300 to-transparent"></div>
+                                                                                <div className="absolute top-6 left-3 h-full w-0.5 bg-gradient-to-b from-blue-500 to-indigo-600"></div>
                                                                             )}
-
-                                                                            <div className="flex items-start gap-3">
-                                                                                <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 shadow-md">
-                                                                                    <div className="h-2.5 w-2.5 rounded-full bg-white"></div>
+                                                                            
+                                                                            <div className="relative z-10 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 shadow-md">
+                                                                                <div className="h-1.5 w-1.5 rounded-full bg-white"></div>
+                                                                            </div>
+                                                                            <div className="min-w-0 flex-1">
+                                                                                <h4 className="font-bold text-gray-900">{history.title}</h4>
+                                                                                <div className="mt-1 flex items-center gap-2 text-sm text-blue-600">
+                                                                                    <Calendar className="h-4 w-4" />
+                                                                                    <span className="font-semibold">
+                                                                                        {history.start_year} - {history.end_year || 'Sekarang'}
+                                                                                    </span>
                                                                                 </div>
-                                                                                <div className="flex-1 pt-1">
-                                                                                    <h4 className="font-bold text-gray-900">{history.title}</h4>
-                                                                                    <div className="mt-1 flex items-center gap-2 text-sm text-blue-600">
-                                                                                        <Calendar className="h-4 w-4" />
-                                                                                        <span className="font-semibold">
-                                                                                            {history.start_year} - {history.end_year || 'Sekarang'}
+                                                                                {!history.end_year && (
+                                                                                    <div className="mt-2">
+                                                                                        <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-800">
+                                                                                            <div className="mr-1.5 h-1.5 w-1.5 rounded-full bg-green-500"></div>
+                                                                                            Jabatan Aktif
                                                                                         </span>
                                                                                     </div>
-                                                                                    {!history.end_year && (
-                                                                                        <div className="mt-2">
-                                                                                            <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-800">
-                                                                                                <div className="mr-1.5 h-1.5 w-1.5 rounded-full bg-green-500"></div>
-                                                                                                Jabatan Aktif
-                                                                                            </span>
-                                                                                        </div>
-                                                                                    )}
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Educational Background */}
+                                                    {member.educational_background && member.educational_background.length > 0 && (
+                                                        <div className="mt-8">
+                                                            <div className="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
+                                                                <div className="rounded-full bg-gradient-to-r from-green-500 to-emerald-600 p-1.5 sm:p-2">
+                                                                    <GraduationCap className="h-4 w-4 text-white sm:h-5 sm:w-5" />
+                                                                </div>
+                                                                <h3 className="text-lg font-bold text-gray-900 sm:text-xl">Riwayat Pendidikan</h3>
+                                                            </div>
+
+                                                            <div className="space-y-6 pl-12">
+                                                                {member.educational_background
+                                                                    .sort((a, b) => b.graduation_year - a.graduation_year)
+                                                                    .map((education, index) => (
+                                                                        <div key={education.id} className="relative flex items-start gap-3">
+                                                                            {/* Timeline connector line */}
+                                                                            {index < member.educational_background!.length - 1 && (
+                                                                                <div className="absolute top-6 left-3 h-full w-0.5 bg-gradient-to-b from-green-500 to-emerald-600"></div>
+                                                                            )}
+
+                                                                            <div className="relative z-10 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-green-500 to-emerald-600 shadow-md">
+                                                                                <div className="h-1.5 w-1.5 rounded-full bg-white"></div>
+                                                                            </div>
+                                                                            <div className="min-w-0 flex-1">
+                                                                                <h4 className="font-bold text-gray-900">{education.degree}</h4>
+                                                                                <p className="text-gray-700">{education.field_of_study}</p>
+                                                                                <p className="text-sm text-gray-600">{education.institution}</p>
+                                                                                <div className="mt-1 flex items-center gap-2 text-sm text-green-600">
+                                                                                    <Calendar className="h-4 w-4" />
+                                                                                    <span className="font-semibold">
+                                                                                        Lulus {education.graduation_year}
+                                                                                    </span>
                                                                                 </div>
+                                                                                {education.description && (
+                                                                                    <p className="mt-2 text-sm text-gray-600">
+                                                                                        {education.description}
+                                                                                    </p>
+                                                                                )}
                                                                             </div>
                                                                         </div>
                                                                     ))}
