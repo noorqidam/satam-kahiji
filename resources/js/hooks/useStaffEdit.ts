@@ -70,7 +70,7 @@ export function useStaffEdit({ staff, filters = {} }: UseStaffEditProps) {
 
             formData.phone = form.data.phone;
 
-            router.post(route('admin.staff.update', staff.id), JSON.parse(JSON.stringify(formData)), {
+            router.post(route('admin.staff.update', staff.id), formData, {
                 forceFormData: true,
                 onSuccess: () => {
                     toast({
