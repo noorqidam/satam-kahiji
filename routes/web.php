@@ -164,6 +164,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('destroy');
         });
 
+        // Educational Background Management (inline with staff)
+        Route::prefix('educational-background')->name('educational-background.')->group(function () {
+            Route::delete('bulk', [\App\Http\Controllers\Admin\EducationalBackgroundController::class, 'bulkDestroy'])
+                ->name('bulk-destroy');
+            Route::post('/', [\App\Http\Controllers\Admin\EducationalBackgroundController::class, 'store'])
+                ->name('store');
+            Route::put('{educationalBackground}', [\App\Http\Controllers\Admin\EducationalBackgroundController::class, 'update'])
+                ->name('update');
+            Route::delete('{educationalBackground}', [\App\Http\Controllers\Admin\EducationalBackgroundController::class, 'destroy'])
+                ->name('destroy');
+        });
+
         // Subject Management
         Route::prefix('subjects')->name('subjects.')->group(function () {
             Route::delete('bulk', [\App\Http\Controllers\Admin\SubjectManagementController::class, 'bulkDestroy'])

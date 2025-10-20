@@ -7,6 +7,7 @@ import { StaffSubjectAssignments } from '@/components/admin/staff/StaffSubjectAs
 import AvatarDropzone from '@/components/ui/avatar-dropzone';
 import { useStaffEdit } from '@/hooks/useStaffEdit';
 
+import EducationalBackgroundManager from '@/components/educational-background-manager';
 import InputError from '@/components/input-error';
 import PositionHistoryManager from '@/components/position-history-manager';
 import RichTextEditor from '@/components/rich-text-editor';
@@ -262,6 +263,9 @@ export default function EditStaff({ staff, availableSubjects, filters = {} }: Ed
 
                     {/* Position History Management */}
                     <PositionHistoryManager staff={staff} />
+
+                    {/* Educational Background Management */}
+                    <EducationalBackgroundManager staff={staff} />
 
                     <StaffSubjectAssignments
                         staff={staff}

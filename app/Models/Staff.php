@@ -32,6 +32,11 @@ class Staff extends Model
         return $this->hasMany(PositionHistory::class);
     }
 
+    public function educationalBackgrounds()
+    {
+        return $this->hasMany(EducationalBackground::class);
+    }
+
     public function subjects()
     {
         return $this->belongsToMany(Subject::class, 'subject_staff')

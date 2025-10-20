@@ -63,6 +63,8 @@ class StaffTransformer
     {
         $staff->load(['user', 'positionHistory' => function($query) {
             $query->orderBy('start_year', 'desc');
+        }, 'educationalBackgrounds' => function($query) {
+            $query->orderBy('graduation_year', 'desc');
         }, 'subjects']);
 
         return [
@@ -81,6 +83,7 @@ class StaffTransformer
             'updated_at' => $staff->updated_at,
             'user' => $staff->user,
             'position_history' => $staff->positionHistory,
+            'educational_background' => $staff->educationalBackgrounds,
             'subjects' => $this->transformSubjects($staff->subjects),
         ];
     }
