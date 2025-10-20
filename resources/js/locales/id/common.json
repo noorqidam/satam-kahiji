@@ -1,7 +1,43 @@
 {
     "common": {
         "not_provided": "Tidak tersedia",
-        "biography": "Biografi"
+        "biography": "Biografi",
+        "success": "Berhasil",
+        "error": "Kesalahan",
+        "loading": "Memuat...",
+        "save": "Simpan",
+        "cancel": "Batal",
+        "delete": "Hapus",
+        "edit": "Edit",
+        "add": "Tambah",
+        "select_option": "Pilih opsi...",
+        "upload_success": "Upload berhasil",
+        "save_success": "Data berhasil disimpan",
+        "delete_success": "Data berhasil dihapus",
+        "confirm_delete": "Apakah Anda yakin ingin menghapus ini?",
+        "no_data": "Tidak ada data",
+        "read_more": "Baca Selengkapnya",
+        "learn_more": "Pelajari Lebih Lanjut",
+        "download": "Unduh",
+        "view_all": "Lihat Semua",
+        "back": "Kembali",
+        "next": "Selanjutnya",
+        "previous": "Sebelumnya",
+        "search": "Cari",
+        "submit": "Kirim",
+        "create": "Buat",
+        "update": "Perbarui",
+        "published": "Dipublikasikan",
+        "draft": "Konsep",
+        "active": "Aktif",
+        "inactive": "Tidak Aktif",
+        "of": "dari",
+        "deleting": "Menghapus...",
+        "delete_confirmation": {
+            "title": "Hapus {{itemType}}",
+            "description_with_name": "Apakah Anda yakin ingin menghapus \"{{itemName}}\"? Tindakan ini tidak dapat dibatalkan.",
+            "description_without_name": "Apakah Anda yakin ingin menghapus {{itemType}} ini? Tindakan ini tidak dapat dibatalkan."
+        }
     },
     "navigation": {
         "home": "Beranda",
@@ -161,21 +197,6 @@
                 "national": "Tingkat Nasional",
                 "international": "Tingkat Internasional"
             }
-        },
-        "common": {
-            "loading": "Memuat...",
-            "save": "Simpan",
-            "cancel": "Batal",
-            "delete": "Hapus",
-            "edit": "Edit",
-            "add": "Tambah",
-            "select_option": "Pilih opsi...",
-            "upload_success": "Upload berhasil",
-            "save_success": "Data berhasil disimpan",
-            "delete_success": "Data berhasil dihapus",
-            "error": "Terjadi kesalahan",
-            "confirm_delete": "Apakah Anda yakin ingin menghapus ini?",
-            "no_data": "Tidak ada data"
         }
     },
     "student_form": {
@@ -1491,6 +1512,56 @@
                 "bulk_delete_button": "Hapus {{count}} Catatan"
             }
         },
+        "educational_background": {
+            "title": "Riwayat Pendidikan",
+            "add_education": "Tambah Pendidikan",
+            "degree": "Gelar",
+            "field_of_study": "Bidang Studi",
+            "institution": "Institusi",
+            "graduation_year": "Tahun Kelulusan",
+            "description": "Deskripsi",
+            "save": "Simpan",
+            "cancel": "Batal",
+            "edit": "Edit",
+            "delete": "Hapus",
+            "delete_selected": "Hapus Terpilih",
+            "select_all": "Pilih Semua",
+            "records": "catatan",
+            "placeholders": {
+                "degree": "mis., Sarjana Sains, Magister Seni",
+                "field_of_study": "mis., Ilmu Komputer, Matematika",
+                "institution": "mis., Universitas Indonesia",
+                "graduation_year": "2023",
+                "description": "Detail tambahan tentang pencapaian, penghargaan, dll."
+            },
+            "validation": {
+                "degree_required": "Gelar diperlukan",
+                "field_of_study_required": "Bidang studi diperlukan",
+                "institution_required": "Institusi diperlukan",
+                "graduation_year_required": "Tahun kelulusan diperlukan"
+            },
+            "messages": {
+                "no_records": "Tidak ada catatan riwayat pendidikan ditemukan.",
+                "add_first_record": "Klik \"Tambah Pendidikan\" untuk menambah catatan pertama.",
+                "add_success": "Riwayat pendidikan berhasil ditambahkan.",
+                "update_success": "Riwayat pendidikan berhasil diperbarui.",
+                "delete_success": "Riwayat pendidikan berhasil dihapus.",
+                "bulk_delete_success": "catatan riwayat pendidikan berhasil dihapus.",
+                "add_error": "Gagal menambah riwayat pendidikan.",
+                "update_error": "Gagal memperbarui riwayat pendidikan.",
+                "delete_error": "Gagal menghapus riwayat pendidikan.",
+                "bulk_delete_error": "Gagal menghapus catatan riwayat pendidikan."
+            },
+            "dialogs": {
+                "delete_title": "Hapus Riwayat Pendidikan",
+                "delete_description": "Anda yakin ingin menghapus catatan riwayat pendidikan ini? Tindakan ini tidak dapat dibatalkan.",
+                "bulk_delete_title": "Hapus Beberapa Catatan",
+                "bulk_delete_description": "Anda yakin ingin menghapus {{count}} catatan riwayat pendidikan? Tindakan ini tidak dapat dibatalkan.",
+                "cancel": "Batal",
+                "delete": "Hapus",
+                "delete_count": "Hapus {{count}} Catatan"
+            }
+        },
         "subject_assignments": {
             "title": "Penugasan Mata Pelajaran",
             "count": "Penugasan Mata Pelajaran ({{count}})",
@@ -1977,44 +2048,6 @@
             }
         }
     },
-    "teacher_detail": {
-        "breadcrumbs": {
-            "headmaster_dashboard": "Dashboard",
-            "staff_overview": "Ikhtisar Staff"
-        },
-        "page_title": "Item Kerja",
-        "statistics": {
-            "work_items": "Item Kerja",
-            "total_files": "Total File",
-            "approved": "Disetujui",
-            "pending_review": "Menunggu Tinjauan"
-        },
-        "status": {
-            "approved": "Disetujui",
-            "needs_revision": "Perlu Revisi",
-            "pending_review": "Menunggu Tinjauan"
-        },
-        "work_item_status": {
-            "required": "Wajib",
-            "optional": "Opsional"
-        },
-        "file_section": {
-            "no_files_uploaded": "Tidak ada file yang diunggah",
-            "no_files_description": "Item kerja ini belum memiliki file",
-            "uploaded": "Diunggah",
-            "size_unknown": "Ukuran tidak diketahui",
-            "latest_feedback": "Umpan Balik Terbaru",
-            "reviewed_by": "Ditinjau oleh",
-            "on": "pada"
-        },
-        "actions": {
-            "preview": "Pratinjau",
-            "open": "Buka",
-            "open_in_drive": "Buka di Google Drive",
-            "feedback": "Umpan Balik",
-            "update": "Perbarui"
-        }
-    },
     "feedback_dialog": {
         "title": "Berikan Umpan Balik",
         "description": "Tinjau dan berikan umpan balik untuk file yang diunggah",
@@ -2053,34 +2086,6 @@
             "feedback_required": "Silakan berikan teks umpan balik",
             "feedback_success": "Umpan balik berhasil diberikan",
             "feedback_error": "Gagal memberikan umpan balik"
-        }
-    },
-    "common": {
-        "read_more": "Baca Selengkapnya",
-        "learn_more": "Pelajari Lebih Lanjut",
-        "download": "Unduh",
-        "view_all": "Lihat Semua",
-        "back": "Kembali",
-        "next": "Selanjutnya",
-        "previous": "Sebelumnya",
-        "search": "Cari",
-        "submit": "Kirim",
-        "cancel": "Batal",
-        "save": "Simpan",
-        "edit": "Edit",
-        "delete": "Hapus",
-        "deleting": "Menghapus...",
-        "create": "Buat",
-        "update": "Perbarui",
-        "published": "Dipublikasikan",
-        "draft": "Konsep",
-        "active": "Aktif",
-        "inactive": "Tidak Aktif",
-        "of": "dari",
-        "delete_confirmation": {
-            "title": "Hapus {{itemType}}",
-            "description_with_name": "Apakah Anda yakin ingin menghapus \"{{itemName}}\"? Tindakan ini tidak dapat dibatalkan.",
-            "description_without_name": "Apakah Anda yakin ingin menghapus {{itemType}} ini? Tindakan ini tidak dapat dibatalkan."
         }
     },
     "student_management": {
@@ -2478,10 +2483,6 @@
             "approved_files": "File Disetujui",
             "pending_files": "File Menunggu",
             "revision_files": "File Revisi"
-        },
-        "work_item": {
-            "required": "Wajib",
-            "optional": "Opsional"
         },
         "files": {
             "uploaded_files": "File yang Diunggah",
