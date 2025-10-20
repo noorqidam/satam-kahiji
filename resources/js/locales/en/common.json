@@ -222,9 +222,11 @@
             "notes": "Additional notes about the student (optional)",
             "select_gender": "Select gender",
             "select_transportation": "Select transportation method",
+            "transportation_method": "Select transportation method",
             "select_blood_type": "Select blood type",
             "select_status": "Select status",
-            "select_graduation_year": "Select graduation year"
+            "select_graduation_year": "Select graduation year",
+            "graduation_year": "Select graduation year"
         },
         "options": {
             "gender": {
@@ -257,7 +259,13 @@
             "update_success_desc": "Student information updated successfully",
             "create_success_desc": "New student added successfully",
             "form_error": "Error",
-            "form_error_desc": "Please check the form for errors"
+            "form_error_desc": "Please check the form for errors",
+            "homeroom_assignment": "Student will be assigned to {{class}}",
+            "class_management_info": "Class assignments can only be changed by the headmaster role.",
+            "no_homeroom_class": "No homeroom class assigned. Contact administration."
+        },
+        "help": {
+            "extracurricular_activities": "Select the extracurricular activities the student is interested in or participating in."
         },
         "actions": {
             "cancel": "Cancel",

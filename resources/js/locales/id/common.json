@@ -253,10 +253,14 @@
             "extracurricular_activities": "Pilih kegiatan ekstrakurikuler...",
             "notes": "Catatan tambahan tentang siswa (opsional)",
             "select_gender": "Pilih jenis kelamin",
+            "gender": "Pilih jenis kelamin",
             "select_transportation": "Pilih metode transportasi",
+            "transportation_method": "Pilih metode transportasi",
             "select_blood_type": "Pilih golongan darah",
+            "blood_type": "Pilih golongan darah",
             "select_status": "Pilih status",
-            "select_graduation_year": "Pilih tahun kelulusan"
+            "select_graduation_year": "Pilih tahun kelulusan",
+            "graduation_year": "Pilih tahun kelulusan"
         },
         "options": {
             "gender": {
@@ -289,7 +293,13 @@
             "update_success_desc": "Informasi siswa berhasil diperbarui",
             "create_success_desc": "Siswa baru berhasil ditambahkan",
             "form_error": "Kesalahan",
-            "form_error_desc": "Silakan periksa form untuk kesalahan"
+            "form_error_desc": "Silakan periksa form untuk kesalahan",
+            "homeroom_assignment": "Siswa akan ditugaskan ke {{class}}",
+            "class_management_info": "Penugasan kelas hanya dapat diubah oleh peran kepala sekolah.",
+            "no_homeroom_class": "Belum ada kelas wali yang ditugaskan. Hubungi administrasi."
+        },
+        "help": {
+            "extracurricular_activities": "Pilih kegiatan ekstrakurikuler yang diminati atau diikuti oleh siswa."
         },
         "actions": {
             "cancel": "Batal",
