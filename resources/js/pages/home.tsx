@@ -1,14 +1,33 @@
 import { EducationPattern } from '@/components/home/education-pattern';
-import { ExtracurricularSection } from '@/components/home/extracurricular-section';
 import { FloatingElements } from '@/components/home/floating-elements';
-import { GallerySection } from '@/components/home/gallery-section';
 import { HeroCarousel } from '@/components/home/hero-carousel';
-import { NewsSection } from '@/components/home/news-section';
-import { SchoolStats } from '@/components/home/school-stats';
 import { WelcomeSection } from '@/components/home/welcome-section';
 import PublicLayout from '@/layouts/public-layout';
 import { HomeProps } from '@/types/home';
 import { Head } from '@inertiajs/react';
+import { lazy } from 'react';
+
+// Lazy load components that are below the fold
+const ExtracurricularSection = lazy(() =>
+    import('@/components/home/extracurricular-section').then((module) => ({
+        default: module.ExtracurricularSection,
+    })),
+);
+const GallerySection = lazy(() =>
+    import('@/components/home/gallery-section').then((module) => ({
+        default: module.GallerySection,
+    })),
+);
+const NewsSection = lazy(() =>
+    import('@/components/home/news-section').then((module) => ({
+        default: module.NewsSection,
+    })),
+);
+const SchoolStats = lazy(() =>
+    import('@/components/home/school-stats').then((module) => ({
+        default: module.SchoolStats,
+    })),
+);
 
 export default function Home({ featuredNews, latestNews, galleries, extracurriculars }: HomeProps) {
     return (
