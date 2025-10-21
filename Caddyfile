@@ -1,0 +1,30 @@
+{
+	frankenphp
+}
+
+127.0.0.1:8000 {
+	# Handle static build assets directly for performance
+	@static_assets {
+		path /build/assets/*
+	}
+
+	handle @static_assets {
+		file_server {
+			root public
+		}
+	}
+
+	# Handle other specific static files
+	@static_files {
+		path /favicon.ico /robots.txt /sw.js /logo-satam.png /apple-touch-icon.png
+	}
+
+	handle @static_files {
+		file_server {
+			root public
+		}
+	}
+
+	# Everything else goes through Laravel
+	php_server
+}
