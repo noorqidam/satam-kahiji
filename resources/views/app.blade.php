@@ -27,21 +27,7 @@
                     });
                 }
 
-                // Performance optimizations
-                if ('requestIdleCallback' in window) {
-                    requestIdleCallback(function() {
-                        // Preload non-critical resources during idle time
-                        const link1 = document.createElement('link');
-                        link1.rel = 'prefetch';
-                        link1.href = '/build/assets/react-utils-*.js';
-                        document.head.appendChild(link1);
-
-                        const link2 = document.createElement('link');
-                        link2.rel = 'prefetch';
-                        link2.href = '/build/assets/vendor-misc-*.js';
-                        document.head.appendChild(link2);
-                    });
-                }
+                // Performance optimizations - removed invalid wildcard prefetch attempts
             })();
         </script>
 
@@ -115,17 +101,7 @@
         {{-- Preload critical JavaScript chunks --}}
         <link rel="modulepreload" href="{{ Vite::asset('resources/js/app.tsx') }}">
         
-        {{-- Preload critical chunks only --}}
-        @production
-            <link rel="modulepreload" href="/build/assets/vendor-react-core-*.js">
-            <link rel="modulepreload" href="/build/assets/vendor-inertia-*.js">
-            <link rel="modulepreload" href="/build/assets/vendor-clsx-*.js">
-            
-            {{-- Defer heavy chunks --}}
-            <link rel="prefetch" href="/build/assets/vendor-react-dom-*.js">
-            <link rel="prefetch" href="/build/assets/vendor-react-misc-*.js">
-            <link rel="prefetch" href="/build/assets/vendor-misc-*.js">
-        @endproduction
+        {{-- Removed invalid wildcard asset references - Vite will handle chunk loading --}}
 
         @routes
         @viteReactRefresh
