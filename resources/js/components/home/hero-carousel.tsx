@@ -1,16 +1,17 @@
 import { Button } from '@/components/ui/button';
+import { LazyImage } from '@/components/ui/lazy-image';
 import { Post } from '@/types/home';
 import { Link } from '@inertiajs/react';
 import { motion, PanInfo } from 'framer-motion';
 import { BookOpen, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { truncateText } from './home-utils';
 
 interface HeroCarouselProps {
     featuredNews: Post[];
 }
 
-export const HeroCarousel = ({ featuredNews }: HeroCarouselProps) => {
+export const HeroCarousel = memo(function HeroCarousel({ featuredNews }: HeroCarouselProps) {
     const [currentSlide, setCurrentSlide] = useState(0);
 
     useEffect(() => {
@@ -127,37 +128,25 @@ export const HeroCarousel = ({ featuredNews }: HeroCarouselProps) => {
                             <div className="relative h-[80vh] min-h-[750px] w-full">
                                 {news.image ? (
                                     <>
-                                        <img
+                                        <LazyImage
                                             src={news.image}
                                             alt={news.title}
+                                            priority={true}
                                             className="absolute inset-0 h-full w-full object-cover object-center"
-                                            loading="eager"
-                                            decoding="async"
-                                            fetchPriority="high"
-                                            style={
-                                                {
-                                                    imageRendering: 'auto' as const,
-                                                    backfaceVisibility: 'hidden',
-                                                    transform: 'translateZ(0)',
-                                                    filter: 'contrast(1.01) saturate(1.02) brightness(1.005)',
-                                                    transformStyle: 'preserve-3d',
-                                                    willChange: 'transform',
-                                                    WebkitBackfaceVisibility: 'hidden',
-                                                    WebkitTransform: 'translateZ(0)',
-                                                    MozBackfaceVisibility: 'hidden',
-                                                    msBackfaceVisibility: 'hidden',
-                                                    WebkitFontSmoothing: 'antialiased',
-                                                } as React.CSSProperties
-                                            }
-                                            onError={(e) => {
-                                                const target = e.target as HTMLImageElement;
-                                                target.style.display = 'none';
-                                                const parent = target.parentElement;
-                                                if (parent) {
-                                                    parent.innerHTML =
-                                                        '<div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-600 via-indigo-700 to-emerald-600"><div class="h-32 w-32 text-white opacity-60">📰</div></div>';
-                                                }
-                                            }}
+                                            sizes="100vw"
+                                            style={{
+                                                imageRendering: 'auto' as const,
+                                                backfaceVisibility: 'hidden',
+                                                transform: 'translateZ(0)',
+                                                filter: 'contrast(1.01) saturate(1.02) brightness(1.005)',
+                                                transformStyle: 'preserve-3d',
+                                                willChange: 'transform',
+                                                WebkitBackfaceVisibility: 'hidden',
+                                                WebkitTransform: 'translateZ(0)',
+                                                MozBackfaceVisibility: 'hidden',
+                                                msBackfaceVisibility: 'hidden',
+                                                WebkitFontSmoothing: 'antialiased',
+                                            } as React.CSSProperties}
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                                         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60" />
@@ -266,4 +255,4 @@ export const HeroCarousel = ({ featuredNews }: HeroCarouselProps) => {
             </div>
         </div>
     );
-};
+});

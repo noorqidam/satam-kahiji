@@ -11,6 +11,25 @@ import './i18n';
 
 const appName = import.meta.env.VITE_APP_NAME;
 
+// Preload critical resources
+const preloadCriticalResources = () => {
+    // Preload commonly used icons and assets
+    const criticalAssets = [
+        '/build/assets/app.css',
+        '/favicon.ico'
+    ];
+    
+    criticalAssets.forEach(href => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.href = href;
+        if (href.endsWith('.css')) {
+            link.as = 'style';
+        }
+        document.head.appendChild(link);
+    });
+};
+
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
     resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx', { eager: false })),
@@ -20,14 +39,14 @@ createInertiaApp({
         // Initialize performance tracking
         if (process.env.NODE_ENV === 'production') {
             trackWebVitals();
+            preloadCriticalResources();
         }
-
 
         root.render(<App {...props} />);
     },
     progress: {
         color: '#4B5563',
-        delay: 250,
+        delay: 150, // Reduced delay for faster feedback
         showSpinner: true,
     },
 });

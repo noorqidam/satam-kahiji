@@ -93,6 +93,17 @@
         <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
         <link rel="dns-prefetch" href="https://fonts.bunny.net">
         
+        {{-- Resource hints for better performance --}}
+        <meta name="theme-color" content="#ffffff">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        
+        {{-- Optimize rendering --}}
+        <meta name="color-scheme" content="light dark">
+        <meta name="robots" content="index, follow">
+        
+        {{-- Critical resource hints --}}
+        <link rel="preconnect" href="{{ config('app.url') }}" crossorigin>
+        
         {{-- Critical resource preloading with font-display optimization --}}
         <link rel="preload" href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600&display=swap"></noscript>
@@ -118,7 +129,7 @@
 
         @routes
         @viteReactRefresh
-        @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
+        @vite(['resources/js/app.tsx'])
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
