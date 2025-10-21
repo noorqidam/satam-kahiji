@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,6 +14,8 @@ use Inertia\Inertia;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// Asset handling removed - using standard Laravel + Vite approach
 
 // =============================================================================
 // PUBLIC ROUTES
