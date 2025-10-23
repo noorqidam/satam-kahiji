@@ -6,6 +6,7 @@ use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\HandleLargeUploads;
 use App\Http\Middleware\RequirePasswordReset;
+use App\Http\Middleware\ResponseCache;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Middleware\SetAssetMimeTypes;
 use App\Http\Middleware\SetLocale;

@@ -1,11 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { useExtracurricularUpdates } from '@/hooks/use-content-updates';
 import PublicLayout from '@/layouts/public-layout';
+import type { ContentUpdateEvent } from '@/types/echo';
 import { Head, Link, router } from '@inertiajs/react';
 import { motion, useInView } from 'framer-motion';
 import { GraduationCap, Search, Sparkles } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface Extracurricular {
     id: number;
@@ -28,30 +30,39 @@ interface PaginatedExtracurriculars {
     last_page: number;
     per_page: number;
     total: number;
+    from: number;
+    to: number;
     links: PaginationLinks[];
+    next_page_url: string | null;
+    prev_page_url: string | null;
+    first_page_url: string;
+    last_page_url: string;
+    path: string;
 }
 
-interface Contact {
-    id: number;
-    name: string;
-    email: string;
-    message: string;
-    phone: string | null;
-    created_at: string;
-    updated_at: string;
+interface Filters {
+    search: string;
 }
 
 interface ExtracurricularPageProps {
     extracurriculars: PaginatedExtracurriculars;
-    filters: {
-        search?: string;
-    };
-    contact?: Contact;
+    filters: Filters;
 }
 
 export default function ExtracurricularPage({ extracurriculars, filters }: ExtracurricularPageProps) {
     const [search, setSearch] = useState(filters.search || '');
     const [isLoading, setIsLoading] = useState(false);
+
+    // Handle real-time extracurricular updates
+    const handleExtracurricularUpdate = useCallback((event: ContentUpdateEvent) => {
+        console.log('Extracurricular updated:', event);
+        // Reload the page data to get fresh extracurriculars
+        router.reload({ only: ['extracurriculars'] });
+    }, []);
+
+    // Listen for extracurricular updates
+    useExtracurricularUpdates(handleExtracurricularUpdate);
+
     const isFirstRender = useRef(true);
     const headerRef = useRef(null);
     const extracurricularsRef = useRef(null);
@@ -247,172 +258,179 @@ export default function ExtracurricularPage({ extracurriculars, filters }: Extra
                                             duration: 0.6,
                                         }}
                                     >
-                                        <Card className="group relative flex h-full flex-col overflow-hidden border-0 bg-white/95 pt-0 shadow-xl backdrop-blur-sm transition-all duration-500 hover:shadow-2xl">
-                                            {/* Animated background overlay */}
-                                            <motion.div
-                                                className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-indigo-50/50 opacity-0 group-hover:opacity-100"
-                                                transition={{ duration: 0.4 }}
-                                            />
-
-                                            {/* Floating decoration */}
-                                            <motion.div
-                                                className="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-gradient-to-br from-blue-500/5 to-indigo-500/5 group-hover:from-blue-500/10 group-hover:to-indigo-500/10"
-                                                animate={{ rotate: [0, 360] }}
-                                                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                                            />
-
-                                            {/* Extracurricular Photo */}
-                                            <div className="relative aspect-[4/3] overflow-hidden sm:aspect-video">
-                                                {extracurricular.photo ? (
+                                        <Card className="group h-full overflow-hidden border-0 bg-white/80 shadow-lg backdrop-blur-sm transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10">
+                                            {extracurricular.photo && (
+                                                <div className="relative h-48 overflow-hidden sm:h-56">
                                                     <motion.img
                                                         src={extracurricular.photo}
                                                         alt={extracurricular.name}
-                                                        className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
+                                                        className="h-full w-full object-cover transition-all duration-700 group-hover:scale-110"
                                                         whileHover={{ scale: 1.1 }}
-                                                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                                                        transition={{ duration: 0.6 }}
                                                     />
-                                                ) : (
-                                                    <div className="flex h-full items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-100">
-                                                        <GraduationCap className="h-16 w-16 text-blue-300" />
-                                                    </div>
+                                                    <motion.div
+                                                        className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                                        initial={{ opacity: 0 }}
+                                                        whileHover={{ opacity: 1 }}
+                                                    />
+                                                    <motion.div
+                                                        className="absolute top-4 right-4 rounded-full bg-white/20 p-2 backdrop-blur-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                                        initial={{ opacity: 0, scale: 0 }}
+                                                        whileHover={{ opacity: 1, scale: 1 }}
+                                                        transition={{ delay: 0.1 }}
+                                                    >
+                                                        <GraduationCap className="h-4 w-4 text-white sm:h-5 sm:w-5" />
+                                                    </motion.div>
+                                                </div>
+                                            )}
+
+                                            <CardHeader className="p-4 sm:p-6">
+                                                <motion.h3
+                                                    className="mb-3 text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-600 sm:text-xl"
+                                                    layout
+                                                >
+                                                    {extracurricular.name}
+                                                </motion.h3>
+
+                                                {extracurricular.description && (
+                                                    <motion.p
+                                                        className="line-clamp-3 text-sm leading-relaxed text-gray-600 sm:text-base"
+                                                        layout
+                                                    >
+                                                        {extracurricular.description}
+                                                    </motion.p>
                                                 )}
 
-                                                {/* Image overlay on hover */}
                                                 <motion.div
-                                                    className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100"
-                                                    transition={{ duration: 0.3 }}
-                                                />
-                                            </div>
-
-                                            <div className="relative z-10 flex flex-1 flex-col">
-                                                <CardHeader className="flex flex-1 flex-col p-4 sm:p-6">
-                                                    <motion.h3
-                                                        className="mb-2 text-lg leading-tight font-bold sm:mb-3 sm:text-xl"
+                                                    className="mt-4 flex items-center justify-between"
+                                                    layout
+                                                >
+                                                    <motion.div
+                                                        className="flex items-center space-x-2"
                                                         whileHover={{ x: 4 }}
-                                                        transition={{ type: 'spring', stiffness: 300 }}
+                                                        transition={{ duration: 0.2 }}
                                                     >
-                                                        <span className="text-gray-900 transition-colors duration-300 group-hover:text-blue-700">
-                                                            {extracurricular.name}
+                                                        <div className="h-2 w-2 rounded-full bg-gradient-to-r from-blue-400 to-indigo-400" />
+                                                        <span className="text-xs font-medium text-blue-600 sm:text-sm">
+                                                            Aktivitas
                                                         </span>
-                                                    </motion.h3>
+                                                    </motion.div>
 
-                                                    {extracurricular.description && (
-                                                        <p className="flex-1 text-sm text-gray-600 transition-colors group-hover:text-gray-700 sm:text-base">
-                                                            {extracurricular.description}
-                                                        </p>
-                                                    )}
-                                                </CardHeader>
-                                            </div>
+                                                    <motion.div
+                                                        className="opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                                        whileHover={{ scale: 1.1 }}
+                                                    >
+                                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg">
+                                                            <Sparkles className="h-3 w-3" />
+                                                        </div>
+                                                    </motion.div>
+                                                </motion.div>
+                                            </CardHeader>
                                         </Card>
                                     </motion.div>
                                 ))}
                             </motion.div>
 
                             {/* Enhanced Pagination */}
-                            {extracurriculars.last_page > 1 && (
+                            {extracurriculars.links && extracurriculars.links.length > 3 && (
                                 <motion.div
                                     className="flex justify-center"
                                     initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5, delay: 0.3 }}
+                                    animate={extracurricularsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                                    transition={{ delay: 0.5 }}
                                 >
-                                    <div className="flex flex-wrap items-center justify-center gap-1 sm:space-x-2">
-                                        {extracurriculars.links.map((link, index) => (
-                                            <motion.div
-                                                key={index}
-                                                whileHover={{ scale: link.url ? 1.05 : 1 }}
-                                                whileTap={{ scale: link.url ? 0.95 : 1 }}
-                                                transition={{ type: 'spring', stiffness: 400 }}
-                                            >
-                                                {link.url ? (
-                                                    <Link
-                                                        href={link.url}
-                                                        className={`flex h-10 w-10 items-center justify-center rounded-lg text-xs font-semibold shadow-lg transition-all duration-300 sm:h-12 sm:w-12 sm:rounded-xl sm:text-sm ${
+                                    <div className="flex items-center space-x-1 rounded-2xl bg-white/60 p-2 shadow-lg backdrop-blur-sm sm:space-x-2 sm:p-3">
+                                        {extracurriculars.links.map((link, index) => {
+                                            if (!link.url) {
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        className="flex h-8 w-8 items-center justify-center rounded-xl text-sm font-medium text-gray-400 sm:h-10 sm:w-10 sm:text-base"
+                                                        dangerouslySetInnerHTML={{ __html: link.label }}
+                                                    />
+                                                );
+                                            }
+
+                                            return (
+                                                <Link
+                                                    key={index}
+                                                    href={link.url}
+                                                    preserveState
+                                                    preserveScroll
+                                                    only={['extracurriculars']}
+                                                >
+                                                    <motion.div
+                                                        className={`flex h-8 w-8 items-center justify-center rounded-xl text-sm font-medium transition-all duration-300 sm:h-10 sm:w-10 sm:text-base ${
                                                             link.active
-                                                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-200 hover:shadow-xl'
-                                                                : 'bg-white/90 text-gray-700 backdrop-blur-sm hover:bg-blue-50 hover:text-blue-700 hover:shadow-xl'
+                                                                ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg'
+                                                                : 'text-gray-600 hover:bg-blue-50 hover:text-blue-600'
                                                         }`}
+                                                        whileHover={{ scale: 1.1 }}
+                                                        whileTap={{ scale: 0.95 }}
                                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                                     />
-                                                ) : (
-                                                    <span
-                                                        className="flex h-10 w-10 cursor-not-allowed items-center justify-center rounded-lg bg-gray-100/50 text-xs text-gray-400 sm:h-12 sm:w-12 sm:rounded-xl sm:text-sm"
-                                                        dangerouslySetInnerHTML={{ __html: link.label }}
-                                                    />
-                                                )}
-                                            </motion.div>
-                                        ))}
+                                                </Link>
+                                            );
+                                        })}
                                     </div>
                                 </motion.div>
                             )}
                         </>
                     ) : (
                         <motion.div
-                            className="py-12 text-center sm:py-20"
+                            className="py-16 text-center sm:py-24"
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.6 }}
                         >
-                            <motion.div className="mx-auto max-w-lg" variants={containerVariants} initial="hidden" animate="visible">
-                                <motion.div
-                                    className="relative mx-auto mb-6 flex h-24 w-24 items-center justify-center sm:mb-8 sm:h-32 sm:w-32"
-                                    variants={itemVariants}
-                                    whileHover={{ scale: 1.1, rotate: 5 }}
-                                    transition={{ type: 'spring', stiffness: 300 }}
-                                >
-                                    {/* Animated background circle */}
-                                    <motion.div
-                                        className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100"
-                                        animate={{ rotate: [0, 360] }}
-                                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                                    />
-                                    {/* Icon container */}
-                                    <motion.div
-                                        className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-lg sm:h-20 sm:w-20"
-                                        whileHover={{ scale: 1.1 }}
-                                        transition={{ type: 'spring', stiffness: 400 }}
-                                    >
-                                        <GraduationCap className="h-8 w-8 text-gray-400 sm:h-10 sm:w-10" />
-                                    </motion.div>
-                                    {/* Floating elements */}
-                                    <motion.div
-                                        className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-blue-400"
-                                        animate={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
-                                        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                                    />
-                                    <motion.div
-                                        className="absolute -bottom-2 -left-2 h-3 w-3 rounded-full bg-indigo-400"
-                                        animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
-                                        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                                    />
-                                </motion.div>
-
-                                <motion.h3
-                                    className="mb-3 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-xl font-bold text-transparent sm:mb-4 sm:text-2xl"
-                                    variants={itemVariants}
-                                >
-                                    Tidak ada ekstrakurikuler ditemukan
-                                </motion.h3>
-
-                                <motion.p className="mb-6 text-base leading-relaxed text-gray-500 sm:mb-8 sm:text-lg" variants={itemVariants}>
-                                    {search
-                                        ? 'Coba ubah kata kunci pencarian untuk menemukan ekstrakurikuler yang Anda cari.'
-                                        : 'Belum ada ekstrakurikuler yang tersedia saat ini.'}
-                                </motion.p>
-
-                                {search && (
-                                    <motion.div variants={itemVariants} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                        <Button
-                                            onClick={() => setSearch('')}
-                                            size="lg"
-                                            className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-2.5 text-sm text-white shadow-lg hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl sm:px-8 sm:py-3 sm:text-base"
-                                        >
-                                            <GraduationCap className="mr-1.5 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />
-                                            Lihat Semua Ekstrakurikuler
-                                        </Button>
-                                    </motion.div>
-                                )}
+                            <motion.div
+                                className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-gray-100 to-gray-200 sm:h-24 sm:w-24"
+                                animate={{
+                                    rotate: [0, 10, -10, 0],
+                                }}
+                                transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    ease: 'easeInOut',
+                                }}
+                            >
+                                <Search className="h-8 w-8 text-gray-400 sm:h-10 sm:w-10" />
                             </motion.div>
+
+                            <motion.h3
+                                className="mb-3 text-xl font-bold text-gray-900 sm:mb-4 sm:text-2xl"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                            >
+                                Tidak ada ekstrakurikuler ditemukan
+                            </motion.h3>
+
+                            <motion.p
+                                className="mb-6 text-gray-600 sm:mb-8 sm:text-lg"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.3 }}
+                            >
+                                {search
+                                    ? `Tidak ada ekstrakurikuler yang cocok dengan "${search}"`
+                                    : 'Belum ada ekstrakurikuler yang tersedia saat ini.'}
+                            </motion.p>
+
+                            {search && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.4 }}
+                                >
+                                    <Button
+                                        onClick={() => setSearch('')}
+                                        className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
+                                    >
+                                        Hapus Pencarian
+                                    </Button>
+                                </motion.div>
+                            )}
                         </motion.div>
                     )}
                 </div>

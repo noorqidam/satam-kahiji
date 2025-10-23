@@ -4,6 +4,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
+import { setupEcho } from './services/echo';
 import { trackWebVitals } from './utils/performance';
 
 // Import i18n synchronously to ensure it's available immediately
@@ -14,12 +15,9 @@ const appName = import.meta.env.VITE_APP_NAME;
 // Preload critical resources
 const preloadCriticalResources = () => {
     // Preload commonly used icons and assets
-    const criticalAssets = [
-        '/build/assets/app.css',
-        '/favicon.ico'
-    ];
-    
-    criticalAssets.forEach(href => {
+    const criticalAssets = ['/build/assets/app.css', '/favicon.ico'];
+
+    criticalAssets.forEach((href) => {
         const link = document.createElement('link');
         link.rel = 'preload';
         link.href = href;
@@ -41,6 +39,9 @@ createInertiaApp({
             trackWebVitals();
             preloadCriticalResources();
         }
+
+        // Initialize Laravel Echo for real-time updates
+        setupEcho();
 
         root.render(<App {...props} />);
     },
