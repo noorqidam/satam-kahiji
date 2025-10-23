@@ -42,6 +42,16 @@ export default [
         },
     },
     {
+        files: ['tests/performance/**/*.js'],
+        languageOptions: {
+            globals: {
+                __VU: 'readonly',
+                __ITER: 'readonly',
+                __ENV: 'readonly',
+            },
+        },
+    },
+    {
         ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr', 'tailwind.config.js', 'resources/js/ziggy.js'],
     },
     prettier, // Turn off all rules that might conflict with Prettier
