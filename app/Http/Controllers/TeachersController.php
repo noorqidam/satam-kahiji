@@ -15,8 +15,51 @@ class TeachersController extends Controller
      */
     public function index(): Response
     {
-        $teachers = Staff::with(['subjects:id,name,code'])
-            ->select('id', 'name', 'slug', 'position', 'photo', 'bio', 'email', 'homeroom_class')
+        try {
+            // Aggressive cache for teachers list
+            $teachers = cache()->remember('teachers_optimized', 600, function () {
+                return Staff::with(['subjects:id,name,code'])
+                    ->select('id', 'name', 'slug', 'position', 'photo', 'bio', 'email', 'homeroom_class')
+                    ->where(function($query) {
+                        $query->where('position', 'guru')
+                              ->orWhere('position', 'Guru');
+                    })
+                    ->where(function($query) {
+                        $query->where('division', 'Akademik')
+                              ->orWhere('division', 'akademik');
+                    })
+                    ->whereNotNull('name')
+                    ->orderBy('name')
+                    ->get();
+            });
+
+            return Inertia::render('teachers/index', [
+                'teachers' => $teachers,
+            ]);
+        } catch (\Exception $e) {
+            logger('Teachers error: ' . $e->getMessage());
+            return Inertia::render('teachers/index', [
+                'teachers' => [],
+            ]);
+        }
+    }
+
+    /**
+     * Display the specified teacher.
+     */
+    public function show(Request $request, $slug): Response
+    {
+        // Cache teacher data for 10 minutes
+        $teacher = cache()->remember("teacher_{$slug}", 600, function () use ($slug) {
+            return Staff::with([
+                'subjects:id,name,code,description',
+                'teacherSubjectWorks.workItem:id,name',
+                'teacherSubjectWorks.files' => function ($query) {
+                    $query->select('id', 'teacher_subject_work_id', 'file_name', 'file_url', 'uploaded_at', 'file_size', 'mime_type')
+                        ->orderBy('uploaded_at', 'desc');
+                }
+            ])
+            ->where('slug', $slug)
             ->where(function($query) {
                 $query->where('position', 'guru')
                       ->orWhere('position', 'Guru');
@@ -25,38 +68,8 @@ class TeachersController extends Controller
                 $query->where('division', 'Akademik')
                       ->orWhere('division', 'akademik');
             })
-            ->whereNotNull('name')
-            ->orderBy('name')
-            ->get();
-
-        return Inertia::render('teachers/index', [
-            'teachers' => $teachers,
-        ]);
-    }
-
-    /**
-     * Display the specified teacher.
-     */
-    public function show(Request $request, $slug): Response
-    {
-        $teacher = Staff::with([
-            'subjects:id,name,code,description',
-            'teacherSubjectWorks.workItem:id,name',
-            'teacherSubjectWorks.files' => function ($query) {
-                $query->select('id', 'teacher_subject_work_id', 'file_name', 'file_url', 'uploaded_at', 'file_size', 'mime_type')
-                    ->orderBy('uploaded_at', 'desc');
-            }
-        ])
-        ->where('slug', $slug)
-        ->where(function($query) {
-            $query->where('position', 'guru')
-                  ->orWhere('position', 'Guru');
-        })
-        ->where(function($query) {
-            $query->where('division', 'Akademik')
-                  ->orWhere('division', 'akademik');
-        })
-        ->firstOrFail();
+            ->firstOrFail();
+        });
 
         // Group files by work item type
         $filesByType = [

@@ -14,24 +14,39 @@ class FacilityController extends Controller
      */
     public function index(Request $request): Response
     {
-        $search = $request->get('search', '');
-        
-        $query = Facility::select(['id', 'name', 'description', 'photo', 'metadata']);
-        
-        if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($search) . '%'])
-                  ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
-            });
-        }
-        
-        $facilities = $query->orderBy('name')->get();
+        try {
+            $search = $request->get('search', '');
+            
+            // For non-search requests, use aggressive cache
+            if (empty($search)) {
+                $facilities = cache()->remember('facilities_optimized', 600, function () {
+                    return Facility::select(['id', 'name', 'description', 'photo', 'metadata'])
+                        ->orderBy('name')
+                        ->get();
+                });
+            } else {
+                // For search requests, optimized query
+                $facilities = Facility::select(['id', 'name', 'description', 'photo', 'metadata'])
+                    ->where(function ($q) use ($search) {
+                        $q->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($search) . '%'])
+                          ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
+                    })
+                    ->orderBy('name')
+                    ->get();
+            }
 
-        return Inertia::render('facilities', [
-            'facilities' => $facilities,
-            'filters' => [
-                'search' => $search,
-            ],
-        ]);
+            return Inertia::render('facilities', [
+                'facilities' => $facilities,
+                'filters' => [
+                    'search' => $search,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            logger('Facilities error: ' . $e->getMessage());
+            return Inertia::render('facilities', [
+                'facilities' => [],
+                'filters' => ['search' => $search ?? ''],
+            ]);
+        }
     }
 }

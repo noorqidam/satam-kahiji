@@ -11,8 +11,10 @@ class PageController extends Controller
 {
     public function show(string $slug): Response
     {
-        // Get single contact from database for footer
-        $contact = Contact::orderBy('created_at', 'desc')->first();
+        // Extended contact cache
+        $contact = cache()->remember('contact_simple', 600, function () {
+            return Contact::orderBy('created_at', 'desc')->first();
+        });
         
         // For about-related pages, render the About component with database content
         if (in_array($slug, ['about', 'tentang-kami', 'about-us'])) {

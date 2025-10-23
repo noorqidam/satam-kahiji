@@ -33,8 +33,10 @@ class NewsController extends Controller
 
         $posts = $query->paginate(12)->withQueryString();
 
-        // Get contact info for footer
-        $contact = Contact::orderBy('created_at', 'desc')->first();
+        // Extended contact cache
+        $contact = cache()->remember('contact_simple', 600, function () {
+            return Contact::orderBy('created_at', 'desc')->first();
+        });
 
         return Inertia::render('news', [
             'posts' => $posts,
@@ -50,8 +52,10 @@ class NewsController extends Controller
             ->with('user:id,name')
             ->firstOrFail();
 
-        // Get contact info for footer
-        $contact = Contact::orderBy('created_at', 'desc')->first();
+        // Extended contact cache
+        $contact = cache()->remember('contact_simple', 600, function () {
+            return Contact::orderBy('created_at', 'desc')->first();
+        });
 
         // Get related posts (same category, excluding current post)
         $relatedPosts = Post::where('category', $post->category)
