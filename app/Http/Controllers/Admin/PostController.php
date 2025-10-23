@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ContentUpdated;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Services\PhotoHandler;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -103,6 +105,12 @@ class PostController extends Controller
 
         $post = Post::create($validated);
 
+        // Clear relevant caches
+        $this->clearPostCaches();
+
+        // Broadcast content update event
+        ContentUpdated::dispatch('post', 'created', $post->id, $post->title);
+
         return redirect()->route('admin.posts.index')
             ->with('success', 'Post created successfully.');
     }
@@ -178,6 +186,12 @@ class PostController extends Controller
 
         $post->update($validated);
 
+        // Clear relevant caches
+        $this->clearPostCaches();
+
+        // Broadcast content update event
+        ContentUpdated::dispatch('post', 'updated', $post->id, $post->title);
+
         return redirect()->route('admin.posts.index')
             ->with('success', 'Post updated successfully.');
     }
@@ -189,7 +203,17 @@ class PostController extends Controller
             $this->photoHandler->deletePhoto($post->image, 'posts');
         }
 
+        // Store post info before deletion
+        $postId = $post->id;
+        $postTitle = $post->title;
+        
         $post->delete();
+
+        // Clear relevant caches
+        $this->clearPostCaches();
+
+        // Broadcast content update event
+        ContentUpdated::dispatch('post', 'deleted', $postId, $postTitle);
 
         return redirect()->route('admin.posts.index')
             ->with('success', 'Post deleted successfully.');
@@ -205,10 +229,47 @@ class PostController extends Controller
             'is_published' => $validated['is_published']
         ]);
 
+        // Clear relevant caches
+        $this->clearPostCaches();
+
+        // Broadcast content update event
+        $action = $post->is_published ? 'published' : 'unpublished';
+        ContentUpdated::dispatch('post', $action, $post->id, $post->title);
+
         return response()->json([
             'success' => true,
             'is_published' => $post->is_published,
             'message' => $post->is_published ? 'Post published successfully.' : 'Post unpublished successfully.'
         ]);
+    }
+
+    /**
+     * Clear caches that depend on post data
+     */
+    private function clearPostCaches(): void
+    {
+        // Clear application caches
+        Cache::forget('home_optimized');
+        Cache::forget('contact_simple');
+        
+        // Clear response cache for relevant routes
+        $this->clearResponseCache([
+            '/',
+            '/news',
+            '/about',
+        ]);
+    }
+
+    /**
+     * Clear response cache for specific routes
+     */
+    private function clearResponseCache(array $routes): void
+    {
+        // The ResponseCache middleware uses cache keys based on request URI
+        // We need to clear the cache for each route
+        foreach ($routes as $route) {
+            $cacheKey = 'response_cache:' . md5($route);
+            Cache::forget($cacheKey);
+        }
     }
 }

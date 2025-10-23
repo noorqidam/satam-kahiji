@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ContentUpdated;
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use App\Services\GalleryDriveService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -102,6 +104,12 @@ class GalleryController extends Controller
         // Create gallery
         $galleryData = collect($validated)->except(['items'])->toArray();
         $gallery = Gallery::create($galleryData);
+
+        // Clear relevant caches
+        $this->clearGalleryCaches();
+
+        // Broadcast content update event
+        ContentUpdated::dispatch('gallery', 'created', $gallery->id, $gallery->title);
 
         // Note: Google Drive folder creation is handled dynamically by PhotoHandler when needed
 
@@ -248,6 +256,12 @@ class GalleryController extends Controller
         // Get items data before updating (exclude it from gallery update)
         $galleryData = collect($validated)->except(['items'])->toArray();
         $gallery->update($galleryData);
+
+        // Clear relevant caches
+        $this->clearGalleryCaches();
+
+        // Broadcast content update event
+        ContentUpdated::dispatch('gallery', 'updated', $gallery->id, $gallery->title);
 
         // Handle Google Drive folder rename if title changed
         if ($titleChanged) {
@@ -595,8 +609,18 @@ class GalleryController extends Controller
         // Delete all gallery items from database
         $gallery->items()->delete();
         
+        // Store gallery info before deletion
+        $galleryId = $gallery->id;
+        $galleryTitle = $gallery->title;
+        
         // Delete the gallery itself
         $gallery->delete();
+
+        // Clear relevant caches
+        $this->clearGalleryCaches();
+
+        // Broadcast content update event
+        ContentUpdated::dispatch('gallery', 'deleted', $galleryId, $galleryTitle);
 
         return redirect()->route('admin.galleries.index')
             ->with('success', 'Gallery and all its items deleted successfully.');
@@ -607,6 +631,13 @@ class GalleryController extends Controller
         $gallery->update([
             'is_published' => !$gallery->is_published,
         ]);
+
+        // Clear relevant caches
+        $this->clearGalleryCaches();
+
+        // Broadcast content update event
+        $action = $gallery->is_published ? 'published' : 'unpublished';
+        ContentUpdated::dispatch('gallery', $action, $gallery->id, $gallery->title);
 
         $status = $gallery->is_published ? 'published' : 'unpublished';
 
@@ -1159,5 +1190,41 @@ class GalleryController extends Controller
         $metadata['note'] = 'Metadata generated from existing file URL';
 
         return $metadata;
+    }
+
+    /**
+     * Clear caches that depend on gallery data
+     */
+    private function clearGalleryCaches(): void
+    {
+        // Clear application caches
+        Cache::forget('home_optimized');
+        Cache::forget('gallery_optimized');
+        Cache::forget('contact_simple');
+        Cache::forget('footer_contact');
+        
+        // Clear individual gallery caches (we can't know all slugs, so we'll rely on TTL)
+        // In a production system, you might want to track gallery slugs in cache
+        
+        // Clear response cache for relevant routes
+        $this->clearResponseCache([
+            '/',
+            '/gallery',
+            '/facilities',
+            '/about',
+        ]);
+    }
+
+    /**
+     * Clear response cache for specific routes
+     */
+    private function clearResponseCache(array $routes): void
+    {
+        // The ResponseCache middleware uses cache keys based on request URI
+        // We need to clear the cache for each route
+        foreach ($routes as $route) {
+            $cacheKey = 'response_cache:' . md5($route);
+            Cache::forget($cacheKey);
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ContentUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AssignStudentsToExtracurricularRequest;
 use App\Http\Requests\Admin\BulkDeleteExtracurricularRequest;
@@ -12,6 +13,7 @@ use App\Http\Requests\Admin\UpdateExtracurricularRequest;
 use App\Models\Extracurricular;
 use App\Services\ExtracurricularService;
 use App\Services\ExtracurricularTransformer;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -52,7 +54,13 @@ class ExtracurricularController extends Controller
 
         $photo = $request->hasFile('photo') ? $request->file('photo') : null;
 
-        $this->extracurricularService->createExtracurricular($data, $photo);
+        $extracurricular = $this->extracurricularService->createExtracurricular($data, $photo);
+
+        // Clear relevant caches
+        $this->clearExtracurricularCaches();
+
+        // Broadcast content update event
+        ContentUpdated::dispatch('extracurricular', 'created', $extracurricular->id, $extracurricular->name);
 
         return redirect()->route('admin.extracurriculars.index')
                         ->with('success', 'Extracurricular activity created successfully.');
@@ -85,13 +93,29 @@ class ExtracurricularController extends Controller
 
         $this->extracurricularService->updateExtracurricular($extracurricular, $data, $photo, $removePhoto);
 
+        // Clear relevant caches
+        $this->clearExtracurricularCaches();
+
+        // Broadcast content update event
+        ContentUpdated::dispatch('extracurricular', 'updated', $extracurricular->id, $extracurricular->name);
+
         return redirect()->route('admin.extracurriculars.index')
                         ->with('success', 'Extracurricular activity updated successfully.');
     }
 
     public function destroy(Extracurricular $extracurricular)
     {
+        // Store extracurricular info before deletion
+        $extracurricularId = $extracurricular->id;
+        $extracurricularName = $extracurricular->name;
+        
         $this->extracurricularService->deleteExtracurricular($extracurricular);
+
+        // Clear relevant caches
+        $this->clearExtracurricularCaches();
+
+        // Broadcast content update event
+        ContentUpdated::dispatch('extracurricular', 'deleted', $extracurricularId, $extracurricularName);
 
         return redirect()->route('admin.extracurriculars.index')
                         ->with('success', 'Extracurricular activity deleted successfully.');
@@ -162,4 +186,35 @@ class ExtracurricularController extends Controller
         return abort(404, 'Photo not found');
     }
 
+    /**
+     * Clear caches that depend on extracurricular data
+     */
+    private function clearExtracurricularCaches(): void
+    {
+        // Clear application caches that might contain extracurricular data
+        Cache::forget('home_optimized');
+        Cache::forget('extracurriculars_optimized');
+        Cache::forget('contact_simple');
+        Cache::forget('footer_contact');
+        
+        // Clear response cache for relevant routes
+        $this->clearResponseCache([
+            '/',
+            '/extracurriculars',
+            '/about',
+        ]);
+    }
+
+    /**
+     * Clear response cache for specific routes
+     */
+    private function clearResponseCache(array $routes): void
+    {
+        // The ResponseCache middleware uses cache keys based on request URI
+        // We need to clear the cache for each route
+        foreach ($routes as $route) {
+            $cacheKey = 'response_cache:' . md5($route);
+            Cache::forget($cacheKey);
+        }
+    }
 }

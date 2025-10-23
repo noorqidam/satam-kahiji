@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ContentUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreFacilityRequest;
 use App\Http\Requests\Admin\UpdateFacilityRequest;
@@ -10,6 +11,7 @@ use App\Services\FacilityService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -83,11 +85,17 @@ class FacilityController extends Controller
                 $validatedData = $request->validated();
                 $image = $request->hasFile('image') ? $request->file('image') : null;
                 
-                $this->facilityService->createFacility(
+                $facility = $this->facilityService->createFacility(
                     $validatedData, 
                     $image, 
                     $request->user()->getKey()
                 );
+
+                // Clear relevant caches
+                $this->clearFacilityCaches();
+
+                // Broadcast content update event
+                ContentUpdated::dispatch('facility', 'created', $facility->id, $facility->name);
 
                 return redirect()->route('admin.facilities.index')
                     ->with('success', 'Facility created successfully.');
@@ -168,6 +176,12 @@ class FacilityController extends Controller
                     $request->user()->getKey()
                 );
 
+                // Clear relevant caches
+                $this->clearFacilityCaches();
+
+                // Broadcast content update event
+                ContentUpdated::dispatch('facility', 'updated', $facility->id, $facility->name);
+
                 return redirect()->route('admin.facilities.index')
                     ->with('success', 'Facility updated successfully.');
             } catch (\Exception $e) {
@@ -192,7 +206,17 @@ class FacilityController extends Controller
     {
         return DB::transaction(function () use ($facility) {
             try {
+                // Store facility info before deletion
+                $facilityId = $facility->id;
+                $facilityName = $facility->name;
+                
                 $this->facilityService->deleteFacility($facility, Auth::id());
+
+                // Clear relevant caches
+                $this->clearFacilityCaches();
+
+                // Broadcast content update event
+                ContentUpdated::dispatch('facility', 'deleted', $facilityId, $facilityName);
 
                 return redirect()->route('admin.facilities.index')
                     ->with('success', 'Facility deleted successfully.');
@@ -210,4 +234,35 @@ class FacilityController extends Controller
         });
     }
 
+    /**
+     * Clear caches that depend on facility data
+     */
+    private function clearFacilityCaches(): void
+    {
+        // Clear application caches that might contain facility data
+        Cache::forget('home_optimized');
+        Cache::forget('facilities_optimized');
+        Cache::forget('contact_simple');
+        Cache::forget('footer_contact');
+        
+        // Clear response cache for relevant routes
+        $this->clearResponseCache([
+            '/',
+            '/facilities',
+            '/about',
+        ]);
+    }
+
+    /**
+     * Clear response cache for specific routes
+     */
+    private function clearResponseCache(array $routes): void
+    {
+        // The ResponseCache middleware uses cache keys based on request URI
+        // We need to clear the cache for each route
+        foreach ($routes as $route) {
+            $cacheKey = 'response_cache:' . md5($route);
+            Cache::forget($cacheKey);
+        }
+    }
 }

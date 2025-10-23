@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ContentUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StorePageRequest;
 use App\Http\Requests\Admin\UpdatePageRequest;
@@ -10,6 +11,7 @@ use App\Services\PageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -83,11 +85,17 @@ class PageController extends Controller
                 $validatedData = $request->validated();
                 $image = $request->hasFile('image') ? $request->file('image') : null;
                 
-                $this->pageService->createPage(
+                $page = $this->pageService->createPage(
                     $validatedData,
                     $image,
                     $request->user()->getKey()
                 );
+
+                // Clear relevant caches
+                $this->clearPageCaches();
+
+                // Broadcast content update event
+                ContentUpdated::dispatch('page', 'created', $page->id, $page->title);
 
                 return redirect()->route('admin.pages.index')
                     ->with('success', 'Page created successfully.');
@@ -173,6 +181,12 @@ class PageController extends Controller
                     $request->user()->getKey()
                 );
 
+                // Clear relevant caches
+                $this->clearPageCaches();
+
+                // Broadcast content update event
+                ContentUpdated::dispatch('page', 'updated', $page->id, $page->title);
+
                 return redirect()->route('admin.pages.index')
                     ->with('success', 'Page updated successfully.');
             } catch (\InvalidArgumentException $e) {
@@ -201,7 +215,17 @@ class PageController extends Controller
     {
         return DB::transaction(function () use ($page) {
             try {
+                // Store page info before deletion
+                $pageId = $page->id;
+                $pageTitle = $page->title;
+                
                 $this->pageService->deletePage($page, Auth::id());
+
+                // Clear relevant caches
+                $this->clearPageCaches();
+
+                // Broadcast content update event
+                ContentUpdated::dispatch('page', 'deleted', $pageId, $pageTitle);
 
                 return redirect()->route('admin.pages.index')
                     ->with('success', 'Page deleted successfully.');
@@ -217,5 +241,39 @@ class PageController extends Controller
                     ->with('error', 'Failed to delete page. Please try again.');
             }
         });
+    }
+
+    /**
+     * Clear caches that depend on page data
+     */
+    private function clearPageCaches(): void
+    {
+        // Clear application caches that might contain page data
+        Cache::forget('home_optimized');
+        Cache::forget('pages_optimized');
+        Cache::forget('contact_simple');
+        Cache::forget('footer_contact');
+        
+        // Clear response cache for relevant routes
+        $this->clearResponseCache([
+            '/',
+            '/about',
+            '/contact',
+            '/terms',
+            '/privacy',
+        ]);
+    }
+
+    /**
+     * Clear response cache for specific routes
+     */
+    private function clearResponseCache(array $routes): void
+    {
+        // The ResponseCache middleware uses cache keys based on request URI
+        // We need to clear the cache for each route
+        foreach ($routes as $route) {
+            $cacheKey = 'response_cache:' . md5($route);
+            Cache::forget($cacheKey);
+        }
     }
 }
