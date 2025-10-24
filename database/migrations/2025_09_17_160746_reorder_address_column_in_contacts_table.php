@@ -12,39 +12,53 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // For PostgreSQL, we need to recreate the table with the correct column order
-        // First, backup existing data
-        DB::statement('CREATE TABLE contacts_backup AS SELECT * FROM contacts');
+        // Check if we're using PostgreSQL or SQLite
+        $driver = DB::getDriverName();
         
-        // Drop the existing table
-        DB::statement('DROP TABLE contacts');
-        
-        // Recreate the table with the correct column order
-        DB::statement('
-            CREATE TABLE contacts (
-                id SERIAL PRIMARY KEY,
-                name VARCHAR(255) NOT NULL,
-                email VARCHAR(255) NOT NULL,
-                message TEXT NOT NULL,
-                phone VARCHAR(255),
-                address VARCHAR(500),
-                created_at TIMESTAMP,
-                updated_at TIMESTAMP
-            )
-        ');
-        
-        // Restore data in the new column order
-        DB::statement('
-            INSERT INTO contacts (id, name, email, message, phone, address, created_at, updated_at)
-            SELECT id, name, email, message, phone, address, created_at, updated_at 
-            FROM contacts_backup
-        ');
-        
-        // Update the sequence to continue from the last ID
-        DB::statement("SELECT setval('contacts_id_seq', (SELECT MAX(id) FROM contacts))");
-        
-        // Clean up backup table
-        DB::statement('DROP TABLE contacts_backup');
+        if ($driver === 'pgsql') {
+            // For PostgreSQL, we need to recreate the table with the correct column order
+            // First, backup existing data
+            DB::statement('CREATE TABLE contacts_backup AS SELECT * FROM contacts');
+            
+            // Drop the existing table
+            DB::statement('DROP TABLE contacts');
+            
+            // Recreate the table with the correct column order
+            DB::statement('
+                CREATE TABLE contacts (
+                    id SERIAL PRIMARY KEY,
+                    name VARCHAR(255) NOT NULL,
+                    email VARCHAR(255) NOT NULL,
+                    message TEXT NOT NULL,
+                    phone VARCHAR(255),
+                    address VARCHAR(500),
+                    created_at TIMESTAMP,
+                    updated_at TIMESTAMP
+                )
+            ');
+            
+            // Restore data in the new column order
+            DB::statement('
+                INSERT INTO contacts (id, name, email, message, phone, address, created_at, updated_at)
+                SELECT id, name, email, message, phone, address, created_at, updated_at 
+                FROM contacts_backup
+            ');
+            
+            // Update the sequence to continue from the last ID
+            DB::statement("SELECT setval('contacts_id_seq', (SELECT MAX(id) FROM contacts))");
+            
+            // Clean up backup table
+            DB::statement('DROP TABLE contacts_backup');
+        } else {
+            // For SQLite and other databases, column reordering is not necessary
+            // SQLite doesn't care about column order for functionality
+            // Just ensure the address column exists (it should from previous migration)
+            if (!Schema::hasColumn('contacts', 'address')) {
+                Schema::table('contacts', function (Blueprint $table) {
+                    $table->string('address', 500)->nullable()->after('phone');
+                });
+            }
+        }
     }
 
     /**
