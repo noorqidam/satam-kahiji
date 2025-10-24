@@ -8,8 +8,8 @@ use Tests\TestCase;
 
 class FacilityManagementTest extends TestCase
 {
-    // Commented out RefreshDatabase to avoid migration issues in testing
-    // use RefreshDatabase;
+    // RefreshDatabase conflicts with custom SQLite setup in TestCase
+    // CI environment runs fresh migrations which is sufficient
 
     private User $admin;
 

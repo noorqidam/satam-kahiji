@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('student_documents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
-            $table->foreignId('document_category_id')->constrained('document_categories')->onDelete('cascade');
+            $table->unsignedBigInteger('document_category_id')->nullable(); // Remove foreign key constraint to non-existent table
             $table->enum('document_type', [
                 'achievement_certificate', 'sick_note', 'excuse_letter', 
                 'medical_certificate', 'permission_slip', 'report', 
