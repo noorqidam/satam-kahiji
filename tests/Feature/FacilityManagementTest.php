@@ -46,6 +46,16 @@ class FacilityManagementTest extends TestCase
 
         $response = $this->actingAs($this->admin)->post(route('admin.facilities.store'), $facilityData);
         
+        // Debug output for CI
+        if (app()->environment('testing')) {
+            $location = $response->headers->get('Location');
+            $expectedLocation = route('admin.facilities.index');
+            
+            if ($location !== $expectedLocation) {
+                $this->fail("Redirect mismatch. Expected: {$expectedLocation}, Got: {$location}. Session: " . json_encode(session()->all()));
+            }
+        }
+        
         $response->assertStatus(302); // Web controller redirects on success
         $response->assertRedirect(route('admin.facilities.index'));
         $response->assertSessionHas('success', 'Facility created successfully.');
