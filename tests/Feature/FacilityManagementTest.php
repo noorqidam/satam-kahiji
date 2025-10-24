@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Facility;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class FacilityManagementTest extends TestCase
@@ -44,8 +42,6 @@ class FacilityManagementTest extends TestCase
         $facilityData = [
             'name' => 'Test Library',
             'description' => 'A modern library with digital resources',
-            'photo' => '',
-            'metadata' => null,
         ];
 
         $response = $this->actingAs($this->admin)->post(route('admin.facilities.store'), $facilityData);
@@ -91,8 +87,6 @@ class FacilityManagementTest extends TestCase
         $updateData = [
             'name' => 'Updated Name',
             'description' => 'Updated Description',
-            'photo' => '',
-            'metadata' => null,
         ];
 
         $response = $this->actingAs($this->admin)->put(route('admin.facilities.update', $facility), $updateData);
