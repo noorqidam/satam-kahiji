@@ -50,6 +50,7 @@ jobs:
         run: |
           echo "FILESYSTEM_DISK=local" >> .env
           echo "APP_ENV=testing" >> .env
+          echo "BROADCAST_CONNECTION=log" >> .env
           echo "GOOGLE_DRIVE_CLIENT_ID=dummy" >> .env
           echo "GOOGLE_DRIVE_CLIENT_SECRET=dummy" >> .env
           echo "GOOGLE_DRIVE_FOLDER_ID=dummy" >> .env
