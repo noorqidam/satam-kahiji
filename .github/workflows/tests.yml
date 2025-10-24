@@ -46,5 +46,22 @@ jobs:
       - name: Generate Application Key
         run: php artisan key:generate
 
+      - name: Configure Environment for Testing
+        run: |
+          echo "FILESYSTEM_DISK=local" >> .env
+          echo "APP_ENV=testing" >> .env
+          echo "GOOGLE_DRIVE_CLIENT_ID=dummy" >> .env
+          echo "GOOGLE_DRIVE_CLIENT_SECRET=dummy" >> .env
+          echo "GOOGLE_DRIVE_FOLDER_ID=dummy" >> .env
+
+      - name: Create Database
+        run: touch database/database.sqlite
+
+      - name: Run Migrations
+        run: php artisan migrate --force
+
+      - name: Seed Database
+        run: php artisan db:seed --force
+
       - name: Tests
         run: ./vendor/bin/pest
